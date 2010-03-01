@@ -17,14 +17,17 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     initUnitCompoBox();
     initSpeedListView();
+    initCategoryCompoBox();
 }
 
 /**
-  *Destructor of this class.  Should be used to release all allocated resources.
+  *Destructor of this class. Should be used to release all allocated resources.
   */
 CarMainWindow::~CarMainWindow()
 {
     delete ui;
+    delete result;
+    delete measure;
 }
 
 /**
@@ -76,7 +79,7 @@ void CarMainWindow::updateUnitCompoBox(QString unit)
 }
 
 /**
-  *This function is used to init combobox.
+  *This function is used to init unit combobox.
   */
 void CarMainWindow::initUnitCompoBox()
 {
@@ -85,11 +88,63 @@ void CarMainWindow::initUnitCompoBox()
 }
 
 /**
-  *This function is used to init listview.
+  *This function is used to set items to unit combobox.
+  *@param QStringlist numbers
+  */
+void CarMainWindow::setUnitCompoBox(QStringList units)
+{
+    ui->unitComboBox->addItems(units);
+}
+
+/**
+  *This function is used to init speed listview.
   */
 void CarMainWindow::initSpeedListView()
 {
     numbers << "0-100 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(numbers);
     ui->listView->setModel(model);
+}
+
+/**
+  *This function is used to set items to speed listview.
+  *@param QStringlist numbers
+  */
+void CarMainWindow::setSpeedListView(QStringList numbers)
+{
+    QAbstractItemModel *model = new StringListModel(numbers);
+    ui->listView->setModel(model);
+}
+
+/**
+  *This function is used to init category combobox.
+  */
+void CarMainWindow::initCategoryCompoBox()
+{
+    categories << "Top 10 1/4 mile" << "Top 10 0-100 km/h" << "Top 10 car";
+    ui->comboBoxTopCategory->addItems(categories);
+}
+
+/**
+  *This function is used to set items to category combobox.
+  *@param QStringlist categories
+  */
+void CarMainWindow::setCategoryCompoBox(QStringList categories)
+{
+    ui->comboBoxTopCategory->addItems(categories);
+}
+
+/**
+  *This slot function is called when ever categories combobox is update.
+  *@param QString category
+  */
+void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
+{
+    //TODO: get top list
+
+    QStringList topList;
+    topList << "1. Pertti 7,5s" << "2. Ville 10,2s";
+
+    QAbstractItemModel *model = new StringListModel(topList);
+    ui->listViewTopList->setModel(model);
 }

@@ -1,5 +1,4 @@
 #include <QtGui/QApplication>
-#include <QStyleFactory>
 #include "carmainwindow.h"
 
 int main(int argc, char *argv[])
