@@ -63,7 +63,17 @@ void CarMainWindow::on_listView_clicked(QModelIndex index)
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
-   result->show();
+    if(measure)
+    {
+        delete measure;
+        measure = NULL;
+        measure = new MeasureDialog();
+    }
+
+    connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+
+    // Show measure dialog.
+    measure->show();
 }
 
 /**
@@ -92,4 +102,13 @@ void CarMainWindow::initSpeedListView()
     numbers << "0-100 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(numbers);
     ui->listView->setModel(model);
+}
+
+/**
+  *This slot function is called when speed is achieved in measure dialog. Opens result dialog.
+  */
+void CarMainWindow::openResultView()
+{
+    // Show result dialog.
+    result->show();
 }

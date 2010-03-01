@@ -41,6 +41,7 @@ private slots:
     void on_autoStartButton_clicked();
     void on_listView_clicked(QModelIndex index);
     void updateUnitCompoBox(QString unit);
+    void openResultView();
 };
 
 #endif // CARMAINWINDOW_H
