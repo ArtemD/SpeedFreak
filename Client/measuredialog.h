@@ -1,7 +1,9 @@
 #ifndef MEASUREDIALOG_H
 #define MEASUREDIALOG_H
 
+#include "accelerometer.h"
 #include <QDialog>
+#include <QTimer>
 
 namespace Ui {
     class MeasureDialog;
@@ -18,6 +20,20 @@ protected:
 
 private:
     Ui::MeasureDialog *ui;
+
+    QTimer *timer;
+    Accelerometer *accelerometer;
+
+
+    int time;
+    qreal speed;
+
+    signals:
+    void speedAchieved();
+
+private slots:
+    void on_pushButtonAbort_clicked();
+    void after_timeout();
 };
 
 #endif // MEASUREDIALOG_H

@@ -66,7 +66,17 @@ void CarMainWindow::on_listView_clicked(QModelIndex index)
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
-   result->show();
+    if(measure)
+    {
+        delete measure;
+        measure = NULL;
+        measure = new MeasureDialog();
+    }
+
+    connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+
+    // Show measure dialog.
+    measure->show();
 }
 
 /**
@@ -107,6 +117,7 @@ void CarMainWindow::initSpeedListView()
 }
 
 /**
+<<<<<<< HEAD:Client/carmainwindow.cpp
   *This function is used to set items to speed listview.
   *@param QStringlist numbers
   */
@@ -147,4 +158,13 @@ void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
 
     QAbstractItemModel *model = new StringListModel(topList);
     ui->listViewTopList->setModel(model);
+}
+
+/**
+  *This slot function is called when speed is achieved in measure dialog. Opens result dialog.
+  */
+void CarMainWindow::openResultView()
+{
+    // Show result dialog.
+    result->show();
 }
