@@ -14,6 +14,7 @@ public:
 
     void reset();
     void CalculateParameters(double currentAcceleration, double seconds);
+    void accelStoppedCheck(double currentAcceleration);
 
     double AverageSpeed();
     void AverageSpeed(double value);
@@ -52,7 +53,7 @@ private:
     double lastSpeed;
     long numOfIterations;
     double totalTime;
-
+    int count;
 
 };
 

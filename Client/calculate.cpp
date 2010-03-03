@@ -126,13 +126,37 @@ void Calculate::CalculateParameters(double currentAcceleration, double seconds)
        */
     averageSpeed = (distanceTraveled / totalTime);
 
+    /* Check for movement
+           */
+    accelStoppedCheck(currentAcceleration);
+
     lastSpeed = currentSpeed;
     lastAcceleration = currentAcceleration;
     lastDistance = distanceTraveled;
 }
 
+/**
+  * This function checks if acceleration has stopped for
+  * a short period of time. Velocity is set to zero to avoid
+  * distance errors.
+  */
+void Calculate::accelStoppedCheck(double currentAcceleration) {
 
+    // counting number of acceleration samples that equals zero
+    if (currentAcceleration==0)
+    {
+        count++;
+    }
+    else
+    {
+        count = 0;
+    }
 
-
+    // if count exceeds 25, we assume that velocity is zero
+    if (count >= 25)
+    {
+        currentSpeed=0;
+    }
+}
 
 
