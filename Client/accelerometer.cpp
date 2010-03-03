@@ -217,6 +217,11 @@ qreal Accelerometer::getIntervalTime()
     return intervalTime;
 }
 
+qreal Accelerometer::getTotalTime()
+{
+    return totalTime;
+}
+
 /**
  * Processes Accelerometer data
  *
@@ -270,6 +275,7 @@ void Accelerometer::processData()
     if (fabs(currentAcceleration) < 0.09) {
         return;
     }
+
     // Using calculate class to calculate velocity and distance etc.
     calculate->calculateParameters(currentAcceleration,intervalTime );
 

@@ -45,6 +45,7 @@ public:
     int calibrationZ;
 
     qreal getIntervalTime();
+    qreal getTotalTime();
 
 private slots:
     void processData();
