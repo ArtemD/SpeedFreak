@@ -26,6 +26,11 @@ Accelerometer::Accelerometer()
     initValues();
 }
 
+/**
+ * Constructor for Accelerometer class that takes accelerometer sample rate as parameter
+ *
+ * @param p_SampleRate the desired sample rate of accelerometer in milliseconds
+ */
 Accelerometer::Accelerometer(int p_SampleRate)
 {
     calculate = new Calculate();
@@ -40,14 +45,16 @@ Accelerometer::Accelerometer(int p_SampleRate)
  * Default destructor for Accelerometer class
  *
  */
-Accelerometer::~Accelerometer() {
+Accelerometer::~Accelerometer()
+{
 }
 
 /**
  * Start measuring
  *
  */
-void Accelerometer::start() {
+void Accelerometer::start()
+{
     initValues();
     calibrate();
     timer->start(sampleRate);
@@ -58,7 +65,8 @@ void Accelerometer::start() {
  * Init class members
  *
  */
-void Accelerometer::initValues() {
+void Accelerometer::initValues()
+{
     accelerationX=0;
     accelerationY=0;
     accelerationZ=0;
@@ -87,34 +95,35 @@ void Accelerometer::initValues() {
   * accelerometer when stationary.
   *
   */
-void Accelerometer::calibrate(void) {
+void Accelerometer::calibrate(void)
+{
     QFile file(kFileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
 
-    unsigned int iteration;
-    iteration = 0;
+    unsigned int iteration = 0;
+
     QByteArray line;
     QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
 
-    do{
+    do {
         // Read data, parse with regular expressions and process it
         line = file.readLine();
         rx.indexIn(line);
 
-        int Sample_X = rx.cap(1).toInt();
-        int Sample_Y = rx.cap(2).toInt();
-        int Sample_Z = rx.cap(3).toInt();
+        int sampleX = rx.cap(1).toInt();
+        int sampleY = rx.cap(2).toInt();
+        int sampleZ = rx.cap(3).toInt();
 
-        sstatex += Sample_X; // Accumulate Samples
-        sstatey += Sample_Y; // for all axes.
-        sstatez += Sample_Z;
+        calibrationX += sampleX; // Accumulate Samples
+        calibrationY += sampleY; // for all axes.
+        calibrationZ += sampleZ;
 
         iteration++;
-    }while(iteration!=1024);       // 1024 times
+    } while(iteration!=1024);       // 1024 times
 
-    sstatex = sstatex>>10;           // division by 1024
-    sstatey = sstatey>>10;
-    sstatez = sstatez>>10;
+    calibrationX = sstatex>>10;     // division by 1024
+    calibrationY = sstatey>>10;
+    calibrationZ = sstatez>>10;
 
     file.close();
 }
@@ -123,73 +132,96 @@ void Accelerometer::calibrate(void) {
  * Stop measuring
  *
  */
-void Accelerometer::stop() {
+void Accelerometer::stop()
+{
     timer->stop();
 }
 
 /**
  * Set the sample rate of accelerometer
  *
- * @param int pSampleRate desired sample rate
+ * @param pSampleRate desired sample rate
  */
-void Accelerometer::setSampleRate(int pSampleRate) {
+void Accelerometer::setSampleRate(int pSampleRate)
+{
     sampleRate = pSampleRate;
 }
 
-int Accelerometer::getSampleRate() {
+/**
+ * Get the sample rate of accelerometer
+ *
+ * @return sampleRate the sample rate of the accelerometer in milliseconds
+ */
+int Accelerometer::getSampleRate()
+{
     return sampleRate;
 }
 
-qreal Accelerometer::getCurrentAcceleration() {
+qreal Accelerometer::getCurrentAcceleration()
+{
     return currentAcceleration;
 }
 
-qreal Accelerometer::getPreviousTotalAcceleration() {
+qreal Accelerometer::getPreviousTotalAcceleration()
+{
     return previousAcceleration;
 }
 
-qreal Accelerometer::getTotalAcceleration() {
+qreal Accelerometer::getTotalAcceleration()
+{
     return totalAcceleration;
 }
 
-qreal Accelerometer::getDistanceTraveled() {
+qreal Accelerometer::getDistanceTraveled()
+{
     return distanceTraveled;
 }
 
-qreal Accelerometer::getLastDistanceTraveled() {
+qreal Accelerometer::getLastDistanceTraveled()
+{
     return lastDistanceTraveled;
 }
 
-qreal Accelerometer::getAverageSpeed() {
+qreal Accelerometer::getAverageSpeed()
+{
     return averageSpeed;
 }
 
-qreal Accelerometer::getTrueAccelerationX() {
+qreal Accelerometer::getTrueAccelerationX()
+{
     return trueAccelerationX;
 }
 
-qreal Accelerometer::getTrueAccelerationY() {
+qreal Accelerometer::getTrueAccelerationY()
+{
     return trueAccelerationY;
 }
 
-qreal Accelerometer::getTrueAccelerationZ() {
+qreal Accelerometer::getTrueAccelerationZ()
+{
     return trueAccelerationZ;
 }
 
-qreal Accelerometer::getPreviousSpeed() {
+qreal Accelerometer::getPreviousSpeed()
+{
     return previousSpeed;
 }
 
-qreal Accelerometer::getCurrentSpeed() {
+qreal Accelerometer::getCurrentSpeed()
+{
     return currentSpeed;
 }
 
-qreal Accelerometer::getIntervalTime() {
+qreal Accelerometer::getIntervalTime()
+{
     return intervalTime;
 }
 
 /**
  * Processes Accelerometer data
+ *
+ * Opens the accelerometer value file for reading and reads and parses accelerometer values.
+ * Forwards data to Calculate class for processing
  *
  */
 void Accelerometer::processData()
@@ -199,16 +231,15 @@ void Accelerometer::processData()
 
     // Read data, parse with regular expressions and process it
     QByteArray line = file.readLine();
-    //QByteArray line;
     QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
     rx.indexIn(line);
 
     smoothData(rx.cap(1).toInt(), rx.cap(2).toInt(), rx.cap(3).toInt());
 
-    // Add calibration
-    trueAccelerationX = accelerationX - sstatex;
-    trueAccelerationY = accelerationY - sstatey;
-    trueAccelerationZ = accelerationZ - sstatez;
+    // Apply calibration
+    trueAccelerationX = accelerationX - calibrationX;
+    trueAccelerationY = accelerationY - calibrationY;
+    trueAccelerationZ = accelerationZ - calibrationZ;
 
     // Discrimination window for acceleration values
     if (trueAccelerationX <= 30 && trueAccelerationX >= -30) { trueAccelerationX = 0; }
@@ -245,17 +276,19 @@ void Accelerometer::processData()
 
     currentSpeed = calculate->CurrentSpeed();
     distanceTraveled = calculate->DistanceTraveled();
+
     file.close();
 }
 
 /**
  * Smooths Accelerometer data
  *
- * @param qreal x Accelerometers x-axis raw input
- * @param qreal y Accelerometers y-axis raw input
- * @param qreal z Accelerometers z-axis raw input
+ * @param x accelerometer's x-axis input
+ * @param y accelerometer's y-axis input
+ * @param z accelerometer's z-axis input
  */
-void Accelerometer::smoothData(qreal x, qreal y, qreal z) {
+void Accelerometer::smoothData(qreal x, qreal y, qreal z)
+{
     accelerationX = x;
     accelerationY = y;
     accelerationZ = z;

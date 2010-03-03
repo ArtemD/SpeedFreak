@@ -48,20 +48,23 @@ private slots:
     void processData();
     void smoothData(qreal x, qreal y, qreal z);
 
-public:
+private:
     Calculate *calculate;
 
-private:
     qreal accelerationX, accelerationY, accelerationZ;
     qreal trueAccelerationX,trueAccelerationY,trueAccelerationZ;
     qreal previousAccelerationX,previousAccelerationY,previousAccelerationZ;
     qreal previousSpeed, currentSpeed;
     qreal currentAcceleration, previousAcceleration, totalAcceleration;
+
     QTime now;
     QTimer *timer;
+
     double intervalTime;
     double totalTime;
-    double distanceTraveled,lastDistanceTraveled,averageSpeed;
+    double distanceTraveled;
+    double lastDistanceTraveled;
+    double averageSpeed;
     double sampleRate;
 
     bool reverseAcceleration;
