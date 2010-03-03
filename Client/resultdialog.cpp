@@ -10,12 +10,9 @@ const QPoint diagramHorizontalEnd(450, 350);
 
 const int diagramGap = 30;
 
-
 // Test arrays for changing speeds and times to the points in diagram
-static const int speedArray[10] = {12, 34, 56, 78, 90, 100, 104, 100, 90, 80};
-static const int timeArray[10] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
-
-
+static const int speedArray[10] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+//static const int timeArray[10] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
 
 // Test point array for the diagram.
 QPoint points[10];
@@ -26,46 +23,8 @@ ResultDialog::ResultDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString time, timeInteger;
-    timeInteger.setNum(timeArray[9]);
-    time = "0 - 100 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult->setText(time);
 
-    timeInteger.setNum(timeArray[8]);
-    time = "0 - 90 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_2->setText(time);
 
-    timeInteger.setNum(timeArray[7]);
-    time = "0 - 80 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_3->setText(time);
-
-    timeInteger.setNum(timeArray[6]);
-    time = "0 - 70 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_4->setText(time);
-
-    timeInteger.setNum(timeArray[5]);
-    time = "0 - 60 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_5->setText(time);
-
-    timeInteger.setNum(timeArray[4]);
-    time = "0 - 50 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_6->setText(time);
-
-    timeInteger.setNum(timeArray[3]);
-    time = "0 - 40 km/h: ";
-    time.append(timeInteger);
-    ui->labelResult_7->setText(time);
-
-    for(int i = 0; i < 10; i++)
-    {
-        points[i] = changeMeasuresToDiagramPoint(speedArray[i], timeArray[i]);
-    }
    // ui->labelXLine->setText(ui->labelXLine->text().append(": time/ s"));
    // ui->labelYLine->setText(ui->labelYLine->text().append(": speed/ km/h"));
 }
@@ -130,7 +89,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
   *@param aSpeed is speed which need to change, aTime is time in seconds which need to change.
   *@return point is calculated from aSpeed and aTime.
   **/
-QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, int aTime)
+QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
 {
     QPoint point;
 
@@ -142,4 +101,70 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, int aTime)
     point.setX(diagramStemStart.x()+timeAsPixels);
 
     return point;
+}
+
+/**
+  *Saves the given measures to array.
+  *@param pMeasures has information about acceleration.
+  **/
+void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
+{
+    timeArray[0] = pMeasures->getTime10kmh();
+    timeArray[1] = pMeasures->getTime20kmh();
+    timeArray[2] = pMeasures->getTime30kmh();
+    timeArray[3] = pMeasures->getTime40kmh();
+    timeArray[4] = pMeasures->getTime50kmh();
+    timeArray[5] = pMeasures->getTime60kmh();
+    timeArray[6] = pMeasures->getTime70kmh();
+    timeArray[7] = pMeasures->getTime80kmh();
+    timeArray[8] = pMeasures->getTime90kmh();
+    timeArray[9] = pMeasures->getTime100kmh();
+
+    for(int i = 0; i < 10; i++)
+    {
+        points[i] = changeMeasuresToDiagramPoint(speedArray[i], timeArray[i]);
+    }
+
+    QString time, timeInteger;
+    timeInteger.setNum(timeArray[9]);
+    time = "0 - 100 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult->setText(time);
+
+    timeInteger.setNum(timeArray[8]);
+    time = "0 - 90 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_2->setText(time);
+
+    timeInteger.setNum(timeArray[7]);
+    time = "0 - 80 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_3->setText(time);
+
+    timeInteger.setNum(timeArray[6]);
+    time = "0 - 70 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_4->setText(time);
+
+    timeInteger.setNum(timeArray[5]);
+    time = "0 - 60 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_5->setText(time);
+
+    timeInteger.setNum(timeArray[4]);
+    time = "0 - 50 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_6->setText(time);
+
+    timeInteger.setNum(timeArray[3]);
+    time = "0 - 40 km/h: ";
+    time.append(timeInteger);
+    ui->labelResult_7->setText(time);
+
+    this->repaint();
+
+    for(int i = 0; i < 10; i++)
+    {
+        timeArray[i] = 0;
+    }
 }

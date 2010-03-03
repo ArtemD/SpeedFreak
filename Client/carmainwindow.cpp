@@ -66,15 +66,12 @@ void CarMainWindow::on_listView_clicked(QModelIndex index)
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
-    if(measure)
-    {
-        delete measure;
-        measure = NULL;
-        measure = new MeasureDialog();
-    }
+
+    delete measure;
+    measure = NULL;
+    measure = new MeasureDialog();
 
     connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
-
     // Show measure dialog.
     measure->show();
 }
@@ -165,6 +162,7 @@ void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
   */
 void CarMainWindow::openResultView()
 {
+    result->saveMeasuresToArray(measure->measures);
     // Show result dialog.
     result->show();
 }
