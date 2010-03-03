@@ -9,17 +9,18 @@
 const double G_ACCELERATION = 9.80665;
 const double SECONDS_IN_HOUR = 3600;
 
-Calculate::Calculate() {
-
+Calculate::Calculate()
+{
     this->reset();
+}
+
+Calculate::~Calculate()
+{
 
 }
 
-Calculate::~Calculate() {
-}
-
-void Calculate::reset() {
-
+void Calculate::reset()
+{
     averageSpeed = 0;
     currentSpeed = 0;
     distanceTraveled = 0;
@@ -28,85 +29,100 @@ void Calculate::reset() {
     lastSpeed = 0;
     numOfIterations = 0;
     totalTime = 0;
+    count = 0;
 }
 
-/* Getters and setters
-   */
+// Getters and setters
 
-double Calculate::AverageSpeed()
+double Calculate::getAverageSpeed()
 {
     return averageSpeed;
 }
-void Calculate::AverageSpeed(double value)
+
+void Calculate::setAverageSpeed(double value)
 {
     averageSpeed = value;
 }
-double Calculate::CurrentSpeed()
+
+double Calculate::getCurrentSpeed()
 {
     return currentSpeed;
 }
-void Calculate::CurrentSpeed(double value)
+
+void Calculate::setCurrentSpeed(double value)
 {
     currentSpeed = value;
 }
-double Calculate::DistanceTraveled()
+
+double Calculate::getDistanceTraveled()
 {
     return distanceTraveled;
 }
-void Calculate::DistanceTraveled(double value)
+
+void Calculate::setDistanceTraveled(double value)
 {
     distanceTraveled = value;
 }
-double Calculate::LastAcceleration()
+
+double Calculate::getLastAcceleration()
 {
     return lastAcceleration;
 }
-void Calculate::LastAcceleration(double value)
+
+void Calculate::setLastAcceleration(double value)
 {
     lastAcceleration = value;
 }
-double Calculate::LastDistance()
+
+double Calculate::getLastDistance()
 {
     return lastDistance;
 }
-void Calculate::LastDistance(double value)
+
+void Calculate::setLastDistance(double value)
 {
     lastDistance = value;
 }
-double Calculate::LastSpeed()
+
+double Calculate::getLastSpeed()
 {
     return lastSpeed;
 }
-void Calculate::LastSpeed(double value)
+
+void Calculate::setLastSpeed(double value)
 {
     lastSpeed = value;
 }
-long Calculate::NumOfIterations()
+
+long Calculate::getNumOfIterations()
 {
     return numOfIterations;
 }
-void Calculate::NumOfIterations(long value)
+
+void Calculate::setNumOfIterations(long value)
 {
     numOfIterations = value;
 }
-double Calculate::TotalTime()
+
+double Calculate::getTotalTime()
 {
     return totalTime;
 }
-void Calculate::TotalTime(double value)
+
+void Calculate::setTotalTime(double value)
 {
     totalTime = value;
 }
 
-/*
-  This is a main function for calculating various parameters. Accelerometer
-  provides currentAcceleration and calling function measures time (seconds).
-  This function should be called 20-30 times/second to minimize
-  calculation error.
+/**
+  * This is a main function for calculating various parameters. Accelerometer
+  * provides currentAcceleration and calling function measures time (seconds).
+  * This function should be called 20-30 times/second to minimize
+  * calculation error.
 
-  To be added: params like horsepower.
+  * To be added: params like horsepower.
   */
-void Calculate::CalculateParameters(double currentAcceleration, double seconds)
+void Calculate::calculateParameters(double currentAcceleration, double seconds)
 {
     numOfIterations++;
     totalTime = (totalTime + seconds);
@@ -114,20 +130,16 @@ void Calculate::CalculateParameters(double currentAcceleration, double seconds)
     // v=v0 + a*t
     // v(n) = v(n-1)+(a(n) + a(n-1))*(seconds)/2
 
-    /* First integration of acceleration provides speed
-       */
+    // First integration of acceleration provides speed
     currentSpeed = (lastSpeed + (((currentAcceleration + lastAcceleration) * seconds) / 2));
 
-    /* Second integration: distance.
-       */
+    // Second integration: distance.
     distanceTraveled = (lastDistance + (((currentSpeed + lastSpeed) * seconds) / 2));
 
-    /* Average speed
-       */
+    // Average speed
     averageSpeed = (distanceTraveled / totalTime);
 
-    /* Check for movement
-           */
+    // Check for movement
     accelStoppedCheck(currentAcceleration);
 
     lastSpeed = currentSpeed;
@@ -140,15 +152,13 @@ void Calculate::CalculateParameters(double currentAcceleration, double seconds)
   * a short period of time. Velocity is set to zero to avoid
   * distance errors.
   */
-void Calculate::accelStoppedCheck(double currentAcceleration) {
+void Calculate::accelStoppedCheck(double currentAcceleration)
+{
 
     // counting number of acceleration samples that equals zero
-    if (currentAcceleration==0)
-    {
+    if (currentAcceleration==0) {
         count++;
-    }
-    else
-    {
+    } else {
         count = 0;
     }
 

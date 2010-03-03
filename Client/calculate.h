@@ -13,35 +13,35 @@ public:
     ~Calculate();
 
     void reset();
-    void CalculateParameters(double currentAcceleration, double seconds);
+    void calculateParameters(double currentAcceleration, double seconds);
     void accelStoppedCheck(double currentAcceleration);
 
-    double AverageSpeed();
-    void AverageSpeed(double value);
+    double getAverageSpeed();
+    void setAverageSpeed(double value);
 
-    double CurrentSpeed();
-    void CurrentSpeed(double value);
+    double getCurrentSpeed();
+    void setCurrentSpeed(double value);
 
-    double DistanceTraveled();
-    void DistanceTraveled(double value);
+    double getDistanceTraveled();
+    void setDistanceTraveled(double value);
 
-    double LastAcceleration();
-    void LastAcceleration(double value);
+    double getLastAcceleration();
+    void setLastAcceleration(double value);
 
-    double LastCheckpoint();
-    void LastCheckpoint(double value);
+    double getLastCheckpoint();
+    void setLastCheckpoint(double value);
 
-    double LastDistance();
-    void LastDistance(double value);
+    double getLastDistance();
+    void setLastDistance(double value);
 
-    double LastSpeed();
-    void LastSpeed(double value);
+    double getLastSpeed();
+    void setLastSpeed(double value);
 
-    long NumOfIterations();
-    void NumOfIterations(long value);
+    long getNumOfIterations();
+    void setNumOfIterations(long value);
 
-    double TotalTime();
-    void TotalTime(double value);
+    double getTotalTime();
+    void setTotalTime(double value);
 
 private:
     double averageSpeed;
