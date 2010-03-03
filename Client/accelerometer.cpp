@@ -8,28 +8,56 @@
 
 #define kFilteringFactor    0.1
 #define kGravity            9.81
+#define kFileName           "/sys/class/i2c-adapter/i2c-3/3-001d/coord"
 
 static int sampleIndex=0;
 
+/**
+ * Default constructor for Accelerometer class
+ *
+ */
 Accelerometer::Accelerometer()
 {
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(processData()));
-    sampleRate = 100;
-    timer->start(sampleRate);
-    now.restart();
+    calculate = new Calculate();
 
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(processData()));
+    sampleRate = 40;
     initValues();
 }
 
+Accelerometer::Accelerometer(int p_SampleRate)
+{
+    calculate = new Calculate();
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(processData()));
+    sampleRate = p_SampleRate;
+    initValues();
+}
+
+/**
+ * Default destructor for Accelerometer class
+ *
+ */
 Accelerometer::~Accelerometer() {
 }
 
+/**
+ * Start measuring
+ *
+ */
 void Accelerometer::start() {
+    initValues();
+    calibrate();
     timer->start(sampleRate);
     now.restart();
 }
 
+/**
+ * Init class members
+ *
+ */
 void Accelerometer::initValues() {
     accelerationX=0;
     accelerationY=0;
@@ -51,12 +79,59 @@ void Accelerometer::initValues() {
     lastDistanceTraveled=0;
     averageSpeed=0;
     sampleRate=0;
+    reverseAcceleration = false;
 }
 
+/**
+  * Calibrate. Purpose of this function is to calibrate
+  * accelerometer when stationary.
+  *
+  */
+void Accelerometer::calibrate(void) {
+    QFile file(kFileName);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+    unsigned int iteration;
+    iteration = 0;
+    QByteArray line;
+    QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
+
+    do{
+        // Read data, parse with regular expressions and process it
+        line = file.readLine();
+        rx.indexIn(line);
+
+        int Sample_X = rx.cap(1).toInt();
+        int Sample_Y = rx.cap(2).toInt();
+        int Sample_Z = rx.cap(3).toInt();
+
+        sstatex += Sample_X; // Accumulate Samples
+        sstatey += Sample_Y; // for all axes.
+        sstatez += Sample_Z;
+
+        iteration++;
+    }while(iteration!=1024);       // 1024 times
+
+    sstatex = sstatex>>10;           // division by 1024
+    sstatey = sstatey>>10;
+    sstatez = sstatez>>10;
+
+    file.close();
+}
+
+/**
+ * Stop measuring
+ *
+ */
 void Accelerometer::stop() {
     timer->stop();
 }
 
+/**
+ * Set the sample rate of accelerometer
+ *
+ * @param int pSampleRate desired sample rate
+ */
 void Accelerometer::setSampleRate(int pSampleRate) {
     sampleRate = pSampleRate;
 }
@@ -109,7 +184,7 @@ qreal Accelerometer::getCurrentSpeed() {
     return currentSpeed;
 }
 
-qreal Accelerometer::getintervalTime() {
+qreal Accelerometer::getIntervalTime() {
     return intervalTime;
 }
 
@@ -119,72 +194,66 @@ qreal Accelerometer::getintervalTime() {
  */
 void Accelerometer::processData()
 {
-    QFile file("/sys/class/i2c-adapter/i2c-3/3-001d/coord");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+    QFile file(kFileName);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
 
     // Read data, parse with regular expressions and process it
     QByteArray line = file.readLine();
+    //QByteArray line;
     QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
     rx.indexIn(line);
 
     smoothData(rx.cap(1).toInt(), rx.cap(2).toInt(), rx.cap(3).toInt());
 
-    trueAccelerationX = (accelerationX - previousAccelerationX)/1000*kGravity;
-    trueAccelerationY = (accelerationY - previousAccelerationY)/1000*kGravity;
-    trueAccelerationZ = (accelerationZ - previousAccelerationZ)/1000*kGravity;
+    // Add calibration
+    trueAccelerationX = accelerationX - sstatex;
+    trueAccelerationY = accelerationY - sstatey;
+    trueAccelerationZ = accelerationZ - sstatez;
+
+    // Discrimination window for acceleration values
+    if (trueAccelerationX <= 30 && trueAccelerationX >= -30) { trueAccelerationX = 0; }
+    if (trueAccelerationY <= 30 && trueAccelerationY >= -30) { trueAccelerationY = 0; }
+    if (trueAccelerationZ <= 30 && trueAccelerationZ >= -30) { trueAccelerationZ = 0; }
+
+    trueAccelerationX = (accelerationX - previousAccelerationX) / 1000 * kGravity;
+    trueAccelerationY = (accelerationY - previousAccelerationY) / 1000 * kGravity;
+    trueAccelerationZ = (accelerationZ - previousAccelerationZ) / 1000 * kGravity;
 
     previousAccelerationX = accelerationX;
     previousAccelerationY = accelerationY;
     previousAccelerationZ = accelerationZ;
 
     currentAcceleration = sqrt(trueAccelerationX * trueAccelerationX +
-                           trueAccelerationY * trueAccelerationY +
-                           trueAccelerationZ * trueAccelerationZ );
+                               trueAccelerationY * trueAccelerationY +
+                               trueAccelerationZ * trueAccelerationZ );
 
     totalAcceleration = currentAcceleration - previousAcceleration;
-
-    totalAcceleration = fabs(totalAcceleration);
-
     previousAcceleration = currentAcceleration;
 
-    // v = v0 + at
-    // x = x0 + v0t + (at^2)/2
-    // v = (v + v0)/2
-
-    intervalTime = now.restart();
-    intervalTime = intervalTime/1000; // millisecs to secs
+    // Measure time interval
+    intervalTime = now.restart(); // millisecs to secs
+    intervalTime = intervalTime/1000;
     totalTime = totalTime + intervalTime;
 
-    // filter noise
-    // TODO: do this in smoothdata: implement a better filter.
-    if (totalAcceleration > 0.02) {
-        currentSpeed = ( previousSpeed + ( totalAcceleration * intervalTime ) / 2 );
-    } else {
-        currentSpeed = 0;
+    // Filter out acceleration caused by noise.
+    if (fabs(currentAcceleration) < 0.09) {
+        return;
     }
 
-    // filter noise
-    if (currentSpeed > 0.02) {
-        distanceTraveled = ( lastDistanceTraveled + ( ( currentSpeed + previousSpeed ) * intervalTime) / 2 );
-    } else {
-        //distanceTraveled = 0;
-    }
+    // Using calculate class to calculate velocity and distance etc.
+    calculate->CalculateParameters(currentAcceleration,intervalTime );
 
-    averageSpeed = distanceTraveled / totalTime;
-
-    previousSpeed = currentSpeed;
-    lastDistanceTraveled = distanceTraveled;
-
+    currentSpeed = calculate->CurrentSpeed();
+    distanceTraveled = calculate->DistanceTraveled();
     file.close();
 }
 
 /**
  * Smooths Accelerometer data
  *
- * @param x Accelerometers x-axis raw input
- * @param y Accelerometers y-axis raw input
- * @param z Accelerometers z-axis raw input
+ * @param qreal x Accelerometers x-axis raw input
+ * @param qreal y Accelerometers y-axis raw input
+ * @param qreal z Accelerometers z-axis raw input
  */
 void Accelerometer::smoothData(qreal x, qreal y, qreal z) {
     accelerationX = x;

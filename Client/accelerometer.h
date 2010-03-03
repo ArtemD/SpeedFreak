@@ -4,13 +4,19 @@
 #include <QObject>
 #include <QTime>
 #include <QTimer>
+#include <QFile>
+
+#include "calculate.h"
 
 class Accelerometer : public QObject
 {
     Q_OBJECT
 public:
     Accelerometer();
+    Accelerometer(int p_SampleRate);
     ~Accelerometer();
+
+    void calibrate();
 
     void start();
     void stop();
@@ -34,11 +40,16 @@ public:
     qreal getTotalAcceleration();
     qreal getPreviousTotalAcceleration();
 
-    qreal getintervalTime();
+    int sstatex, sstatey, sstatez;
+
+    qreal getIntervalTime();
 
 private slots:
     void processData();
     void smoothData(qreal x, qreal y, qreal z);
+
+public:
+    Calculate *calculate;
 
 private:
     qreal accelerationX, accelerationY, accelerationZ;
@@ -52,6 +63,8 @@ private:
     double totalTime;
     double distanceTraveled,lastDistanceTraveled,averageSpeed;
     double sampleRate;
+
+    bool reverseAcceleration;
 };
 
 #endif // ACCELEROMETER_H
