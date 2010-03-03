@@ -25,7 +25,7 @@ private:
     Accelerometer *accelerometer;
 
 
-    int time;
+    qreal time;
     qreal speed;
 
     signals:

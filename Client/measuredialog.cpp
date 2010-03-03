@@ -17,9 +17,9 @@ MeasureDialog::MeasureDialog(QWidget *parent) :
     timer = new QTimer();
 
     accelerometer = new Accelerometer();
-    //accelerometer->start();
+    accelerometer->start();
 
-    timer->setInterval(1000);
+    timer->setInterval(100);
     timer->start();
     connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
 }
@@ -50,14 +50,15 @@ void MeasureDialog::changeEvent(QEvent *e)
 void MeasureDialog::after_timeout()
 {
     QString timeString, speedString;
-    time++;
+    //time++;
+    time = accelerometer->getIntervalTime();
     speed = accelerometer->getCurrentSpeed();
 
     // If speed is over 100 km/h emits speedAchieved() signal and close this dialog.
     if(speed>=100.0)
     {
         timer->stop();
-        //accelerometer->stop();
+        accelerometer->stop();
         time = 0;
         speed = 0;
         emit this->speedAchieved();
@@ -82,7 +83,7 @@ void MeasureDialog::after_timeout()
 void MeasureDialog::on_pushButtonAbort_clicked()
 {
     timer->stop();
-    //accelerometer->stop();
+    accelerometer->stop();
     time = 0;
     speed = 0;
     this->close();
