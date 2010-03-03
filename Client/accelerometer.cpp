@@ -270,12 +270,11 @@ void Accelerometer::processData()
     if (fabs(currentAcceleration) < 0.09) {
         return;
     }
-
     // Using calculate class to calculate velocity and distance etc.
-    calculate->CalculateParameters(currentAcceleration,intervalTime );
+    calculate->calculateParameters(currentAcceleration,intervalTime );
 
-    currentSpeed = calculate->CurrentSpeed();
-    distanceTraveled = calculate->DistanceTraveled();
+    currentSpeed = calculate->getCurrentSpeed();
+    distanceTraveled = calculate->getDistanceTraveled();
 
     file.close();
 }
