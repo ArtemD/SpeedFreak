@@ -121,9 +121,9 @@ void Accelerometer::calibrate(void)
         iteration++;
     } while(iteration!=1024);       // 1024 times
 
-    calibrationX = sstatex>>10;     // division by 1024
-    calibrationY = sstatey>>10;
-    calibrationZ = sstatez>>10;
+    calibrationX = calibrationX>>10;     // division by 1024
+    calibrationY = calibrationY>>10;
+    calibrationZ = calibrationZ>>10;
 
     file.close();
 }
@@ -246,9 +246,9 @@ void Accelerometer::processData()
     if (trueAccelerationY <= 30 && trueAccelerationY >= -30) { trueAccelerationY = 0; }
     if (trueAccelerationZ <= 30 && trueAccelerationZ >= -30) { trueAccelerationZ = 0; }
 
-    trueAccelerationX = (accelerationX - previousAccelerationX) / 1000 * kGravity;
-    trueAccelerationY = (accelerationY - previousAccelerationY) / 1000 * kGravity;
-    trueAccelerationZ = (accelerationZ - previousAccelerationZ) / 1000 * kGravity;
+    trueAccelerationX = (accelerationX - previousAccelerationX) /*/ 1000 * kGravity*/;
+    trueAccelerationY = (accelerationY - previousAccelerationY) /*/ 1000 * kGravity*/;
+    trueAccelerationZ = (accelerationZ - previousAccelerationZ) /*/ 1000 * kGravity*/;
 
     previousAccelerationX = accelerationX;
     previousAccelerationY = accelerationY;

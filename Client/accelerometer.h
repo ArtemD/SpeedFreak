@@ -40,7 +40,9 @@ public:
     qreal getTotalAcceleration();
     qreal getPreviousTotalAcceleration();
 
-    int sstatex, sstatey, sstatez;
+    int calibrationX;
+    int calibrationY;
+    int calibrationZ;
 
     qreal getIntervalTime();
 
