@@ -13,95 +13,56 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="labelResult_4">
+  <widget class="QLabel" name="labelResult10kmh">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>120</y>
+     <x>410</x>
+     <y>230</y>
      <width>191</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>0 - 50 km/h: 5,6 s</string>
+    <string>0 - 10 km/h: 5,6 s</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelResult_7">
+  <widget class="QLabel" name="labelResult40kmh">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>240</y>
+     <x>410</x>
+     <y>90</y>
      <width>191</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>0 - 20 km/h: 1,1 s</string>
+    <string>0 - 40 km/h: 9,8 s</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelResult">
+  <widget class="QLabel" name="labelResult20kmh">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>10</y>
+     <x>410</x>
+     <y>180</y>
      <width>191</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>0 - 100 km/h: 9,8 s</string>
+    <string>0 - 20 km/h: 6,9 s</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelResult_6">
+  <widget class="QLabel" name="labelResult30kmh">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>200</y>
+     <x>410</x>
+     <y>140</y>
      <width>191</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>0 - 30 km/h: 3,2 s</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelResult_5">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>160</y>
-     <width>191</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0 - 40 km/h:4,5 s</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelResult_3">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>80</y>
-     <width>191</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0 - 60 km/h: 6,9 s</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelResult_2">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>40</y>
-     <width>191</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0 - 80 km/h: 8,6 s</string>
+    <string>0 - 30 km/h: 8,6 s</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelY2">

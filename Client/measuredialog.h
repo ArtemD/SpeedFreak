@@ -2,6 +2,7 @@
 #define MEASUREDIALOG_H
 
 #include "accelerometer.h"
+#include "measures.h"
 #include <QDialog>
 #include <QTimer>
 
@@ -14,7 +15,8 @@ class MeasureDialog : public QDialog {
 public:
     MeasureDialog(QWidget *parent = 0);
     ~MeasureDialog();
-
+    Measures *measures;
+    void initializeMeasures();
 protected:
     void changeEvent(QEvent *e);
 
@@ -24,9 +26,8 @@ private:
     QTimer *timer;
     Accelerometer *accelerometer;
 
-
-    int time;
-    qreal speed;
+    double time;
+    double speed;
 
     signals:
     void speedAchieved();
