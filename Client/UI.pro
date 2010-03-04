@@ -11,15 +11,19 @@ SOURCES += main.cpp \
     stringlistmodel.cpp \
     measuredialog.cpp \
     calculate.cpp \
-    accelerometer.cpp
-
+    accelerometer.cpp \
+    loginwindow.cpp \
+    registration.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
     measuredialog.h \
     accelerometer.h \
-    calculate.h
-
+    calculate.h \
+    loginwindow.h \
+    registration.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
-    measuredialog.ui
+    measuredialog.ui \
+    loginwindow.ui \
+    registration.ui

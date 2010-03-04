@@ -1,5 +1,6 @@
 #include "registration.h"
 #include "ui_registration.h"
+#include <QMessageBox>
 
 Registration::Registration(QWidget *parent) :
     QDialog(parent),
@@ -29,10 +30,11 @@ void Registration::changeEvent(QEvent *e)
 void Registration::on_registratePushButton_clicked()
 {
     // Send username, password and email to SpeedFreak server
-    close();  // Needs some new signal/slot to go forward or ???
+    //close();  // Needs some new signal/slot to go forward or ???
     //registrateToServer(ui->newUsernameLineEdit->text(),
     //                   ui->newPasswordLineEdit->text(),
     //                   ui->eMailLineEdit->text());
+    QMessageBox::about(this,"Registrate",ui->newUsernameLineEdit->text()+ui->newPasswordLineEdit->text()+ui->eMailLineEdit->text());
 }
 
 void Registration::on_cancelPushButton_clicked()

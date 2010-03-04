@@ -1,5 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
@@ -36,6 +37,8 @@ void LoginWindow::on_loginPushButton_clicked()
     // To do
     //loginToServer(ui->userNameLineEdit->text(),
     //              ui->passwordLineEdit->text());
+    //close();
+    QMessageBox::about(this,"Login",ui->userNameLineEdit->text()+ui->passwordLineEdit->text());
 }
 
 

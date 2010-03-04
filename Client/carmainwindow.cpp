@@ -1,9 +1,11 @@
 #include "carmainwindow.h"
 #include "ui_carmainwindow.h"
 #include "stringlistmodel.h"
+#include "loginwindow.h"
 #include <QStandardItemModel>
 #include <QStringList>
 #include <QString>
+#include <QNetworkRequest>
 
 /**
   *Constructor of this class.
@@ -18,6 +20,12 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     initUnitCompoBox();
     initSpeedListView();
     initCategoryCompoBox();
+
+    myLogin = new LoginWindow(this);
+    myRegistration = new Registration(this);
+    manager = new QNetworkAccessManager(this);
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
+
 }
 
 /**
@@ -167,4 +175,41 @@ void CarMainWindow::openResultView()
 {
     // Show result dialog.
     result->show();
+}
+
+/**
+  *This slot function is called when the server has finished guery.
+  */
+void CarMainWindow::networkResponse(QNetworkReply *reply)
+{
+}
+
+/**
+  *This slot function is called when the user will to send data to server.
+  */
+void CarMainWindow::on_pushButton_clicked()
+{
+     QNetworkRequest postData;
+     postData.setUrl(QString("http://weather.yahooapis.com/forecastrss?p=FIXX0013&u=c"));
+     manager->get(postData);
+
+}
+
+/**
+  *This slot function is called when login/logout button is clicked.
+  */
+void CarMainWindow::on_loginLogoutButton_clicked()
+{
+    //LoginWindow myLogin;
+
+    myLogin->show();
+    //ui->loginLogoutButton->setText("logout");
+}
+
+/**
+  *This slot function is called when registrate button is clicked.
+  */
+void CarMainWindow::on_registratePushButton_clicked()
+{
+    myRegistration->show();
 }
