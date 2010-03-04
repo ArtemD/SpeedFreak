@@ -115,7 +115,7 @@ void MeasureDialog::after_timeout()
     }
 
     // If speed is over 100 km/h emits speedAchieved() signal and close this dialog.
-    if (speed >= 100.0)
+    if (speed >= 40.0)
     {
         timer->stop();
         accelerometer->stop();

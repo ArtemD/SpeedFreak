@@ -80,7 +80,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
             painter.drawLine(currentX, currentY, currentX+10, currentY);
         }
 
-        painter.drawPolyline(points, 10);
+        painter.drawPolyline(points, 4);
 
 }
 
@@ -120,33 +120,33 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
     timeArray[8] = pMeasures->getTime90kmh();
     timeArray[9] = pMeasures->getTime100kmh();
 
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 4; i++)
     {
         points[i] = changeMeasuresToDiagramPoint(speedArray[i], timeArray[i]);
     }
 
     QString time, timeInteger;
-    timeInteger.setNum(timeArray[9]);
-    time = "0 - 100 km/h: ";
+    timeInteger.setNum(timeArray[3]);
+    time = "0 - 40 km/h: ";
     time.append(timeInteger);
-    ui->labelResult->setText(time);
+    ui->labelResult40kmh->setText(time);
 
-    timeInteger.setNum(timeArray[8]);
-    time = "0 - 90 km/h: ";
+    timeInteger.setNum(timeArray[2]);
+    time = "0 - 30 km/h: ";
     time.append(timeInteger);
-    ui->labelResult_2->setText(time);
+    ui->labelResult30kmh->setText(time);
 
-    timeInteger.setNum(timeArray[7]);
-    time = "0 - 80 km/h: ";
+    timeInteger.setNum(timeArray[1]);
+    time = "0 - 20 km/h: ";
     time.append(timeInteger);
-    ui->labelResult_3->setText(time);
+    ui->labelResult20kmh->setText(time);
 
-    timeInteger.setNum(timeArray[6]);
-    time = "0 - 70 km/h: ";
+    timeInteger.setNum(timeArray[0]);
+    time = "0 - 10 km/h: ";
     time.append(timeInteger);
-    ui->labelResult_4->setText(time);
+    ui->labelResult10kmh->setText(time);
 
-    timeInteger.setNum(timeArray[5]);
+   /* timeInteger.setNum(timeArray[5]);
     time = "0 - 60 km/h: ";
     time.append(timeInteger);
     ui->labelResult_5->setText(time);
@@ -159,7 +159,7 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
     timeInteger.setNum(timeArray[3]);
     time = "0 - 40 km/h: ";
     time.append(timeInteger);
-    ui->labelResult_7->setText(time);
+    ui->labelResult_7->setText(time);*/
 
     this->repaint();
 

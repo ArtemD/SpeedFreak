@@ -108,7 +108,7 @@ void CarMainWindow::setUnitCompoBox(QStringList units)
   */
 void CarMainWindow::initSpeedListView()
 {
-    numbers << "0-100 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+    numbers << "0-40 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(numbers);
     ui->listView->setModel(model);
 }
