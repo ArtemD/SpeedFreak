@@ -17,6 +17,10 @@ static const int speedArray[10] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 // Test point array for the diagram.
 QPoint points[10];
 
+/**
+  * Constructor of this class.
+  * @param QWidget pointer to parent object. By default the value is NULL.
+  */
 ResultDialog::ResultDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ResultDialog)
@@ -29,6 +33,9 @@ ResultDialog::ResultDialog(QWidget *parent) :
    // ui->labelYLine->setText(ui->labelYLine->text().append(": speed/ km/h"));
 }
 
+/**
+  * Destructor of this class.  Should be used to release all allocated resources.
+  */
 ResultDialog::~ResultDialog()
 {
     delete ui;
@@ -48,7 +55,7 @@ void ResultDialog::changeEvent(QEvent *e)
 
 /**
   * Draws speed diagram to the UI
-  *
+  * @param QPaintEvent
  */
 void ResultDialog::paintEvent(QPaintEvent *)
 {
@@ -64,7 +71,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
         int currentY = diagramStemStart.y();
 
         // Draws diagram's X-axel
-        for(int i = 0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             currentX += diagramGap;
             painter.drawLine(currentX, currentY, currentX, currentY - 10);
@@ -74,7 +81,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
         currentY = diagramStemStart.y();
 
         // Draws diagram's Y-axel
-        for(int i = 0; i<10; i++)
+        for (int i = 0; i < 10; i++)
         {
             currentY -= diagramGap;
             painter.drawLine(currentX, currentY, currentX+10, currentY);
@@ -85,10 +92,10 @@ void ResultDialog::paintEvent(QPaintEvent *)
 }
 
 /**
-  *Change the given speed and time to the point for the diagram.
-  *@param aSpeed is speed which need to change, aTime is time in seconds which need to change.
-  *@return point is calculated from aSpeed and aTime.
-  **/
+  * Change the given speed and time to the point for the diagram.
+  * @param aSpeed is speed which need to change, aTime is time in seconds which need to change.
+  * @return point is calculated from aSpeed and aTime.
+  */
 QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
 {
     QPoint point;
@@ -104,9 +111,9 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
 }
 
 /**
-  *Saves the given measures to array.
-  *@param pMeasures has information about acceleration.
-  **/
+  * Saves the given measures to array.
+  * @param pMeasures has information about acceleration.
+  */
 void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
 {
     timeArray[0] = pMeasures->getTime10kmh();
@@ -120,7 +127,7 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
     timeArray[8] = pMeasures->getTime90kmh();
     timeArray[9] = pMeasures->getTime100kmh();
 
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         points[i] = changeMeasuresToDiagramPoint(speedArray[i], timeArray[i]);
     }
@@ -163,7 +170,7 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
 
     this->repaint();
 
-    for(int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         timeArray[i] = 0;
     }

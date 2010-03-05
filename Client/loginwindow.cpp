@@ -32,14 +32,36 @@ void LoginWindow::on_cancelPushButton_clicked()
     close();
 }
 
+void setUser(QString uN, QString pW);
+
 void LoginWindow::on_loginPushButton_clicked()
 {
-    // To do
-    //loginToServer(ui->userNameLineEdit->text(),
-    //              ui->passwordLineEdit->text());
-    //close();
-    QMessageBox::about(this,"Login",ui->userNameLineEdit->text()+ui->passwordLineEdit->text());
+    this->username = ui->userNameLineEdit->text();
+    this->password = ui->passwordLineEdit->text();
+    close();
 }
+
+void LoginWindow::setUserName(QString username)
+{
+    this->username = username;
+}
+
+void LoginWindow::setPassword(QString password)
+{
+    this->password = password;
+}
+
+QString LoginWindow::getUserName()
+{
+    return this->username;
+}
+
+QString LoginWindow::getPassword()
+{
+    return this->password;
+}
+
+
 
 
 

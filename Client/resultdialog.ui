@@ -483,6 +483,19 @@
     <string>4</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonSend">
+   <property name="geometry">
+    <rect>
+     <x>402</x>
+     <y>330</y>
+     <width>101</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send results</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

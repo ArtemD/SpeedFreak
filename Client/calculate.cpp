@@ -1,3 +1,12 @@
+/*
+ * Calculate class to process accelerometer data
+ *
+ * @author      Kai Rasilainen 
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
+
 #include "calculate.h"
 #include <math.h>
 

@@ -30,11 +30,11 @@ void Registration::changeEvent(QEvent *e)
 void Registration::on_registratePushButton_clicked()
 {
     // Send username, password and email to SpeedFreak server
-    //close();  // Needs some new signal/slot to go forward or ???
-    //registrateToServer(ui->newUsernameLineEdit->text(),
-    //                   ui->newPasswordLineEdit->text(),
-    //                   ui->eMailLineEdit->text());
-    QMessageBox::about(this,"Registrate",ui->newUsernameLineEdit->text()+ui->newPasswordLineEdit->text()+ui->eMailLineEdit->text());
+    this->username = ui->newUsernameLineEdit->text();
+    this->password = ui->newPasswordLineEdit->text();
+    this->email = ui->eMailLineEdit->text();
+
+    close();
 }
 
 void Registration::on_cancelPushButton_clicked()
@@ -42,3 +42,32 @@ void Registration::on_cancelPushButton_clicked()
     close();
 }
 
+void Registration::setUserName(QString username)
+{
+    this->username = username;
+}
+
+void Registration::setPassword(QString password)
+{
+    this->password = password;
+}
+
+void Registration::setEmail(QString password)
+{
+    this->email = email;
+}
+
+QString Registration::getUserName()
+{
+    return this->username;
+}
+
+QString Registration::getPassword()
+{
+    return this->password;
+}
+
+QString Registration::getEmail()
+{
+    return this->email;
+}
