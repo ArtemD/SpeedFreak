@@ -13,16 +13,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     initUnitCompoBox();
     initSpeedListView();
-<<<<<<< HEAD:Client/carmainwindow.cpp
-    initCategoryCompoBox();
 
     myLogin = new LoginWindow(this);
     myRegistration = new Registration(this);
     manager = new QNetworkAccessManager(this);
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
-
-=======
->>>>>>> feature/XMLreader:Client/carmainwindow.cpp
 }
 
 /**
@@ -113,11 +108,7 @@ void CarMainWindow::setUnitCompoBox(QStringList units)
   */
 void CarMainWindow::initSpeedListView()
 {
-<<<<<<< HEAD:Client/carmainwindow.cpp
-    numbers << "0-40 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
-=======
     numbers << "0-40 km/h" << "0-1/4 Mile" << "0-1/8 Mile" << "0-50 km" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
->>>>>>> feature/XMLreader:Client/carmainwindow.cpp
     QAbstractItemModel *model = new StringListModel(numbers);
     ui->listView->setModel(model);
 }
@@ -177,7 +168,6 @@ void CarMainWindow::openResultView()
 }
 
 /**
-<<<<<<< HEAD:Client/carmainwindow.cpp
   *This slot function is called when the server has finished guery.
   */
 void CarMainWindow::networkResponse(QNetworkReply *reply)
@@ -212,7 +202,9 @@ void CarMainWindow::on_loginLogoutButton_clicked()
 void CarMainWindow::on_registratePushButton_clicked()
 {
     myRegistration->show();
-=======
+}
+
+/**
   *This slot function is called when ever refresh button clicked. Top-tab view.
   */
 void CarMainWindow::on_buttonTopRefresh_clicked()
@@ -227,5 +219,13 @@ void CarMainWindow::on_buttonTopRefresh_clicked()
 void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
 {
     setListViewTopList(category);
->>>>>>> feature/XMLreader:Client/carmainwindow.cpp
+}
+
+/**
+  *This slot function is called when ever category combobox activated. Top-tab view.
+  *@param QString category
+  */
+void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
+{
+    setListViewTopList(category);
 }
