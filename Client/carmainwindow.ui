@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -150,26 +150,7 @@
        <string>Refresh list</string>
       </property>
      </widget>
-     <widget class="QListView" name="listViewTopList">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>10</y>
-        <width>411</width>
-        <height>311</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Bitstream Charter</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="flow">
-       <enum>QListView::LeftToRight</enum>
-      </property>
-     </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -196,6 +177,27 @@
         <widget class="QComboBox" name="comboBoxTopCategory"/>
        </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="labelTopList">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>10</y>
+        <width>371</width>
+        <height>311</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>TopList</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="settingsTab">

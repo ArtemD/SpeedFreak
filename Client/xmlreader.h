@@ -1,25 +1,37 @@
 #ifndef XMLREADER_H
 #define XMLREADER_H
 
-#include "ui_mainwindow.h"
-
+#include <QXmlStreamReader>
+#include <QStringList>
 
 class XmlReader : public QObject
 {
 public:
-    XmlReader(Ui_MainWindow* myMainWindow);
+    XmlReader();
     ~XmlReader();
-    QString errorString() const;
+    QStringList getTop10List();
+    QString getTop10AccelerationList();
+    QString getTop10SpeedList();
+    QString getTop10GforceList(); 
 
 private:
     QXmlStreamReader xmlreader;
-    Ui_MainWindow* ui;
+    QStringList top10List;
+    QString top10AccelerationList;
+    QString top10SpeedList;
+    QString top10GforceList;
+
+    QXmlStreamAttributes attr;
+    QString category;
+    QString unit;
+    QString description;
+    QString position;
+    QString user;
+    QString value;
 
 public slots:
-    //void xmlRead(QNetworkReply *device);
     void xmlRead(QIODevice* device);
     void xmlShow();
-
 };
 
 #endif // XMLREADER_H

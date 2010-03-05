@@ -1,59 +1,37 @@
-#include <QtGui>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QIODevice>
 #include <QFile>
-#include <QMessageBox>
 #include <QDebug>
-#include <QDateTime>
-#include <QDate>
-#include <QTime>
-#include <QApplication>
+//#include <QApplication>
 #include "xmlreader.h"
 
-
-/*! @brief Constructor, connects object to GUI
- */
-XmlReader::XmlReader(Ui_MainWindow* myMainWindow)
+/**
+  *Constructor of this class.
+  */
+XmlReader::XmlReader()
 {
-    ui = myMainWindow;
+    xmlShow();
 }
 
-/*! @brief Destructor
+/**
+  *Destructor of this class. Should be used to release all allocated resources.
   */
 XmlReader::~XmlReader()
 {
-
+    category = "";
+    unit = "";
+    description = "";
+    position = "";
+    user = "";
+    value = "";
 }
 
-QString XmlReader::errorString() const
-{
-    return QObject::tr("%1\nLine %2, column %3")
-            .arg(xmlreader.errorString())
-            .arg(xmlreader.lineNumber())
-            .arg(xmlreader.columnNumber());
-}
-
-
-/*! @brief parsing xml file that is sent by server over network.
-  * Shows received information on screen and parsed information on command line.
-  * @note Partly commented for git.
-  * @todo (Development: Seems to omit element tags and some values when reading from QFile. Why? This used
-  * earlier with QNetworkReply printed all xml contents.)
-  * @todo Remove command line output and use final GUI widget names.
-  * @todo Replace using of QFile to QNetworkReply.
+/**
+  *This function is used to parsing xml file.
   */
 void XmlReader::xmlRead(QIODevice *device)
-//void XmlReader::xmlRead(QNetworkReply *device)
 {
     qDebug() << "_xmlRead";
 
     xmlreader.addData(device->readAll());
-    //Or: View webpage contents on textEdit by adding all data to xml stream reader,
-    //since readAll() empties the buffer
-    /*QByteArray readAllArr = device->readAll();
-    ui->textEditXml->append(readAllArr);
-    xmlreader.addData(readAllArr);*/
 
     //Go trough the xml document
     while(!xmlreader.atEnd())
@@ -63,75 +41,112 @@ void XmlReader::xmlRead(QIODevice *device)
         //Check if this element is starting element
         if(xmlreader.isStartElement())
         {
-            if(xmlreader.name() == "place")
+            if(xmlreader.name() == "results")
             {
                 qDebug() << xmlreader.name();
+                attr = xmlreader.attributes();
+
+                category = attr.value("category").toString();
+                unit = attr.value("unit").toString();
+                description = attr.value("description").toString();
+
+                top10List << category;
+                qDebug() << top10List << unit << description;
             }
-            if(xmlreader.name() == "date")
-            {
-                 qDebug() << xmlreader.name();
-            }
-            if(xmlreader.name() == "time")
-            {
-                 qDebug() << xmlreader.name();
-            }
+
             if(xmlreader.name() == "result")
             {
-                //Two consequent start elements
-                if(xmlreader.readNextStartElement())
+                qDebug() << "result";
+                attr = xmlreader.attributes();
+
+                position = attr.value("position").toString();
+                user = attr.value("user").toString();
+                value = attr.value("value").toString();
+
+                if (category == "acceleration-0-100")
                 {
-                    if(xmlreader.name() == "speed")
-                    {
-                    QString speed;
-                    QXmlStreamAttributes attr = xmlreader.attributes();
-                    speed = (attr.value("value").toString() + " " + attr.value("unit").toString());
-                    //ui->lineEditSpeed->setText(speed);
-                    qDebug() << xmlreader.name() << speed;
-                    }
+                    top10AccelerationList.append(position + "\t" +
+                                                user + "\t" +
+                                                value +
+                                                unit + "\t" +
+                                                description + "\n");
                 }
-            }
-            if(xmlreader.name() == "distance")
-            {
-                QString distance;
-                QXmlStreamAttributes attr = xmlreader.attributes();
-                distance = (attr.value("value").toString() + " " + attr.value("unit").toString());
-                //ui->lineEditDist->setText(distance);
-                qDebug() << xmlreader.name() << distance;
-            }
-            if(xmlreader.name() == "acceleration")
-            {
-                QString acceleration;
-                QXmlStreamAttributes attr = xmlreader.attributes();
-                acceleration = (attr.value("value").toString()+ " " + attr.value("unit").toString());
-                //ui->lineEditAccel->setText(acceleration);
-                qDebug() << xmlreader.name() << acceleration;
+
+                if(category == "top10speed")
+                {
+                    top10SpeedList.append(position + "\t" +
+                                          user + "\t" +
+                                          value +
+                                          unit + "\t" +
+                                          description + "\n");
+                }
+
+                if(category == "top10gforce")
+                {
+                    top10GforceList.append(position + "\t" +
+                                           user + "\t" +
+                                           value +
+                                           unit + "\t" +
+                                           description + "\n");
+                }
+                qDebug() << position << user << value << unit;
             }
         }
     }
 }
 
-/*! @brief A function used tmp in development.
-  * @note Partly harcoded and commented for git.
+/**
+  *This function is used to read example xml file (results.xml).
+  *@todo Read real xml.
   */
 void XmlReader::xmlShow()
 {
-    //QString filename = ui->lineEditFile->text();
-    QString filename = "xmlfile.xml";
+    QString filename = "results.xml";
     QFile file(filename);
 
     if (!file.open(QFile::ReadOnly))
     {
-        /*QMessageBox::warning(this->ui->centralWidget,
-                                tr("QXmlStream Bookmarks"),
-                                tr("Cannot write file %1:\n%2.")
-                                .arg(file.fileName())
-                                .arg(file.errorString()));*/
         qDebug() << "_xmlShow fail";
         return;
     }
 
     xmlRead(&file);
-
     file.close();
 }
 
+/**
+  *This is return function.
+  *@todo Read real top 10 category list
+  *@return QStringList top10List
+  */
+QStringList XmlReader::getTop10List()
+{
+    return top10List;
+}
+
+/**
+  *This is return function.
+  *@return QString top10AccelerationList
+  */
+QString XmlReader::getTop10AccelerationList()
+{
+    return top10AccelerationList;
+}
+
+/**
+  *This is return function.
+  *@return QString top10SpeedList
+  */
+QString XmlReader::getTop10SpeedList()
+{
+    return top10SpeedList;
+}
+
+/**
+  *This is return function.
+  *@return QString top10GforceList
+  */
+QString XmlReader::getTop10GforceList()
+{
+    return top10GforceList;
+}
