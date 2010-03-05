@@ -238,7 +238,10 @@ qreal Accelerometer::getTotalTime()
 void Accelerometer::processData()
 {
     QFile file(kFileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
 
     // Read data, parse with regular expressions and process it
     QByteArray line = file.readLine();
@@ -248,18 +251,33 @@ void Accelerometer::processData()
     smoothData(rx.cap(1).toInt(), rx.cap(2).toInt(), rx.cap(3).toInt());
 
     // Apply calibration
-    trueAccelerationX = accelerationX - calibrationX;
-    trueAccelerationY = accelerationY - calibrationY;
-    trueAccelerationZ = accelerationZ - calibrationZ;
+    accelerationX = accelerationX - calibrationX;
+    accelerationX = accelerationY - calibrationY;
+    accelerationX = accelerationZ - calibrationZ;
+
+    // If the function is run the first time, make sure that there
+    // are no differences with previous and current acceleration
+    if (firstRun) {
+        previousAccelerationX = accelerationX;
+        previousAccelerationY = accelerationY;
+        previousAccelerationZ = accelerationZ;
+        firstRun = false;
+    }
 
     // Discrimination window for acceleration values
-    if (trueAccelerationX <= 30 && trueAccelerationX >= -30) { trueAccelerationX = 0; }
-    if (trueAccelerationY <= 30 && trueAccelerationY >= -30) { trueAccelerationY = 0; }
-    if (trueAccelerationZ <= 30 && trueAccelerationZ >= -30) { trueAccelerationZ = 0; }
+    /*if ( fabs(accelerationX) < 20 ) { accelerationX = 0; }
+      if ( fabs(accelerationY) < 20 ) { accelerationY = 0; }
+      if ( fabs(accelerationZ) < 20 ) { accelerationZ = 0; }*/
 
+    // Calculate the current acceleration for each axis
     trueAccelerationX = (accelerationX - previousAccelerationX) /*/ 1000 * kGravity*/;
     trueAccelerationY = (accelerationY - previousAccelerationY) /*/ 1000 * kGravity*/;
     trueAccelerationZ = (accelerationZ - previousAccelerationZ) /*/ 1000 * kGravity*/;
+
+    // Discrimination window for acceleration values
+    if ( fabs(trueAccelerationX) < 20 ) { trueAccelerationX = 0; }
+    if ( fabs(trueAccelerationY) < 20 ) { trueAccelerationY = 0; }
+    if ( fabs(trueAccelerationZ) < 20 ) { trueAccelerationZ = 0; }
 
     previousAccelerationX = accelerationX;
     previousAccelerationY = accelerationY;
@@ -269,18 +287,13 @@ void Accelerometer::processData()
                                trueAccelerationY * trueAccelerationY +
                                trueAccelerationZ * trueAccelerationZ );
 
-    totalAcceleration = currentAcceleration - previousAcceleration;
-    previousAcceleration = currentAcceleration;
+    // Discrimination window for currentAcceleration
+    if ( fabs(currentAcceleration) < 20 ) { currentAcceleration = 0; }
 
     // Measure time interval
-    intervalTime = now.restart(); // millisecs to secs
-    intervalTime = intervalTime/1000;
+    intervalTime = now.restart();
+    intervalTime = intervalTime/1000; // millisecs to secs
     totalTime = totalTime + intervalTime;
-
-    // Filter out acceleration caused by noise.
-    if (fabs(currentAcceleration) < 0.09) {
-        return;
-    }
 
     // Using calculate class to calculate velocity and distance etc.
     calculate->calculateParameters(currentAcceleration,intervalTime );
