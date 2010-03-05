@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -223,6 +223,32 @@
      <attribute name="title">
       <string>Settings</string>
      </attribute>
+     <widget class="QLabel" name="userNameLabel">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>141</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>User:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="setUserPushButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>93</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set User</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -265,23 +291,10 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="loginLogoutButton">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>0</y>
-      <width>93</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Login</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="registratePushButton">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>690</x>
       <y>0</y>
       <width>93</width>
       <height>27</height>

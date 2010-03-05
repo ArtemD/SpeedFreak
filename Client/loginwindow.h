@@ -12,12 +12,18 @@ class LoginWindow : public QDialog {
 public:
     LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
+    void setUserName(QString username);
+    void setPassword(QString password);
+    QString getUserName();
+    QString getPassword();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::LoginWindow *ui;
+    QString username;
+    QString password;
 
 private slots:
     void on_loginPushButton_clicked();

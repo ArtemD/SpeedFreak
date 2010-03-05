@@ -229,3 +229,14 @@ void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
 {
     setListViewTopList(category);
 }
+
+/**
+  *This slot function is called when set/change user button is clicked.
+  */
+void CarMainWindow::on_setUserPushButton_clicked()
+{
+    myLogin->show();
+
+    ui->userNameLabel->setText( "User: " + myLogin->getUserName());
+    ui->setUserPushButton->setText( "Change User");
+}
