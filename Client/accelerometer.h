@@ -1,3 +1,12 @@
+/*
+ * Accelerometer class to access the device accelerometer
+ *
+ * @author      Rikhard Kuutti <rikhard.kuutti@fudeco.com>
+ * @author      Kai Rasilainen 
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef ACCELEROMETER_H
 #define ACCELEROMETER_H
 
