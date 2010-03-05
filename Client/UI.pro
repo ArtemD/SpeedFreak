@@ -1,6 +1,11 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-02-23T14:17:30
+#
+# @author     Speed Freak team
+# @copyright  (c) 2010 Speed Freak team
+# @license    http://opensource.org/licenses/gpl-license.php GNU Public License
 # -------------------------------------------------
+
 QT += network \
     xml
 TARGET = UI
