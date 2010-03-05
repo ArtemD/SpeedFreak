@@ -12,37 +12,35 @@
 #include "xmlwriter.h"
 
 
-/*! @brief Constructor, connects object to GUI
- */
-XmlWriter::XmlWriter(Ui_MainWindow* myMainWindow)
+/**
+  *@brief Constructor, connects object to GUI
+  *@param Pointer to carmainwindow, which is temporarily used during development
+  */
+XmlWriter::XmlWriter(Ui_CarMainWindow* myMainWindow)
 {
     ui = myMainWindow;
 }
 
 
-/*! @brief Destructor
+/**
+  *@brief Destructor
   */
 XmlWriter::~XmlWriter()
 {
 
 }
 
-/*! @brief Opens and closes a file, when xml information is written into a file,
-  * and passes file to writeXmlFile()
-  * @note Partly harcoded and commented for git.
-  * @todo Replace hardcoced filename and GUI elements to finally used widgets.
+/**
+  *@brief Opens and closes a file, when xml information is written into a file,
+  *and passes file to writeXmlFile()
+  *@note Partly harcoded and commented for git.
+  *@todo Replace hardcoced filename and GUI elements to finally used widgets.
   */
-void XmlWriter::xmlWrite()
+void XmlWriter::writeXml()
 {
-    //QString filename = ui->lineEditFile->text();
     QString filename = "xmlfile.xml";
     QFile file(filename);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        /*QMessageBox::warning(this->ui->centralWidget, tr("QXmlStream Bookmarks"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(filename)
-                             .arg(file.errorString()));
-                             */
         qDebug() << "_xmlWrite fail";
         return;
     }
@@ -51,83 +49,99 @@ void XmlWriter::xmlWrite()
     file.close();
 }
 
-/*! @brief Writes general xml information.
-  * @todo Check API connection to QBuffer, when Speed Freek network client has been written.
+/**
+  *@brief Writes general xml information.
+  *Calls other functions to insert login and result information.
+  *@todo Check API connection to QBuffer, when Speed Freek network client has been written.
   */
 bool XmlWriter::writeXmlFile(QIODevice *device)
 //bool XmlWriter::writeXmlFile(QBuffer *device)
 {
     xmlwriter.setDevice(device);
     xmlwriter.writeStartDocument();
-    xmlwriter.writeDTD("<!DOCTYPE xml>");
     xmlwriter.writeStartElement("xml");
     xmlwriter.writeAttribute("version", "1.0");
+    writeRegister();
     writeItems();
     xmlwriter.writeEndDocument();
 
     return true;
 }
 
-/*! @brief Writes Speed Freek application specific items as tags and contents.
-  * @brief Results of speed/ direction/ acceleration into QMap are calculated elsewhere
-  * @todo Consider looping of writing QMap values.
-  * @todo Replace hardcoced names to finally used GUI elements.
+/**
+  *@brief Writes Speed Freek application specific items as tags and contents.
+  *@brief Results of speed/ direction/ acceleration into QMap are calculated elsewhere
+  *@todo Replace hardcoced user, password and email to finally used GUI elements.
+  */
+void XmlWriter::writeRegister()
+{
+    xmlwriter.writeStartElement("user");
+
+    xmlwriter.writeStartElement("login");
+    xmlwriter.writeCharacters("test123");
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("password");
+    xmlwriter.writeCharacters("thisisaveryinsecurepassword");
+    xmlwriter.writeEndElement();
+
+    //Is this neacessary when sending results
+    xmlwriter.writeStartElement("email");
+    xmlwriter.writeCharacters("test@example.com");
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeEndElement();
+}
+
+/**
+  *@brief Writes Speed Freek results items as tags and contents.
+  *@brief Results of speed/ direction/ acceleration into QMap are calculated elsewhere
+  *@todo Consider looping of writing QMap values.
+  *@todo Replace hardcoced names to finally used values.
   */
 void XmlWriter::writeItems()
 {
-    //xmlwriter.writeCharacters(ui->lineEditPlace->text());
-    //Temporarily:
-    xmlwriter.writeStartElement("place");
-    xmlwriter.writeCharacters("rallirata");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeStartElement("date");
-    xmlwriter.writeCharacters(QDate::currentDate().toString());
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeStartElement("time");
-    xmlwriter.writeCharacters(QTime::currentTime().toString());
-    xmlwriter.writeEndElement();
-
-    /* Or combined:
-    xmlwriter.writeStartElement("datetime");
-    xmlwriter.writeCharacters(QDateTime::currentDateTime().toString());
-    xmlwriter.writeEndElement(); */
+    //During development
+    this->fillResultmap();
 
     xmlwriter.writeStartElement("result");
-    xmlwriter.writeStartElement("speed");
     xmlwriter.writeAttribute("value", QString::number(resultmap.value("speed")));
-    xmlwriter.writeAttribute("unit", "m/s");
+    xmlwriter.writeAttribute("unit", "seconds");
+    xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
     xmlwriter.writeEndElement();
-    xmlwriter.writeStartElement("distance");
-    xmlwriter.writeAttribute("value", QString::number(resultmap.value("distance")));
-    xmlwriter.writeAttribute("unit", "m");
-    xmlwriter.writeEndElement();
-    xmlwriter.writeStartElement("acceleration");
-    xmlwriter.writeAttribute("value", QString::number(resultmap.value("acceleration")));
-    xmlwriter.writeAttribute("unit", "m/s2");
-    xmlwriter.writeEndElement();
-    xmlwriter.writeEndElement();    //result
-    //or:
-    //xmlwriter.writeTextElement("speed", QString::number(resultmap.value("speed")) + " m/s");
-    //xmlwriter.writeTextElement("distance", QString::number(resultmap.value("distance")) + " m");
-    //xmlwriter.writeTextElement("acceleration", QString::number(resultmap.value("acceleration")) + " m/s2");
 }
 
-/*! @brief Initializes QMap by zeroing values for a new measurement.
-  */
-void XmlWriter::initResultmap()
-{
-    resultmap["acceleration"] = 0;
-    resultmap["speed"] = 0;
-    resultmap["distance"] = 0;
-}
 
-/*! @brief A temp function during development, used until real QMap available.
+/**
+  *@brief A temp function during development, used until real QMap available.
   */
 void XmlWriter::fillResultmap()
 {
     resultmap["acceleration"] = 9;
     resultmap["speed"] = 48;
     resultmap["distance"] = 600;
+}
+
+/**
+  *@brief A temp function during development, used to create a "serverfile".
+  */
+void XmlWriter::serverWritesTop()
+{
+    int i = 0;
+    int n = 5;
+
+    /* Server sends to client */
+    xmlwriter.writeStartElement("results");
+    xmlwriter.writeAttribute("category", "acceleration-0-100");
+    xmlwriter.writeAttribute("unit", "seconds");
+    xmlwriter.writeAttribute("description", "Acceleration from 0 to 100 km/h");
+
+    for (i = 0; i < n; i++) {
+        xmlwriter.writeStartElement("result");
+        xmlwriter.writeAttribute("position", QString::number(i));
+        xmlwriter.writeAttribute("user", "test123");
+        xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
+        xmlwriter.writeAttribute("value", QString::number(i+i+1));
+        xmlwriter.writeEndElement();
+    }
 }

@@ -14,8 +14,8 @@ SOURCES += main.cpp \
     accelerometer.cpp \
     loginwindow.cpp \
     registration.cpp \
-    measures.cpp
-
+    measures.cpp \
+    xmlwriter.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -24,8 +24,8 @@ HEADERS += carmainwindow.h \
     calculate.h \
     loginwindow.h \
     registration.h \
-    measures.h
-
+    measures.h \
+    xmlwriter.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
