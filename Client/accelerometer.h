@@ -40,9 +40,9 @@ public:
     qreal getTotalAcceleration();
     qreal getPreviousTotalAcceleration();
 
-    int calibrationX;
-    int calibrationY;
-    int calibrationZ;
+    int getCalibrationX();
+    int getCalibrationY();
+    int getCalibrationZ();
 
     qreal getIntervalTime();
     qreal getTotalTime();
@@ -60,6 +60,8 @@ private:
     qreal previousSpeed, currentSpeed;
     qreal currentAcceleration, previousAcceleration, totalAcceleration;
 
+    int calibrationX, calibrationY, calibrationZ;
+
     QTime now;
     QTimer *timer;
 
@@ -70,7 +72,8 @@ private:
     double averageSpeed;
     double sampleRate;
 
-    bool reverseAcceleration;
+    bool firstRun;
 };
 
 #endif // ACCELEROMETER_H
+

@@ -67,27 +67,31 @@ void Accelerometer::start()
  */
 void Accelerometer::initValues()
 {
-    accelerationX=0;
-    accelerationY=0;
-    accelerationZ=0;
-    trueAccelerationX=0;
-    trueAccelerationY=0;
-    trueAccelerationZ=0;
-    previousAccelerationX=0;
-    previousAccelerationY=0;
-    previousAccelerationZ=0;
-    previousSpeed=0;
-    currentSpeed=0;
-    currentAcceleration=0;
-    previousAcceleration=0;
-    totalAcceleration=0;
-    intervalTime=0;
-    totalTime=0;
-    distanceTraveled=0;
-    lastDistanceTraveled=0;
-    averageSpeed=0;
-    sampleRate=0;
-    reverseAcceleration = false;
+    calculate->reset();
+    accelerationX = 0;
+    accelerationY = 0;
+    accelerationZ = 0;
+    trueAccelerationX = 0;
+    trueAccelerationY = 0;
+    trueAccelerationZ = 0;
+    previousAccelerationX = 0;
+    previousAccelerationY = 0;
+    previousAccelerationZ = 0;
+    previousSpeed = 0;
+    currentSpeed = 0;
+    currentAcceleration = 0;
+    previousAcceleration = 0;
+    totalAcceleration = 0;
+    intervalTime = 0;
+    totalTime = 0;
+    distanceTraveled = 0;
+    lastDistanceTraveled = 0;
+    averageSpeed = 0;
+    sampleRate = 0;
+    firstRun = true;
+    calibrationX = 0;
+    calibrationY = 0;
+    calibrationZ = 0;
 }
 
 /**
@@ -228,6 +232,21 @@ qreal Accelerometer::getTotalTime()
     return totalTime;
 }
 
+int Accelerometer::getCalibrationX()
+{
+    return calibrationX;
+}
+
+int Accelerometer::getCalibrationY()
+{
+    return calibrationY;
+}
+
+int Accelerometer::getCalibrationZ()
+{
+    return calibrationZ;
+}
+
 /**
  * Processes Accelerometer data
  *
@@ -316,10 +335,12 @@ void Accelerometer::smoothData(qreal x, qreal y, qreal z)
     accelerationX = x;
     accelerationY = y;
     accelerationZ = z;
-    if(sampleIndex>0) {
+    if (sampleIndex > 0)
+    {
         accelerationX = previousAccelerationX + (accelerationX-previousAccelerationX) * kFilteringFactor;
         accelerationY = previousAccelerationY + (accelerationY-previousAccelerationY) * kFilteringFactor;
         accelerationZ = previousAccelerationZ + (accelerationZ-previousAccelerationZ) * kFilteringFactor;
     }
     sampleIndex++;
 }
+
