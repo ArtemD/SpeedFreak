@@ -97,15 +97,21 @@ void Accelerometer::initValues()
   */
 void Accelerometer::calibrate(void)
 {
-    QFile file(kFileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-
     unsigned int iteration = 0;
 
-    QByteArray line;
-    QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
-
     do {
+        // Opening the file must be done inside the loop
+        // or else the values obtained from file.readLine();
+        // will be empty for all but the first iteration
+        QFile file(kFileName);
+        if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            return;
+        }
+
+        QByteArray line;
+        QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
+
         // Read data, parse with regular expressions and process it
         line = file.readLine();
         rx.indexIn(line);
@@ -114,18 +120,18 @@ void Accelerometer::calibrate(void)
         int sampleY = rx.cap(2).toInt();
         int sampleZ = rx.cap(3).toInt();
 
-        calibrationX += sampleX; // Accumulate Samples
-        calibrationY += sampleY; // for all axes.
-        calibrationZ += sampleZ;
+        calibrationX = calibrationX + sampleX; // Accumulate Samples
+        calibrationY = calibrationY + sampleY; // for all axes.
+        calibrationZ = calibrationZ + sampleZ;
 
         iteration++;
-    } while(iteration!=1024);       // 1024 times
 
-    calibrationX = calibrationX>>10;     // division by 1024
+        file.close();
+    } while(iteration != 1024);       // 1024 times
+
+    calibrationX = calibrationX>>10;  // division by 1024
     calibrationY = calibrationY>>10;
     calibrationZ = calibrationZ>>10;
-
-    file.close();
 }
 
 /**
