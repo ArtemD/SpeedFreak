@@ -27,9 +27,9 @@ public:
     CarMainWindow(QWidget *parent = 0);
     ~CarMainWindow();
 
-    void setUnitCompoBox(QStringList units);    //Start-tab
-    void setSpeedListView(QStringList numbers); //Start-tab
-    void setListViewTopList(QString category);  //Top-tab
+    void setComboBoxStartTabUnits(QStringList units);    //Start-tab view
+    void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
+    void setListViewTopList(QString category);  //Top-tab view
     void setCategoryCompoBox(); //Top-tab
 
 protected:
@@ -43,14 +43,14 @@ private:
     QNetworkAccessManager* manager;
     LoginWindow *myLogin;
     Registration *myRegistration;
-    void initCategoryCompoBox();
-    void initUnitCompoBox();    //Start-tab
-    void initSpeedListView();   //Start-tab
+    //void initCategoryCompoBox();    //
+    void initComboBoxStartTabUnits();    //Start-tab view
+    void initListViewStartTabAccelerationCategories();   //Start-tab view
 
 private:
-    QStringList numbers; //Start-tab
-    QStringList units;  //Start-tab
-    QStringList categories; //Top-tab
+    QStringList accelerationCategoriesStartTab; //Start-tab view
+    QStringList units;  //Start-tab view
+    QStringList categories; //Top-tab view
 
 private slots:
     void on_registratePushButton_clicked();
@@ -58,12 +58,12 @@ private slots:
     void on_comboBoxTopCategory_activated(QString );
     void on_pushButton_clicked();
     void networkResponse(QNetworkReply*);
-    void on_comboBoxTopCategory_currentIndexChanged(QString category); //Top-tab
-    void on_listView_clicked(QModelIndex index); //Start-tab
-    void updateUnitCompoBox(QString unit);  //Start-tab
+    void on_comboBoxTopCategory_currentIndexChanged(QString category); //Top-tab view
+    void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index); //Start-tab view
+    void updateComboBoxStartTabUnits(QString unit);  //Start-tab view
     void openResultView();
-    void on_buttonTopRefresh_clicked(); //Top-tab: button
-    void on_autoStartButton_clicked();  //Start-tab: button
+    void on_buttonTopRefresh_clicked(); //Top-tab view: button
+    void on_autoStartButton_clicked();  //Start-tab view: button
 };
 
 #endif // CARMAINWINDOW_H

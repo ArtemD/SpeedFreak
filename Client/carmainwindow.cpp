@@ -11,8 +11,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     measure = new MeasureDialog();
     xmlreader = new XmlReader();
 
-    initUnitCompoBox();
-    initSpeedListView();
+    initComboBoxStartTabUnits();
+    initListViewStartTabAccelerationCategories();
 
     myLogin = new LoginWindow(this);
     myRegistration = new Registration(this);
@@ -50,15 +50,15 @@ void CarMainWindow::changeEvent(QEvent *e)
 /**
   *This slot function is called when ever list view is update. Start-tab view.
   */
-void CarMainWindow::on_listView_clicked(QModelIndex index)
+void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelIndex index)
 {
     QString str = index.data().toString();
     QStringList list = str.split("-");
     QStringList list2 = list[1].split(" ");
 
-    ui->minLineEdit->setText(list[0]);
-    ui->maxLineEdit->setText(list2[0]);
-    updateUnitCompoBox(list2[1]);
+    ui->lineEditStartTabMin->setText(list[0]);
+    ui->lineEditStartTabMax->setText(list2[0]);
+    updateComboBoxStartTabUnits(list2[1]);
 }
 
 /**
@@ -80,47 +80,47 @@ void CarMainWindow::on_autoStartButton_clicked()
   *This slot function is called when ever list view is update. Start-tab view.
   *@param QString unit.
   */
-void CarMainWindow::updateUnitCompoBox(QString unit)
+void CarMainWindow::updateComboBoxStartTabUnits(QString unit)
 {
-    ui->unitComboBox->setCurrentIndex(ui->unitComboBox->findText(unit, Qt::MatchExactly));
+    ui->comboBoxStartTabUnits->setCurrentIndex(ui->comboBoxStartTabUnits->findText(unit, Qt::MatchExactly));
 }
 
 /**
   *This function is used to init unit combobox. Start-tab view.
   */
-void CarMainWindow::initUnitCompoBox()
+void CarMainWindow::initComboBoxStartTabUnits()
 {
     units << "km/h" << "km" << "h" << "m" << "min" << "Mile" << "Mph" << "in" << "ft" << "yrd";
-    ui->unitComboBox->addItems(units);
+    ui->comboBoxStartTabUnits->addItems(units);
 }
 
 /**
   *This function is used to set items to unit combobox. Start-tab view.
-  *@param QStringlist numbers
+  *@param QStringlist units
   */
-void CarMainWindow::setUnitCompoBox(QStringList units)
+void CarMainWindow::setComboBoxStartTabUnits(QStringList units)
 {
-    ui->unitComboBox->addItems(units);
+    ui->comboBoxStartTabUnits->addItems(units);
 }
 
 /**
-  *This function is used to init speed listview. Start-tab view.
+  *This function is used to init listViewStartTabAccelerationCategories. Start-tab view.
   */
-void CarMainWindow::initSpeedListView()
+void CarMainWindow::initListViewStartTabAccelerationCategories()
 {
-    numbers << "0-40 km/h" << "0-1/4 Mile" << "0-1/8 Mile" << "0-50 km" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
-    QAbstractItemModel *model = new StringListModel(numbers);
-    ui->listView->setModel(model);
+    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h"; //<< "0-1/4 Mile" << "0-1/8 Mile" << "0-50 km" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+    QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
+    ui->listViewStartTabAccelerationCategories->setModel(model);
 }
 
 /**
-  *This function is used to set items to speed listview. Start-tab view.
-  *@param QStringlist numbers
+  *This function is used to set items to listViewStartTabAccelerationCategories. Start-tab view.
+  *@param QStringlist accelerationCategoriesStartTab
   */
-void CarMainWindow::setSpeedListView(QStringList numbers)
+void CarMainWindow::setListViewStartTabAccelerationCategories(QStringList accelerationCategoriesStartTab)
 {
-    QAbstractItemModel *model = new StringListModel(numbers);
-    ui->listView->setModel(model);
+    QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
+    ui->listViewStartTabAccelerationCategories->setModel(model);
 }
 
 /**
