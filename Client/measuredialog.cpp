@@ -3,8 +3,8 @@
 
 
 /**
-  *Constructor of this class.
-  *@param QWidget pointer to parent object. By default the value is NULL.
+  * Constructor of this class.
+  * @param QWidget pointer to parent object. By default the value is NULL.
   */
 MeasureDialog::MeasureDialog(QWidget *parent) :
     QDialog(parent),
@@ -49,7 +49,8 @@ void MeasureDialog::changeEvent(QEvent *e)
 }
 
 /**
-  *This slot function is called when timer gives timeout signal.
+  * This slot function is called when timer gives timeout signal. Checks current speed
+  * and stores times in measure class.
   */
 void MeasureDialog::after_timeout()
 {
@@ -59,7 +60,7 @@ void MeasureDialog::after_timeout()
     speed = accelerometer->getCurrentSpeed();
     //speed = speed +10;
 
-    if(speed > 9.7 && speed < 10.3)
+    if (speed > 9.7 && speed < 10.3)
     {
         measures->setTime10kmh(time);
     }
@@ -139,7 +140,7 @@ void MeasureDialog::after_timeout()
 }
 
 /**
-  *This slot function is called when Abort button is clicked.
+  * This slot function is called when Abort button is clicked.
   */
 void MeasureDialog::on_pushButtonAbort_clicked()
 {
@@ -160,6 +161,9 @@ void MeasureDialog::on_pushButtonAbort_clicked()
     this->close();
 }
 
+/**
+  * Initializes measures class's member variables.
+  */
 void MeasureDialog::initializeMeasures()
 {
     measures->setTime10kmh(0);

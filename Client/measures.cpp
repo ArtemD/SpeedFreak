@@ -4,6 +4,10 @@ Measures::Measures()
 {
 }
 
+/**
+ * Get the value of time10kmh
+ * @return time10kmh the time in qreal when speed has been 10 km/h
+ */
 qreal Measures::getTime10kmh()
 {
     return time10kmh;
@@ -54,6 +58,10 @@ qreal Measures::getTime100kmh()
     return time100kmh;
 }
 
+/**
+ * Set the given time in to the time10kmh
+ * @param pTime is time in qreal
+ */
 void Measures::setTime10kmh(qreal pTime)
 {
     time10kmh = pTime;
