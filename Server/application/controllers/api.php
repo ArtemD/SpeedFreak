@@ -3,7 +3,7 @@
  * API controller for communicating with mobile clients
  * 
  * @author      Artem Daniliants <artem@daniliants.com>
- * @copyright  (c) 2010 Speed Freak team
+ * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
