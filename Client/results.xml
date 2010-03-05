@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<results category="acceleration-0-100" unit="seconds" description="Acceleration from 0 to 100 km/h">
+	<result position="1" user="test928" date="12/1/2010" value="13" />
+	<result position="2" user="test922" date="15/1/2010" value="12" />
+	<result position="3" user="test92a" date="11/1/2010" value="11" />
+	<result position="4" user="test92s" date="15/2/2010" value="10" />
+	<result position="5" user="test92d" date="1/1/2010" value="9" />
+	<result position="6" user="test92f" date="31/1/2010" value="8" />
+	<result position="7" user="test92f" date="1/1/2010" value="7" />
+	<result position="8" user="test92g" date="2/1/2010" value="6" />
+	<result position="9" user="test92w" date="3/1/2010" value="5" />
+	<result position="10" user="test92a" date="17/1/2010" value="4" />
+</results>

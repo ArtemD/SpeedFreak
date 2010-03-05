@@ -15,7 +15,9 @@ SOURCES += main.cpp \
     loginwindow.cpp \
     registration.cpp \
     measures.cpp \
-    xmlwriter.cpp
+    xmlwriter.cpp \
+    xmlreader.cpp
+
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -25,7 +27,9 @@ HEADERS += carmainwindow.h \
     loginwindow.h \
     registration.h \
     measures.h \
-    xmlwriter.h
+    xmlwriter.h \
+    xmlreader.h
+
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \

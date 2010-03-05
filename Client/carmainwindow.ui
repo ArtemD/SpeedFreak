@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -196,6 +196,27 @@
         <widget class="QComboBox" name="comboBoxTopCategory"/>
        </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="labelTopList">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>10</y>
+        <width>371</width>
+        <height>311</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>TopList</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="settingsTab">

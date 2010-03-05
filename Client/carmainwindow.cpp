@@ -1,11 +1,4 @@
 #include "carmainwindow.h"
-#include "ui_carmainwindow.h"
-#include "stringlistmodel.h"
-#include "loginwindow.h"
-#include <QStandardItemModel>
-#include <QStringList>
-#include <QString>
-#include <QNetworkRequest>
 
 /**
   *Constructor of this class.
@@ -16,9 +9,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     ui->setupUi(this);
     result = new ResultDialog();
     measure = new MeasureDialog();
+    xmlreader = new XmlReader();
 
     initUnitCompoBox();
     initSpeedListView();
+<<<<<<< HEAD:Client/carmainwindow.cpp
     initCategoryCompoBox();
 
     myLogin = new LoginWindow(this);
@@ -26,6 +21,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     manager = new QNetworkAccessManager(this);
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
 
+=======
+>>>>>>> feature/XMLreader:Client/carmainwindow.cpp
 }
 
 /**
@@ -36,6 +33,7 @@ CarMainWindow::~CarMainWindow()
     delete ui;
     delete result;
     delete measure;
+    delete xmlreader;
 }
 
 /**
@@ -55,8 +53,7 @@ void CarMainWindow::changeEvent(QEvent *e)
 }
 
 /**
-  *This slot function is called when ever list view is update.
-  *@param QModelIndex index.
+  *This slot function is called when ever list view is update. Start-tab view.
   */
 void CarMainWindow::on_listView_clicked(QModelIndex index)
 {
@@ -70,7 +67,7 @@ void CarMainWindow::on_listView_clicked(QModelIndex index)
 }
 
 /**
-  *This slot function is called when ever auto start button clicked.
+  *This slot function is called when ever auto start button clicked. Start-tab view.
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
@@ -85,7 +82,7 @@ void CarMainWindow::on_autoStartButton_clicked()
 }
 
 /**
-  *This slot function is called when ever list view is update.
+  *This slot function is called when ever list view is update. Start-tab view.
   *@param QString unit.
   */
 void CarMainWindow::updateUnitCompoBox(QString unit)
@@ -94,16 +91,16 @@ void CarMainWindow::updateUnitCompoBox(QString unit)
 }
 
 /**
-  *This function is used to init unit combobox.
+  *This function is used to init unit combobox. Start-tab view.
   */
 void CarMainWindow::initUnitCompoBox()
 {
-    units << "km/h" << "km" << "h" << "m" << "min" << "mil" << "in" << "ft" << "yrd";
+    units << "km/h" << "km" << "h" << "m" << "min" << "Mile" << "Mph" << "in" << "ft" << "yrd";
     ui->unitComboBox->addItems(units);
 }
 
 /**
-  *This function is used to set items to unit combobox.
+  *This function is used to set items to unit combobox. Start-tab view.
   *@param QStringlist numbers
   */
 void CarMainWindow::setUnitCompoBox(QStringList units)
@@ -112,18 +109,21 @@ void CarMainWindow::setUnitCompoBox(QStringList units)
 }
 
 /**
-  *This function is used to init speed listview.
+  *This function is used to init speed listview. Start-tab view.
   */
 void CarMainWindow::initSpeedListView()
 {
+<<<<<<< HEAD:Client/carmainwindow.cpp
     numbers << "0-40 km/h" << "0-1/4 mil" << "0-50 km" << "50-100 mil" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+=======
+    numbers << "0-40 km/h" << "0-1/4 Mile" << "0-1/8 Mile" << "0-50 km" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+>>>>>>> feature/XMLreader:Client/carmainwindow.cpp
     QAbstractItemModel *model = new StringListModel(numbers);
     ui->listView->setModel(model);
 }
 
 /**
-<<<<<<< HEAD:Client/carmainwindow.cpp
-  *This function is used to set items to speed listview.
+  *This function is used to set items to speed listview. Start-tab view.
   *@param QStringlist numbers
   */
 void CarMainWindow::setSpeedListView(QStringList numbers)
@@ -133,36 +133,37 @@ void CarMainWindow::setSpeedListView(QStringList numbers)
 }
 
 /**
-  *This function is used to init category combobox.
+  *This function is used to set items to category combobox. Top-tab view.
+  *@param
   */
-void CarMainWindow::initCategoryCompoBox()
+void CarMainWindow::setCategoryCompoBox()
 {
-    categories << "Top 10 1/4 mile" << "Top 10 0-100 km/h" << "Top 10 car";
-    ui->comboBoxTopCategory->addItems(categories);
+    ui->comboBoxTopCategory->addItems(xmlreader->getTop10List());
 }
 
 /**
-  *This function is used to set items to category combobox.
-  *@param QStringlist categories
-  */
-void CarMainWindow::setCategoryCompoBox(QStringList categories)
-{
-    ui->comboBoxTopCategory->addItems(categories);
-}
-
-/**
-  *This slot function is called when ever categories combobox is update.
+  *This function is used to set items to labelTopList. Top-tab view.
   *@param QString category
   */
-void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
+void CarMainWindow::setListViewTopList(QString category)
 {
-    //TODO: get top list
+    QString topList;
 
-    QStringList topList;
-    topList << "1. Pertti 7,5s" << "2. Ville 10,2s";
+    if (category == "acceleration-0-100")
+    {
+        topList.append(xmlreader->getTop10AccelerationList());
+    }
 
-    QAbstractItemModel *model = new StringListModel(topList);
-    ui->listViewTopList->setModel(model);
+    else if (category == "Speed")
+    {
+        topList.append(xmlreader->getTop10SpeedList());
+    }
+
+    else if (category == "G-force")
+    {
+        topList.append(xmlreader->getTop10GforceList());
+    }
+    ui->labelTopList->setText(topList);
 }
 
 /**
@@ -176,6 +177,7 @@ void CarMainWindow::openResultView()
 }
 
 /**
+<<<<<<< HEAD:Client/carmainwindow.cpp
   *This slot function is called when the server has finished guery.
   */
 void CarMainWindow::networkResponse(QNetworkReply *reply)
@@ -210,4 +212,20 @@ void CarMainWindow::on_loginLogoutButton_clicked()
 void CarMainWindow::on_registratePushButton_clicked()
 {
     myRegistration->show();
+=======
+  *This slot function is called when ever refresh button clicked. Top-tab view.
+  */
+void CarMainWindow::on_buttonTopRefresh_clicked()
+{
+    setCategoryCompoBox();
+}
+
+/**
+  *This slot function is called when ever category combobox current index changed. Top-tab view.
+  *@param QString category
+  */
+void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
+{
+    setListViewTopList(category);
+>>>>>>> feature/XMLreader:Client/carmainwindow.cpp
 }
