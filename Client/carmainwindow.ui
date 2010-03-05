@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CarMainWindow</string>
+   <string>Speed freak</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -72,7 +72,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QListView" name="listView">
+     <widget class="QListView" name="listViewStartTabAccelerationCategories">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -100,7 +100,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="minLineEdit"/>
+        <widget class="QLineEdit" name="lineEditStartTabMin"/>
        </item>
        <item>
         <widget class="QLabel" name="stopLabel">
@@ -110,7 +110,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="maxLineEdit"/>
+        <widget class="QLineEdit" name="lineEditStartTabMax"/>
        </item>
        <item>
         <widget class="QLabel" name="unitLabel">
@@ -120,7 +120,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="unitComboBox"/>
+        <widget class="QComboBox" name="comboBoxStartTabUnits"/>
        </item>
       </layout>
      </widget>
