@@ -13,7 +13,7 @@ SOURCES += main.cpp \
     calculate.cpp \
     accelerometer.cpp \
     loginwindow.cpp \
-    registration.cpp
+    registration.cpp \
     measures.cpp
 
 HEADERS += carmainwindow.h \
@@ -23,7 +23,7 @@ HEADERS += carmainwindow.h \
     accelerometer.h \
     calculate.h \
     loginwindow.h \
-    registration.h
+    registration.h \
     measures.h
 
 FORMS += carmainwindow.ui \

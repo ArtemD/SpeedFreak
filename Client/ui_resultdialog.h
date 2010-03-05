@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'resultdialog.ui'
 **
-** Created: Wed Feb 24 13:07:28 2010
+** Created: Fri Mar 5 08:43:19 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -23,13 +23,10 @@ QT_BEGIN_NAMESPACE
 class Ui_ResultDialog
 {
 public:
-    QLabel *labelResult_4;
-    QLabel *labelResult_7;
-    QLabel *labelResult;
-    QLabel *labelResult_6;
-    QLabel *labelResult_5;
-    QLabel *labelResult_3;
-    QLabel *labelResult_2;
+    QLabel *labelResult10kmh;
+    QLabel *labelResult40kmh;
+    QLabel *labelResult20kmh;
+    QLabel *labelResult30kmh;
     QLabel *labelY2;
     QLabel *labelY6;
     QLabel *labelY1;
@@ -58,27 +55,18 @@ public:
         if (ResultDialog->objectName().isEmpty())
             ResultDialog->setObjectName(QString::fromUtf8("ResultDialog"));
         ResultDialog->resize(800, 480);
-        labelResult_4 = new QLabel(ResultDialog);
-        labelResult_4->setObjectName(QString::fromUtf8("labelResult_4"));
-        labelResult_4->setGeometry(QRect(520, 120, 191, 31));
-        labelResult_7 = new QLabel(ResultDialog);
-        labelResult_7->setObjectName(QString::fromUtf8("labelResult_7"));
-        labelResult_7->setGeometry(QRect(520, 240, 191, 31));
-        labelResult = new QLabel(ResultDialog);
-        labelResult->setObjectName(QString::fromUtf8("labelResult"));
-        labelResult->setGeometry(QRect(520, 10, 191, 31));
-        labelResult_6 = new QLabel(ResultDialog);
-        labelResult_6->setObjectName(QString::fromUtf8("labelResult_6"));
-        labelResult_6->setGeometry(QRect(520, 200, 191, 31));
-        labelResult_5 = new QLabel(ResultDialog);
-        labelResult_5->setObjectName(QString::fromUtf8("labelResult_5"));
-        labelResult_5->setGeometry(QRect(520, 160, 191, 31));
-        labelResult_3 = new QLabel(ResultDialog);
-        labelResult_3->setObjectName(QString::fromUtf8("labelResult_3"));
-        labelResult_3->setGeometry(QRect(520, 80, 191, 31));
-        labelResult_2 = new QLabel(ResultDialog);
-        labelResult_2->setObjectName(QString::fromUtf8("labelResult_2"));
-        labelResult_2->setGeometry(QRect(520, 40, 191, 31));
+        labelResult10kmh = new QLabel(ResultDialog);
+        labelResult10kmh->setObjectName(QString::fromUtf8("labelResult10kmh"));
+        labelResult10kmh->setGeometry(QRect(410, 230, 191, 31));
+        labelResult40kmh = new QLabel(ResultDialog);
+        labelResult40kmh->setObjectName(QString::fromUtf8("labelResult40kmh"));
+        labelResult40kmh->setGeometry(QRect(410, 90, 191, 31));
+        labelResult20kmh = new QLabel(ResultDialog);
+        labelResult20kmh->setObjectName(QString::fromUtf8("labelResult20kmh"));
+        labelResult20kmh->setGeometry(QRect(410, 180, 191, 31));
+        labelResult30kmh = new QLabel(ResultDialog);
+        labelResult30kmh->setObjectName(QString::fromUtf8("labelResult30kmh"));
+        labelResult30kmh->setGeometry(QRect(410, 140, 191, 31));
         labelY2 = new QLabel(ResultDialog);
         labelY2->setObjectName(QString::fromUtf8("labelY2"));
         labelY2->setGeometry(QRect(20, 280, 31, 17));
@@ -179,13 +167,10 @@ public:
     void retranslateUi(QDialog *ResultDialog)
     {
         ResultDialog->setWindowTitle(QApplication::translate("ResultDialog", "Dialog", 0, QApplication::UnicodeUTF8));
-        labelResult_4->setText(QApplication::translate("ResultDialog", "0 - 50 km/h: 5,6 s", 0, QApplication::UnicodeUTF8));
-        labelResult_7->setText(QApplication::translate("ResultDialog", "0 - 20 km/h: 1,1 s", 0, QApplication::UnicodeUTF8));
-        labelResult->setText(QApplication::translate("ResultDialog", "0 - 100 km/h: 9,8 s", 0, QApplication::UnicodeUTF8));
-        labelResult_6->setText(QApplication::translate("ResultDialog", "0 - 30 km/h: 3,2 s", 0, QApplication::UnicodeUTF8));
-        labelResult_5->setText(QApplication::translate("ResultDialog", "0 - 40 km/h:4,5 s", 0, QApplication::UnicodeUTF8));
-        labelResult_3->setText(QApplication::translate("ResultDialog", "0 - 60 km/h: 6,9 s", 0, QApplication::UnicodeUTF8));
-        labelResult_2->setText(QApplication::translate("ResultDialog", "0 - 80 km/h: 8,6 s", 0, QApplication::UnicodeUTF8));
+        labelResult10kmh->setText(QApplication::translate("ResultDialog", "0 - 10 km/h: 5,6 s", 0, QApplication::UnicodeUTF8));
+        labelResult40kmh->setText(QApplication::translate("ResultDialog", "0 - 40 km/h: 9,8 s", 0, QApplication::UnicodeUTF8));
+        labelResult20kmh->setText(QApplication::translate("ResultDialog", "0 - 20 km/h: 6,9 s", 0, QApplication::UnicodeUTF8));
+        labelResult30kmh->setText(QApplication::translate("ResultDialog", "0 - 30 km/h: 8,6 s", 0, QApplication::UnicodeUTF8));
         labelY2->setText(QApplication::translate("ResultDialog", "20", 0, QApplication::UnicodeUTF8));
         labelY6->setText(QApplication::translate("ResultDialog", "60", 0, QApplication::UnicodeUTF8));
         labelY1->setText(QApplication::translate("ResultDialog", "10", 0, QApplication::UnicodeUTF8));
