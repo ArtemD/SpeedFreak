@@ -29,10 +29,19 @@ void Registration::changeEvent(QEvent *e)
 
 void Registration::on_registratePushButton_clicked()
 {
+    //Let`s not type it again
+    ui->newUsernameLineEdit->setText("user123");
+    ui->newPasswordLineEdit->setText("salainen");
+    ui->eMailLineEdit->setText("user123@emaili.fi");
+
+    for(int i = 0; i < 3000; i++);
+
     // Send username, password and email to SpeedFreak server
     this->username = ui->newUsernameLineEdit->text();
     this->password = ui->newPasswordLineEdit->text();
     this->email = ui->eMailLineEdit->text();
+
+    emit sendregistration();
 
     close();
 }
@@ -52,7 +61,7 @@ void Registration::setPassword(QString password)
     this->password = password;
 }
 
-void Registration::setEmail(QString password)
+void Registration::setEmail(QString email)
 {
     this->email = email;
 }

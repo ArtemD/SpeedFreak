@@ -175,3 +175,8 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
         timeArray[i] = 0;
     }
 }
+
+void ResultDialog::on_pushButtonSend_clicked()
+{
+    emit sendresult();
+}

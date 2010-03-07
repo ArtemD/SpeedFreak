@@ -15,6 +15,9 @@ public:
     ~ResultDialog();
     void saveMeasuresToArray(Measures *pMeasures);
 
+signals:
+    void sendresult();
+
 protected:
     void changeEvent(QEvent *e);
     void paintEvent(QPaintEvent *);
@@ -25,6 +28,9 @@ private:
 
 private:
     Ui::ResultDialog *ui;
+
+private slots:
+    void on_pushButtonSend_clicked();
 };
 
 #endif // RESULTDIALOG_H

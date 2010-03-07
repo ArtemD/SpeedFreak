@@ -19,6 +19,9 @@ public:
     QString getPassword();
     QString getEmail();
 
+signals:
+    void sendregistration();
+
 protected:
     void changeEvent(QEvent *e);
 
