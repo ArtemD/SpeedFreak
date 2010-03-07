@@ -18,12 +18,18 @@
 #include <QStringList>
 #include <QString>
 #include <QNetworkAccessManager>
-#include <QStandardItemModel>
 #include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QMessageBox>
+#include <QStandardItemModel>
+#include <QBuffer>
+#include <QByteArray>
+#include <QDebug>
 #include "resultdialog.h"
 #include "measuredialog.h"
 #include "loginwindow.h"
 #include "registration.h"
+#include "xmlwriter.h"
 #include "xmlreader.h"
 #include "ui_carmainwindow.h"
 #include "stringlistmodel.h"
@@ -51,6 +57,7 @@ private:
     ResultDialog *result;
     MeasureDialog *measure;
     XmlReader *xmlreader;
+    XmlWriter *xmlwriter;
     QNetworkAccessManager* manager;
     LoginWindow *myLogin;
     Registration *myRegistration;
@@ -64,6 +71,7 @@ private:
     QStringList categories; //Top-tab view
 
 private slots:
+    void on_manualStartButton_clicked();
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
     void on_loginLogoutButton_clicked();
@@ -76,6 +84,10 @@ private slots:
     void openResultView();
     void on_buttonTopRefresh_clicked(); //Top-tab view: button
     void on_autoStartButton_clicked();  //Start-tab view: button
+    void registrate();
+    void sendXml();
+    void ackOfResult();
+    void ackOfRegistration();
 };
 
 #endif // CARMAINWINDOW_H

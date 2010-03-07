@@ -27,8 +27,12 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     myLogin = new LoginWindow(this);
     myRegistration = new Registration(this);
+    xmlwriter = new XmlWriter();
     manager = new QNetworkAccessManager(this);
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
+    connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
+    connect(result,SIGNAL(sendresult()),this,SLOT(sendXml()));
+
 }
 
 /**
@@ -40,6 +44,8 @@ CarMainWindow::~CarMainWindow()
     delete result;
     delete measure;
     delete xmlreader;
+    delete xmlwriter;
+    delete manager;
 }
 
 /**
@@ -183,17 +189,16 @@ void CarMainWindow::openResultView()
   */
 void CarMainWindow::networkResponse(QNetworkReply *reply)
 {
+
 }
 
 /**
   *This slot function is called when the user will to send data to server.
+  *@todo Where is this callback connected?
   */
 void CarMainWindow::on_pushButton_clicked()
 {
-     QNetworkRequest postData;
-     postData.setUrl(QString("http://weather.yahooapis.com/forecastrss?p=FIXX0013&u=c"));
-     manager->get(postData);
-
+     sendXml();
 }
 
 /**
@@ -250,4 +255,101 @@ void CarMainWindow::on_setUserPushButton_clicked()
 
     ui->userNameLabel->setText( "User: " + myLogin->getUserName());
     ui->setUserPushButton->setText( "Change User");
+}
+
+/**
+  *@brief Sends registration information to the server in xml format.
+  *Reads user name, password and emaol address from resuldialogs internal variables.
+  *@todo Replace msg box with better reaction to server`s responce.
+  *@todo Write error handling.
+  */
+void CarMainWindow::registrate()
+{
+    qDebug() << "_registrate" ;
+    qDebug() << this->myRegistration->getUserName() << "+" << this->myRegistration->getPassword() << "+" << this->myRegistration->getEmail();
+
+    QBuffer *regbuffer = new QBuffer();
+
+    QNetworkReply *currentDownload;
+
+    QUrl qurl("http//:api.speedfreak-app.com/register");
+    QNetworkRequest request(qurl);
+
+    //write also to a file during development, :
+    xmlwriter->writeXml(this->myRegistration->getUserName(),
+                      this->myRegistration->getPassword(),
+                      this->myRegistration->getEmail());
+    xmlwriter->writeRegistering(regbuffer,
+                      this->myRegistration->getUserName(),
+                      this->myRegistration->getPassword(),
+                      this->myRegistration->getEmail());
+    //Tmp msgbox - later server responce
+    QMessageBox::about(this,"Registrate",this->myRegistration->getUserName() + this->myRegistration->getPassword() + this->myRegistration->getEmail());
+
+    currentDownload = manager->post(request, ("data=" + regbuffer->data()));
+
+    //ackFromServer function gets called when HTTP request is completed
+    connect(currentDownload, SIGNAL(finished()),SLOT(ackOfRegistration()));
+}
+
+/**
+  *@brief Sends result(s) to the server in xml format with authentication information in the header.
+  *@todo Write error handling.
+  */
+void CarMainWindow::sendXml()
+{
+    qDebug() << "_sendXml";
+
+    QBuffer *xmlbuffer = new QBuffer();
+    QNetworkReply *currentDownload;
+
+    QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+
+    QUrl qurl("http//:api.speedfreak-app.com/update/acceleration-0-40");
+    QNetworkRequest request(qurl);
+
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    xmlwriter->writeResult(xmlbuffer);
+
+    currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
+    //QString data("abcdefg");    //testing
+    //currentDownload = manager->post(request,"data=" + QUrl::toPercentEncoding(data));   //testing
+
+
+    //ackFromServer function gets called when HTTP request is completed
+    connect(currentDownload, SIGNAL(finished()),SLOT(ackOfResult()));
+
+}
+
+/**
+  *@brief React to servers responce after result has been sent.
+  *@todo Implement function and write error handling.
+  */
+void CarMainWindow::ackOfResult()
+{
+    qDebug() << "Server acknowledged posting of result";
+}
+
+/**
+  *@brief React to servers responce after registration has been sent.
+  *@todo Implement function and write error handling.
+  */
+
+void CarMainWindow::ackOfRegistration()
+{
+    qDebug() << "Server acknowledged registration";
+}
+
+
+/**
+  *@brief Just for development, for the real button is not shown until
+  *measurin started and there are results.
+  *@todo Implement with real code and yet leave sendXml in the bottom in use.
+  */
+
+void CarMainWindow::on_manualStartButton_clicked()
+{
+    sendXml();
 }
