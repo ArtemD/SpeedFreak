@@ -1,6 +1,5 @@
 #include <QtGui>
 #include <QNetworkRequest>
-//#include <QNetworkReply>
 #include <QIODevice>
 #include <QFile>
 #include <QMessageBox>
@@ -12,15 +11,15 @@
 #include "xmlwriter.h"
 
 
+
 /**
   *@brief Constructor, connects object to GUI
   *@param Pointer to carmainwindow, which is temporarily used during development
   */
-XmlWriter::XmlWriter(Ui_CarMainWindow* myMainWindow)
+XmlWriter::XmlWriter()
 {
-    ui = myMainWindow;
-}
 
+}
 
 /**
   *@brief Destructor
@@ -29,14 +28,67 @@ XmlWriter::~XmlWriter()
 {
 
 }
+/**
+  *@brief Writes registration items into tags.
+  *@param netbuf a buffer where xmlstreamwriter writes to.
+  *@param usr for user name.
+  *@param psswd for password.
+  *@param email.
+  */
+void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email)
+//void XmlWriter::writeRegistering(QIODevice *netbuf, QString usr, QString psswd, QString email)
+{
+    xmlwriter.setDevice(netbuf);
+
+    xmlwriter.writeStartDocument();
+    xmlwriter.writeStartElement("user");
+
+    xmlwriter.writeStartElement("login");
+    xmlwriter.writeCharacters(usr);
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("password");
+    xmlwriter.writeCharacters(psswd);
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("email");
+    xmlwriter.writeCharacters(email);
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeEndElement();
+    xmlwriter.writeEndDocument();
+}
+
+
+/**
+  *@brief Writes Speed Freek results items as tags and contents into a buffer.
+  *@todo Consider looping when writing many values.
+  *@todo Replace test value to finally used variables.
+  */
+void XmlWriter::writeResult(QBuffer *netbuf)
+//void XmlWriter::writeResult(QIODevice *netbuf)
+{
+    xmlwriter.setDevice(netbuf);
+
+    xmlwriter.writeStartDocument();
+    xmlwriter.writeStartElement("result");
+    xmlwriter.writeAttribute("value", QString::number(14));
+    xmlwriter.writeAttribute("unit", "seconds");
+    xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
+    xmlwriter.writeEndElement();
+    xmlwriter.writeEndDocument();
+}
+
 
 /**
   *@brief Opens and closes a file, when xml information is written into a file,
   *and passes file to writeXmlFile()
-  *@note Partly harcoded and commented for git.
-  *@todo Replace hardcoced filename and GUI elements to finally used widgets.
+  *@param usr for user name.
+  *@param psswd for password.
+  *@param email.
+  *@todo Replace hardcoced filename to finally GUI entry widget.
   */
-void XmlWriter::writeXml()
+void XmlWriter::writeXml(QString usr, QString psswd, QString email)
 {
     QString filename = "xmlfile.xml";
     QFile file(filename);
@@ -46,81 +98,44 @@ void XmlWriter::writeXml()
     }
 
     writeXmlFile(&file);
+    //writeRegistering(&file, usr, psswd, email);
+    //writeResult(&file);
     file.close();
 }
 
 /**
   *@brief Writes general xml information.
   *Calls other functions to insert login and result information.
-  *@todo Check API connection to QBuffer, when Speed Freek network client has been written.
+  *@param device: target of writing, here filename.
+  *@param usr for user name.
+  *@param psswd for password.
+  *@param email.
   */
 bool XmlWriter::writeXmlFile(QIODevice *device)
-//bool XmlWriter::writeXmlFile(QBuffer *device)
 {
     xmlwriter.setDevice(device);
     xmlwriter.writeStartDocument();
-    xmlwriter.writeStartElement("xml");
-    xmlwriter.writeAttribute("version", "1.0");
-    writeRegister();
     writeItems();
     xmlwriter.writeEndDocument();
 
     return true;
 }
 
-/**
-  *@brief Writes Speed Freek application specific items as tags and contents.
-  *@brief Results of speed/ direction/ acceleration into QMap are calculated elsewhere
-  *@todo Replace hardcoced user, password and email to finally used GUI elements.
-  */
-void XmlWriter::writeRegister()
-{
-    xmlwriter.writeStartElement("user");
-
-    xmlwriter.writeStartElement("login");
-    xmlwriter.writeCharacters("test123");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeStartElement("password");
-    xmlwriter.writeCharacters("thisisaveryinsecurepassword");
-    xmlwriter.writeEndElement();
-
-    //Is this neacessary when sending results
-    xmlwriter.writeStartElement("email");
-    xmlwriter.writeCharacters("test@example.com");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeEndElement();
-}
 
 /**
-  *@brief Writes Speed Freek results items as tags and contents.
-  *@brief Results of speed/ direction/ acceleration into QMap are calculated elsewhere
-  *@todo Consider looping of writing QMap values.
-  *@todo Replace hardcoced names to finally used values.
+  *@brief Writes Speed Freek results items as tags and contents to earlier defined target.
+  *@todo Consider looping when writing many values.
+  *@todo Replace testing values to finally used variabls.
   */
 void XmlWriter::writeItems()
 {
-    //During development
-    this->fillResultmap();
-
     xmlwriter.writeStartElement("result");
-    xmlwriter.writeAttribute("value", QString::number(resultmap.value("speed")));
+    xmlwriter.writeAttribute("value", QString::number(14)); //tmp testing value
     xmlwriter.writeAttribute("unit", "seconds");
     xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
     xmlwriter.writeEndElement();
 }
 
-
-/**
-  *@brief A temp function during development, used until real QMap available.
-  */
-void XmlWriter::fillResultmap()
-{
-    resultmap["acceleration"] = 9;
-    resultmap["speed"] = 48;
-    resultmap["distance"] = 600;
-}
 
 /**
   *@brief A temp function during development, used to create a "serverfile".
@@ -132,7 +147,7 @@ void XmlWriter::serverWritesTop()
 
     /* Server sends to client */
     xmlwriter.writeStartElement("results");
-    xmlwriter.writeAttribute("category", "acceleration-0-100");
+    xmlwriter.writeAttribute("category", "acceleration-0-40");
     xmlwriter.writeAttribute("unit", "seconds");
     xmlwriter.writeAttribute("description", "Acceleration from 0 to 100 km/h");
 

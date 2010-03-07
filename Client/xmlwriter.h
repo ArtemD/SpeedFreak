@@ -1,26 +1,35 @@
 #ifndef XMLWRITER_H
 #define XMLWRITER_H
 
-#include "ui_carmainwindow.h"
+#include <QXmlStreamWriter>
+#include <QBuffer>
+
+
+/**
+  *This class
+  *@author Tiina Kivilinna-Korhola
+  *@copyright   (c) 2010 Speed Freak team
+  *@license     http://opensource.org/licenses/gpl-license.php GNU Public License
+  */
 
 
 class XmlWriter : public QObject
 {
 public:
-    XmlWriter(Ui_CarMainWindow* myMainWindow);
+    XmlWriter();
     ~XmlWriter();
 
 private:
     QXmlStreamWriter xmlwriter;
-    QMap<QString, int> resultmap;
-    Ui_CarMainWindow* ui;
 
 public slots:
-    bool writeXmlFile(QIODevice* device);
+    void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
+    //void writeRegistering(QIODevice *netbuf, QString usr, QString psswd, QString email);
+    void writeResult(QBuffer *netbuf);
+    //void writeResult(QIODevice *netbuf);
+    bool writeXmlFile(QIODevice *device);
+    void writeXml(QString usr, QString psswd, QString email);
     void writeItems();
-    void fillResultmap();
-    void writeXml();
-    void writeRegister();
     void serverWritesTop();
 
 };
