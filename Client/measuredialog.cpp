@@ -1,5 +1,6 @@
 #include "measuredialog.h"
 #include "ui_measuredialog.h"
+#include "math.h"
 
 
 /**
@@ -60,52 +61,52 @@ void MeasureDialog::after_timeout()
     speed = accelerometer->getCurrentSpeed();
     //speed = speed +10;
 
-    if (speed > 9.7 && speed < 10.3)
+    if (floor(speed) == 10)
     {
         measures->setTime10kmh(time);
     }
 
-    else if (speed > 19.7 && speed < 20.3)
+    else if (floor(speed) == 20)
     {
         measures->setTime20kmh(time);
     }
 
-    else if (speed > 29.7 && speed < 30.3)
+    else if (floor(speed) == 30)
     {
         measures->setTime30kmh(time);
     }
 
-    else if (speed > 39.7 && speed < 40.3)
+    else if (floor(speed) == 40)
     {
         measures->setTime40kmh(time);
     }
 
-    else if (speed > 49.7 && speed < 50.3)
+    else if (floor(speed) == 50)
     {
         measures->setTime50kmh(time);
     }
 
-    else if (speed > 59.7 && speed < 60.3)
+    else if (floor(speed) == 60)
     {
         measures->setTime60kmh(time);
     }
 
-    else if (speed > 69.7 && speed < 70.3)
+    else if (floor(speed) == 70)
     {
         measures->setTime70kmh(time);
     }
 
-    else if (speed > 79.7 && speed < 80.3)
+    else if (floor(speed) == 80)
     {
         measures->setTime80kmh(time);
     }
 
-    else if (speed > 89.7 && speed < 90.3)
+    else if (floor(speed) == 90)
     {
         measures->setTime90kmh(time);
     }
 
-    else if (speed > 99.7 && speed < 100.3)
+    else if (floor(speed) == 100)
     {
         measures->setTime100kmh(time);
     }

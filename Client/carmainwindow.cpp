@@ -10,6 +10,7 @@
   */
 
 #include "carmainwindow.h"
+#include "math.h"
 
 /**
   *Constructor of this class.
@@ -18,8 +19,8 @@
 CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::CarMainWindow)
 {
     ui->setupUi(this);
-    result = new ResultDialog();
-    measure = new MeasureDialog();
+    //result = new ResultDialog();
+    //measure = new MeasureDialog();
     xmlreader = new XmlReader();
 
     initComboBoxStartTabUnits();
@@ -31,7 +32,24 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     manager = new QNetworkAccessManager(this);
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
-    connect(result,SIGNAL(sendresult()),this,SLOT(sendXml()));
+    connect(this,SIGNAL(sendresult()),this,SLOT(sendXml()));
+
+    time = 0;
+    speed = 0;
+    timer = new QTimer();
+
+    accelerometer = new Accelerometer();
+    accelerometer->setSampleRate(100);
+    accelerometer->start();
+
+    measures = new Measures();
+    this->initializeMeasures();
+
+    timer->setInterval(1000);
+
+    connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
+
+    ui->labelMeasureTabResult->hide();
 
 }
 
@@ -41,8 +59,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 CarMainWindow::~CarMainWindow()
 {
     delete ui;
-    delete result;
-    delete measure;
+    //delete result;
+    //delete measure;
     delete xmlreader;
     delete xmlwriter;
     delete manager;
@@ -84,13 +102,14 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
 void CarMainWindow::on_autoStartButton_clicked()
 {
 
-    delete measure;
-    measure = NULL;
-    measure = new MeasureDialog();
-
-    connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+    //delete measure;
+    //measure = NULL;
+    //measure = new MeasureDialog();
+   // connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+    timer->start();
     // Show measure dialog.
-    measure->show();
+    //measure->show();
+    ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
 /**
@@ -179,9 +198,17 @@ void CarMainWindow::setListViewTopList(QString category)
   */
 void CarMainWindow::openResultView()
 {
-    result->saveMeasuresToArray(measure->measures);
+    //result->saveMeasuresToArray(measure->measures);
     // Show result dialog.
-    result->show();
+    //result->show();
+    QString timeInteger;
+    timeInteger.setNum(this->measures->getTime40kmh());
+    //time = "0 - 40 km/h: ";
+    //time.append(timeInteger);
+    //ui->labelResult40kmh->setText(time);
+    ui->labelMeasureTabResult->show();
+    ui->labelMeasureTabResult->setText(timeInteger);
+    //ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
 /**
@@ -352,4 +379,142 @@ void CarMainWindow::ackOfRegistration()
 void CarMainWindow::on_manualStartButton_clicked()
 {
     sendXml();
+}
+
+/**
+  * This slot function is called when timer gives timeout signal. Checks current speed
+  * and stores times in measure class.
+  */
+void CarMainWindow::after_timeout()
+{
+    QString timeString, speedString;
+    //time++;
+    time = accelerometer->getTotalTime();
+    speed = accelerometer->getCurrentSpeed();
+    //speed = speed +10;
+
+    if (floor(speed) == 10)
+    {
+        measures->setTime10kmh(time);
+    }
+
+    else if (floor(speed) == 20)
+    {
+        measures->setTime20kmh(time);
+    }
+
+    else if (floor(speed) == 30)
+    {
+        measures->setTime30kmh(time);
+    }
+
+    else if (floor(speed) == 40)
+    {
+        measures->setTime40kmh(time);
+    }
+
+    else if (floor(speed) == 50)
+    {
+        measures->setTime50kmh(time);
+    }
+
+    else if (floor(speed) == 60)
+    {
+        measures->setTime60kmh(time);
+    }
+
+    else if (floor(speed) == 70)
+    {
+        measures->setTime70kmh(time);
+    }
+
+    else if (floor(speed) == 80)
+    {
+        measures->setTime80kmh(time);
+    }
+
+    else if (floor(speed) == 90)
+    {
+        measures->setTime90kmh(time);
+    }
+
+    else if (floor(speed) == 100)
+    {
+        measures->setTime100kmh(time);
+    }
+
+    else
+    {
+
+    }
+
+    // If speed is over 40 km/h emits speedAchieved() signal and close this dialog.
+    if (speed >= 40.0)
+    {
+        timer->stop();
+        accelerometer->stop();
+        time = 0;
+        speed = 0;
+        //emit this->speedAchieved();
+        this->openResultView();
+        //this->close();
+
+    }
+
+    // Updates speed and time.
+    else
+    {
+        timeString.setNum(time);
+        speedString.setNum(speed);
+        ui->labelMeasureTabTime->setText(timeString);
+        ui->labelMeasureTabSpeed->setText(speedString);
+
+        timer->start();
+    }
+
+}
+
+/**
+  * Initializes measures class's member variables.
+  */
+void CarMainWindow::initializeMeasures()
+{
+    measures->setTime10kmh(0);
+    measures->setTime20kmh(0);
+    measures->setTime30kmh(0);
+    measures->setTime40kmh(0);
+    measures->setTime50kmh(0);
+    measures->setTime60kmh(0);
+    measures->setTime70kmh(0);
+    measures->setTime80kmh(0);
+    measures->setTime90kmh(0);
+    measures->setTime100kmh(0);
+}
+
+/**
+  * This slot function is called when Abort button is clicked.
+  */
+void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
+{
+    measures->setTime10kmh(0);
+    measures->setTime20kmh(0);
+    measures->setTime30kmh(0);
+    measures->setTime40kmh(0);
+    measures->setTime50kmh(0);
+    measures->setTime60kmh(0);
+    measures->setTime70kmh(0);
+    measures->setTime80kmh(0);
+    measures->setTime90kmh(0);
+    measures->setTime100kmh(0);
+    timer->stop();
+    accelerometer->stop();
+    time = 0;
+    speed = 0;
+    ui->tabWidget->setCurrentWidget(this->ui->StartTab);
+    //this->close();
+}
+
+void CarMainWindow::on_pushButtonSendResult_clicked()
+{
+    emit sendresult();
 }
