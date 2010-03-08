@@ -65,13 +65,13 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>80</y>
      <width>239</width>
-     <height>74</height>
+     <height>95</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -109,7 +109,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="eMailLabel">
       <property name="text">
-       <string>Your Emai:l</string>
+       <string>Your Email:</string>
       </property>
      </widget>
     </item>
@@ -127,4 +127,3 @@
  <resources/>
  <connections/>
 </ui>
-
