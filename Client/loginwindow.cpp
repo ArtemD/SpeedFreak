@@ -1,3 +1,12 @@
+/*
+ * Loginwindow class to maintain username for user
+ *
+ * @author      Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @author
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include <QMessageBox>

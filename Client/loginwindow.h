@@ -1,3 +1,11 @@
+/**
+  * LoginWindow class
+  *
+  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+  * @copyright  (c) 2010 Speed Freak team
+  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+  */
+
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 

@@ -1,3 +1,11 @@
+/**
+  * Registration class
+  *
+  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+  * @copyright  (c) 2010 Speed Freak team
+  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+  */
+
 #ifndef REGISTRATION_H
 #define REGISTRATION_H
 
