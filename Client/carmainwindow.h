@@ -83,6 +83,7 @@ private:
 signals:
 void speedAchieved();
 void sendresult();
+void userNameChanged();
 
 private slots:
     void on_pushButtonSendResult_clicked();
@@ -108,6 +109,7 @@ private slots:
     void errorFromServer(QNetworkReply* reply);
 
     void after_timeout();
+    void updateUserName();
 };
 
 #endif // CARMAINWINDOW_H

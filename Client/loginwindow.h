@@ -36,6 +36,8 @@ private:
 private slots:
     void on_loginPushButton_clicked();
     void on_cancelPushButton_clicked();
+signals:
+    void userNameChanged();
 };
 
 #endif // LOGINWINDOW_H
