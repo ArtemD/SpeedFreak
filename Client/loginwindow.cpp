@@ -16,7 +16,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Login to Speed Freak server");
+    this->setWindowTitle("Setting username");
 }
 
 LoginWindow::~LoginWindow()
