@@ -35,7 +35,8 @@ XmlReader::~XmlReader()
 /**
   *This function is used to parsing xml file.
   */
-void XmlReader::xmlRead(QIODevice *device)
+//void XmlReader::xmlRead(QIODevice *device)
+void XmlReader::xmlRead(QNetworkReply* device)
 {
     qDebug() << "_xmlRead";
 
@@ -118,7 +119,7 @@ void XmlReader::xmlShow()
         return;
     }
 
-    xmlRead(&file);
+    //xmlRead(&file);
     file.close();
 }
 

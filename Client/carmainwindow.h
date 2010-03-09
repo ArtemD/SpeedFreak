@@ -102,8 +102,10 @@ private slots:
     void on_autoStartButton_clicked();  //Start-tab view: button
     void registrate();
     void sendXml();
-    void ackOfResult();
-    void ackOfRegistration();
+    void requestTopList();
+    void ackOfResult(QNetworkReply* reply);
+    void ackOfRegistration(QNetworkReply* reply);
+    void errorFromServer(QNetworkReply* reply);
 
     void after_timeout();
 };

@@ -12,6 +12,7 @@
 
 #include <QXmlStreamReader>
 #include <QStringList>
+#include <QNetworkReply>
 
 class XmlReader : public QObject
 {
@@ -39,7 +40,8 @@ private:
     QString value;
 
 public slots:
-    void xmlRead(QIODevice* device);
+    //void xmlRead(QIODevice* device);
+    void xmlRead(QNetworkReply* device);
     void xmlShow();
 };
 

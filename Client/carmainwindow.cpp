@@ -252,7 +252,8 @@ void CarMainWindow::on_registratePushButton_clicked()
   */
 void CarMainWindow::on_buttonTopRefresh_clicked()
 {
-    setCategoryCompoBox();
+    //setCategoryCompoBox();
+    requestTopList();
 }
 
 /**
@@ -296,10 +297,9 @@ void CarMainWindow::registrate()
     qDebug() << this->myRegistration->getUserName() << "+" << this->myRegistration->getPassword() << "+" << this->myRegistration->getEmail();
 
     QBuffer *regbuffer = new QBuffer();
-
     QNetworkReply *currentDownload;
 
-    QUrl qurl("http//:api.speedfreak-app.com/register");
+    QUrl qurl("http://api.speedfreak-app.com/register");
     QNetworkRequest request(qurl);
 
     //write also to a file during development, :
@@ -317,6 +317,12 @@ void CarMainWindow::registrate()
 
     //ackFromServer function gets called when HTTP request is completed
     connect(currentDownload, SIGNAL(finished()),SLOT(ackOfRegistration()));
+    manager->post(request, ("data=" + regbuffer->data()));
+
+    //ackOfRegistration function gets called when HTTP request is completed
+    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfRegistration()));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfRegistration(QNetworkReply*)));
+    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 }
 
 /**
@@ -330,52 +336,117 @@ void CarMainWindow::sendXml()
     QBuffer *xmlbuffer = new QBuffer();
     QNetworkReply *currentDownload;
 
+    QString category_name = "acceleration-0-100";    //replace with real value from category list
+
     QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
 
-    QUrl qurl("http//:api.speedfreak-app.com/update/acceleration-0-40");
+    QUrl qurl("http://api.speedfreak-app.com/update/category_name");
     QNetworkRequest request(qurl);
 
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
     xmlwriter->writeResult(xmlbuffer);
 
-    currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
+    //currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
+    manager->post(request, ("data=" + xmlbuffer->data()));
     //QString data("abcdefg");    //testing
     //currentDownload = manager->post(request,"data=" + QUrl::toPercentEncoding(data));   //testing
 
+    //ackOfResult function gets called when HTTP request is completed
+    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfResult()));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfResult(QNetworkReply*)));
+    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 
-    //ackFromServer function gets called when HTTP request is completed
-    connect(currentDownload, SIGNAL(finished()),SLOT(ackOfResult()));
+}
 
+/**
+  *@brief Sends request to the server for a top list with authentication information in the header.
+  *@todo Write error handling.
+  *@todo Replace with real value from category list and limit
+  */
+void CarMainWindow::requestTopList()
+{
+    qDebug() << "_registrate" ;
+
+    QString category_name = "acceleration-0-100";    //replace with real value from category list/top window
+    int limit = 5;
+    //QNetworkReply *currentDownload;
+
+    QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+
+    QUrl qurl("http://api.speedfreak-app.com/results/category_name/limit");
+    QNetworkRequest request(qurl);
+
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    //currentDownload = manager->post(request, ("data=" ));
+    manager->post(request, ("data=" ));
+
+    //ackOfResult function gets called when HTTP request is completed
+    //connect(currentDownload, SIGNAL(error()),SLOT(errorFromServer()));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
+    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 }
 
 /**
   *@brief React to servers responce after result has been sent.
   *@todo Implement function and write error handling.
   */
-void CarMainWindow::ackOfResult()
+void CarMainWindow::ackOfResult(QNetworkReply* reply)
 {
-    qDebug() << "Server acknowledged posting of result";
+    qDebug() << "_ackOfResult";
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() << errorcode << reply->errorString();
+    }
+    else {
+        qDebug() << errorcode;
+    }
 }
 
 /**
   *@brief React to servers responce after registration has been sent.
   *@todo Implement function and write error handling.
   */
-
-void CarMainWindow::ackOfRegistration()
+void CarMainWindow::ackOfRegistration(QNetworkReply* reply)
 {
-    qDebug() << "Server acknowledged registration";
+    qDebug() << "_ackOfRegistration";
+    qDebug() << reply->readAll();
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() << errorcode << reply->errorString();
+    }
+    else {
+        qDebug() << errorcode;
+    }
 }
 
+
+
+void CarMainWindow::errorFromServer(QNetworkReply* reply)
+{
+    qDebug() << "_errorFromServer";
+    QNetworkReply::NetworkError errorcode;
+
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() << errorcode;
+    }
+    else {
+        qDebug() << errorcode;
+    }
+
+}
 
 /**
   *@brief Just for development, for the real button is not shown until
   *measurin started and there are results.
   *@todo Implement with real code and yet leave sendXml in the bottom in use.
   */
-
 void CarMainWindow::on_manualStartButton_clicked()
 {
     sendXml();
