@@ -1,17 +1,16 @@
+/*
+ * Xml writer
+ *
+ * @author     Tiina Kivilinna-Korhola
+ * @copyright  (c) 2010 Speed Freak team
+ * license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef XMLWRITER_H
 #define XMLWRITER_H
 
 #include <QXmlStreamWriter>
 #include <QBuffer>
-
-
-/**
-  *This class
-  *@author Tiina Kivilinna-Korhola
-  *@copyright   (c) 2010 Speed Freak team
-  *@license     http://opensource.org/licenses/gpl-license.php GNU Public License
-  */
-
 
 class XmlWriter : public QObject
 {

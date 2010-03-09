@@ -1,3 +1,11 @@
+/*
+ * CarMainWindow main class
+ *
+ * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef RESULTDIALOG_H
 #define RESULTDIALOG_H
 
