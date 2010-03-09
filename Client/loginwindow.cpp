@@ -9,7 +9,6 @@
 
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
@@ -47,6 +46,8 @@ void LoginWindow::on_loginPushButton_clicked()
 {
     this->username = ui->userNameLineEdit->text();
     this->password = ui->passwordLineEdit->text();
+
+    emit userNameChanged();
     close();
 }
 

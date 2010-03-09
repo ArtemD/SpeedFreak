@@ -47,8 +47,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     timer->setInterval(300);
 
     connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
+    connect(myLogin, SIGNAL( userNameChanged()), this, SLOT(updateUserName()));
 
     ui->labelMeasureTabResult->hide();
+
+    this->setWindowTitle("Speed bfreak");
 
 }
 
@@ -233,10 +236,7 @@ void CarMainWindow::on_pushButton_clicked()
   */
 void CarMainWindow::on_loginLogoutButton_clicked()
 {
-    //LoginWindow myLogin;
-
     myLogin->show();
-    //ui->loginLogoutButton->setText("logout");
 }
 
 /**
@@ -588,4 +588,23 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
     emit sendresult();
+}
+
+void CarMainWindow::updateUserName()
+{
+    QString newUserName;
+
+    newUserName = myLogin->getUserName();
+    ui->userNameLabel->setText( "User: " + newUserName);
+
+    if (newUserName.length())
+    {
+       ui->setUserPushButton->setText( "Change User");
+       this->setWindowTitle("Speed freak - " + newUserName);
+    }
+    else
+    {
+        ui->setUserPushButton->setText( "Set User");
+        this->setWindowTitle("Speed freak");
+    }
 }
