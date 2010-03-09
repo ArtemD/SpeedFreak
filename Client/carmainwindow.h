@@ -1,13 +1,13 @@
-/**
-  * CarMainWindow main class
-  *
-  * @author     Toni Jussila <toni.jussila@fudeco.com>
-  * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
-  * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
-  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
-  * @copyright  (c) 2010 Speed Freak team
-  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
-  */
+/*
+ * CarMainWindow main class
+ *
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
+ * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
 #ifndef CARMAINWINDOW_H
 #define CARMAINWINDOW_H
@@ -25,14 +25,16 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QDebug>
-#include "resultdialog.h"
-#include "measuredialog.h"
+//#include "resultdialog.h"
+//#include "measuredialog.h"
 #include "loginwindow.h"
 #include "registration.h"
 #include "xmlwriter.h"
 #include "xmlreader.h"
 #include "ui_carmainwindow.h"
 #include "stringlistmodel.h"
+#include "measures.h"
+#include "accelerometer.h"
 
 namespace Ui {
     class CarMainWindow;
@@ -54,8 +56,8 @@ protected:
 
 private:
     Ui::CarMainWindow *ui;
-    ResultDialog *result;
-    MeasureDialog *measure;
+    //ResultDialog *result;
+    //MeasureDialog *measure;
     XmlReader *xmlreader;
     XmlWriter *xmlwriter;
     QNetworkAccessManager* manager;
@@ -65,12 +67,26 @@ private:
     void initComboBoxStartTabUnits();    //Start-tab view
     void initListViewStartTabAccelerationCategories();   //Start-tab view
 
+    void initializeMeasures();
+
 private:
     QStringList accelerationCategoriesStartTab; //Start-tab view
     QStringList units;  //Start-tab view
     QStringList categories; //Top-tab view
 
+    QTimer *timer;
+    Accelerometer *accelerometer;
+    double time;
+    double speed;
+    Measures *measures;
+
+signals:
+void speedAchieved();
+void sendresult();
+
 private slots:
+    void on_pushButtonSendResult_clicked();
+    void on_pushButtonMeasureTabAbort_clicked();
     void on_manualStartButton_clicked();
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
@@ -86,8 +102,12 @@ private slots:
     void on_autoStartButton_clicked();  //Start-tab view: button
     void registrate();
     void sendXml();
-    void ackOfResult();
-    void ackOfRegistration();
+    void requestTopList();
+    void ackOfResult(QNetworkReply* reply);
+    void ackOfRegistration(QNetworkReply* reply);
+    void errorFromServer(QNetworkReply* reply);
+
+    void after_timeout();
 };
 
 #endif // CARMAINWINDOW_H

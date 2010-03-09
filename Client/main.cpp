@@ -1,10 +1,10 @@
-/**
-  * CarMainWindow main class
-  *
-  * @author     Toni Jussila <toni.jussila@fudeco.com>
-  * @copyright  (c) 2010 Speed Freak team
-  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
-  */
+/*
+ * CarMainWindow main class
+ *
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
 #include <QtGui/QApplication>
 #include "carmainwindow.h"

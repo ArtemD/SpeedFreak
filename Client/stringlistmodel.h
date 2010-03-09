@@ -1,3 +1,12 @@
+/*
+ * Stringlistmodel class
+ *
+ * @author      Toni Jussila <toni.jussila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @exaple      http://qt.nokia.com/doc/4.0/qt4-interview.html#example-code
+ */
+
 #ifndef STRINGLISTMODEL_H
 #define STRINGLISTMODEL_H
 #include <QAbstractListModel>

@@ -1,3 +1,11 @@
+/*
+ * Xml writer
+ *
+ * @author     Tiina Kivilinna-Korhola
+ * @copyright  (c) 2010 Speed Freak team
+ * license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include <QtGui>
 #include <QNetworkRequest>
 #include <QIODevice>

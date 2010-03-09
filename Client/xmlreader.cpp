@@ -1,11 +1,11 @@
-/**
-  * Parse xml file
-  *
-  * @author     Toni Jussila <toni.jussila@fudeco.com>
-  * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
-  * @copyright  (c) 2010 Speed Freak team
-  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
-  */
+/*
+ * Parse xml file
+ *
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
 #include <QFile>
 #include <QDebug>
@@ -35,7 +35,8 @@ XmlReader::~XmlReader()
 /**
   *This function is used to parsing xml file.
   */
-void XmlReader::xmlRead(QIODevice *device)
+//void XmlReader::xmlRead(QIODevice *device)
+void XmlReader::xmlRead(QNetworkReply* device)
 {
     qDebug() << "_xmlRead";
 
@@ -118,7 +119,7 @@ void XmlReader::xmlShow()
         return;
     }
 
-    xmlRead(&file);
+    //xmlRead(&file);
     file.close();
 }
 

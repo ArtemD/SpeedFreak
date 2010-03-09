@@ -1,7 +1,7 @@
 /*
  * Calculate class to process accelerometer data
  *
- * @author      Kai Rasilainen 
+ * @author      Kai Rasilainen
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -11,6 +11,7 @@
 
 #include <QObject>
 #include <QTime>
+#include <QList>
 
 class Calculate : public QObject
 {
@@ -62,6 +63,13 @@ private:
     long numOfIterations;
     double totalTime;
     int count;
+    double peakPower;
+    double currentPower;
+    double averagePower;
+    QList<int> speedCheckPoints;
+
+signals:
+    void checkPointReached(double totalTime, double currentSpeed);
 
 };
 
