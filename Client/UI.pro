@@ -1,11 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-02-23T14:17:30
-#
 # @author     Speed Freak team
 # @copyright  (c) 2010 Speed Freak team
 # @license    http://opensource.org/licenses/gpl-license.php GNU Public License
 # -------------------------------------------------
-
 QT += network \
     xml
 TARGET = UI
@@ -21,8 +19,8 @@ SOURCES += main.cpp \
     registration.cpp \
     measures.cpp \
     xmlwriter.cpp \
-    xmlreader.cpp
-
+    xmlreader.cpp \
+    httpclient.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -33,8 +31,8 @@ HEADERS += carmainwindow.h \
     registration.h \
     measures.h \
     xmlwriter.h \
-    xmlreader.h
-
+    xmlreader.h \
+    httpclient.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
