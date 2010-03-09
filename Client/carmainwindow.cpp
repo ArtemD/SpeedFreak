@@ -215,14 +215,6 @@ void CarMainWindow::openResultView()
 }
 
 /**
-  *This slot function is called when the server has finished guery.
-  */
-void CarMainWindow::networkResponse(QNetworkReply *reply)
-{
-
-}
-
-/**
   *This slot function is called when the user will to send data to server.
   *@todo Where is this callback connected?
   */
@@ -297,15 +289,11 @@ void CarMainWindow::registrate()
     qDebug() << this->myRegistration->getUserName() << "+" << this->myRegistration->getPassword() << "+" << this->myRegistration->getEmail();
 
     QBuffer *regbuffer = new QBuffer();
-    QNetworkReply *currentDownload;
-
-    QUrl qurl("http://api.speedfreak-app.com/register");
+    QUrl qurl("http://api.speedfreak-app.com/api/register");
     QNetworkRequest request(qurl);
+    qDebug() << qurl.toString();
 
-    //write also to a file during development, :
-    xmlwriter->writeXml(this->myRegistration->getUserName(),
-                      this->myRegistration->getPassword(),
-                      this->myRegistration->getEmail());
+    regbuffer->open(QBuffer::ReadWrite);
     xmlwriter->writeRegistering(regbuffer,
                       this->myRegistration->getUserName(),
                       this->myRegistration->getPassword(),
@@ -313,16 +301,13 @@ void CarMainWindow::registrate()
     //Tmp msgbox - later server responce
     QMessageBox::about(this,"Registrate",this->myRegistration->getUserName() + this->myRegistration->getPassword() + this->myRegistration->getEmail());
 
-    currentDownload = manager->post(request, ("data=" + regbuffer->data()));
-
-    //ackFromServer function gets called when HTTP request is completed
-    connect(currentDownload, SIGNAL(finished()),SLOT(ackOfRegistration()));
     manager->post(request, ("data=" + regbuffer->data()));
+    qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
 
     //ackOfRegistration function gets called when HTTP request is completed
-    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfRegistration()));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfRegistration(QNetworkReply*)));
     connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
+    regbuffer->close();
 }
 
 /**
@@ -334,60 +319,64 @@ void CarMainWindow::sendXml()
     qDebug() << "_sendXml";
 
     QBuffer *xmlbuffer = new QBuffer();
-    QNetworkReply *currentDownload;
-
     QString category_name = "acceleration-0-100";    //replace with real value from category list
 
     QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
 
-    QUrl qurl("http://api.speedfreak-app.com/update/category_name");
+    QUrl qurl("http://api.speedfreak-app.com/api/update/" + category_name);
+    qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
-
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
+    xmlbuffer->open(QBuffer::ReadWrite);
     xmlwriter->writeResult(xmlbuffer);
+    qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
 
-    //currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
     manager->post(request, ("data=" + xmlbuffer->data()));
-    //QString data("abcdefg");    //testing
-    //currentDownload = manager->post(request,"data=" + QUrl::toPercentEncoding(data));   //testing
-
-    //ackOfResult function gets called when HTTP request is completed
-    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfResult()));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfResult(QNetworkReply*)));
     connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 
+    //QString data("abcdefg");
+    //QNetworkReply *currentDownload;
+    //currentDownload = manager->post(request,"data=" + QUrl::toPercentEncoding(data));   //testing
+    //currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
+    //ackOfResult function gets called when HTTP request is completed
+    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfResult()));
+
+    xmlbuffer->close();
 }
 
 /**
   *@brief Sends request to the server for a top list with authentication information in the header.
   *@todo Write error handling.
-  *@todo Replace with real value from category list and limit
+  *@todo Replace with real value from category list and limitNr
   */
 void CarMainWindow::requestTopList()
 {
-    qDebug() << "_registrate" ;
+    qDebug() << "_requestTopList" ;
 
+    QString urlBase = "http://api.speedfreak-app.com/api/results/";
     QString category_name = "acceleration-0-100";    //replace with real value from category list/top window
-    int limit = 5;
-    //QNetworkReply *currentDownload;
+    int limitNr = 5;
+    QString limit = QString::number(limitNr);
 
     QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
 
-    QUrl qurl("http://api.speedfreak-app.com/results/category_name/limit");
+    QUrl qurl(urlBase + category_name + "/" + limit);
+    qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
 
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
-
-    //currentDownload = manager->post(request, ("data=" ));
     manager->post(request, ("data=" ));
-
-    //ackOfResult function gets called when HTTP request is completed
-    //connect(currentDownload, SIGNAL(error()),SLOT(errorFromServer()));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
     connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
+
+    //QNetworkReply *currentDownload;
+    //currentDownload = manager->post(request, ("data=" ));
+    //ackOfResult function gets called when HTTP request is completed
+    //connect(currentDownload, SIGNAL(error()),SLOT(errorFromServer()));
 }
 
 /**
@@ -397,13 +386,14 @@ void CarMainWindow::requestTopList()
 void CarMainWindow::ackOfResult(QNetworkReply* reply)
 {
     qDebug() << "_ackOfResult";
+    qDebug() << reply->readAll();
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() << errorcode << reply->errorString();
     }
     else {
-        qDebug() << errorcode;
+        qDebug() << "errorcode=0";
     }
 }
 
@@ -418,10 +408,10 @@ void CarMainWindow::ackOfRegistration(QNetworkReply* reply)
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
-        qDebug() << errorcode << reply->errorString();
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
     }
     else {
-        qDebug() << errorcode;
+        qDebug() << "errorcode=0";
     }
 }
 
@@ -439,7 +429,24 @@ void CarMainWindow::errorFromServer(QNetworkReply* reply)
     else {
         qDebug() << errorcode;
     }
+}
 
+/**
+  *This slot function is called when the server has finished guery.
+  */
+void CarMainWindow::networkResponse(QNetworkReply *reply)
+{
+    qDebug() << "_networkResponse";
+    xmlreader->xmlRead(reply);
+    qDebug() << reply->readAll();
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() << errorcode << reply->errorString();
+    }
+    else {
+        qDebug() << "errorcode=0";
+    }
 }
 
 /**

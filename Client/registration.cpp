@@ -17,6 +17,11 @@ Registration::Registration(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Registration for Speed Freak server");
+
+    //Let`s not type it again
+    ui->newUsernameLineEdit->setText("user123");
+    ui->newPasswordLineEdit->setText("salainen");
+    ui->eMailLineEdit->setText("user123@emaili.fi");
 }
 
 Registration::~Registration()
@@ -38,13 +43,6 @@ void Registration::changeEvent(QEvent *e)
 
 void Registration::on_registratePushButton_clicked()
 {
-    //Let`s not type it again
-    ui->newUsernameLineEdit->setText("user123");
-    ui->newPasswordLineEdit->setText("salainen");
-    ui->eMailLineEdit->setText("user123@emaili.fi");
-
-    for(int i = 0; i < 3000; i++);
-
     // Send username, password and email to SpeedFreak server
     this->username = ui->newUsernameLineEdit->text();
     this->password = ui->newPasswordLineEdit->text();

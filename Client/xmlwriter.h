@@ -11,21 +11,32 @@
 
 #include <QXmlStreamWriter>
 #include <QBuffer>
+#include <QtGui>
+#include <QNetworkRequest>
+#include <QIODevice>
+#include <QFile>
+#include <QMessageBox>
+#include <QDebug>
+#include <QDateTime>
+#include <QDate>
+#include <QTime>
+#include <QByteArray>
+#include <QApplication>
+
 
 class XmlWriter : public QObject
 {
 public:
     XmlWriter();
     ~XmlWriter();
+    int tmpvalue;
 
 private:
     QXmlStreamWriter xmlwriter;
 
 public slots:
     void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
-    //void writeRegistering(QIODevice *netbuf, QString usr, QString psswd, QString email);
     void writeResult(QBuffer *netbuf);
-    //void writeResult(QIODevice *netbuf);
     bool writeXmlFile(QIODevice *device);
     void writeXml(QString usr, QString psswd, QString email);
     void writeItems();

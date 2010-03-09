@@ -6,16 +6,6 @@
  * license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-#include <QtGui>
-#include <QNetworkRequest>
-#include <QIODevice>
-#include <QFile>
-#include <QMessageBox>
-#include <QDebug>
-#include <QDateTime>
-#include <QDate>
-#include <QTime>
-#include <QApplication>
 #include "xmlwriter.h"
 
 
@@ -26,7 +16,7 @@
   */
 XmlWriter::XmlWriter()
 {
-
+    tmpvalue = 10;
 }
 
 /**
@@ -36,6 +26,7 @@ XmlWriter::~XmlWriter()
 {
 
 }
+
 /**
   *@brief Writes registration items into tags.
   *@param netbuf a buffer where xmlstreamwriter writes to.
@@ -44,8 +35,9 @@ XmlWriter::~XmlWriter()
   *@param email.
   */
 void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email)
-//void XmlWriter::writeRegistering(QIODevice *netbuf, QString usr, QString psswd, QString email)
 {
+    qDebug() << "_writeRegistering";
+
     xmlwriter.setDevice(netbuf);
 
     xmlwriter.writeStartDocument();
@@ -74,13 +66,16 @@ void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QS
   *@todo Replace test value to finally used variables.
   */
 void XmlWriter::writeResult(QBuffer *netbuf)
-//void XmlWriter::writeResult(QIODevice *netbuf)
 {
+    qDebug() << "_writeResult";
+
     xmlwriter.setDevice(netbuf);
 
     xmlwriter.writeStartDocument();
     xmlwriter.writeStartElement("result");
-    xmlwriter.writeAttribute("value", QString::number(14));
+    tmpvalue++;
+    qDebug() << tmpvalue;
+    xmlwriter.writeAttribute("value", QString::number(tmpvalue));
     xmlwriter.writeAttribute("unit", "seconds");
     xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
     xmlwriter.writeEndElement();
