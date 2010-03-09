@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'resultdialog.ui'
 **
-** Created: Fri Mar 5 08:43:19 2010
+** Created: Mon Mar 8 14:37:37 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -17,6 +17,7 @@
 #include <QtGui/QDialog>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QPushButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -49,6 +50,7 @@ public:
     QLabel *labelXLine;
     QLabel *labelX10;
     QLabel *labelX4;
+    QPushButton *pushButtonSend;
 
     void setupUi(QDialog *ResultDialog)
     {
@@ -158,6 +160,9 @@ public:
         labelX4->setObjectName(QString::fromUtf8("labelX4"));
         labelX4->setGeometry(QRect(160, 350, 31, 17));
         labelX4->setFont(font);
+        pushButtonSend = new QPushButton(ResultDialog);
+        pushButtonSend->setObjectName(QString::fromUtf8("pushButtonSend"));
+        pushButtonSend->setGeometry(QRect(402, 330, 101, 27));
 
         retranslateUi(ResultDialog);
 
@@ -193,6 +198,7 @@ public:
         labelXLine->setText(QApplication::translate("ResultDialog", "X", 0, QApplication::UnicodeUTF8));
         labelX10->setText(QApplication::translate("ResultDialog", "10", 0, QApplication::UnicodeUTF8));
         labelX4->setText(QApplication::translate("ResultDialog", "4", 0, QApplication::UnicodeUTF8));
+        pushButtonSend->setText(QApplication::translate("ResultDialog", "Send results", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(ResultDialog);
     } // retranslateUi
 
