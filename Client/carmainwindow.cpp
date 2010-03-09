@@ -40,12 +40,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     accelerometer = new Accelerometer();
     accelerometer->setSampleRate(100);
-    accelerometer->start();
 
     measures = new Measures();
     this->initializeMeasures();
 
-    timer->setInterval(1000);
+    timer->setInterval(300);
 
     connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
 
@@ -106,6 +105,7 @@ void CarMainWindow::on_autoStartButton_clicked()
     //measure = NULL;
     //measure = new MeasureDialog();
    // connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+    accelerometer->start();
     timer->start();
     // Show measure dialog.
     //measure->show();
