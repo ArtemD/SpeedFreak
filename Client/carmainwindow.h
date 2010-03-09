@@ -82,7 +82,6 @@ private:
 
 signals:
 void speedAchieved();
-void sendresult();
 void userNameChanged();
 
 private slots:
@@ -93,7 +92,7 @@ private slots:
     void on_registratePushButton_clicked();
     void on_loginLogoutButton_clicked();
     void on_comboBoxTopCategory_activated(QString );
-    void on_pushButton_clicked();
+    //void on_pushButton_clicked();
     void networkResponse(QNetworkReply*);
     void on_comboBoxTopCategory_currentIndexChanged(QString category); //Top-tab view
     void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index); //Start-tab view

@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'carmainwindow.ui'
+** Form generated from reading UI file 'carmainwindow.ui'
 **
-** Created: Mon Mar 8 15:04:52 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Tue Mar 9 21:21:59 2010
+**      by: Qt User Interface Compiler version 4.6.1
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_CARMAINWINDOW_H
@@ -66,19 +66,19 @@ public:
     QLabel *labelMeasureTabHeader;
     QLabel *labelMeasureTabResultHeader;
     QPushButton *pushButtonSendResult;
-    QWidget *widget;
+    QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayoutMeasureTabTime;
     QLabel *labelMeasureTabTimeHeader;
     QLabel *labelMeasureTabTime;
-    QWidget *widget1;
+    QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayoutMeasureTabSpeed;
     QLabel *labelMeasureTabSpeedHeader;
     QLabel *labelMeasureTabSpeed;
-    QWidget *widget2;
+    QWidget *layoutWidget5;
     QHBoxLayout *horizontalLayout_2;
     QLabel *labelMeasureTabResultHeader_2;
     QLabel *labelMeasureTabResult;
-    QWidget *layoutWidget3;
+    QWidget *layoutWidget6;
     QHBoxLayout *horizontalLayout;
     QPushButton *view1Button;
     QPushButton *view2Button;
@@ -106,7 +106,7 @@ public:
         layoutWidget->setGeometry(QRect(590, 220, 171, 91));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
-        verticalLayout->setMargin(11);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         autoStartButton = new QPushButton(layoutWidget);
@@ -134,7 +134,7 @@ public:
         layoutWidget1->setGeometry(QRect(270, 10, 311, 301));
         verticalLayout_2 = new QVBoxLayout(layoutWidget1);
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setMargin(11);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         startLabel = new QLabel(layoutWidget1);
@@ -187,7 +187,7 @@ public:
         layoutWidget2->setGeometry(QRect(10, 10, 341, 141));
         verticalLayout_3 = new QVBoxLayout(layoutWidget2);
         verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setMargin(11);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         labelCategory = new QLabel(layoutWidget2);
@@ -216,10 +216,10 @@ public:
         settingsTab->setObjectName(QString::fromUtf8("settingsTab"));
         userNameLabel = new QLabel(settingsTab);
         userNameLabel->setObjectName(QString::fromUtf8("userNameLabel"));
-        userNameLabel->setGeometry(QRect(20, 30, 141, 17));
+        userNameLabel->setGeometry(QRect(20, 30, 521, 31));
         setUserPushButton = new QPushButton(settingsTab);
         setUserPushButton->setObjectName(QString::fromUtf8("setUserPushButton"));
-        setUserPushButton->setGeometry(QRect(20, 60, 93, 27));
+        setUserPushButton->setGeometry(QRect(20, 76, 151, 41));
         tabWidget->addTab(settingsTab, QString());
         tabMeasureResult = new QWidget();
         tabMeasureResult->setObjectName(QString::fromUtf8("tabMeasureResult"));
@@ -241,92 +241,92 @@ public:
         pushButtonSendResult = new QPushButton(tabMeasureResult);
         pushButtonSendResult->setObjectName(QString::fromUtf8("pushButtonSendResult"));
         pushButtonSendResult->setGeometry(QRect(370, 240, 161, 51));
-        widget = new QWidget(tabMeasureResult);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(40, 60, 171, 61));
-        horizontalLayoutMeasureTabTime = new QHBoxLayout(widget);
+        layoutWidget3 = new QWidget(tabMeasureResult);
+        layoutWidget3->setObjectName(QString::fromUtf8("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(40, 60, 171, 61));
+        horizontalLayoutMeasureTabTime = new QHBoxLayout(layoutWidget3);
         horizontalLayoutMeasureTabTime->setSpacing(6);
-        horizontalLayoutMeasureTabTime->setMargin(11);
+        horizontalLayoutMeasureTabTime->setContentsMargins(11, 11, 11, 11);
         horizontalLayoutMeasureTabTime->setObjectName(QString::fromUtf8("horizontalLayoutMeasureTabTime"));
         horizontalLayoutMeasureTabTime->setContentsMargins(0, 0, 0, 0);
-        labelMeasureTabTimeHeader = new QLabel(widget);
+        labelMeasureTabTimeHeader = new QLabel(layoutWidget3);
         labelMeasureTabTimeHeader->setObjectName(QString::fromUtf8("labelMeasureTabTimeHeader"));
 
         horizontalLayoutMeasureTabTime->addWidget(labelMeasureTabTimeHeader);
 
-        labelMeasureTabTime = new QLabel(widget);
+        labelMeasureTabTime = new QLabel(layoutWidget3);
         labelMeasureTabTime->setObjectName(QString::fromUtf8("labelMeasureTabTime"));
 
         horizontalLayoutMeasureTabTime->addWidget(labelMeasureTabTime);
 
-        widget1 = new QWidget(tabMeasureResult);
-        widget1->setObjectName(QString::fromUtf8("widget1"));
-        widget1->setGeometry(QRect(40, 160, 171, 61));
-        horizontalLayoutMeasureTabSpeed = new QHBoxLayout(widget1);
+        layoutWidget4 = new QWidget(tabMeasureResult);
+        layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(40, 160, 171, 61));
+        horizontalLayoutMeasureTabSpeed = new QHBoxLayout(layoutWidget4);
         horizontalLayoutMeasureTabSpeed->setSpacing(6);
-        horizontalLayoutMeasureTabSpeed->setMargin(11);
+        horizontalLayoutMeasureTabSpeed->setContentsMargins(11, 11, 11, 11);
         horizontalLayoutMeasureTabSpeed->setObjectName(QString::fromUtf8("horizontalLayoutMeasureTabSpeed"));
         horizontalLayoutMeasureTabSpeed->setContentsMargins(0, 0, 0, 0);
-        labelMeasureTabSpeedHeader = new QLabel(widget1);
+        labelMeasureTabSpeedHeader = new QLabel(layoutWidget4);
         labelMeasureTabSpeedHeader->setObjectName(QString::fromUtf8("labelMeasureTabSpeedHeader"));
 
         horizontalLayoutMeasureTabSpeed->addWidget(labelMeasureTabSpeedHeader);
 
-        labelMeasureTabSpeed = new QLabel(widget1);
+        labelMeasureTabSpeed = new QLabel(layoutWidget4);
         labelMeasureTabSpeed->setObjectName(QString::fromUtf8("labelMeasureTabSpeed"));
 
         horizontalLayoutMeasureTabSpeed->addWidget(labelMeasureTabSpeed);
 
-        widget2 = new QWidget(tabMeasureResult);
-        widget2->setObjectName(QString::fromUtf8("widget2"));
-        widget2->setGeometry(QRect(370, 60, 151, 61));
-        horizontalLayout_2 = new QHBoxLayout(widget2);
+        layoutWidget5 = new QWidget(tabMeasureResult);
+        layoutWidget5->setObjectName(QString::fromUtf8("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(370, 60, 151, 61));
+        horizontalLayout_2 = new QHBoxLayout(layoutWidget5);
         horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setMargin(11);
+        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        labelMeasureTabResultHeader_2 = new QLabel(widget2);
+        labelMeasureTabResultHeader_2 = new QLabel(layoutWidget5);
         labelMeasureTabResultHeader_2->setObjectName(QString::fromUtf8("labelMeasureTabResultHeader_2"));
 
         horizontalLayout_2->addWidget(labelMeasureTabResultHeader_2);
 
-        labelMeasureTabResult = new QLabel(widget2);
+        labelMeasureTabResult = new QLabel(layoutWidget5);
         labelMeasureTabResult->setObjectName(QString::fromUtf8("labelMeasureTabResult"));
 
         horizontalLayout_2->addWidget(labelMeasureTabResult);
 
         tabWidget->addTab(tabMeasureResult, QString());
-        layoutWidget3 = new QWidget(centralWidget);
-        layoutWidget3->setObjectName(QString::fromUtf8("layoutWidget3"));
-        layoutWidget3->setGeometry(QRect(10, 380, 781, 31));
-        horizontalLayout = new QHBoxLayout(layoutWidget3);
+        layoutWidget6 = new QWidget(centralWidget);
+        layoutWidget6->setObjectName(QString::fromUtf8("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(10, 380, 781, 31));
+        horizontalLayout = new QHBoxLayout(layoutWidget6);
         horizontalLayout->setSpacing(6);
-        horizontalLayout->setMargin(11);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        view1Button = new QPushButton(layoutWidget3);
+        view1Button = new QPushButton(layoutWidget6);
         view1Button->setObjectName(QString::fromUtf8("view1Button"));
 
         horizontalLayout->addWidget(view1Button);
 
-        view2Button = new QPushButton(layoutWidget3);
+        view2Button = new QPushButton(layoutWidget6);
         view2Button->setObjectName(QString::fromUtf8("view2Button"));
 
         horizontalLayout->addWidget(view2Button);
 
-        view3Button = new QPushButton(layoutWidget3);
+        view3Button = new QPushButton(layoutWidget6);
         view3Button->setObjectName(QString::fromUtf8("view3Button"));
 
         horizontalLayout->addWidget(view3Button);
 
-        view4Button = new QPushButton(layoutWidget3);
+        view4Button = new QPushButton(layoutWidget6);
         view4Button->setObjectName(QString::fromUtf8("view4Button"));
 
         horizontalLayout->addWidget(view4Button);
 
         registratePushButton = new QPushButton(centralWidget);
         registratePushButton->setObjectName(QString::fromUtf8("registratePushButton"));
-        registratePushButton->setGeometry(QRect(690, 0, 93, 27));
+        registratePushButton->setGeometry(QRect(642, 0, 141, 31));
         CarMainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(CarMainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -379,7 +379,6 @@ public:
         view3Button->setText(QApplication::translate("CarMainWindow", "View3", 0, QApplication::UnicodeUTF8));
         view4Button->setText(QApplication::translate("CarMainWindow", "View4", 0, QApplication::UnicodeUTF8));
         registratePushButton->setText(QApplication::translate("CarMainWindow", "Registrate", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(CarMainWindow);
     } // retranslateUi
 
 };

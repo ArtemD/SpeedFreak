@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'resultdialog.ui'
+** Form generated from reading UI file 'resultdialog.ui'
 **
-** Created: Mon Mar 8 14:37:37 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Tue Mar 9 21:21:59 2010
+**      by: Qt User Interface Compiler version 4.6.1
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_RESULTDIALOG_H
@@ -199,7 +199,6 @@ public:
         labelX10->setText(QApplication::translate("ResultDialog", "10", 0, QApplication::UnicodeUTF8));
         labelX4->setText(QApplication::translate("ResultDialog", "4", 0, QApplication::UnicodeUTF8));
         pushButtonSend->setText(QApplication::translate("ResultDialog", "Send results", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(ResultDialog);
     } // retranslateUi
 
 };

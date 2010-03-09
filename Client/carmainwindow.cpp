@@ -30,9 +30,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     myRegistration = new Registration(this);
     xmlwriter = new XmlWriter();
     manager = new QNetworkAccessManager(this);
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
-    connect(this,SIGNAL(sendresult()),this,SLOT(sendXml()));
 
     time = 0;
     speed = 0;
@@ -51,7 +49,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     ui->labelMeasureTabResult->hide();
 
-    this->setWindowTitle("Speed bfreak");
+    this->setWindowTitle("Speed freak");
 
 }
 
@@ -214,14 +212,6 @@ void CarMainWindow::openResultView()
     //ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
-/**
-  *This slot function is called when the user will to send data to server.
-  *@todo Where is this callback connected?
-  */
-void CarMainWindow::on_pushButton_clicked()
-{
-     sendXml();
-}
 
 /**
   *This slot function is called when login/logout button is clicked.
@@ -306,7 +296,7 @@ void CarMainWindow::registrate()
 
     //ackOfRegistration function gets called when HTTP request is completed
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfRegistration(QNetworkReply*)));
-    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
+    //connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
     regbuffer->close();
 }
 
@@ -334,15 +324,15 @@ void CarMainWindow::sendXml()
     qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
 
     manager->post(request, ("data=" + xmlbuffer->data()));
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfResult(QNetworkReply*)));
-    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
+    //connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ackOfResult(QNetworkReply*)));
+    //connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 
-    //QString data("abcdefg");
     //QNetworkReply *currentDownload;
+    //QString data("abcdefg");
     //currentDownload = manager->post(request,"data=" + QUrl::toPercentEncoding(data));   //testing
     //currentDownload = manager->post(request, ("data=" + xmlbuffer->data()));
     //ackOfResult function gets called when HTTP request is completed
-    //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfResult()));
+    //connect(currentDownload, SIGNAL(finished()), SLOT(ackOfResult()));
 
     xmlbuffer->close();
 }
@@ -370,8 +360,8 @@ void CarMainWindow::requestTopList()
 
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
     manager->post(request, ("data=" ));
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
-    connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
+    //connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(networkResponse(QNetworkReply*)));
+    //connect(manager,SIGNAL(sslErrors(QNetworkReply*)),this,SLOT(errorFromServer(QNetworkReply*)));
 
     //QNetworkReply *currentDownload;
     //currentDownload = manager->post(request, ("data=" ));
@@ -414,8 +404,6 @@ void CarMainWindow::ackOfRegistration(QNetworkReply* reply)
         qDebug() << "errorcode=0";
     }
 }
-
-
 
 void CarMainWindow::errorFromServer(QNetworkReply* reply)
 {
@@ -594,7 +582,8 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
 
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
-    emit sendresult();
+    sendXml();
+
 }
 
 void CarMainWindow::updateUserName()
