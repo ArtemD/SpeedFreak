@@ -19,4 +19,33 @@ class Api_Controller extends Controller{
     /*
      * New user registration
      */
+    public function register(){
+    	$xml = $this->get_xml();
+    	try {
+    	   $user = new User_Model($xml->login, $xml->password, $xml->email);
+    	   return "OK";
+    	}
+        catch (Exception $e) {
+            echo $e->getMessage() . "\n";
+            die;
+        } 
+    }
+    
+    /*
+     * Returns XML file supplied by client
+     */
+    private function get_xml(){
+        if (isset($_POST['xml'])){
+            $xml = simplexml_load_string($_POST['xml']);
+        }
+        elseif (isset($_FILES['xml'])){
+            $xml = simplexml_load_file($_FILES['xml']['tmp_name']);
+        }
+        else{
+            header("HTTP/1.1 400 Bad Request");
+            echo "Please supply required parameters";
+            die;
+        }
+        return $xml;
+    }
 }

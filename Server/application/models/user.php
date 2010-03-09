@@ -33,21 +33,43 @@ class User_Model extends Model {
                 throw new Exception('Password too long');
             elseif (valid::email($email) == False)
                 throw new Exception('Invalid email supplied');
+            elseif ($this->user_exists($username, $email))
+                throw new Exception('User already exists (login or email matched)');
                 
-            $this->register($username, $password, $email);
+            if ($this->register($username, $password, $email)->valid())
+                return true;
+            else
+                return false;
+            
         }
     }
     
     /*
      * Register new user
+     * 
      * @param string $username Length 3-12
      * @param string $password Length 6-255 (stored as sha1 hash in database)
      * @param string $email Valid email address
      * @return bool Returns True if operation was successfull and exception otherwise
      */
     private function register($username, $password, $email){
-    	return $db->query("INSERT into users SET username=?, password=?, email=?",
-    	           $username, $password, $email);
+    	return $this->db->query('INSERT into users SET username = ?, password = ?, email = ?',
+    	           $this->db->escape($username), $this->db->escape($password), $this->db->escape($email));
+    }
+    
+    /*
+     * Check if user already exists in database
+     * 
+     * @param string $username Username
+     * @param string $email Email address
+     * @return bool Returns True if user exists and false otherwise
+     */
+    private function user_exists($username, $email){
+        if ($this->db->query('SELECT id FROM users WHERE username = ? OR email = ?',
+                   $this->db->escape($username), $this->db->escape($email))->count()>0)
+            return true;
+        else
+            return false;
     }
  
 }
