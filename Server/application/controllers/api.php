@@ -23,7 +23,7 @@ class Api_Controller extends Controller{
     	$xml = $this->get_xml();
     	try {
     	   $user = new User_Model($xml->login, $xml->password, $xml->email);
-    	   return "OK";
+    	   echo "OK";
     	}
         catch (Exception $e) {
             echo $e->getMessage() . "\n";
