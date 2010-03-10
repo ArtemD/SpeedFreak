@@ -64,6 +64,8 @@ void Calculate::reset()
 void Calculate::calculateParameters(double currentAcceleration, double seconds)
 {
     double force, power1, power2;
+
+    currentAcceleration *= G_ACCELERATION;
     numOfIterations++;
     totalTime = (totalTime + seconds);
 
