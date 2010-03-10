@@ -212,15 +212,6 @@ void CarMainWindow::openResultView()
     //ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
-
-/**
-  *This slot function is called when login/logout button is clicked.
-  */
-void CarMainWindow::on_loginLogoutButton_clicked()
-{
-    myLogin->show();
-}
-
 /**
   *This slot function is called when registrate button is clicked.
   */
@@ -262,9 +253,6 @@ void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
 void CarMainWindow::on_setUserPushButton_clicked()
 {
     myLogin->show();
-
-    ui->userNameLabel->setText( "User: " + myLogin->getUserName());
-    ui->setUserPushButton->setText( "Change User");
 }
 
 /**

@@ -90,7 +90,6 @@ private slots:
     void on_manualStartButton_clicked();
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
-    void on_loginLogoutButton_clicked();
     void on_comboBoxTopCategory_activated(QString );
     //void on_pushButton_clicked();
     void networkResponse(QNetworkReply*);
