@@ -5,6 +5,7 @@
 # @license    http://opensource.org/licenses/gpl-license.php GNU Public License
 # -------------------------------------------------
 QT += network \
+    dbus \
     xml
 TARGET = UI
 TEMPLATE = app
