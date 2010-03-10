@@ -59,7 +59,7 @@ void Calculate::reset()
   * This function should be called 20-30 times/second to minimize
   * calculation error.
 
-  * To be added: params like horsepower.
+  * To be added: ---
   */
 void Calculate::calculateParameters(double currentAcceleration, double seconds)
 {
@@ -146,8 +146,8 @@ void Calculate::accelStoppedCheck(double currentAcceleration)
         count = 0;
     }
 
-    // if count exceeds 25, we assume that velocity is zero
-    if (count >= 25)
+    // if count exceeds 15, we assume that velocity is zero
+    if (count >= 15)
     {
         currentSpeed=0;
     }
@@ -234,3 +234,42 @@ void Calculate::setTotalTime(double value)
 {
     totalTime = value;
 }
+
+double Calculate::getCurrentPower()
+{
+    return currentPower;
+}
+
+void Calculate::setCurrentPower(double value)
+{
+    currentPower = value;
+}
+
+double Calculate::getPeakPower()
+{
+    return peakPower;
+}
+
+void Calculate::setPeakPower(double value)
+{
+    peakPower = value;
+}
+
+double Calculate::getAveragePower()
+{
+    if (numOfIterations > 0)
+    {
+        return (averagePower/numOfIterations);
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void Calculate::setAveragePower(double value)
+{
+    averagePower = value;
+}
+
+

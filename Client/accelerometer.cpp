@@ -14,6 +14,9 @@
 #include <QString>
 #include <QRegExp>
 #include <QTimer>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusPendingReply>
 
 #define kFilteringFactor    0.1
 #define kGravity            9.81
@@ -111,40 +114,23 @@ void Accelerometer::initValues()
 void Accelerometer::calibrate(void)
 {
     unsigned int iteration = 0;
+    qreal sampleX, sampleY, sampleZ;
 
     do {
-        // Opening the file must be done inside the loop
-        // or else the values obtained from file.readLine();
-        // will be empty for all but the first iteration
-        QFile file(kFileName);
-        if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            return;
-        }
 
-        QByteArray line;
-        QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
+        getAcceleration(sampleX, sampleY, sampleZ);
 
-        // Read data, parse with regular expressions and process it
-        line = file.readLine();
-        rx.indexIn(line);
-
-        int sampleX = rx.cap(1).toInt();
-        int sampleY = rx.cap(2).toInt();
-        int sampleZ = rx.cap(3).toInt();
-
-        calibrationX = calibrationX + sampleX; // Accumulate Samples
-        calibrationY = calibrationY + sampleY; // for all axes.
-        calibrationZ = calibrationZ + sampleZ;
+        calibrationX += sampleX; // Accumulate Samples
+        calibrationY += sampleY; // for all axes.
+        calibrationZ += sampleZ;
 
         iteration++;
 
-        file.close();
-    } while(iteration != 1024);       // 1024 times
+    } while(iteration != 1024);        // 1024 times
 
-    calibrationX = calibrationX>>10;  // division by 1024
-    calibrationY = calibrationY>>10;
-    calibrationZ = calibrationZ>>10;
+    calibrationX = calibrationX/1024;  // division by 1024
+    calibrationY = calibrationY/1024;
+    calibrationZ = calibrationZ/1024;
 }
 
 /**
@@ -154,6 +140,114 @@ void Accelerometer::calibrate(void)
 void Accelerometer::stop()
 {
     timer->stop();
+}
+
+/**
+ * Processes Accelerometer data
+ *
+ * Opens the accelerometer value file for reading and reads and parses accelerometer values.
+ * Forwards data to Calculate class for processing
+ *
+ */
+void Accelerometer::processData()
+{
+    getAcceleration(accelerationX, accelerationY, accelerationZ);
+    //smoothData(accelerationX, accelerationY, accelerationZ);
+
+    // Apply calibration
+    accelerationX = accelerationX - calibrationX;
+    accelerationY = accelerationY - calibrationY;
+    accelerationZ = accelerationZ - calibrationZ;
+
+    // If the function is run the first time, make sure that there
+    // are no differences with previous and current acceleration
+    if (firstRun) {
+        previousAccelerationX = accelerationX;
+        previousAccelerationY = accelerationY;
+        previousAccelerationZ = accelerationZ;
+        firstRun = false;
+    }
+
+    // Calculate the current acceleration for each axis
+    trueAccelerationX = (accelerationX - previousAccelerationX);
+    trueAccelerationY = (accelerationY - previousAccelerationY);
+    trueAccelerationZ = (accelerationZ - previousAccelerationZ);
+
+    previousAccelerationX = accelerationX;
+    previousAccelerationY = accelerationY;
+    previousAccelerationZ = accelerationZ;
+
+    currentAcceleration = sqrt((trueAccelerationX * trueAccelerationX) +
+                               (trueAccelerationY * trueAccelerationY) +
+                               (trueAccelerationZ * trueAccelerationZ));
+
+    // Discrimination window for currentAcceleration
+    if ( fabs(currentAcceleration) < 0.10 ) { currentAcceleration = 0; }
+
+    // Measure time interval
+    intervalTime = now.restart();
+    intervalTime = intervalTime/1000; // millisecs to secs
+    totalTime = totalTime + intervalTime;
+
+    // Using calculate class to calculate velocity and distance etc.
+    calculate->calculateParameters(currentAcceleration,intervalTime );
+
+    currentSpeed = calculate->getCurrentSpeed();
+    distanceTraveled = calculate->getDistanceTraveled();
+}
+
+/**
+ * Smooths Accelerometer data
+ *
+ * @param x accelerometer's x-axis input
+ * @param y accelerometer's y-axis input
+ * @param z accelerometer's z-axis input
+ */
+void Accelerometer::smoothData(qreal x, qreal y, qreal z)
+{
+    accelerationX = x;
+    accelerationY = y;
+    accelerationZ = z;
+    if (sampleIndex > 0)
+    {
+        accelerationX = previousAccelerationX + (accelerationX-previousAccelerationX) * kFilteringFactor;
+        accelerationY = previousAccelerationY + (accelerationY-previousAccelerationY) * kFilteringFactor;
+        accelerationZ = previousAccelerationZ + (accelerationZ-previousAccelerationZ) * kFilteringFactor;
+    }
+    sampleIndex++;
+}
+
+void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
+{
+    /*
+    QFile file(kFileName);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
+
+    // Read data, parse with regular expressions and process it
+    QByteArray line = file.readLine();
+    QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
+    rx.indexIn(line);
+
+    x = rx.cap(1).toInt()/1000;
+    y = rx.cap(2).toInt()/1000;
+    z = rx.cap(3).toInt()/1000;
+
+    file.close();
+    */
+
+    QDBusConnection connection(QDBusConnection::systemBus());
+    if (connection.isConnected()) {
+        QDBusInterface interface("com.nokia.mce", "/com/nokia/icd", QString(), connection);
+        QDBusPendingReply<QString, QString, QString, int, int, int> reply;
+        reply = interface.asyncCall("get_device_orientation");
+        reply.waitForFinished();
+        x = static_cast<qreal>(reply.argumentAt<3>()) / 1000;
+        y = static_cast<qreal>(reply.argumentAt<4>()) / 1000;
+        z = static_cast<qreal>(reply.argumentAt<5>()) / 1000;
+    }
 }
 
 /**
@@ -241,115 +335,17 @@ qreal Accelerometer::getTotalTime()
     return totalTime;
 }
 
-int Accelerometer::getCalibrationX()
+qreal Accelerometer::getCalibrationX()
 {
     return calibrationX;
 }
 
-int Accelerometer::getCalibrationY()
+qreal Accelerometer::getCalibrationY()
 {
     return calibrationY;
 }
 
-int Accelerometer::getCalibrationZ()
+qreal Accelerometer::getCalibrationZ()
 {
     return calibrationZ;
 }
-
-/**
- * Processes Accelerometer data
- *
- * Opens the accelerometer value file for reading and reads and parses accelerometer values.
- * Forwards data to Calculate class for processing
- *
- */
-void Accelerometer::processData()
-{
-    QFile file(kFileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return;
-    }
-
-    // Read data, parse with regular expressions and process it
-    QByteArray line = file.readLine();
-    QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
-    rx.indexIn(line);
-
-    smoothData(rx.cap(1).toInt(), rx.cap(2).toInt(), rx.cap(3).toInt());
-
-    // Apply calibration
-    accelerationX = accelerationX - calibrationX;
-    accelerationX = accelerationY - calibrationY;
-    accelerationX = accelerationZ - calibrationZ;
-
-    // If the function is run the first time, make sure that there
-    // are no differences with previous and current acceleration
-    if (firstRun) {
-        previousAccelerationX = accelerationX;
-        previousAccelerationY = accelerationY;
-        previousAccelerationZ = accelerationZ;
-        firstRun = false;
-    }
-
-    // Discrimination window for acceleration values
-    /*if ( fabs(accelerationX) < 20 ) { accelerationX = 0; }
-      if ( fabs(accelerationY) < 20 ) { accelerationY = 0; }
-      if ( fabs(accelerationZ) < 20 ) { accelerationZ = 0; }*/
-
-    // Calculate the current acceleration for each axis
-    trueAccelerationX = (accelerationX - previousAccelerationX) /*/ 1000 * kGravity*/;
-    trueAccelerationY = (accelerationY - previousAccelerationY) /*/ 1000 * kGravity*/;
-    trueAccelerationZ = (accelerationZ - previousAccelerationZ) /*/ 1000 * kGravity*/;
-
-    // Discrimination window for acceleration values
-    if ( fabs(trueAccelerationX) < 20 ) { trueAccelerationX = 0; }
-    if ( fabs(trueAccelerationY) < 20 ) { trueAccelerationY = 0; }
-    if ( fabs(trueAccelerationZ) < 20 ) { trueAccelerationZ = 0; }
-
-    previousAccelerationX = accelerationX;
-    previousAccelerationY = accelerationY;
-    previousAccelerationZ = accelerationZ;
-
-    currentAcceleration = sqrt(trueAccelerationX * trueAccelerationX +
-                               trueAccelerationY * trueAccelerationY +
-                               trueAccelerationZ * trueAccelerationZ );
-
-    // Discrimination window for currentAcceleration
-    if ( fabs(currentAcceleration) < 20 ) { currentAcceleration = 0; }
-
-    // Measure time interval
-    intervalTime = now.restart();
-    intervalTime = intervalTime/1000; // millisecs to secs
-    totalTime = totalTime + intervalTime;
-
-    // Using calculate class to calculate velocity and distance etc.
-    calculate->calculateParameters(currentAcceleration,intervalTime );
-
-    currentSpeed = calculate->getCurrentSpeed();
-    distanceTraveled = calculate->getDistanceTraveled();
-
-    file.close();
-}
-
-/**
- * Smooths Accelerometer data
- *
- * @param x accelerometer's x-axis input
- * @param y accelerometer's y-axis input
- * @param z accelerometer's z-axis input
- */
-void Accelerometer::smoothData(qreal x, qreal y, qreal z)
-{
-    accelerationX = x;
-    accelerationY = y;
-    accelerationZ = z;
-    if (sampleIndex > 0)
-    {
-        accelerationX = previousAccelerationX + (accelerationX-previousAccelerationX) * kFilteringFactor;
-        accelerationY = previousAccelerationY + (accelerationY-previousAccelerationY) * kFilteringFactor;
-        accelerationZ = previousAccelerationZ + (accelerationZ-previousAccelerationZ) * kFilteringFactor;
-    }
-    sampleIndex++;
-}
-

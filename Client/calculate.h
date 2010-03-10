@@ -52,6 +52,15 @@ public:
     double getTotalTime();
     void setTotalTime(double value);
 
+    double getCurrentPower();
+    void setCurrentPower(double value);
+
+    double getPeakPower();
+    void setPeakPower(double value);
+
+    double getAveragePower();
+    void setAveragePower(double value);
+
 private:
     double averageSpeed;
     double currentSpeed;

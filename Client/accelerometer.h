@@ -34,6 +34,7 @@ public:
 
     void setSampleRate(int pSampleRate);
     int getSampleRate();
+    void getAcceleration(qreal &x, qreal &y, qreal &z);
 
     qreal getTrueAccelerationX();
     qreal getTrueAccelerationY();
@@ -49,9 +50,9 @@ public:
     qreal getTotalAcceleration();
     qreal getPreviousTotalAcceleration();
 
-    int getCalibrationX();
-    int getCalibrationY();
-    int getCalibrationZ();
+    qreal getCalibrationX();
+    qreal getCalibrationY();
+    qreal getCalibrationZ();
 
     qreal getIntervalTime();
     qreal getTotalTime();
@@ -68,8 +69,7 @@ private:
     qreal previousAccelerationX,previousAccelerationY,previousAccelerationZ;
     qreal previousSpeed, currentSpeed;
     qreal currentAcceleration, previousAcceleration, totalAcceleration;
-
-    int calibrationX, calibrationY, calibrationZ;
+    qreal calibrationX, calibrationY, calibrationZ;
 
     QTime now;
     QTimer *timer;
