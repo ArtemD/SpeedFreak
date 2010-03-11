@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'carmainwindow.ui'
 **
-** Created: Wed Mar 10 10:48:38 2010
+** Created: Thu Mar 11 08:28:04 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
