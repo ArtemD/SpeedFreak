@@ -19,14 +19,10 @@ class XmlReader : public QObject
 public:
     XmlReader();
     ~XmlReader();
-    QStringList getTop10List();
-    QStringList getCategoryList();
-    QString getTopList( QString category, int size);
 
 private:
     QXmlStreamReader xmlreader;
-    QStringList top10List;
-    QStringList categoryList;
+    QStringList top10List;              // Next 4 to be removed. Categorylist now in own class.
     QString top10AccelerationList;
     QString top10SpeedList;
     QString top10GforceList;

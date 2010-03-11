@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     measures.cpp \
     xmlwriter.cpp \
     xmlreader.cpp \
-    httpclient.cpp
+    httpclient.cpp \
+    categorylist.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -33,7 +34,8 @@ HEADERS += carmainwindow.h \
     measures.h \
     xmlwriter.h \
     xmlreader.h \
-    httpclient.h
+    httpclient.h \
+    categorylist.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \

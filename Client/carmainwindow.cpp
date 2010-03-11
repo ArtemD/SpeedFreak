@@ -33,6 +33,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     manager = new QNetworkAccessManager(this);
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
 
+    categorylist = new CategoryList();
+
     time = 0;
     speed = 0;
     timer = new QTimer();
@@ -65,6 +67,7 @@ CarMainWindow::~CarMainWindow()
     delete xmlreader;
     delete xmlwriter;
     delete manager;
+    delete categorylist;
 }
 
 /**
@@ -167,7 +170,7 @@ void CarMainWindow::setListViewStartTabAccelerationCategories(QStringList accele
   */
 void CarMainWindow::setCategoryCompoBox()
 {
-    ui->comboBoxTopCategory->addItems(xmlreader->getCategoryList());
+    ui->comboBoxTopCategory->addItems(categorylist->getCategoryList());
 }
 
 /**
@@ -177,7 +180,7 @@ void CarMainWindow::setCategoryCompoBox()
 void CarMainWindow::setListViewTopList(QString category, int size)
 {
     QString topList;
-    topList.append( xmlreader->getTopList(category, size));
+    topList.append( categorylist->getTopList(category, size));
     ui->labelTopList->setText(topList);
 }
 
