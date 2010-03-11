@@ -17,8 +17,6 @@
 XmlReader::XmlReader()
 {
     xmlShow();
-    // Remove next line from final code
-    categoryList << "Speed" << "acceleration-0-40" << "acceleration-0-100" << "G-force";
 }
 
 /**
@@ -124,50 +122,3 @@ void XmlReader::xmlShow()
     file.close();
 }
 
-/**
-  *This is return function.
-  *@todo Read real category list
-  *@return QStringList categoryList
-  */
-QStringList XmlReader::getCategoryList()
-{
-    return categoryList;
-}
-
-/**
-  *This is return function.
-  *@todo Read real top 10 category list
-  *@return QStringList top10List
-  */
-QStringList XmlReader::getTop10List()
-{
-    //During development is needed some values for categorylist
-    top10List.clear();
-    top10List << "acceleration-0-10" << "acceleration-0-60" << "acceleration-0-100";
-
-    return top10List;
-}
-
-QString XmlReader::getTopList( QString category, int size)
-{
-    if (category == "acceleration-0-100")
-    {
-        //return top10AccelerationList;
-        return "acc-tulos1\nacc-tulos2\nacc-tulos3\nacc-tulos4\nacc-tulos5\nacc-tulos6\nacc-tulos7\nacc-tulos8\nacc-tulos9\nacc-tulos10";
-    }
-    else if (category == "acceleration-0-40")
-    {
-         //return top10AccelerationList;
-         return "acc-40-tulos1\nacc-40-tulos2\nacc-40-tulos3\nacc-40-tulos4\nacc-40-tulos5\nacc-40-tulos6\nacc-40-tulos7\nacc-40-tulos8\nacc-40-tulos9\nacc-40-tulos10";
-    }
-    else if (category == "Speed")
-    {
-        //return top10SpeedList;
-        return "speed-tulos1\nspeed-tulos2\nspeed-tulos3\nspeed-tulos4\nspeed-tulos5\nspeed-tulos6\nspeed-tulos7\nspeed-tulos8\nspeed-tulos9\nspeed-tulos10";
-    }
-    else if (category == "G-force")
-    {
-        //return top10GforceList;
-        return "g-tulos1\ng-tulos2\ng-tulos3\ng-tulos4\ng-tulos5\ng-tulos6\ng-tulos7\ng-tulos8\ng-tulos9\ng-tulos10";
-    }
-}

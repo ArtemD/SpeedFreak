@@ -35,6 +35,7 @@
 #include "stringlistmodel.h"
 #include "measures.h"
 #include "accelerometer.h"
+#include "categorylist.h"
 
 namespace Ui {
     class CarMainWindow;
@@ -73,6 +74,7 @@ private:
     QStringList accelerationCategoriesStartTab; //Start-tab view
     QStringList units;  //Start-tab view
     QStringList categories; //Top-tab view
+    CategoryList *categorylist;
 
     QTimer *timer;
     Accelerometer *accelerometer;
