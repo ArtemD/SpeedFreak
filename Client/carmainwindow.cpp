@@ -167,31 +167,17 @@ void CarMainWindow::setListViewStartTabAccelerationCategories(QStringList accele
   */
 void CarMainWindow::setCategoryCompoBox()
 {
-    ui->comboBoxTopCategory->addItems(xmlreader->getTop10List());
+    ui->comboBoxTopCategory->addItems(xmlreader->getCategoryList());
 }
 
 /**
   *This function is used to set items to labelTopList. Top-tab view.
   *@param QString category
   */
-void CarMainWindow::setListViewTopList(QString category)
+void CarMainWindow::setListViewTopList(QString category, int size)
 {
     QString topList;
-
-    if (category == "acceleration-0-100")
-    {
-        topList.append(xmlreader->getTop10AccelerationList());
-    }
-
-    else if (category == "Speed")
-    {
-        topList.append(xmlreader->getTop10SpeedList());
-    }
-
-    else if (category == "G-force")
-    {
-        topList.append(xmlreader->getTop10GforceList());
-    }
+    topList.append( xmlreader->getTopList(category, size));
     ui->labelTopList->setText(topList);
 }
 
@@ -242,7 +228,7 @@ void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
     QString limit = QString::number(limitNr);
     category = "acceleration-0-100";    //replace with real value from category list/top window
     requestTopList(category, limit);
-    setListViewTopList(category);
+    setListViewTopList(category,10);
 }
 
 /**
@@ -251,7 +237,7 @@ void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
   */
 void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
 {
-    setListViewTopList(category);
+    setListViewTopList(category,10);
 }
 
 /**

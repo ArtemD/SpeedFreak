@@ -20,13 +20,13 @@ public:
     XmlReader();
     ~XmlReader();
     QStringList getTop10List();
-    QString getTop10AccelerationList();
-    QString getTop10SpeedList();
-    QString getTop10GforceList(); 
+    QStringList getCategoryList();
+    QString getTopList( QString category, int size);
 
 private:
     QXmlStreamReader xmlreader;
     QStringList top10List;
+    QStringList categoryList;
     QString top10AccelerationList;
     QString top10SpeedList;
     QString top10GforceList;

@@ -48,7 +48,7 @@ public:
 
     void setComboBoxStartTabUnits(QStringList units);    //Start-tab view
     void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
-    void setListViewTopList(QString category);  //Top-tab view
+    void setListViewTopList(QString category, int size);  //Top-tab view
     void setCategoryCompoBox(); //Top-tab
 
 protected:
