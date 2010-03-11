@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'carmainwindow.ui'
 **
-** Created: Thu Mar 11 08:28:04 2010
+** Created: Thu Mar 11 09:55:16 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -145,7 +145,7 @@ public:
         tabTop->setObjectName(QString::fromUtf8("tabTop"));
         buttonTopRefresh = new QPushButton(tabTop);
         buttonTopRefresh->setObjectName(QString::fromUtf8("buttonTopRefresh"));
-        buttonTopRefresh->setGeometry(QRect(20, 206, 221, 71));
+        buttonTopRefresh->setGeometry(QRect(10, 210, 221, 71));
         buttonTopRefresh->setFont(font);
         listViewTopList = new QListView(tabTop);
         listViewTopList->setObjectName(QString::fromUtf8("listViewTopList"));
@@ -228,7 +228,7 @@ public:
         labelMeasureTabTime->setGeometry(QRect(129, 60, 71, 61));
         QFont font6;
         font6.setFamily(QString::fromUtf8("Bitstream Charter"));
-        font6.setPointSize(14);
+        font6.setPointSize(24);
         font6.setBold(true);
         font6.setWeight(75);
         labelMeasureTabTime->setFont(font6);
@@ -266,7 +266,7 @@ public:
 
         retranslateUi(CarMainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(CarMainWindow);

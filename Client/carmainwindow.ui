@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -357,7 +357,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>14</pointsize>
+        <pointsize>24</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -397,7 +397,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>14</pointsize>
+        <pointsize>24</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -437,7 +437,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>14</pointsize>
+        <pointsize>24</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
