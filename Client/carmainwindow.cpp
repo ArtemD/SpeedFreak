@@ -19,6 +19,7 @@
 CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::CarMainWindow)
 {
     ui->setupUi(this);
+    ui->tabWidget->setCurrentWidget(this->ui->StartTab);
     //result = new ResultDialog();
     //measure = new MeasureDialog();
     xmlreader = new XmlReader();
@@ -202,6 +203,7 @@ void CarMainWindow::openResultView()
     //result->saveMeasuresToArray(measure->measures);
     // Show result dialog.
     //result->show();
+    ui->pushButtonSendResult->setEnabled(true);
     QString timeInteger;
     timeInteger.setNum(this->measures->getTime40kmh());
     //time = "0 - 40 km/h: ";
@@ -571,7 +573,7 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
     sendXml();
-
+    ui->pushButtonSendResult->setEnabled(false);
 }
 
 void CarMainWindow::updateUserName()
