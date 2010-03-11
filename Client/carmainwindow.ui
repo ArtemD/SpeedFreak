@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -132,8 +132,8 @@
      <widget class="QPushButton" name="buttonTopRefresh">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>206</y>
+        <x>10</x>
+        <y>210</y>
         <width>221</width>
         <height>71</height>
        </rect>
