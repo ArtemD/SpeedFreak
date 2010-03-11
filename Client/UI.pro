@@ -22,7 +22,9 @@ SOURCES += main.cpp \
     xmlwriter.cpp \
     xmlreader.cpp \
     httpclient.cpp \
-    categorylist.cpp
+    categorylist.cpp \
+    welcomedialog.cpp
+
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -35,9 +37,12 @@ HEADERS += carmainwindow.h \
     xmlwriter.h \
     xmlreader.h \
     httpclient.h \
-    categorylist.h
+    categorylist.h \
+    welcomedialog.h
+
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
     loginwindow.ui \
-    registration.ui
+    registration.ui \
+    welcomedialog.ui

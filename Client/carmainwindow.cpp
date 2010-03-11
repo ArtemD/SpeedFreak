@@ -22,6 +22,9 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
     //result = new ResultDialog();
     //measure = new MeasureDialog();
+    welcomeDialog = new WelcomeDialog();
+    welcomeDialog->show();
+
     xmlreader = new XmlReader();
 
     initComboBoxStartTabUnits();
@@ -68,6 +71,7 @@ CarMainWindow::~CarMainWindow()
     delete xmlwriter;
     delete manager;
     delete categorylist;
+    delete welcomeDialog;
 }
 
 /**

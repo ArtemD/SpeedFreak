@@ -27,6 +27,7 @@
 #include <QDebug>
 //#include "resultdialog.h"
 //#include "measuredialog.h"
+#include "welcomedialog.h"
 #include "loginwindow.h"
 #include "registration.h"
 #include "xmlwriter.h"
@@ -59,6 +60,7 @@ private:
     Ui::CarMainWindow *ui;
     //ResultDialog *result;
     //MeasureDialog *measure;
+    WelcomeDialog *welcomeDialog;
     XmlReader *xmlreader;
     XmlWriter *xmlwriter;
     QNetworkAccessManager* manager;
