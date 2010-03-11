@@ -81,8 +81,8 @@ private:
     Measures *measures;
 
 signals:
-void speedAchieved();
-void userNameChanged();
+    void speedAchieved();
+    void userNameChanged();
 
 private slots:
     void on_pushButtonSendResult_clicked();
@@ -92,7 +92,6 @@ private slots:
     void on_registratePushButton_clicked();
     void on_comboBoxTopCategory_activated(QString );
     //void on_pushButton_clicked();
-    void networkResponse(QNetworkReply*);
     void on_comboBoxTopCategory_currentIndexChanged(QString category); //Top-tab view
     void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index); //Start-tab view
     void updateComboBoxStartTabUnits(QString unit);  //Start-tab view
@@ -100,12 +99,14 @@ private slots:
     void on_buttonTopRefresh_clicked(); //Top-tab view: button
     void on_autoStartButton_clicked();  //Start-tab view: button
     void registrate();
-    void sendXml();
-    void requestTopList();
-    void ackOfResult(QNetworkReply* reply);
-    void ackOfRegistration(QNetworkReply* reply);
-    void errorFromServer(QNetworkReply* reply);
-
+    void sendResultXml();
+    void requestTopList(QString category, QString limit);
+    void requestCategories();
+    void ackOfResult();
+    void ackOfRegistration();
+    void ackOfCategories();
+    void ackOfToplist();
+    void errorFromServer(QNetworkReply::NetworkError);
     void after_timeout();
     void updateUserName();
 };

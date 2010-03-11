@@ -129,6 +129,10 @@ void XmlReader::xmlShow()
   */
 QStringList XmlReader::getTop10List()
 {
+    //During development is needed some values for categorylist
+    top10List.clear();
+    top10List << "acceleration-0-10" << "acceleration-0-60" << "acceleration-0-100";
+
     return top10List;
 }
 
