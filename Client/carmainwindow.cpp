@@ -276,14 +276,12 @@ void CarMainWindow::registrate()
                       this->myRegistration->getUserName(),
                       this->myRegistration->getPassword(),
                       this->myRegistration->getEmail());
-    //Tmp msgbox - later server responce
-    QMessageBox::about(this,"Registrate",this->myRegistration->getUserName() + this->myRegistration->getPassword() + this->myRegistration->getEmail());
 
     currentDownload = manager->post(request, ("xml=" + regbuffer->data()));
     qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
 
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRegistration()));
-    connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
     regbuffer->close();
 }
@@ -316,7 +314,7 @@ void CarMainWindow::sendResultXml()
 
     currentDownload = manager->post(request, ("xml=" + xmlbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfResult()));
-    connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
     xmlbuffer->close();
 }
@@ -343,7 +341,7 @@ void CarMainWindow::requestTopList(QString category, QString limit)
 
     currentDownload = manager->post(request, ("data=" ));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfToplist()));
-    connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 }
 
 
@@ -366,7 +364,7 @@ void CarMainWindow::requestCategories()
 
     currentDownload = manager->post(request, ("data=" ));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfCategories()));
-    connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 }
 
 
@@ -379,14 +377,16 @@ void CarMainWindow::ackOfResult()
     qDebug() << "_ackOfResult";
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    qDebug() << reply->readAll();
+
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
-        qDebug() << errorcode << reply->errorString();
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(this, "Server reply to result sending ",reply->errorString());
     }
     else {
-        qDebug() << "errorcode=0";
+        qDebug() << "errorcode:" << errorcode << reply->errorString();
+        qDebug() << reply->readAll();
     }
 }
 
@@ -400,35 +400,39 @@ void CarMainWindow::ackOfRegistration()
     qDebug() << "_ackOfRegistration";
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    qDebug() << reply->readAll();
+
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(this, "Server reply to registration",reply->readAll());
     }
     else {
-        qDebug() << "errorcode=0";
+        qDebug() << "errorcode=0" << errorcode << reply->errorString();
+        QMessageBox::about(this, "Server reply to registration", "User registration " + reply->readAll());
     }
 }
 
 
 /**
   *@brief React to servers responce after request for categories has been sent.
-  *@todo Implement reply`s feeding to categories list.
   */
 void CarMainWindow::ackOfCategories()
 {
     qDebug() << "_ackOfCategories";
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    qDebug() << reply->readAll();
+    xmlreader->xmlReadCategories(reply);
+
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(this, "Server reply to requesting categories",reply->errorString());
     }
     else {
-        qDebug() << "errorcode=0";
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        qDebug() << reply->readAll();
     }
 }
 
@@ -439,11 +443,16 @@ void CarMainWindow::errorFromServer(QNetworkReply::NetworkError errorcode)
 {
     qDebug() << "_errorFromServer";
 
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+
     if(errorcode != 0) {
-        qDebug() << errorcode;
+        qDebug() <<  "errorcode:" << errorcode;
+        //Note that errors are already reported on other ach-functions for server communication
+        //QMessageBox::about(this, "Server reported an error", reply->errorString());
     }
     else {
-        qDebug() << errorcode;
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        qDebug() << reply->readAll();
     }
 }
 
@@ -457,15 +466,17 @@ void CarMainWindow::ackOfToplist()
     qDebug() << "_ackOfToplist";
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    xmlreader->xmlRead(reply);
-    qDebug() << reply->readAll();
+    xmlreader->xmlReadTop10Results(reply);
+
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
-        qDebug() << errorcode << reply->errorString();
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(this, "Server reply to requesting top 10 list",reply->errorString());
     }
     else {
-        qDebug() << "errorcode=0";
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        qDebug() << reply->readAll();
     }
 }
 

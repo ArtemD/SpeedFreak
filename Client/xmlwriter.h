@@ -40,7 +40,7 @@ public slots:
     bool writeXmlFile(QIODevice *device);
     void writeXml(QString usr, QString psswd, QString email);
     void writeItems();
-    void serverWritesTop();
+    void serverWritesXml();
 
 };
 

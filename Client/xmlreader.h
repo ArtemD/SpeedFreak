@@ -23,6 +23,7 @@ public:
 private:
     QXmlStreamReader xmlreader;
     QStringList top10List;              // Next 4 to be removed. Categorylist now in own class.
+    QStringList categoryList;
     QString top10AccelerationList;
     QString top10SpeedList;
     QString top10GforceList;
@@ -36,7 +37,9 @@ private:
     QString value;
 
 public slots:
-    void xmlRead(QNetworkReply *device);
+    void xmlReadTop10Results(QNetworkReply *device);
+    void xmlReadCategories(QNetworkReply *device);
+    //void xmlReadCategories(QIODevice *device);
     void xmlShow();
 };
 

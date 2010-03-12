@@ -93,7 +93,7 @@ void XmlWriter::writeResult(QBuffer *netbuf)
   */
 void XmlWriter::writeXml(QString usr, QString psswd, QString email)
 {
-    QString filename = "xmlfile.xml";
+    QString filename = "xmlcategoryfile.xml";
     QFile file(filename);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         qDebug() << "_xmlWrite fail";
@@ -119,6 +119,7 @@ bool XmlWriter::writeXmlFile(QIODevice *device)
     xmlwriter.setDevice(device);
     xmlwriter.writeStartDocument();
     writeItems();
+    //serverWritesXml();
     xmlwriter.writeEndDocument();
 
     return true;
@@ -143,12 +144,14 @@ void XmlWriter::writeItems()
 /**
   *@brief A temp function during development, used to create a "serverfile".
   */
-void XmlWriter::serverWritesTop()
+void XmlWriter::serverWritesXml()
 {
+    /* Server sends to client */
+    /*
     int i = 0;
     int n = 5;
 
-    /* Server sends to client */
+    //Write top 10 Results
     xmlwriter.writeStartElement("results");
     xmlwriter.writeAttribute("category", "acceleration-0-40");
     xmlwriter.writeAttribute("unit", "seconds");
@@ -162,4 +165,21 @@ void XmlWriter::serverWritesTop()
         xmlwriter.writeAttribute("value", QString::number(i+i+1));
         xmlwriter.writeEndElement();
     }
+    */
+    //Write categories
+    xmlwriter.writeStartElement("categories");
+
+    xmlwriter.writeStartElement("category");
+    xmlwriter.writeCharacters("acceleration-0-10");
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("category");
+    xmlwriter.writeCharacters("acceleration-0-60");
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("category");
+    xmlwriter.writeCharacters("acceleration-0-100");
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeEndElement();
 }

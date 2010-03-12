@@ -35,9 +35,9 @@ XmlReader::~XmlReader()
 /**
   *This function is used to parsing xml file.
   */
-void XmlReader::xmlRead(QNetworkReply *device)
+void XmlReader::xmlReadTop10Results(QNetworkReply *device)
 {
-    qDebug() << "_xmlRead";
+    qDebug() << "_xmlReadTop10Results";
 
     xmlreader.addData(device->readAll());
 
@@ -103,13 +103,49 @@ void XmlReader::xmlRead(QNetworkReply *device)
     }
 }
 
+void XmlReader::xmlReadCategories(QNetworkReply *device)
+//void XmlReader::xmlReadCategories(QIODevice *device)
+{
+    qDebug() << "_xmlReadCategories";
+
+    int i = 0;
+
+    QByteArray array = device->readAll();
+    qDebug() << array;
+    xmlreader.addData(array);
+
+    //Go trough the xml document
+    while(!xmlreader.atEnd())
+    {
+        //Read next node
+        xmlreader.readNext();
+
+        //Check if this element is starting element
+        if(xmlreader.isStartElement())
+        {
+            if(xmlreader.name() == "categories")
+            {
+                qDebug() << xmlreader.name();
+            }
+            if(xmlreader.name() == "category")
+            {
+                qDebug() << xmlreader.name();
+                categoryList.insert(i, xmlreader.readElementText());
+                qDebug() << "i=" << i << categoryList.at(i);
+                i++;
+            }
+        }
+    }
+}
+
 /**
   *This function is used to read example xml file (results.xml).
   *@todo Read real xml.
   */
 void XmlReader::xmlShow()
 {
-    QString filename = "results.xml";
+    //QString filename = "results.xml";
+    QString filename = "xmlcategoryfile.xml";
     QFile file(filename);
 
     if (!file.open(QFile::ReadOnly))
@@ -118,7 +154,8 @@ void XmlReader::xmlShow()
         return;
     }
 
-    //xmlRead(&file);
+    //xmlReadTop10Results(&file);
+    //xmlReadCategories(&file);
     file.close();
 }
 
