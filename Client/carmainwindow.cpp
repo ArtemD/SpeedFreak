@@ -32,7 +32,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     categorylist = new CategoryList();
     myHttpClient = new HttpClient(this);
     myRegistration = new Registration(this);
-    connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
+    connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
 
     time = 0;
     speed = 0;
