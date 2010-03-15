@@ -37,6 +37,7 @@
 #include "measures.h"
 #include "accelerometer.h"
 #include "categorylist.h"
+#include "httpclient.h"
 
 namespace Ui {
     class CarMainWindow;
@@ -47,11 +48,13 @@ class CarMainWindow : public QMainWindow {
 public:
     CarMainWindow(QWidget *parent = 0);
     ~CarMainWindow();
+    Registration *myRegistration;       //Check if this should be public or private
 
-    void setComboBoxStartTabUnits(QStringList units);    //Start-tab view
+
+    void setComboBoxStartTabUnits(QStringList units);       //Start-tab view
     void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
-    void setListViewTopList(QString category, int size);  //Top-tab view
-    void setCategoryCompoBox(); //Top-tab
+    void setListViewTopList(QString category, int size);    //Top-tab view
+    void setCategoryCompoBox();                             //Top-tab
 
 protected:
     void changeEvent(QEvent *e);
@@ -61,22 +64,18 @@ private:
     //ResultDialog *result;
     //MeasureDialog *measure;
     WelcomeDialog *welcomeDialog;
-    XmlReader *xmlreader;
-    XmlWriter *xmlwriter;
-    QNetworkAccessManager* manager;
+    CategoryList *categorylist;
+    HttpClient *myHttpClient;
     LoginWindow *myLogin;
-    Registration *myRegistration;
-    //void initCategoryCompoBox();    //
-    void initComboBoxStartTabUnits();    //Start-tab view
-    void initListViewStartTabAccelerationCategories();   //Start-tab view
-
+    //void initCategoryCompoBox();
+    void initComboBoxStartTabUnits();                   //Start-tab view
+    void initListViewStartTabAccelerationCategories();  //Start-tab view
     void initializeMeasures();
 
 private:
-    QStringList accelerationCategoriesStartTab; //Start-tab view
-    QStringList units;  //Start-tab view
-    QStringList categories; //Top-tab view
-    CategoryList *categorylist;
+    QStringList accelerationCategoriesStartTab;         //Start-tab view
+    QStringList units;                                  //Start-tab view
+    QStringList categories;                             //Top-tab view
 
     QTimer *timer;
     Accelerometer *accelerometer;
@@ -96,23 +95,15 @@ private slots:
     void on_registratePushButton_clicked();
     void on_comboBoxTopCategory_activated(QString );
     //void on_pushButton_clicked();
-    void on_comboBoxTopCategory_currentIndexChanged(QString category); //Top-tab view
-    void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index); //Start-tab view
-    void updateComboBoxStartTabUnits(QString unit);  //Start-tab view
+    void on_comboBoxTopCategory_currentIndexChanged(QString category);          //Top-tab view
+    void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index);  //Start-tab view
+    void updateComboBoxStartTabUnits(QString unit);     //Start-tab view
     void openResultView();
-    void on_buttonTopRefresh_clicked(); //Top-tab view: button
-    void on_autoStartButton_clicked();  //Start-tab view: button
-    void registrate();
-    void sendResultXml();
-    void requestTopList(QString category, QString limit);
-    void requestCategories();
-    void ackOfResult();
-    void ackOfRegistration();
-    void ackOfCategories();
-    void ackOfToplist();
-    void errorFromServer(QNetworkReply::NetworkError);
+    void on_buttonTopRefresh_clicked();                 //Top-tab view: button
+    void on_autoStartButton_clicked();                  //Start-tab view: button
     void after_timeout();
     void updateUserName();
+    void regUserToServer();
 };
 
 #endif // CARMAINWINDOW_H

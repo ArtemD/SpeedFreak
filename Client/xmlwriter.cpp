@@ -91,7 +91,8 @@ void XmlWriter::writeResult(QBuffer *netbuf)
   *@param email.
   *@todo Replace hardcoced filename to finally GUI entry widget.
   */
-void XmlWriter::writeXml(QString usr, QString psswd, QString email)
+//void XmlWriter::writeXml(QString usr, QString psswd, QString email)
+void XmlWriter::writeXml()
 {
     QString filename = "xmlcategoryfile.xml";
     QFile file(filename);

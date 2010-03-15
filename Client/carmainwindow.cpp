@@ -25,18 +25,14 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     welcomeDialog = new WelcomeDialog();
     welcomeDialog->show();
 
-    xmlreader = new XmlReader();
-
     initComboBoxStartTabUnits();
     initListViewStartTabAccelerationCategories();
 
     myLogin = new LoginWindow(this);
-    myRegistration = new Registration(this);
-    xmlwriter = new XmlWriter();
-    manager = new QNetworkAccessManager(this);
-    connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
-
     categorylist = new CategoryList();
+    myHttpClient = new HttpClient(this);
+    myRegistration = new Registration(this);
+    connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(registrate()));
 
     time = 0;
     speed = 0;
@@ -67,9 +63,6 @@ CarMainWindow::~CarMainWindow()
     delete ui;
     //delete result;
     //delete measure;
-    delete xmlreader;
-    delete xmlwriter;
-    delete manager;
     delete categorylist;
     delete welcomeDialog;
 }
@@ -220,7 +213,7 @@ void CarMainWindow::on_registratePushButton_clicked()
   */
 void CarMainWindow::on_buttonTopRefresh_clicked()
 {
-    requestCategories();
+    myHttpClient->requestCategories();
     setCategoryCompoBox();
 }
 
@@ -234,7 +227,7 @@ void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
     int limitNr = 5;                    //replace with real value?
     QString limit = QString::number(limitNr);
     category = "acceleration-0-100";    //replace with real value from category list/top window
-    requestTopList(category, limit);
+    myHttpClient->requestTopList(category, limit);
     setListViewTopList(category,10);
 }
 
@@ -254,232 +247,6 @@ void CarMainWindow::on_setUserPushButton_clicked()
 {
     myLogin->show();
 }
-
-/**
-  *@brief Sends registration information to the server in xml format.
-  *Reads user name, password and emaol address from resuldialogs internal variables.
-  *@todo Replace msg box with better reaction to server`s responce.
-  */
-void CarMainWindow::registrate()
-{
-    qDebug() << "_registrate" ;
-    qDebug() << this->myRegistration->getUserName() << "+" << this->myRegistration->getPassword() << "+" << this->myRegistration->getEmail();
-
-    QBuffer *regbuffer = new QBuffer();
-    QUrl qurl("http://api.speedfreak-app.com/api/register");
-    QNetworkRequest request(qurl);
-    qDebug() << qurl.toString();
-    QNetworkReply *currentDownload;
-
-    regbuffer->open(QBuffer::ReadWrite);
-    xmlwriter->writeRegistering(regbuffer,
-                      this->myRegistration->getUserName(),
-                      this->myRegistration->getPassword(),
-                      this->myRegistration->getEmail());
-
-    currentDownload = manager->post(request, ("xml=" + regbuffer->data()));
-    qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
-
-    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRegistration()));
-    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-
-    regbuffer->close();
-}
-
-
-/**
-  *@brief Sends result(s) to the server in xml format.
-  *Send authentication information in the header.
-  *@todo Read category elsewhere.
-  */
-void CarMainWindow::sendResultXml()
-{
-    qDebug() << "_sendResultXml";
-
-    QBuffer *xmlbuffer = new QBuffer();
-    QString category_name = "acceleration-0-100";    //replace with real value from category list
-
-    QUrl qurl("http://api.speedfreak-app.com/api/update/" + category_name);
-    qDebug() << qurl.toString();
-    QNetworkRequest request(qurl);
-    QNetworkReply *currentDownload;
-
-    xmlbuffer->open(QBuffer::ReadWrite);
-    xmlwriter->writeResult(xmlbuffer);
-    qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
-
-    QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
-    credentials = "Basic " + credentials.toAscii().toBase64();
-    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
-
-    currentDownload = manager->post(request, ("xml=" + xmlbuffer->data()));
-    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfResult()));
-    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-
-    xmlbuffer->close();
-}
-
-/**
-  *@brief Request the Top10List of certain category from the server.
-  *Send authentication information in the header.
-  *@param Category of results.
-  *@param Limit, the number of results.
-  */
-void CarMainWindow::requestTopList(QString category, QString limit)
-{
-    qDebug() << "_requestTopList" ;
-
-    QString urlBase = "http://api.speedfreak-app.com/api/results/";
-    QUrl qurl(urlBase + category + "/" + limit);
-    qDebug() << qurl.toString();
-    QNetworkRequest request(qurl);
-    QNetworkReply *currentDownload;
-
-    QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
-    credentials = "Basic " + credentials.toAscii().toBase64();
-    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
-
-    currentDownload = manager->post(request, ("data=" ));
-    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfToplist()));
-    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-}
-
-
-/**
-  *@brief Request categories list from the server.
-  *Send authentication information in the header.
-  */
-void CarMainWindow::requestCategories()
-{
-    qDebug() << "_requestCategories" ;
-
-    QUrl qurl("http://api.speedfreak-app.com/api/categories/");
-    qDebug() << qurl.toString();
-    QNetworkRequest request(qurl);
-    QNetworkReply *currentDownload;
-
-    QString credentials = this->myRegistration->getUserName() + ":" + this->myRegistration->getPassword();
-    credentials = "Basic " + credentials.toAscii().toBase64();
-    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
-
-    currentDownload = manager->post(request, ("data=" ));
-    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfCategories()));
-    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-}
-
-
-/**
-  *@brief React to servers responce after result has been sent.
-  *@todo Implement consequencies of reply.
-  */
-void CarMainWindow::ackOfResult()
-{
-    qDebug() << "_ackOfResult";
-
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-
-    QNetworkReply::NetworkError errorcode;
-    errorcode = reply->error();
-    if(errorcode != 0) {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(this, "Server reply to result sending ",reply->errorString());
-    }
-    else {
-        qDebug() << "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
-    }
-}
-
-
-/**
-  *@brief React to servers responce after registration has been sent.
-  *@todo Implement consequencies of reply.
-  */
-void CarMainWindow::ackOfRegistration()
-{
-    qDebug() << "_ackOfRegistration";
-
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-
-    QNetworkReply::NetworkError errorcode;
-    errorcode = reply->error();
-    if(errorcode != 0) {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(this, "Server reply to registration",reply->readAll());
-    }
-    else {
-        qDebug() << "errorcode=0" << errorcode << reply->errorString();
-        QMessageBox::about(this, "Server reply to registration", "User registration " + reply->readAll());
-    }
-}
-
-
-/**
-  *@brief React to servers responce after request for categories has been sent.
-  */
-void CarMainWindow::ackOfCategories()
-{
-    qDebug() << "_ackOfCategories";
-
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    xmlreader->xmlReadCategories(reply);
-
-    QNetworkReply::NetworkError errorcode;
-    errorcode = reply->error();
-    if(errorcode != 0) {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(this, "Server reply to requesting categories",reply->errorString());
-    }
-    else {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
-    }
-}
-
-/**
-  *@brief Reports errors, when server has sent error signal.
-  */
-void CarMainWindow::errorFromServer(QNetworkReply::NetworkError errorcode)
-{
-    qDebug() << "_errorFromServer";
-
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-
-    if(errorcode != 0) {
-        qDebug() <<  "errorcode:" << errorcode;
-        //Note that errors are already reported on other ach-functions for server communication
-        //QMessageBox::about(this, "Server reported an error", reply->errorString());
-    }
-    else {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
-    }
-}
-
-
-/**
-  *@brief React to servers responce after request of TopList in certain category has been sent.
-  *@todo Implement routing reply`s contents to UI.
-  */
-void CarMainWindow::ackOfToplist()
-{
-    qDebug() << "_ackOfToplist";
-
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    xmlreader->xmlReadTop10Results(reply);
-
-    QNetworkReply::NetworkError errorcode;
-    errorcode = reply->error();
-    if(errorcode != 0) {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(this, "Server reply to requesting top 10 list",reply->errorString());
-    }
-    else {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
-    }
-}
-
 
 /**
   *@brief Just for development, for the real button is not shown until
@@ -626,7 +393,7 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
 
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
-    sendResultXml();
+    myHttpClient->sendResultXml();
     ui->pushButtonSendResult->setEnabled(false);
 }
 
@@ -647,4 +414,9 @@ void CarMainWindow::updateUserName()
         ui->setUserPushButton->setText( "Set User");
         this->setWindowTitle("Speed freak");
     }
+}
+
+void CarMainWindow::regUserToServer()
+{
+    myHttpClient->requestRegistration();
 }

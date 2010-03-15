@@ -12,19 +12,35 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include "xmlwriter.h"
+#include "xmlreader.h"
+class CarMainWindow;
+
 
 
 class HttpClient : public QObject
 {
     Q_OBJECT
 public:
-    HttpClient();
+    HttpClient(CarMainWindow *myCarw);
     ~HttpClient();
 
 private:
+    CarMainWindow *myMainw;
     QNetworkAccessManager *netManager;
+    XmlWriter *myXmlwriter;
+    XmlReader *myXmlreader;
 
 public slots:
+    void requestRegistration();
+    void sendResultXml();
+    void requestTopList(QString category, QString limit);
+    void requestCategories();
+    void ackOfResult();
+    void ackOfRegistration();
+    void ackOfCategories();
+    void ackOfToplist();
+    void errorFromServer(QNetworkReply::NetworkError);
 
 };
 

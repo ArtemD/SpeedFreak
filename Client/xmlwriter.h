@@ -38,7 +38,8 @@ public slots:
     void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
     void writeResult(QBuffer *netbuf);
     bool writeXmlFile(QIODevice *device);
-    void writeXml(QString usr, QString psswd, QString email);
+    //void writeXml(QString usr, QString psswd, QString email);
+    void writeXml();
     void writeItems();
     void serverWritesXml();
 
