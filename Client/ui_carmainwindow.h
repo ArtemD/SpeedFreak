@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'carmainwindow.ui'
+** Form generated from reading UI file 'carmainwindow.ui'
 **
-** Created: Thu Mar 11 09:55:16 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Mon Mar 15 13:03:04 2010
+**      by: Qt User Interface Compiler version 4.6.1
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_CARMAINWINDOW_H
@@ -94,7 +94,7 @@ public:
         layoutWidget->setGeometry(QRect(160, 10, 311, 301));
         verticalLayout_2 = new QVBoxLayout(layoutWidget);
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setMargin(11);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         startLabel = new QLabel(layoutWidget);
@@ -160,7 +160,7 @@ public:
         layoutWidget1->setGeometry(QRect(10, 10, 341, 141));
         verticalLayout_3 = new QVBoxLayout(layoutWidget1);
         verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setMargin(11);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         labelCategory = new QLabel(layoutWidget1);
@@ -300,7 +300,6 @@ public:
         labelMeasureTabResult->setText(QApplication::translate("CarMainWindow", "0", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tabMeasureResult), QApplication::translate("CarMainWindow", "Measure", 0, QApplication::UnicodeUTF8));
         registratePushButton->setText(QApplication::translate("CarMainWindow", "Registrate", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(CarMainWindow);
     } // retranslateUi
 
 };
