@@ -121,5 +121,5 @@ $config['modules'] = array
 	// MODPATH.'gmaps',     // Google Maps integration
 	// MODPATH.'archive',   // Archive utility
 	// MODPATH.'payment',   // Online payments
-	// MODPATH.'unit_test', // Unit testing
+    // MODPATH.'unit_test' // Unit testing
 );
