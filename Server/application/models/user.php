@@ -22,7 +22,7 @@ class User_Model extends Model {
     	// load database library into $this->db
         parent::__construct();
         
-        if (isset($username, $password, $email)){
+        if ($username!='' and $password!='' and $email!=''){
         	if (strlen($username)<3)
         	   throw new Exception('Username too short');
             elseif (strlen($username)>12)
@@ -53,8 +53,25 @@ class User_Model extends Model {
      * @return bool Returns True if operation was successfull and exception otherwise
      */
     private function register($username, $password, $email){
-    	return $this->db->query('INSERT into users SET username = ?, password = ?, email = ?',
-    	           $this->db->escape($username), $this->db->escape($password), $this->db->escape($email));
+	// hash password
+        $password = $this->hash($password);
+
+        // @todo I can't seem to get query working when password binding has '' around it like others
+        if ($this->user_exists($username, $email)==false)
+	   return $this->db->query("INSERT into users SET username = '?', password = ?, email = '?'",
+	           $username, $password, $email);
+        else
+            return false;
+    }
+
+    /*
+     * Hash password supplied by user using salt stored in config file
+     *
+     * @param string $password Password in plain text format
+     * @return string Returns string containing hash generated from password
+     */
+    private function hash($password){
+	return sha1($password.Kohana::config('api.salt'));
     }
     
     /*
@@ -65,8 +82,26 @@ class User_Model extends Model {
      * @return bool Returns True if user exists and false otherwise
      */
     private function user_exists($username, $email){
-        if ($this->db->query('SELECT id FROM users WHERE username = ? OR email = ?',
-                   $this->db->escape($username), $this->db->escape($email))->count()>0)
+	if ($this->db->query("SELECT id FROM users WHERE username = '?' OR email = '?'",
+	                   $username, $email)->count()>0)
+	       return true;
+	    else
+	       return false;
+    }
+
+    /*
+     * Check if supplied credentials are valid
+     *
+     * @param string $username Username
+     * @param string $password Password in plain text format
+     * @return bool True if credentials match and false if supplied credentials are invalid
+     */
+    public function login($username, $password){
+        // hash password
+        $password = $this->hash($password);
+
+        if ($this->db->query("SELECT id FROM users WHERE username = ? AND password = ?",
+                             $username, $password)->count()>0)
             return true;
         else
             return false;

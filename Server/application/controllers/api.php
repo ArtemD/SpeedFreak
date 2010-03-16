@@ -48,4 +48,27 @@ class Api_Controller extends Controller{
         }
         return $xml;
     }
+
+    /*
+     * Check that supplied credentials are valid using basic authentication
+     *
+     */
+    public function login(){
+	if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])){
+		$user = new User_Model();
+		if ($user->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']))
+		  print "OK";
+		else {
+		  header('HTTP/1.0 401 Unauthorized');
+		  print "Invalid credentials";
+		  die;
+		}
+	}
+	else {
+		header('HTTP/1.0 401 Unauthorized');
+            print "No credentials supplied";
+            die;
+	}
+
+    }
 }
