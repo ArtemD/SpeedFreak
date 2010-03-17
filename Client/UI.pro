@@ -53,7 +53,6 @@ FORMS += carmainwindow.ui \
     registration.ui \
     welcomedialog.ui \
     routedialog.ui
-<<<<<<< HEAD:Client/UI.pro
 
 contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
