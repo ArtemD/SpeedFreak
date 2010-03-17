@@ -4,7 +4,7 @@
 #
 # Host: localhost (MySQL 5.1.37)
 # Database: speedfreak
-# Generation Time: 2010-03-09 13:03:37 +0200
+# Generation Time: 2010-03-17 14:16:47 +0200
 # ************************************************************
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,6 +15,32 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table categories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `categories`;
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `unit` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` (`id`,`slug`,`description`,`unit`)
+VALUES
+	(1,'acceleration-0-10','Acceleration from 0km/h to 100km/h','km/h'),
+	(2,'acceleration-0-40','Acceleration from 0km/h to 100km/h','km/h'),
+	(3,'acceleration-0-100','Acceleration from 0km/h to 100km/h','km/h');
+
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table users
@@ -30,7 +56,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_unique` (`username`),
   UNIQUE KEY `email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 
