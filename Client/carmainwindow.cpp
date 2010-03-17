@@ -424,14 +424,12 @@ void CarMainWindow::regUserToServer()
     myHttpClient->requestRegistration();
 }
 
-<<<<<<< HEAD:Client/carmainwindow.cpp
+
 void CarMainWindow::on_drawRoutePushButton_clicked()
 {
     myRoute->show();
 }
 
-=======
->>>>>>> Added fuction for checking username registration on the server.:Client/carmainwindow.cpp
 void CarMainWindow::userLogin()
 {
     myHttpClient->checkLogin();
