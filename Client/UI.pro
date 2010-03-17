@@ -23,8 +23,10 @@ SOURCES += main.cpp \
     xmlreader.cpp \
     httpclient.cpp \
     categorylist.cpp \
-    welcomedialog.cpp
-
+    welcomedialog.cpp \
+    gpsdata.cpp \
+    maemo5locationprivate.cpp \
+    maemo5location.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -38,11 +40,31 @@ HEADERS += carmainwindow.h \
     xmlreader.h \
     httpclient.h \
     categorylist.h \
-    welcomedialog.h
-
+    welcomedialog.h \
+    gpsdata.h \
+    maemo5locationprivate.h \
+    maemo5location.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
     loginwindow.ui \
     registration.ui \
     welcomedialog.ui
+
+contains(QT_CONFIG, hildon):CONFIG += hildon
+CONFIG += link_pkgconfig
+
+# Enable this to disable debugging
+# DEFINES += QT_NO_DEBUG_OUTPUT
+target.path += /usr/lib
+devincludes.files = $$HEADERS
+devincludes.path += /usr/include/$$TEMPLATE$$TARGET
+INSTALLS += target \
+    devincludes
+PKGCONFIG += glib-2.0 \
+    liblocation
+exists(/usr/lib/liblocation.so) {
+    DEFINES += LIBLOCATION
+    message(liblocation found)
+}
+
