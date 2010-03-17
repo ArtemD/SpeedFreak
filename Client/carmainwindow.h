@@ -38,6 +38,7 @@
 #include "accelerometer.h"
 #include "categorylist.h"
 #include "httpclient.h"
+#include "routedialog.h"
 
 namespace Ui {
     class CarMainWindow;
@@ -67,6 +68,7 @@ private:
     CategoryList *categorylist;
     HttpClient *myHttpClient;
     LoginWindow *myLogin;
+    RouteDialog *myRoute;
     //void initCategoryCompoBox();
     void initComboBoxStartTabUnits();                   //Start-tab view
     void initListViewStartTabAccelerationCategories();  //Start-tab view
@@ -88,6 +90,7 @@ signals:
     void userNameChanged();
 
 private slots:
+    void on_drawRoutePushButton_clicked();
     void on_pushButtonSendResult_clicked();
     void on_pushButtonMeasureTabAbort_clicked();
     void on_manualStartButton_clicked();

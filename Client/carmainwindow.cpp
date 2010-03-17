@@ -34,6 +34,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     myRegistration = new Registration(this);
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
 
+    myRoute = new RouteDialog( this);
+
     time = 0;
     speed = 0;
     timer = new QTimer();
@@ -65,6 +67,7 @@ CarMainWindow::~CarMainWindow()
     //delete measure;
     delete categorylist;
     delete welcomeDialog;
+    delete myRoute;
 }
 
 /**
@@ -419,4 +422,9 @@ void CarMainWindow::updateUserName()
 void CarMainWindow::regUserToServer()
 {
     myHttpClient->requestRegistration();
+}
+
+void CarMainWindow::on_drawRoutePushButton_clicked()
+{
+    myRoute->show();
 }
