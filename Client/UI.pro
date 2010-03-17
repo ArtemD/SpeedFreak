@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     welcomedialog.cpp \
     gpsdata.cpp \
     maemo5locationprivate.cpp \
-    maemo5location.cpp
+    maemo5location.cpp \
+    routedialog.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -43,13 +44,16 @@ HEADERS += carmainwindow.h \
     welcomedialog.h \
     gpsdata.h \
     maemo5locationprivate.h \
-    maemo5location.h
+    maemo5location.h \
+    routedialog.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
     loginwindow.ui \
     registration.ui \
     welcomedialog.ui
+    welcomedialog.ui \
+    routedialog.ui
 
 contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
@@ -67,4 +71,3 @@ exists(/usr/lib/liblocation.so) {
     DEFINES += LIBLOCATION
     message(liblocation found)
 }
-
