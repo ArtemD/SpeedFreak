@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="StartTab">
      <attribute name="title">
@@ -444,6 +444,63 @@
       </property>
       <property name="text">
        <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Route</string>
+     </attribute>
+     <widget class="QCheckBox" name="gpsOnCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>94</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>GPS on</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="startRecPushButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>76</y>
+        <width>151</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start recording</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stopRecPushButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>150</y>
+        <width>151</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop recording</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="drawRoutePushButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>220</y>
+        <width>151</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw route</string>
       </property>
      </widget>
     </widget>
