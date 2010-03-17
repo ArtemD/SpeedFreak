@@ -15,6 +15,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void paintEvent(QPaintEvent *);
 
 private:
     Ui::RouteDialog *ui;
