@@ -36,6 +36,9 @@ Calculate::~Calculate()
 void Calculate::reset()
 {
     averageSpeed = 0;
+    averagePower = 0;
+    peakPower = 0;
+    currentPower = 0;
     currentSpeed = 0;
     distanceTraveled = 0;
     lastAcceleration = 0;
@@ -43,7 +46,7 @@ void Calculate::reset()
     lastSpeed = 0;
     numOfIterations = 0;
     totalTime = 0;
-    count = 0;
+    //count = 0;
 
     speedCheckPoints.append(10);
     speedCheckPoints.append(20);
@@ -117,16 +120,16 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
     {
         foreach (double speed, speedCheckPoints)
         {
-            if ((lastCheckpoint != floor(speed)) && (floor(currentSpeed) == floor(speed)))
+            if ((lastCheckpoint != floor(speed)) && (floor(getCurrentSpeed()) == floor(speed)))
             {
-                emit checkPointReached(totalTime, currentSpeed);
-                lastCheckpoint = floor(currentSpeed);
+                emit checkPointReached(totalTime, getCurrentSpeed());
+                lastCheckpoint = floor(getCurrentSpeed());
             }
         }
     }
 
     // Check for movement
-    accelStoppedCheck(currentAcceleration);
+    //accelStoppedCheck(currentAcceleration);
 
     lastSpeed = currentSpeed;
     lastAcceleration = currentAcceleration;
@@ -138,6 +141,7 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
   * a short period of time. Velocity is set to zero to avoid
   * distance errors.
   */
+/*
 void Calculate::accelStoppedCheck(double currentAcceleration)
 {
 
@@ -154,7 +158,7 @@ void Calculate::accelStoppedCheck(double currentAcceleration)
         currentSpeed=0;
     }
 }
-
+*/
 // Getters and setters
 
 double Calculate::getAverageSpeed()

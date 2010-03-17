@@ -25,6 +25,8 @@ public:
     Accelerometer(int p_SampleRate);
     ~Accelerometer();
 
+    void getAcceleration(qreal &x, qreal &y, qreal &z);
+    void smoothData(qreal &x, qreal &y, qreal &z);
     void calibrate();
 
     void start();
@@ -34,11 +36,11 @@ public:
 
     void setSampleRate(int pSampleRate);
     int getSampleRate();
-    void getAcceleration(qreal &x, qreal &y, qreal &z);
 
     qreal getTrueAccelerationX();
     qreal getTrueAccelerationY();
     qreal getTrueAccelerationZ();
+
     qreal getPreviousSpeed();
     qreal getCurrentSpeed();
 
@@ -57,13 +59,13 @@ public:
     qreal getIntervalTime();
     qreal getTotalTime();
 
-private slots:
-    void processData();
-    void smoothData(qreal x, qreal y, qreal z);
-
-private:
     Calculate *calculate;
 
+private slots:
+    //void processData();
+
+
+private:
     qreal accelerationX, accelerationY, accelerationZ;
     qreal trueAccelerationX,trueAccelerationY,trueAccelerationZ;
     qreal previousAccelerationX,previousAccelerationY,previousAccelerationZ;
@@ -82,6 +84,7 @@ private:
     double sampleRate;
 
     bool firstRun;
+
 };
 
 #endif // ACCELEROMETER_H

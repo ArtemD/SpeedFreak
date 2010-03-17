@@ -8,6 +8,7 @@
  */
 
 #include "accelerometer.h"
+
 #include "math.h"
 
 #include <QFile>
@@ -18,11 +19,9 @@
 #include <QDBusInterface>
 #include <QDBusPendingReply>
 
-#define kFilteringFactor    0.1
-#define kGravity            9.81
-#define kFileName           "/sys/class/i2c-adapter/i2c-3/3-001d/coord"
+#define kFilteringFactor    0.2
 
-static int sampleIndex=0;
+static int sampleIndex = 0;
 
 /**
  * Default constructor for Accelerometer class
@@ -47,6 +46,7 @@ Accelerometer::Accelerometer(int p_SampleRate)
 {
     calculate = new Calculate();
 
+
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(processData()));
     sampleRate = p_SampleRate;
@@ -68,7 +68,7 @@ Accelerometer::~Accelerometer()
 void Accelerometer::start()
 {
     initValues();
-    calibrate();
+    //calibrate();
     timer->start(sampleRate);
     now.restart();
 }
@@ -131,6 +131,7 @@ void Accelerometer::calibrate(void)
     calibrationX = calibrationX/1024;  // division by 1024
     calibrationY = calibrationY/1024;
     calibrationZ = calibrationZ/1024;
+
 }
 
 /**
@@ -149,6 +150,7 @@ void Accelerometer::stop()
  * Forwards data to Calculate class for processing
  *
  */
+/*
 void Accelerometer::processData()
 {
     getAcceleration(accelerationX, accelerationY, accelerationZ);
@@ -195,7 +197,7 @@ void Accelerometer::processData()
     currentSpeed = calculate->getCurrentSpeed();
     distanceTraveled = calculate->getDistanceTraveled();
 }
-
+*/
 /**
  * Smooths Accelerometer data
  *
@@ -203,41 +205,23 @@ void Accelerometer::processData()
  * @param y accelerometer's y-axis input
  * @param z accelerometer's z-axis input
  */
-void Accelerometer::smoothData(qreal x, qreal y, qreal z)
+void Accelerometer::smoothData(qreal &x, qreal &y, qreal &z)
 {
     accelerationX = x;
     accelerationY = y;
     accelerationZ = z;
+
     if (sampleIndex > 0)
     {
-        accelerationX = previousAccelerationX + (accelerationX-previousAccelerationX) * kFilteringFactor;
-        accelerationY = previousAccelerationY + (accelerationY-previousAccelerationY) * kFilteringFactor;
-        accelerationZ = previousAccelerationZ + (accelerationZ-previousAccelerationZ) * kFilteringFactor;
+        accelerationX = ((previousAccelerationX) * (1-kFilteringFactor)) + (accelerationX * kFilteringFactor);
+        accelerationY = ((previousAccelerationY) * (1-kFilteringFactor)) + (accelerationY * kFilteringFactor);
+        accelerationZ = ((previousAccelerationZ) * (1-kFilteringFactor)) + (accelerationZ * kFilteringFactor);
     }
     sampleIndex++;
 }
 
 void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
 {
-    /*
-    QFile file(kFileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return;
-    }
-
-    // Read data, parse with regular expressions and process it
-    QByteArray line = file.readLine();
-    QRegExp rx("([0-9-]+) ([0-9-]+) ([0-9-]+)");
-    rx.indexIn(line);
-
-    x = rx.cap(1).toInt()/1000;
-    y = rx.cap(2).toInt()/1000;
-    z = rx.cap(3).toInt()/1000;
-
-    file.close();
-    */
-
     QDBusConnection connection(QDBusConnection::systemBus());
     if (connection.isConnected()) {
         QDBusInterface interface("com.nokia.mce", "/com/nokia/icd", QString(), connection);
