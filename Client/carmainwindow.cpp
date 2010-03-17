@@ -33,7 +33,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     myHttpClient = new HttpClient(this);
     myRegistration = new Registration(this);
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
-
+    connect(myLogin,SIGNAL(userNameChanged()),this,SLOT(userLogin()));
     myRoute = new RouteDialog( this);
 
     time = 0;
@@ -424,7 +424,15 @@ void CarMainWindow::regUserToServer()
     myHttpClient->requestRegistration();
 }
 
+<<<<<<< HEAD:Client/carmainwindow.cpp
 void CarMainWindow::on_drawRoutePushButton_clicked()
 {
     myRoute->show();
+}
+
+=======
+>>>>>>> Added fuction for checking username registration on the server.:Client/carmainwindow.cpp
+void CarMainWindow::userLogin()
+{
+    myHttpClient->checkLogin();
 }

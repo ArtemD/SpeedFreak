@@ -24,15 +24,18 @@ class HttpClient : public QObject
 public:
     HttpClient(CarMainWindow *myCarw);
     ~HttpClient();
+    XmlWriter *myXmlwriter;
+    XmlReader *myXmlreader;
 
 private:
     CarMainWindow *myMainw;
     QNetworkAccessManager *netManager;
-    XmlWriter *myXmlwriter;
-    XmlReader *myXmlreader;
+    //XmlWriter *myXmlwriter;
+    //XmlReader *myXmlreader;
 
 public slots:
     void requestRegistration();
+    void checkLogin();
     void sendResultXml();
     void requestTopList(QString category, QString limit);
     void requestCategories();
@@ -40,6 +43,7 @@ public slots:
     void ackOfRegistration();
     void ackOfCategories();
     void ackOfToplist();
+    void ackOfLogin();
     void errorFromServer(QNetworkReply::NetworkError);
 
 };

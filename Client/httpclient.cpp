@@ -135,6 +135,29 @@ void HttpClient::requestCategories()
 
 
 /**
+  *@brief Check that username and password exist on the server.
+  *Send authentication information in the header.
+  */
+void HttpClient::checkLogin()
+{
+    qDebug() << "_checkLogin";
+
+    QUrl qurl("http://api.speedfreak-app.com/api/login/");
+    qDebug() << qurl.toString();
+    QNetworkRequest request(qurl);
+    QNetworkReply *currentDownload;
+
+    QString credentials = myMainw->myRegistration->getUserName() + ":" + myMainw->myRegistration->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    currentDownload = netManager->post(request, ("data=" ));
+    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfLogin()));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+}
+
+
+/**
   *@brief React to servers responce after result has been sent.
   *@todo Implement consequencies of reply.
   */
@@ -204,6 +227,31 @@ void HttpClient::ackOfCategories()
     }
 
 }
+
+
+/**
+  *@brief React to servers responce after request of TopList in certain category has been sent.
+  *@todo Implement routing reply`s contents to UI.
+  */
+void HttpClient::ackOfLogin()
+{
+    qDebug() << "_ackOffLogin";
+
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    myXmlreader->xmlReadTop10Results(reply);
+
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(myMainw, "Server does not recognize your username. Please registrate.",reply->errorString());
+    }
+    else {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(myMainw, "Server reply to login", "User login " + reply->readAll());
+    }
+}
+
 
 /**
   *@brief Reports errors, when server has sent error signal.

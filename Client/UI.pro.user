@@ -76,12 +76,89 @@
   <variable>buildconfiguration-Debug-buildstep0</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-51tDZ2Xnqs,guid=d9736a446700e43c64f1e7f04ba083b3</value>
+    <value type="QString">DESKTOP_SESSION=gnome</value>
+    <value type="QString">DISPLAY=:0.0</value>
+    <value type="QString">GDMSESSION=gnome</value>
+    <value type="QString">GDM_KEYBOARD_LAYOUT=fi	classic</value>
+    <value type="QString">GDM_LANG=en_US.UTF-8</value>
+    <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
+    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-GEEl2F/socket</value>
+    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/tkk/.gtkrc-1.2-gnome2</value>
+    <value type="QString">HOME=/home/tkk</value>
+    <value type="QString">LANG=en_US.UTF-8</value>
+    <value type="QString">LD_LIBRARY_PATH=/home/tkk/qtsdk-2010.01/lib/qtcreator:</value>
+    <value type="QString">LOGNAME=tkk</value>
+    <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-tkk</value>
+    <value type="QString">PATH=/home/tkk/qtsdk-2010.01/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString">PWD=/home/tkk/qtsdk-2010.01/bin</value>
+    <value type="QString">QTDIR=/home/tkk/qtsdk-2010.01/qt</value>
+    <value type="QString">SESSION_MANAGER=local/tkk-laptop:@/tmp/.ICE-unix/1211,unix/tkk-laptop:/tmp/.ICE-unix/1211</value>
+    <value type="QString">SHELL=/bin/bash</value>
+    <value type="QString">SPEECHD_PORT=7560</value>
+    <value type="QString">SSH_AGENT_PID=1380</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-GEEl2F/socket.ssh</value>
+    <value type="QString">USER=tkk</value>
+    <value type="QString">USERNAME=tkk</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-tkk-r3DlIx/database</value>
+    <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
+    <value type="QString">XDG_SESSION_COOKIE=cac5a30ec2a4b235840876964b6a848d-1268810656.39871-1736995145</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList">
+    <value type="QString">/home/tkk/speedfreak/Client/UI.pro</value>
+    <value type="QString">-spec</value>
+    <value type="QString">linux-g++</value>
+    <value type="QString">-r</value>
+    <value type="QString">CONFIG+=debug</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString">/home/tkk/qtsdk-2010.01/qt/bin/qmake</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/tkk/speedfreak/Client</value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Debug-buildstep1</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-51tDZ2Xnqs,guid=d9736a446700e43c64f1e7f04ba083b3</value>
+    <value type="QString">DESKTOP_SESSION=gnome</value>
+    <value type="QString">DISPLAY=:0.0</value>
+    <value type="QString">GDMSESSION=gnome</value>
+    <value type="QString">GDM_KEYBOARD_LAYOUT=fi	classic</value>
+    <value type="QString">GDM_LANG=en_US.UTF-8</value>
+    <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
+    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-GEEl2F/socket</value>
+    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/tkk/.gtkrc-1.2-gnome2</value>
+    <value type="QString">HOME=/home/tkk</value>
+    <value type="QString">LANG=en_US.UTF-8</value>
+    <value type="QString">LD_LIBRARY_PATH=/home/tkk/qtsdk-2010.01/lib/qtcreator:</value>
+    <value type="QString">LOGNAME=tkk</value>
+    <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-tkk</value>
+    <value type="QString">PATH=/home/tkk/qtsdk-2010.01/qt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString">PWD=/home/tkk/qtsdk-2010.01/bin</value>
+    <value type="QString">QTDIR=/home/tkk/qtsdk-2010.01/qt</value>
+    <value type="QString">SESSION_MANAGER=local/tkk-laptop:@/tmp/.ICE-unix/1211,unix/tkk-laptop:/tmp/.ICE-unix/1211</value>
+    <value type="QString">SHELL=/bin/bash</value>
+    <value type="QString">SPEECHD_PORT=7560</value>
+    <value type="QString">SSH_AGENT_PID=1380</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-GEEl2F/socket.ssh</value>
+    <value type="QString">USER=tkk</value>
+    <value type="QString">USERNAME=tkk</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-tkk-r3DlIx/database</value>
+    <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
+    <value type="QString">XDG_SESSION_COOKIE=cac5a30ec2a4b235840876964b6a848d-1268810656.39871-1736995145</value>
+   </valuelist>
+   <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
+   <valuelist key="abstractProcess.arguments" type="QVariantList">
+    <value type="QString">-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/tkk/speedfreak/Client</value>
   </valuemap>
  </data>
  <data>
