@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /*
- * API controller for communicating with mobile clients
+ * Users model for creating and manipulating user accounts
  * 
  * @author      Artem Daniliants <artem@daniliants.com>
  * @copyright   (c) 2010 Speed Freak team

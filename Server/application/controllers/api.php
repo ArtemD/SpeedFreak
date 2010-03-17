@@ -54,21 +54,53 @@ class Api_Controller extends Controller{
      *
      */
     public function login(){
-    	if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])){
-    		$user = new User_Model();
-    		if ($user->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']))
+	if ($this->is_authorized()){
     		  print "OK";
-    		else {
-    		  header('HTTP/1.0 401 Unauthorized');
-    		  print "Invalid credentials";
     		  die;
-    		} 
     	}
-    	else {
-    		header('HTTP/1.0 401 Unauthorized');
-            print "No credentials supplied";
-            die;
+		else
+		  $this->not_authorized();
+    }
+
+    /*
+     * Validate supplied credentials
+     */
+    public function is_authorized(){
+	if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])){
+            $user = new User_Model();
+            if ($user->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']))
+                return true;
+            else
+                return false;
+	}
+        else
+            return false;
+
+    }
+
+    /*
+     * Display "You're not authorized error to client
+     *
+     * @todo Need to create function for generally displaying errors
+     */
+    public function not_authorized(){
+	header('HTTP/1.0 401 Unauthorized');
+        print "Invalid credentials or not registered";
+        die;
+    }
+
+    /*
+     * Get categories list and output it as XML
+     *
+     */
+    public function categories(){
+	if ($this->is_authorized()){
+		$xml = new View('api/categories');
+		$cat = new Category_Model();
+		$xml->categories=$cat->get_all();
+		$xml->render(true);
     	}
-    	   
+	else
+	   $this->not_authorized();
     }
 }
