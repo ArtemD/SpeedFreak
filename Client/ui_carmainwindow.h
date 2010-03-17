@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'carmainwindow.ui'
 **
-** Created: Mon Mar 15 13:03:04 2010
+** Created: Wed Mar 17 10:18:14 2010
 **      by: Qt User Interface Compiler version 4.6.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,6 +14,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -69,6 +70,11 @@ public:
     QLabel *labelMeasureTabSpeed;
     QLabel *labelMeasureTabResultHeader_2;
     QLabel *labelMeasureTabResult;
+    QWidget *tab;
+    QCheckBox *gpsOnCheckBox;
+    QPushButton *startRecPushButton;
+    QPushButton *stopRecPushButton;
+    QPushButton *drawRoutePushButton;
     QPushButton *registratePushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -249,6 +255,21 @@ public:
         labelMeasureTabResult->setGeometry(QRect(570, 60, 61, 61));
         labelMeasureTabResult->setFont(font6);
         tabWidget->addTab(tabMeasureResult, QString());
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        gpsOnCheckBox = new QCheckBox(tab);
+        gpsOnCheckBox->setObjectName(QString::fromUtf8("gpsOnCheckBox"));
+        gpsOnCheckBox->setGeometry(QRect(20, 20, 94, 22));
+        startRecPushButton = new QPushButton(tab);
+        startRecPushButton->setObjectName(QString::fromUtf8("startRecPushButton"));
+        startRecPushButton->setGeometry(QRect(30, 76, 151, 51));
+        stopRecPushButton = new QPushButton(tab);
+        stopRecPushButton->setObjectName(QString::fromUtf8("stopRecPushButton"));
+        stopRecPushButton->setGeometry(QRect(30, 150, 151, 51));
+        drawRoutePushButton = new QPushButton(tab);
+        drawRoutePushButton->setObjectName(QString::fromUtf8("drawRoutePushButton"));
+        drawRoutePushButton->setGeometry(QRect(30, 220, 151, 51));
+        tabWidget->addTab(tab, QString());
         registratePushButton = new QPushButton(centralWidget);
         registratePushButton->setObjectName(QString::fromUtf8("registratePushButton"));
         registratePushButton->setGeometry(QRect(520, 370, 231, 41));
@@ -266,7 +287,7 @@ public:
 
         retranslateUi(CarMainWindow);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(CarMainWindow);
@@ -299,6 +320,11 @@ public:
         labelMeasureTabResultHeader_2->setText(QApplication::translate("CarMainWindow", "Time:", 0, QApplication::UnicodeUTF8));
         labelMeasureTabResult->setText(QApplication::translate("CarMainWindow", "0", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tabMeasureResult), QApplication::translate("CarMainWindow", "Measure", 0, QApplication::UnicodeUTF8));
+        gpsOnCheckBox->setText(QApplication::translate("CarMainWindow", "GPS on", 0, QApplication::UnicodeUTF8));
+        startRecPushButton->setText(QApplication::translate("CarMainWindow", "Start recording", 0, QApplication::UnicodeUTF8));
+        stopRecPushButton->setText(QApplication::translate("CarMainWindow", "Stop recording", 0, QApplication::UnicodeUTF8));
+        drawRoutePushButton->setText(QApplication::translate("CarMainWindow", "Draw route", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("CarMainWindow", "Route", 0, QApplication::UnicodeUTF8));
         registratePushButton->setText(QApplication::translate("CarMainWindow", "Registrate", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

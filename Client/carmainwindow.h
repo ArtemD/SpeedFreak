@@ -107,6 +107,7 @@ private slots:
     void after_timeout();
     void updateUserName();
     void regUserToServer();
+    void userLogin();
 };
 
 #endif // CARMAINWINDOW_H

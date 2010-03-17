@@ -28,6 +28,7 @@ SOURCES += main.cpp \
     maemo5locationprivate.cpp \
     maemo5location.cpp \
     routedialog.cpp
+
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -46,12 +47,12 @@ HEADERS += carmainwindow.h \
     maemo5locationprivate.h \
     maemo5location.h \
     routedialog.h
+
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \
     loginwindow.ui \
     registration.ui \
-    welcomedialog.ui
     welcomedialog.ui \
     routedialog.ui
 
