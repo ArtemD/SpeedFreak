@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'resultdialog.ui'
 **
-** Created: Wed Mar 17 10:18:14 2010
+** Created: Wed Mar 17 11:45:21 2010
 **      by: Qt User Interface Compiler version 4.6.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

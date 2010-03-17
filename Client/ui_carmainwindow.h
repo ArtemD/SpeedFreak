@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'carmainwindow.ui'
 **
-** Created: Wed Mar 17 10:18:14 2010
+** Created: Wed Mar 17 11:45:21 2010
 **      by: Qt User Interface Compiler version 4.6.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -36,9 +36,17 @@ class Ui_CarMainWindow
 public:
     QWidget *centralWidget;
     QTabWidget *tabWidget;
+    QWidget *tabTop;
+    QPushButton *buttonTopRefresh;
+    QListView *listViewTopList;
+    QWidget *layoutWidget;
+    QVBoxLayout *verticalLayout_3;
+    QLabel *labelCategory;
+    QComboBox *comboBoxTopCategory;
+    QLabel *labelTopList;
     QWidget *StartTab;
     QListView *listViewStartTabAccelerationCategories;
-    QWidget *layoutWidget;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_2;
     QLabel *startLabel;
     QLineEdit *lineEditStartTabMin;
@@ -48,14 +56,6 @@ public:
     QComboBox *comboBoxStartTabUnits;
     QPushButton *autoStartButton;
     QPushButton *manualStartButton;
-    QWidget *tabTop;
-    QPushButton *buttonTopRefresh;
-    QListView *listViewTopList;
-    QWidget *layoutWidget1;
-    QVBoxLayout *verticalLayout_3;
-    QLabel *labelCategory;
-    QComboBox *comboBoxTopCategory;
-    QLabel *labelTopList;
     QWidget *settingsTab;
     QLabel *userNameLabel;
     QPushButton *setUserPushButton;
@@ -90,68 +90,16 @@ public:
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setGeometry(QRect(0, 0, 781, 361));
-        StartTab = new QWidget();
-        StartTab->setObjectName(QString::fromUtf8("StartTab"));
-        listViewStartTabAccelerationCategories = new QListView(StartTab);
-        listViewStartTabAccelerationCategories->setObjectName(QString::fromUtf8("listViewStartTabAccelerationCategories"));
-        listViewStartTabAccelerationCategories->setGeometry(QRect(0, 10, 151, 301));
-        layoutWidget = new QWidget(StartTab);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(160, 10, 311, 301));
-        verticalLayout_2 = new QVBoxLayout(layoutWidget);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        startLabel = new QLabel(layoutWidget);
-        startLabel->setObjectName(QString::fromUtf8("startLabel"));
-
-        verticalLayout_2->addWidget(startLabel);
-
-        lineEditStartTabMin = new QLineEdit(layoutWidget);
-        lineEditStartTabMin->setObjectName(QString::fromUtf8("lineEditStartTabMin"));
-
-        verticalLayout_2->addWidget(lineEditStartTabMin);
-
-        stopLabel = new QLabel(layoutWidget);
-        stopLabel->setObjectName(QString::fromUtf8("stopLabel"));
-
-        verticalLayout_2->addWidget(stopLabel);
-
-        lineEditStartTabMax = new QLineEdit(layoutWidget);
-        lineEditStartTabMax->setObjectName(QString::fromUtf8("lineEditStartTabMax"));
-
-        verticalLayout_2->addWidget(lineEditStartTabMax);
-
-        unitLabel = new QLabel(layoutWidget);
-        unitLabel->setObjectName(QString::fromUtf8("unitLabel"));
-
-        verticalLayout_2->addWidget(unitLabel);
-
-        comboBoxStartTabUnits = new QComboBox(layoutWidget);
-        comboBoxStartTabUnits->setObjectName(QString::fromUtf8("comboBoxStartTabUnits"));
-
-        verticalLayout_2->addWidget(comboBoxStartTabUnits);
-
-        autoStartButton = new QPushButton(StartTab);
-        autoStartButton->setObjectName(QString::fromUtf8("autoStartButton"));
-        autoStartButton->setGeometry(QRect(520, 40, 201, 71));
-        QFont font;
-        font.setFamily(QString::fromUtf8("Bitstream Charter"));
-        font.setPointSize(16);
-        font.setBold(true);
-        font.setWeight(75);
-        autoStartButton->setFont(font);
-        manualStartButton = new QPushButton(StartTab);
-        manualStartButton->setObjectName(QString::fromUtf8("manualStartButton"));
-        manualStartButton->setGeometry(QRect(520, 180, 201, 71));
-        manualStartButton->setFont(font);
-        tabWidget->addTab(StartTab, QString());
         tabTop = new QWidget();
         tabTop->setObjectName(QString::fromUtf8("tabTop"));
         buttonTopRefresh = new QPushButton(tabTop);
         buttonTopRefresh->setObjectName(QString::fromUtf8("buttonTopRefresh"));
         buttonTopRefresh->setGeometry(QRect(10, 210, 221, 71));
+        QFont font;
+        font.setFamily(QString::fromUtf8("Bitstream Charter"));
+        font.setPointSize(16);
+        font.setBold(true);
+        font.setWeight(75);
         buttonTopRefresh->setFont(font);
         listViewTopList = new QListView(tabTop);
         listViewTopList->setObjectName(QString::fromUtf8("listViewTopList"));
@@ -161,15 +109,15 @@ public:
         font1.setPointSize(10);
         listViewTopList->setFont(font1);
         listViewTopList->setFlow(QListView::LeftToRight);
-        layoutWidget1 = new QWidget(tabTop);
-        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(10, 10, 341, 141));
-        verticalLayout_3 = new QVBoxLayout(layoutWidget1);
+        layoutWidget = new QWidget(tabTop);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 10, 341, 141));
+        verticalLayout_3 = new QVBoxLayout(layoutWidget);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
-        labelCategory = new QLabel(layoutWidget1);
+        labelCategory = new QLabel(layoutWidget);
         labelCategory->setObjectName(QString::fromUtf8("labelCategory"));
         QFont font2;
         font2.setFamily(QString::fromUtf8("Bitstream Charter"));
@@ -178,7 +126,7 @@ public:
 
         verticalLayout_3->addWidget(labelCategory);
 
-        comboBoxTopCategory = new QComboBox(layoutWidget1);
+        comboBoxTopCategory = new QComboBox(layoutWidget);
         comboBoxTopCategory->setObjectName(QString::fromUtf8("comboBoxTopCategory"));
 
         verticalLayout_3->addWidget(comboBoxTopCategory);
@@ -191,6 +139,58 @@ public:
         labelTopList->setFont(font3);
         labelTopList->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         tabWidget->addTab(tabTop, QString());
+        StartTab = new QWidget();
+        StartTab->setObjectName(QString::fromUtf8("StartTab"));
+        listViewStartTabAccelerationCategories = new QListView(StartTab);
+        listViewStartTabAccelerationCategories->setObjectName(QString::fromUtf8("listViewStartTabAccelerationCategories"));
+        listViewStartTabAccelerationCategories->setGeometry(QRect(0, 10, 151, 301));
+        layoutWidget1 = new QWidget(StartTab);
+        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(160, 10, 311, 301));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget1);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        startLabel = new QLabel(layoutWidget1);
+        startLabel->setObjectName(QString::fromUtf8("startLabel"));
+
+        verticalLayout_2->addWidget(startLabel);
+
+        lineEditStartTabMin = new QLineEdit(layoutWidget1);
+        lineEditStartTabMin->setObjectName(QString::fromUtf8("lineEditStartTabMin"));
+
+        verticalLayout_2->addWidget(lineEditStartTabMin);
+
+        stopLabel = new QLabel(layoutWidget1);
+        stopLabel->setObjectName(QString::fromUtf8("stopLabel"));
+
+        verticalLayout_2->addWidget(stopLabel);
+
+        lineEditStartTabMax = new QLineEdit(layoutWidget1);
+        lineEditStartTabMax->setObjectName(QString::fromUtf8("lineEditStartTabMax"));
+
+        verticalLayout_2->addWidget(lineEditStartTabMax);
+
+        unitLabel = new QLabel(layoutWidget1);
+        unitLabel->setObjectName(QString::fromUtf8("unitLabel"));
+
+        verticalLayout_2->addWidget(unitLabel);
+
+        comboBoxStartTabUnits = new QComboBox(layoutWidget1);
+        comboBoxStartTabUnits->setObjectName(QString::fromUtf8("comboBoxStartTabUnits"));
+
+        verticalLayout_2->addWidget(comboBoxStartTabUnits);
+
+        autoStartButton = new QPushButton(StartTab);
+        autoStartButton->setObjectName(QString::fromUtf8("autoStartButton"));
+        autoStartButton->setGeometry(QRect(520, 40, 201, 71));
+        autoStartButton->setFont(font);
+        manualStartButton = new QPushButton(StartTab);
+        manualStartButton->setObjectName(QString::fromUtf8("manualStartButton"));
+        manualStartButton->setGeometry(QRect(520, 180, 201, 71));
+        manualStartButton->setFont(font);
+        tabWidget->addTab(StartTab, QString());
         settingsTab = new QWidget();
         settingsTab->setObjectName(QString::fromUtf8("settingsTab"));
         userNameLabel = new QLabel(settingsTab);
@@ -296,16 +296,16 @@ public:
     void retranslateUi(QMainWindow *CarMainWindow)
     {
         CarMainWindow->setWindowTitle(QApplication::translate("CarMainWindow", "Speed freak", 0, QApplication::UnicodeUTF8));
+        buttonTopRefresh->setText(QApplication::translate("CarMainWindow", "Refresh list", 0, QApplication::UnicodeUTF8));
+        labelCategory->setText(QApplication::translate("CarMainWindow", "Category:", 0, QApplication::UnicodeUTF8));
+        labelTopList->setText(QApplication::translate("CarMainWindow", "TopList", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tabTop), QApplication::translate("CarMainWindow", "Top", 0, QApplication::UnicodeUTF8));
         startLabel->setText(QApplication::translate("CarMainWindow", "Start:", 0, QApplication::UnicodeUTF8));
         stopLabel->setText(QApplication::translate("CarMainWindow", "Stop:", 0, QApplication::UnicodeUTF8));
         unitLabel->setText(QApplication::translate("CarMainWindow", "Unit:", 0, QApplication::UnicodeUTF8));
         autoStartButton->setText(QApplication::translate("CarMainWindow", "Auto start", 0, QApplication::UnicodeUTF8));
         manualStartButton->setText(QApplication::translate("CarMainWindow", "Manual start", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(StartTab), QApplication::translate("CarMainWindow", "Start", 0, QApplication::UnicodeUTF8));
-        buttonTopRefresh->setText(QApplication::translate("CarMainWindow", "Refresh list", 0, QApplication::UnicodeUTF8));
-        labelCategory->setText(QApplication::translate("CarMainWindow", "Category:", 0, QApplication::UnicodeUTF8));
-        labelTopList->setText(QApplication::translate("CarMainWindow", "TopList", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tabTop), QApplication::translate("CarMainWindow", "Top", 0, QApplication::UnicodeUTF8));
         userNameLabel->setText(QApplication::translate("CarMainWindow", "User:", 0, QApplication::UnicodeUTF8));
         setUserPushButton->setText(QApplication::translate("CarMainWindow", "Set User", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(settingsTab), QApplication::translate("CarMainWindow", "Settings", 0, QApplication::UnicodeUTF8));
