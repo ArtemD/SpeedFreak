@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading UI file 'carmainwindow.ui'
+** Form generated from reading ui file 'carmainwindow.ui'
 **
-** Created: Wed Mar 17 11:45:21 2010
-**      by: Qt User Interface Compiler version 4.6.1
+** Created: Thu Mar 18 09:17:23 2010
+**      by: Qt User Interface Compiler version 4.5.3
 **
-** WARNING! All changes made in this file will be lost when recompiling UI file!
+** WARNING! All changes made in this file will be lost when recompiling ui file!
 ********************************************************************************/
 
 #ifndef UI_CARMAINWINDOW_H
@@ -70,6 +70,7 @@ public:
     QLabel *labelMeasureTabSpeed;
     QLabel *labelMeasureTabResultHeader_2;
     QLabel *labelMeasureTabResult;
+    QPushButton *pushButtonShowResultDialog;
     QWidget *tab;
     QCheckBox *gpsOnCheckBox;
     QPushButton *startRecPushButton;
@@ -114,7 +115,7 @@ public:
         layoutWidget->setGeometry(QRect(10, 10, 341, 141));
         verticalLayout_3 = new QVBoxLayout(layoutWidget);
         verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setMargin(11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         labelCategory = new QLabel(layoutWidget);
@@ -149,7 +150,7 @@ public:
         layoutWidget1->setGeometry(QRect(160, 10, 311, 301));
         verticalLayout_2 = new QVBoxLayout(layoutWidget1);
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setMargin(11);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         startLabel = new QLabel(layoutWidget1);
@@ -254,6 +255,9 @@ public:
         labelMeasureTabResult->setObjectName(QString::fromUtf8("labelMeasureTabResult"));
         labelMeasureTabResult->setGeometry(QRect(570, 60, 61, 61));
         labelMeasureTabResult->setFont(font6);
+        pushButtonShowResultDialog = new QPushButton(tabMeasureResult);
+        pushButtonShowResultDialog->setObjectName(QString::fromUtf8("pushButtonShowResultDialog"));
+        pushButtonShowResultDialog->setGeometry(QRect(470, 140, 161, 71));
         tabWidget->addTab(tabMeasureResult, QString());
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
@@ -319,6 +323,7 @@ public:
         labelMeasureTabSpeed->setText(QApplication::translate("CarMainWindow", "0", 0, QApplication::UnicodeUTF8));
         labelMeasureTabResultHeader_2->setText(QApplication::translate("CarMainWindow", "Time:", 0, QApplication::UnicodeUTF8));
         labelMeasureTabResult->setText(QApplication::translate("CarMainWindow", "0", 0, QApplication::UnicodeUTF8));
+        pushButtonShowResultDialog->setText(QApplication::translate("CarMainWindow", "Show diagram", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tabMeasureResult), QApplication::translate("CarMainWindow", "Measure", 0, QApplication::UnicodeUTF8));
         gpsOnCheckBox->setText(QApplication::translate("CarMainWindow", "GPS on", 0, QApplication::UnicodeUTF8));
         startRecPushButton->setText(QApplication::translate("CarMainWindow", "Start recording", 0, QApplication::UnicodeUTF8));
@@ -326,6 +331,7 @@ public:
         drawRoutePushButton->setText(QApplication::translate("CarMainWindow", "Draw route", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("CarMainWindow", "Route", 0, QApplication::UnicodeUTF8));
         registratePushButton->setText(QApplication::translate("CarMainWindow", "Registrate", 0, QApplication::UnicodeUTF8));
+        Q_UNUSED(CarMainWindow);
     } // retranslateUi
 
 };

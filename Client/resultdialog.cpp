@@ -321,8 +321,3 @@ void ResultDialog::setTimesIntoLabels()
         ui->labelResult100kmh->show();
     }
 }
-
-void ResultDialog::on_pushButtonSend_clicked()
-{
-    emit sendresult();
-}
