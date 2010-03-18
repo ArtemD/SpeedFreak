@@ -691,7 +691,7 @@ void CarMainWindow::readAccelerometerData()
     s.sprintf("%.2f", changeInAcceleration);
     currentAccelerationString = s;
 
-    double speed = 0.0;
+    speed = 0.0;
     speed = calculate->getCurrentSpeed();
     speed = ((speed*1000)/kSecondsInHour);
     s.sprintf("%.2f", speed);
@@ -703,9 +703,10 @@ void CarMainWindow::readAccelerometerData()
     // TODO
     //distanceTraveled;
     //horsepower;
-    //totalTime;
 
-    s.sprintf("%.2f", calculate->getTotalTime());
+    time = calculate->getTotalTime();
+
+    s.sprintf("%.2f", time);
     totalTime = s;
 
     str.append("ca: " + currentAccelerationString + " G\n" );
