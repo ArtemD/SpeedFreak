@@ -22,6 +22,8 @@ public:
     ResultDialog(QWidget *parent = 0);
     ~ResultDialog();
     void saveMeasuresToArray(Measures *pMeasures);
+    void setDiagramGapStem(double pDiagramGapStem);
+    void setDiagramGapHorizontal(double pDiagramGapHorizontal);
 
 signals:
     void sendresult();
@@ -32,10 +34,15 @@ protected:
 
 private:
     QPoint changeMeasuresToDiagramPoint(int aSpeed, qreal aTime);
-    qreal timeArray[10];
+    void setTimesIntoLabels();
 
 private:
     Ui::ResultDialog *ui;
+    qreal timeArray[11];
+    double diagramGapStem;
+    double diagramGapHorizontal;
+    QStringList speedList;
+    QStringList timeList;
 
 private slots:
     void on_pushButtonSend_clicked();

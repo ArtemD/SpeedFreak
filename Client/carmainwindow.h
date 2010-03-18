@@ -25,7 +25,7 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QDebug>
-//#include "resultdialog.h"
+#include "resultdialog.h"
 //#include "measuredialog.h"
 #include "welcomedialog.h"
 #include "loginwindow.h"
@@ -62,7 +62,7 @@ protected:
 
 private:
     Ui::CarMainWindow *ui;
-    //ResultDialog *result;
+    ResultDialog *result;
     //MeasureDialog *measure;
     WelcomeDialog *welcomeDialog;
     CategoryList *categorylist;
@@ -85,11 +85,15 @@ private:
     double speed;
     Measures *measures;
 
+    QModelIndex choice;
+    int choiceInt;
+
 signals:
     void speedAchieved();
     void userNameChanged();
 
 private slots:
+    void on_pushButtonShowResultDialog_clicked();
     void on_drawRoutePushButton_clicked();
     void on_pushButtonSendResult_clicked();
     void on_pushButtonMeasureTabAbort_clicked();

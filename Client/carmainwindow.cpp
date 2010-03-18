@@ -20,7 +20,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 {
     ui->setupUi(this);
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
-    //result = new ResultDialog();
+    result = new ResultDialog();
     //measure = new MeasureDialog();
     welcomeDialog = new WelcomeDialog();
     welcomeDialog->show();
@@ -105,7 +105,27 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
+    choice = ui->listViewStartTabAccelerationCategories->currentIndex();
+    choiceInt = choice.row();
+    qDebug() << choiceInt;
+    if (choiceInt == 0)
+    {
+        ui->labelMeasureTabHeader->setText("Accelerate to 40 km/h");
+        result->setDiagramGapStem(75);
+    }
 
+    else if (choiceInt == 1)
+    {
+        ui->labelMeasureTabHeader->setText("Accelerate to 100 km/h");
+        result->setDiagramGapStem(30);
+    }
+
+    else
+    {
+        ui->labelMeasureTabHeader->setText("Accelerate to 80 km/h");
+        result->setDiagramGapStem(37.5);
+    }
+    ui->labelMeasureTabResult->setText("");
     //delete measure;
     //measure = NULL;
     //measure = new MeasureDialog();
@@ -114,6 +134,45 @@ void CarMainWindow::on_autoStartButton_clicked()
     timer->start();
     // Show measure dialog.
     //measure->show();
+
+    // TODO: Move next if else to the function which is called when target speed
+    // has reached.
+    if (choiceInt == 0)
+    {
+        if (floor(this->measures->getTime40kmh()) <= 5)
+        {
+            result->setDiagramGapHorizontal(80);
+        }
+
+        else if (floor(this->measures->getTime40kmh()) <= 10)
+        {
+            result->setDiagramGapHorizontal(40);
+        }
+
+        else
+        {
+            result->setDiagramGapHorizontal(20);
+        }
+    }
+
+    else
+    {
+        if (floor(this->measures->getTime40kmh()) <= 5)
+        {
+            result->setDiagramGapHorizontal(80);
+        }
+
+        else if (floor(this->measures->getTime40kmh()) <= 10)
+        {
+            result->setDiagramGapHorizontal(40);
+        }
+
+        else
+        {
+            result->setDiagramGapHorizontal(20);
+        }
+    }
+
     ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
@@ -194,6 +253,41 @@ void CarMainWindow::openResultView()
     //result->show();
     ui->pushButtonSendResult->setEnabled(true);
     QString timeInteger;
+    if (choiceInt == 0)
+    {
+        if (floor(this->measures->getTime40kmh()) <= 5)
+        {
+            result->setDiagramGapHorizontal(80);
+        }
+
+        else if (floor(this->measures->getTime40kmh()) <= 10)
+        {
+            result->setDiagramGapHorizontal(40);
+        }
+
+        else
+        {
+            result->setDiagramGapHorizontal(20);
+        }
+    }
+
+    else
+    {
+        if (floor(this->measures->getTime40kmh()) <= 5)
+        {
+            result->setDiagramGapHorizontal(80);
+        }
+
+        else if (floor(this->measures->getTime40kmh()) <= 10)
+        {
+            result->setDiagramGapHorizontal(40);
+        }
+
+        else
+        {
+            result->setDiagramGapHorizontal(20);
+        }
+    }
     timeInteger.setNum(this->measures->getTime40kmh());
     //time = "0 - 40 km/h: ";
     //time.append(timeInteger);
@@ -428,6 +522,28 @@ void CarMainWindow::regUserToServer()
 void CarMainWindow::on_drawRoutePushButton_clicked()
 {
     myRoute->show();
+}
+
+/**
+  * Opens result dialog when show result button is clicked.
+  * Sends measures as parameter to the resultdialogs saveMeasuresToArray-function.
+  */
+void CarMainWindow::on_pushButtonShowResultDialog_clicked()
+{
+    Measures meas;
+    meas.setTime10kmh(1.3);
+    meas.setTime20kmh(2.5);
+    meas.setTime30kmh(3.6);
+    meas.setTime40kmh(6.7);
+    meas.setTime50kmh(7.3);
+    meas.setTime60kmh(7.5);
+    meas.setTime70kmh(8.6);
+    meas.setTime80kmh(8.7);
+    meas.setTime90kmh(9.6);
+    meas.setTime100kmh(9.9);
+    result->setDiagramGapHorizontal(40);
+    result->saveMeasuresToArray(&meas);
+    this->result->show();
 }
 
 void CarMainWindow::userLogin()
