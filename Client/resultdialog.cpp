@@ -43,6 +43,7 @@ ResultDialog::ResultDialog(QWidget *parent) :
     ui(new Ui::ResultDialog)
 {
     ui->setupUi(this);
+    timeAxelLength = 10;
     speedList << "0" << "10" << "20" << "30" << "40" << "50" << "60" << "70" << "80" << "90" << "100" ;
     timeList << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11"
             << "12" << "13" << "14" << "15" << "16" << "17" << "18" << "19" << "20";
@@ -74,7 +75,7 @@ void ResultDialog::changeEvent(QEvent *e)
  */
 void ResultDialog::paintEvent(QPaintEvent *)
 {
-        QPainter painter(this);
+    QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen((Qt::red),2));
@@ -157,31 +158,31 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
     if (this->diagramGapStem == DIAGRAMGAP100KMH)
     {
         speedAsPixels = DIAGRAM_HEIGHT*aSpeed/100;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/10;
+        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP80KMH)
     {
         speedAsPixels = DIAGRAM_HEIGHT*aSpeed/80;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/10;
+        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP60KMH)
     {
         speedAsPixels = DIAGRAM_HEIGHT*aSpeed/60;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/10;
+        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP50KMH)
     {
         speedAsPixels = DIAGRAM_HEIGHT*aSpeed/50;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/10;
+        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
     }
 
     else
     {
         speedAsPixels = DIAGRAM_HEIGHT*aSpeed/40;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/10;
+        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
     }
     point.setY(diagramStemStart.y()-speedAsPixels);
     point.setX(diagramStemStart.x()+timeAsPixels);
@@ -206,6 +207,8 @@ void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
     timeArray[8] = pMeasures->getTime80kmh();
     timeArray[9] = pMeasures->getTime90kmh();
     timeArray[10] = pMeasures->getTime100kmh();
+
+    setTimeAxelLength();
 
     for (int i = 0; i < 11; i++)
     {
@@ -311,6 +314,16 @@ void ResultDialog::setTimesIntoLabels()
         ui->labelResult100kmh->hide();
     }
 
+    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    {
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->show();
+        ui->labelResult80kmh->show();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
     else
     {
         ui->labelResult50kmh->show();
@@ -319,5 +332,81 @@ void ResultDialog::setTimesIntoLabels()
         ui->labelResult80kmh->show();
         ui->labelResult90kmh->show();
         ui->labelResult100kmh->show();
+    }
+}
+
+/**
+  * Sets right timeAxelLength value depending the time which
+  * has spent to reach target speed.
+  */
+void ResultDialog::setTimeAxelLength()
+{
+    if (this->diagramGapStem == DIAGRAMGAP40KMH)
+    {
+        if (timeArray[4] <= 5)
+        {
+            timeAxelLength = 5;
+        }
+
+        else if (timeArray[4] <= 10)
+        {
+            timeAxelLength = 10;
+        }
+
+        else if (timeArray[4] <= 15)
+        {
+            timeAxelLength = 15;
+        }
+
+        else
+        {
+            timeAxelLength = 20;
+        }
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    {
+        if (timeArray[8] <= 5)
+        {
+            timeAxelLength = 5;
+        }
+
+        else if (timeArray[8] <= 10)
+        {
+            timeAxelLength = 10;
+        }
+
+        else if (timeArray[8] <= 15)
+        {
+            timeAxelLength = 15;
+        }
+
+        else
+        {
+            timeAxelLength = 20;
+        }
+    }
+
+    else
+    {
+        if (timeArray[10] <= 5)
+        {
+            timeAxelLength = 5;
+        }
+
+        else if (timeArray[10] <= 10)
+        {
+            timeAxelLength = 10;
+        }
+
+        else if (timeArray[10] <= 15)
+        {
+            timeAxelLength = 15;
+        }
+
+        else
+        {
+            timeAxelLength = 20;
+        }
     }
 }

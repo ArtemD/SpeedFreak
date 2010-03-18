@@ -35,6 +35,7 @@ protected:
 private:
     QPoint changeMeasuresToDiagramPoint(int aSpeed, qreal aTime);
     void setTimesIntoLabels();
+    void setTimeAxelLength();
 
 private:
     Ui::ResultDialog *ui;
@@ -43,6 +44,7 @@ private:
     double diagramGapHorizontal;
     QStringList speedList;
     QStringList timeList;
+    int timeAxelLength;
 
 private slots:
     void on_pushButtonSend_clicked();
