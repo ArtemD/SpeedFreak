@@ -46,6 +46,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     location = new Maemo5Location(this);
     gpsData = new GPSData(location);
     connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
+    gpsTime = new QDateTime();
 
     time = 0;
     speed = 0;
@@ -103,6 +104,8 @@ CarMainWindow::~CarMainWindow()
     myRoute = NULL;
     delete gpsData;
     gpsData = NULL;
+    delete gpsTime;
+    gpsTime = NULL;
 }
 
 /**
@@ -763,7 +766,16 @@ void CarMainWindow::gpsStatus()
     {
         if (location->getSatellitesInUse() >= 4)
         {
+            //Set status
             ui->labelRouteTabGPSStatus->setText("GPS ready");
+
+            //Set time
+            gpsTime->setTime_t(location->getTime());
+            ui->labelRouteTabGPSTime->setText(gpsTime->toString());
+
+            //Set latitude & longitude
+            ui->labelRouteTabLatitude->setText("Lat: " + QString::number(location->getLatitude()));
+            ui->labelRouteTabLongitude->setText("Lon: " + QString::number(location->getLongitude()));
         }
 
         else

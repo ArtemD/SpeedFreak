@@ -467,24 +467,46 @@
      <widget class="QCheckBox" name="gpsOnCheckBox">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>20</y>
-        <width>94</width>
-        <height>22</height>
+        <width>201</width>
+        <height>41</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>GPS on</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="startRecPushButton">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>76</y>
-        <width>151</width>
-        <height>51</height>
+        <width>201</width>
+        <height>61</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Start recording</string>
@@ -493,11 +515,19 @@
      <widget class="QPushButton" name="stopRecPushButton">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>150</y>
-        <width>151</width>
-        <height>51</height>
+        <x>10</x>
+        <y>160</y>
+        <width>201</width>
+        <height>61</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Stop recording</string>
@@ -506,22 +536,30 @@
      <widget class="QPushButton" name="drawRoutePushButton">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>220</y>
-        <width>151</width>
-        <height>51</height>
+        <x>10</x>
+        <y>250</y>
+        <width>201</width>
+        <height>61</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Draw route</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>310</x>
         <y>16</y>
-        <width>221</width>
+        <width>451</width>
         <height>211</height>
        </rect>
       </property>
@@ -530,6 +568,13 @@
         <widget class="QLabel" name="labelRouteTabGPSStatus">
          <property name="text">
           <string>Label GPS Status</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabGPSTime">
+         <property name="text">
+          <string>Label GPS Time</string>
          </property>
         </widget>
        </item>
