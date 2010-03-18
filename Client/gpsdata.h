@@ -14,8 +14,9 @@
 
 class GPSData : public QObject
 {
+    Q_OBJECT
 public:
-    GPSData();
+    GPSData(Maemo5Location *maemo5location);
     ~GPSData();
 
 private:

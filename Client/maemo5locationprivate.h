@@ -58,6 +58,7 @@ public:
     double get_climb() { return climb; }
     double get_epc() { return epc; }
     double distance_between_two_points(double latitude_s, double longitude_s, double latitude_f, double longitude_f);
+    void stop();
 
 signals:
     void awcp();
@@ -71,7 +72,7 @@ signals:
 
 private:
     void resetAll();
-    void stop();
+    //void stop();
     void restart();
 
     int satellites_in_view;

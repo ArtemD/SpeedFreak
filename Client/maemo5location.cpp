@@ -18,16 +18,14 @@ Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
 {
     ptr = new Maemo5LocationPrivate(this);
 
-    connect(ptr,SIGNAL(agnss()),this,SIGNAL(agnss()));
-    connect(ptr,SIGNAL(awcp()),this,SIGNAL(awcp()));
-    connect(ptr,SIGNAL(locationUpdated()),this,SIGNAL(locationUpdated()));
+    connect(ptr, SIGNAL(agnss()), this, SIGNAL(agnss()));
+    connect(ptr, SIGNAL(awcp()), this, SIGNAL(awcp()));
+    connect(ptr, SIGNAL(locationUpdated()), this, SIGNAL(locationUpdated()));
     connect(ptr, SIGNAL(gps_connected()), this, SIGNAL(gps_connected()));
     connect(ptr, SIGNAL(gps_disconnected()), this, SIGNAL(gps_disconnected()));
     connect(ptr, SIGNAL(gps_err(int)), this, SIGNAL(gps_error(int)));
     connect(ptr, SIGNAL(gpsd_running()), this, SIGNAL(gpsd_running()));
-    connect(ptr, SIGNAL(gpsd_stopped()), this, SIGNAL(gpsd_stopped()));
-
-    ptr->get_agnss();
+    connect(ptr, SIGNAL(gpsd_stopped()), this, SIGNAL(gpsd_stopped())); 
 }
 
 /**
@@ -39,19 +37,19 @@ Maemo5Location::~Maemo5Location()
 }
 
 /**
-  *Returns latitude.
+  *Start polling gps.
   */
-double Maemo5Location::getLatitude()
+void Maemo5Location::startPollingGPS()
 {
-    return ptr->get_lat();
+    ptr->get_agnss();
 }
 
 /**
-  *Returns longitude.
+  *Stop polling gps.
   */
-double Maemo5Location::getLongitude()
+void Maemo5Location::stopPollingGPS()
 {
-    return ptr->get_lon();
+    ptr->stop();
 }
 
 /**
@@ -76,6 +74,30 @@ int Maemo5Location::getSatellitesInView()
 int Maemo5Location::getSignalStrength()
 {
     return ptr->get_signal_strength();
+}
+
+/**
+  *Returns gps online.
+  */
+bool Maemo5Location::getGpsOnline()
+{
+    return ptr->get_gps_online();
+}
+
+/**
+  *Returns latitude.
+  */
+double Maemo5Location::getLatitude()
+{
+    return ptr->get_lat();
+}
+
+/**
+  *Returns longitude.
+  */
+double Maemo5Location::getLongitude()
+{
+    return ptr->get_lon();
 }
 
 /**

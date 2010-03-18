@@ -42,6 +42,8 @@
 #include "httpclient.h"
 #include "routedialog.h"
 #include "calculate.h"
+#include "gpsdata.h"
+#include <maemo5location.h>
 
 namespace Ui {
     class CarMainWindow;
@@ -72,6 +74,8 @@ private:
     HttpClient *myHttpClient;
     LoginWindow *myLogin;
     RouteDialog *myRoute;
+    GPSData *gpsData;
+    Maemo5Location *location;
     //void initCategoryCompoBox();
     void initComboBoxStartTabUnits();                   //Start-tab view
     void initListViewStartTabAccelerationCategories();  //Start-tab view
@@ -122,6 +126,8 @@ signals:
 
 private slots:
     void on_pushButtonShowResultDialog_clicked();
+    void on_gpsOnCheckBox_stateChanged(int GPSState);   //Route-tab view
+    void gpsStatus();                                   //Route-tab view
     void on_drawRoutePushButton_clicked();
     void on_pushButtonSendResult_clicked();
     void on_pushButtonMeasureTabAbort_clicked();

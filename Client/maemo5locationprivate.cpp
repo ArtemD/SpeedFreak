@@ -62,7 +62,7 @@ void Maemo5LocationPrivate::get_agnss()
 }
 
 /**
-  *Stop pollling
+  *Stop polling gps
   */
 void Maemo5LocationPrivate::stop()
 {
@@ -180,7 +180,7 @@ void gps_data_changed(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
             gps->satellites_in_use = gps->device->satellites_in_use;
             gps->satellites_in_view = gps->device->satellites_in_view;
 
-            if(gps->device->fix->fields & 	 LOCATION_GPS_DEVICE_TIME_SET)
+            if(gps->device->fix->fields & LOCATION_GPS_DEVICE_TIME_SET)
             {
                 gps->time = gps->device->fix->time;
                 gps->ept = gps->device->fix->ept;
@@ -217,7 +217,7 @@ void gps_data_changed(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
             {
                 for(int i=0 ; i < gps->satellites_in_use ; i++)
                 {
-                    LocationGPSDeviceSatellite * view = (LocationGPSDeviceSatellite*) g_ptr_array_index (gps->device->satellites, i);
+                    LocationGPSDeviceSatellite *view = (LocationGPSDeviceSatellite*) g_ptr_array_index (gps->device->satellites, i);
                     temp = temp + view->signal_strength;
                 }
                 gps->signal_strength = (temp / gps->satellites_in_use);

@@ -20,9 +20,12 @@ public:
     Maemo5Location(QObject* parent = 0);
     ~Maemo5Location();
 
+    void startPollingGPS();
+    void stopPollingGPS();
     int getSatellitesInUse();
     int getSatellitesInView();
     int getSignalStrength();
+    bool getGpsOnline();
     double getLatitude();
     double getLongitude();
     double getTime();

@@ -516,6 +516,39 @@
        <string>Draw route</string>
       </property>
      </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>16</y>
+        <width>221</width>
+        <height>211</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="labelRouteTabGPSStatus">
+         <property name="text">
+          <string>Label GPS Status</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabLatitude">
+         <property name="text">
+          <string>Label Latitude</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabLongitude">
+         <property name="text">
+          <string>Label Longitude</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="registratePushButton">
