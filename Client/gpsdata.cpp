@@ -11,9 +11,9 @@
 /**
   *Default constructor of this class.
   */
-GPSData::GPSData()
+GPSData::GPSData(Maemo5Location *maemo5location)
 {
-    location = new Maemo5Location(this);
+    location = maemo5location;
 
     connect(location,SIGNAL(agnss()),this,SLOT(agnss()));
     connect(location,SIGNAL(awcp()),this,SLOT(awcp()));
@@ -39,6 +39,7 @@ void GPSData::agnss()
     QString satellitesInUse = QString::number(location->getSatellitesInUse());  //Returns number of satellites in use.
     QString satellitesInView = QString::number(location->getSatellitesInView());//Returns number of satellites in view.
     QString signalStrength = QString::number(location->getSignalStrength());    //Returns average signal strength of satellites which are in use.
+    QString gpsOnline = QString::number(location->getGpsOnline());              //Returns gsp online
     QString latitude = QString::number(location->getLatitude());                //Returns latitude.
     QString longitude = QString::number(location->getLongitude());              //Returns longitude.
     QString time = QString::number(location->getTime());                        //Returns timestamp of the update in seconds.

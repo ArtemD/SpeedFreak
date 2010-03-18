@@ -36,6 +36,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     connect(myLogin,SIGNAL(userNameChanged()),this,SLOT(userLogin()));
     myRoute = new RouteDialog( this);
 
+    //GPS
+    location = new Maemo5Location(this);
+    gpsData = new GPSData(location);
+    connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
+
     time = 0;
     speed = 0;
     timer = new QTimer();
@@ -58,16 +63,22 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 }
 
 /**
-  *Destructor of this class. Should be used to release all allocated resources.
+  *Destructor of this class. Deletes all dynamic objects and sets them to NULL.
   */
 CarMainWindow::~CarMainWindow()
 {
     delete ui;
+    ui = NULL;
     //delete result;
     //delete measure;
     delete categorylist;
+    categorylist = NULL;
     delete welcomeDialog;
+    welcomeDialog = NULL;
     delete myRoute;
+    myRoute = NULL;
+    delete gpsData;
+    gpsData = NULL;
 }
 
 /**
@@ -433,4 +444,41 @@ void CarMainWindow::on_drawRoutePushButton_clicked()
 void CarMainWindow::userLogin()
 {
     myHttpClient->checkLogin();
+}
+
+/**
+  *This slot function is called when GPS on checkbox state changed.  Route-tab view.
+  *@param int GPSState
+  */
+void CarMainWindow::on_gpsOnCheckBox_stateChanged(int GPSState)
+{
+    if (GPSState == 0)
+    {
+        ui->labelRouteTabGPSStatus->setText("GPS off");//testing
+        location->stopPollingGPS();
+    }
+    else
+    {
+        ui->labelRouteTabGPSStatus->setText("GPS on");//testing
+        location->startPollingGPS();
+    }
+}
+
+/**
+  *This slot function is called when GPS status changed.  Route-tab view.
+  */
+void CarMainWindow::gpsStatus()
+{
+    if (ui->gpsOnCheckBox->isChecked())
+    {
+        if (location->getSatellitesInUse() >= 4)
+        {
+            ui->labelRouteTabGPSStatus->setText("GPS ready");
+        }
+
+        else
+        {
+            ui->labelRouteTabGPSStatus->setText("Waiting for GPS");
+        }
+    }
 }
