@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'carmainwindow.ui'
 **
-** Created: Thu Mar 18 09:17:23 2010
+** Created: Thu Mar 18 13:34:56 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -76,6 +76,11 @@ public:
     QPushButton *startRecPushButton;
     QPushButton *stopRecPushButton;
     QPushButton *drawRoutePushButton;
+    QWidget *widget;
+    QVBoxLayout *verticalLayout;
+    QLabel *labelRouteTabGPSStatus;
+    QLabel *labelRouteTabLatitude;
+    QLabel *labelRouteTabLongitude;
     QPushButton *registratePushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -273,6 +278,29 @@ public:
         drawRoutePushButton = new QPushButton(tab);
         drawRoutePushButton->setObjectName(QString::fromUtf8("drawRoutePushButton"));
         drawRoutePushButton->setGeometry(QRect(30, 220, 151, 51));
+        widget = new QWidget(tab);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(310, 16, 221, 211));
+        verticalLayout = new QVBoxLayout(widget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setMargin(11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        labelRouteTabGPSStatus = new QLabel(widget);
+        labelRouteTabGPSStatus->setObjectName(QString::fromUtf8("labelRouteTabGPSStatus"));
+
+        verticalLayout->addWidget(labelRouteTabGPSStatus);
+
+        labelRouteTabLatitude = new QLabel(widget);
+        labelRouteTabLatitude->setObjectName(QString::fromUtf8("labelRouteTabLatitude"));
+
+        verticalLayout->addWidget(labelRouteTabLatitude);
+
+        labelRouteTabLongitude = new QLabel(widget);
+        labelRouteTabLongitude->setObjectName(QString::fromUtf8("labelRouteTabLongitude"));
+
+        verticalLayout->addWidget(labelRouteTabLongitude);
+
         tabWidget->addTab(tab, QString());
         registratePushButton = new QPushButton(centralWidget);
         registratePushButton->setObjectName(QString::fromUtf8("registratePushButton"));
@@ -329,6 +357,9 @@ public:
         startRecPushButton->setText(QApplication::translate("CarMainWindow", "Start recording", 0, QApplication::UnicodeUTF8));
         stopRecPushButton->setText(QApplication::translate("CarMainWindow", "Stop recording", 0, QApplication::UnicodeUTF8));
         drawRoutePushButton->setText(QApplication::translate("CarMainWindow", "Draw route", 0, QApplication::UnicodeUTF8));
+        labelRouteTabGPSStatus->setText(QApplication::translate("CarMainWindow", "Label GPS Status", 0, QApplication::UnicodeUTF8));
+        labelRouteTabLatitude->setText(QApplication::translate("CarMainWindow", "Label Latitude", 0, QApplication::UnicodeUTF8));
+        labelRouteTabLongitude->setText(QApplication::translate("CarMainWindow", "Label Longitude", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("CarMainWindow", "Route", 0, QApplication::UnicodeUTF8));
         registratePushButton->setText(QApplication::translate("CarMainWindow", "Registrate", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(CarMainWindow);

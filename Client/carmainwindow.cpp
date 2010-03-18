@@ -53,7 +53,6 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     // Accelerometer
     accelerometer = new Accelerometer();
-    accelerometer->setSampleRate(100);
 
     reverseAccelerationFlag = false;
     vehicleStartedMoving = false;
@@ -165,7 +164,6 @@ void CarMainWindow::on_autoStartButton_clicked()
     //measure = NULL;
     //measure = new MeasureDialog();
    // connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
-    accelerometer->start();
     timer->start();
     // Show measure dialog.
     //measure->show();
@@ -397,10 +395,8 @@ void CarMainWindow::on_manualStartButton_clicked()
 void CarMainWindow::after_timeout()
 {
     QString timeString, speedString;
-    //time++;
-    time = accelerometer->getTotalTime();
-    speed = accelerometer->getCurrentSpeed();
-    //speed = speed +10;
+    time++;
+    speed = speed +10;
 
     if (floor(speed) == 10)
     {
@@ -461,7 +457,6 @@ void CarMainWindow::after_timeout()
     if (speed >= 40.0)
     {
         timer->stop();
-        accelerometer->stop();
         time = 0;
         speed = 0;
         //emit this->speedAchieved();
@@ -516,7 +511,6 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
     measures->setTime90kmh(0);
     measures->setTime100kmh(0);
     timer->stop();
-    accelerometer->stop();
     time = 0;
     speed = 0;
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
