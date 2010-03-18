@@ -5,12 +5,18 @@
  * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
  * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @author     Rikhard Kuutti <rikhard.kuutti@fudeco.com>
+ * @author     Kai Rasilainen <kai.rasilainen@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #include "carmainwindow.h"
 #include "math.h"
+
+#define kAccelerometerSampleRate    50
+#define kFilteringFactor            0.2
+#define kSecondsInHour              3600
 
 /**
   *Constructor of this class.
@@ -40,8 +46,26 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     speed = 0;
     timer = new QTimer();
 
+    // Accelerometer
     accelerometer = new Accelerometer();
     accelerometer->setSampleRate(100);
+
+    reverseAccelerationFlag = false;
+    vehicleStartedMoving = false;
+    isNewRun = true;
+    isSetup = false;
+    stopTime = 0;
+    accelerationStartThreshold = 0.02;
+
+    QTimer *accelerometerTimer = new QTimer(this);
+    connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
+    accelerometerTimer->start(kAccelerometerSampleRate);
+
+    // Calculate
+    calculate = new Calculate();
+    //connect(calculate, SIGNAL(checkPointReached()), this, SLOT(handleCheckPoint()));
+
+    resetAccelerometerMeasurements();
 
     measures = new Measures();
     this->initializeMeasures();
@@ -549,4 +573,154 @@ void CarMainWindow::on_pushButtonShowResultDialog_clicked()
 void CarMainWindow::userLogin()
 {
     myHttpClient->checkLogin();
+}
+
+/**
+  * Resets Accelerometer measurement variables
+  */
+void CarMainWindow::resetAccelerometerMeasurements()
+{
+    currentAcceleration = 0;
+    currentAccelerationString = "";
+    currentSpeed = "";
+    currentTime = 0;
+    distanceTraveled = "";
+    firstAcceleration = 0;
+    //horsepower = null;
+    isNewRun = true;
+    //lastScreenUpdateInSeconds = 0;
+    previousTime = 0;
+    reverseAccelerationFlag = false;
+    stopWatch.setHMS(0, 0, 0, 0);
+    //accelerometer->stop();
+    totalTime = "";
+    vehicleStartedMoving = false;
+    calculate->reset();
+}
+
+/**
+  * This function is called to handle checkpoints
+  *@param totalTime total time elapsed since starting measurements
+  *@param currentSpeed current speed of the device
+  */
+void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
+{
+    // TODO
+    //totalTime;
+    //currentSpeed;
+    return;
+}
+
+/**
+  *This function is called to read (and process) data from the accelerometer
+  */
+void CarMainWindow::readAccelerometerData()
+{
+    QString s;
+    double changeInAcceleration = 0;
+    qreal x, y, z;
+
+    accelerometer->getAcceleration(x, y, z);
+    accelerometer->smoothData(x, y, z);
+
+    // Apply calibration
+    x -= accelerometer->getCalibrationX();
+    y -= accelerometer->getCalibrationY();
+    z -= accelerometer->getCalibrationZ();
+
+    QString str = QString("acc x: " + QString::number(x) + "\n" +
+                          "acc y: " + QString::number(y) + "\n" +
+                          "acc z: " + QString::number(z) + "\n");
+
+    if (!vehicleStartedMoving)
+    {
+        if (isNewRun)
+        {
+            firstAcceleration = sqrt(x*x + y*y + z*z);
+            //firstAcceleration = y; // first read
+            isNewRun = false;
+        }
+    }
+
+    currentAcceleration = sqrt(x*x + y*y + z*z);
+    changeInAcceleration = (currentAcceleration - firstAcceleration); // firstAcceleration only gets set once
+
+    if (((abs(changeInAcceleration) <= accelerationStartThreshold)
+                && !vehicleStartedMoving))
+    {
+        return;
+    }
+
+    if (reverseAccelerationFlag)
+    {
+        // will be false until after 1st calculation
+        if ((changeInAcceleration <= 0))
+        {
+            // actually increasing here...
+            changeInAcceleration = abs(changeInAcceleration);
+        }
+        else
+        {
+            // actually decreasing here...
+            changeInAcceleration = (changeInAcceleration * -1);
+        }
+    }
+    if (!vehicleStartedMoving)
+    {
+        if ((changeInAcceleration < 0))
+        {
+            // we started to move backwards first time through
+            reverseAccelerationFlag = true;
+            changeInAcceleration = abs(changeInAcceleration);
+        }
+        vehicleStartedMoving = true;
+
+        stopWatch.setHMS(0, 0, 0, 0);
+        stopWatch.start();
+    }
+    //  keep the following line as close to the SetKinematicsProperties method as possible
+    currentTime = stopWatch.elapsed();
+    calculate->calculateParameters(changeInAcceleration, (currentTime - previousTime)/1000);
+    previousTime = currentTime;
+
+    s.sprintf("%.2f", changeInAcceleration);
+    currentAccelerationString = s;
+
+    double speed = 0.0;
+    speed = calculate->getCurrentSpeed();
+    speed = ((speed*1000)/kSecondsInHour);
+    s.sprintf("%.2f", speed);
+    currentSpeed = s;
+
+    s.sprintf("%.2f", calculate->getDistanceTraveled());
+    distanceTraveled = s;
+
+    // TODO
+    //distanceTraveled;
+    //horsepower;
+    //totalTime;
+
+    s.sprintf("%.2f", calculate->getTotalTime());
+    totalTime = s;
+
+    str.append("ca: " + currentAccelerationString + " G\n" );
+    str.append("cspeed: " + currentSpeed + " km/h \n" );
+    str.append("dist: " + distanceTraveled + " m \n" );
+    str.append("time: " + totalTime + " s \n" );
+
+    if ((stopTime > 0) && (previousTime >= stopTime))
+    {
+        // we want to end at a stopping point that the user chose
+        // output results
+        resetAccelerometerMeasurements();
+    }
+}
+
+/**
+  *This function is used to calibrate accelerometer
+  */
+void CarMainWindow::calibrateAccelerometer()
+{
+    resetAccelerometerMeasurements();
+    accelerometer->calibrate();
 }

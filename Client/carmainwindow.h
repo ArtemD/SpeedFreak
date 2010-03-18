@@ -5,6 +5,8 @@
  * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
  * @author     Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @author     Rikhard Kuutti <rikhard.kuutti@fudeco.com>
+ * @author     Kai Rasilainen <kai.rasilainen@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -39,6 +41,7 @@
 #include "categorylist.h"
 #include "httpclient.h"
 #include "routedialog.h"
+#include "calculate.h"
 
 namespace Ui {
     class CarMainWindow;
@@ -73,6 +76,8 @@ private:
     void initComboBoxStartTabUnits();                   //Start-tab view
     void initListViewStartTabAccelerationCategories();  //Start-tab view
     void initializeMeasures();
+    void resetAccelerometerMeasurements();
+    void calibrateAccelerometer();
 
 private:
     QStringList accelerationCategoriesStartTab;         //Start-tab view
@@ -87,6 +92,29 @@ private:
 
     QModelIndex choice;
     int choiceInt;
+
+    Calculate *calculate;
+
+    bool reverseAccelerationFlag;
+    bool vehicleStartedMoving;
+    bool isNewRun;
+    bool isSetup;
+
+    double stopTime;
+    double accelerationStartThreshold;
+    double currentAcceleration;
+    double currentTime;
+    double previousTime;
+    double firstAcceleration;
+
+    QTimer *accelerometerTimer;
+    QTime stopWatch;
+
+    QString currentAccelerationString;
+    QString currentSpeed;
+    QString distanceTraveled;
+    QString horsepower;
+    QString totalTime;
 
 signals:
     void speedAchieved();
@@ -112,6 +140,8 @@ private slots:
     void updateUserName();
     void regUserToServer();
     void userLogin();
+    void readAccelerometerData();
+    void handleCheckPoint(double totalTime, double currentSpeed);
 };
 
 #endif // CARMAINWINDOW_H
