@@ -27,6 +27,7 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QDebug>
+#include <qdatetime.h>
 #include "resultdialog.h"
 //#include "measuredialog.h"
 #include "welcomedialog.h"
@@ -119,6 +120,8 @@ private:
     QString distanceTraveled;
     QString horsepower;
     QString totalTime;
+
+    QDateTime *gpsTime;
 
 signals:
     void speedAchieved();
