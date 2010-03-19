@@ -2,4 +2,4 @@
 
 <categories>
     <?php foreach ($categories as $k){ ?>   <category description="<?php echo $k->description; ?>" unit="<?php echo $k->unit; ?>"><?php echo $k->slug; ?></category>
-<?php } ?></catgories>
+<?php } ?></categories>
