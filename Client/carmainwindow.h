@@ -83,6 +83,7 @@ private:
     void initializeMeasures();
     void resetAccelerometerMeasurements();
     void calibrateAccelerometer();
+    void setTimeAxisGapAndShowResult(double pTime);
 
 private:
     QStringList accelerationCategoriesStartTab;         //Start-tab view
@@ -122,6 +123,8 @@ private:
     QString totalTime;
 
     QDateTime *gpsTime;
+
+    int counterForSaveResults;
 
 signals:
     void speedAchieved();
