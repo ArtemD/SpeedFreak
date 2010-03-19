@@ -40,13 +40,14 @@ void Calculate::reset()
     peakPower = 0;
     currentPower = 0;
     currentSpeed = 0;
+    maxSpeed = 0;
     distanceTraveled = 0;
     lastAcceleration = 0;
     lastDistance = 0;
     lastSpeed = 0;
     numOfIterations = 0;
     totalTime = 0;
-    //count = 0;
+    count = 0;
 
     speedCheckPoints.append(10);
     speedCheckPoints.append(20);
@@ -77,6 +78,10 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
 
     // First integration of acceleration provides speed
     currentSpeed = (lastSpeed + (((currentAcceleration + lastAcceleration) * seconds) / 2));
+
+    // Update maximum speed
+    if (currentSpeed > maxSpeed)
+        maxSpeed = currentSpeed;
 
     // Second integration: distance.
     distanceTraveled = (lastDistance + (((currentSpeed + lastSpeed) * seconds) / 2));
@@ -129,7 +134,7 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
     }
 
     // Check for movement
-    //accelStoppedCheck(currentAcceleration);
+    accelStoppedCheck(currentAcceleration);
 
     lastSpeed = currentSpeed;
     lastAcceleration = currentAcceleration;
@@ -141,10 +146,8 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
   * a short period of time. Velocity is set to zero to avoid
   * distance errors.
   */
-/*
 void Calculate::accelStoppedCheck(double currentAcceleration)
 {
-
     // counting number of acceleration samples that equals zero
     if (currentAcceleration==0) {
         count++;
@@ -152,13 +155,13 @@ void Calculate::accelStoppedCheck(double currentAcceleration)
         count = 0;
     }
 
-    // if count exceeds 15, we assume that velocity is zero
-    if (count >= 15)
+    // if count exceeds 25, we assume that velocity is zero
+    if (count >= 25)
     {
         currentSpeed=0;
     }
 }
-*/
+
 // Getters and setters
 
 double Calculate::getAverageSpeed()
@@ -278,4 +281,13 @@ void Calculate::setAveragePower(double value)
     averagePower = value;
 }
 
+double Calculate::getMaxSpeed()
+{
+    return maxSpeed;
+}
+
+void Calculate::setMaxSpeed(double value)
+{
+    maxSpeed = value;
+}
 

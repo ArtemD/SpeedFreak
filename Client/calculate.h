@@ -23,7 +23,7 @@ public:
 
     void reset();
     void calculateParameters(double currentAcceleration, double seconds);
-    //void accelStoppedCheck(double currentAcceleration);
+    void accelStoppedCheck(double currentAcceleration);
 
     double getAverageSpeed();
     void setAverageSpeed(double value);
@@ -61,9 +61,13 @@ public:
     double getAveragePower();
     void setAveragePower(double value);
 
+    double getMaxSpeed();
+    void setMaxSpeed(double value);
+
 private:
     double averageSpeed;
     double currentSpeed;
+    double maxSpeed;
     double distanceTraveled;
     double lastAcceleration;
     double lastCheckpoint;
@@ -71,7 +75,7 @@ private:
     double lastSpeed;
     long numOfIterations;
     double totalTime;
-    //int count;
+    int count;
     double peakPower;
     double currentPower;
     double averagePower;
