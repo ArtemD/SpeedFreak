@@ -28,4 +28,32 @@ class Category_Model extends Model {
             return false;
     }
 
+    /*
+     * Check if category exists
+     *
+     * @param string $category Category name (slug)
+     * @return bool True if exists and False otherwise
+     */
+    public function category_exists($category){
+	$results = $this->db->query("SELECT id FROM categories where slug = ?", $category);
+    if ($results->count()>0)
+            return true;
+        else
+            return false;
+    }
+
+    /*
+     * Get category id
+     *
+     * @param string $category Category name (slug)
+     * @return integer|bool Category id if successful or false
+     */
+    public function get_id($category){
+	$results = $this->db->query("SELECT id FROM categories where slug = ?", $category);
+    if ($results->count()>0)
+            return $results[0]->id;
+        else
+            return false;
+    }
+
 }

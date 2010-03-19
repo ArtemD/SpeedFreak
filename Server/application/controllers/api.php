@@ -95,12 +95,55 @@ class Api_Controller extends Controller{
      */
     public function categories(){
 	if ($this->is_authorized()){
-		$xml = new View('api/categories');
+		$view = new View('api/categories');
 		$cat = new Category_Model();
-		$xml->categories=$cat->get_all();
-		$xml->render(true);
+		$view->categories=$cat->get_all();
+		$view->render(true);
     	}
 	else
 	   $this->not_authorized();
+    }
+
+    /*
+     * Get results
+     *
+     */
+    public function results($category, $limit){
+	$results = New Result_Model();
+	$cat = New Category_Model();
+        if ($cat->category_exists($category) AND $this->is_authorized()){
+	        $view = new View('api/results');
+	        $view->results = $results->get_results($category, $limit);
+	        $view->render(true);
+	    }
+        else
+            $this->not_authorized();
+    }
+
+    /*
+     * Submit results to selected category
+     *
+     * @param string $category Category to which results are submitted
+     */
+    public function update($category){
+	$cat = New Category_Model();
+	if ($cat->category_exists($category) AND $this->is_authorized()){
+		$xml = $this->get_xml();
+		$result = New Result_Model();
+		if ($result->insert($category,$_SERVER['PHP_AUTH_USER'], $xml['value'])){
+			print "OK";
+			die;
+		}
+		else {
+			header("HTTP/1.1 400 Bad Request");
+	            echo "Invalid request";
+	            die;
+		}
+	}
+	else {
+            header("HTTP/1.0 404 Not Found");
+            die('Category not found');
+	}
+
     }
 }

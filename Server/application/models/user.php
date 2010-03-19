@@ -90,6 +90,20 @@ class User_Model extends Model {
     }
     
     /*
+     * Get user id
+     *
+     * @param string $username Username
+     * @return integer|bool User id if successful or false
+     */
+    public function get_id($username){
+        $result = $this->db->query("SELECT id FROM users WHERE username = ?", $username);
+	if ($result->count()>0)
+           return $result[0]->id;
+        else
+           return false;
+    }
+
+    /*
      * Check if supplied credentials are valid
      * 
      * @param string $username Username
