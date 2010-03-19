@@ -111,7 +111,7 @@ class Api_Controller extends Controller{
     public function results($category, $limit){
 	$results = New Result_Model();
 	$cat = New Category_Model();
-        if ($cat->category_exists($category) AND $this->is_authorized()){
+        if ($cat->category_exists($category) AND $this->is_authorized() AND isset($limit)){
 	        $view = new View('api/results');
 	        $view->results = $results->get_results($category, $limit);
 	        $view->render(true);
@@ -142,7 +142,7 @@ class Api_Controller extends Controller{
 	}
 	else {
             header("HTTP/1.0 404 Not Found");
-            die('Category not found');
+            die('Category not found or not authorized');
 	}
 
     }

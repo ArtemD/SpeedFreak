@@ -4,7 +4,7 @@
 #
 # Host: localhost (MySQL 5.1.37)
 # Database: speedfreak
-# Generation Time: 2010-03-19 09:49:37 +0200
+# Generation Time: 2010-03-19 11:11:11 +0200
 # ************************************************************
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -52,6 +52,7 @@ CREATE TABLE `results` (
   `cat_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `value` text NOT NULL,
+  `result_date` datetime NOT NULL,
   KEY `cat_id` (`cat_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `results_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
@@ -73,7 +74,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_unique` (`username`),
   UNIQUE KEY `email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 
 
