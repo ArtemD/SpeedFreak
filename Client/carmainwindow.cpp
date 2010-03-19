@@ -50,6 +50,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     time = 0;
     speed = 0;
+    counterForSaveResults = 0;
     timer = new QTimer();
 
     // Accelerometer
@@ -68,7 +69,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     // Calculate
     calculate = new Calculate();
-    //connect(calculate, SIGNAL(checkPointReached()), this, SLOT(handleCheckPoint()));
+    connect(calculate, SIGNAL(checkPointReached()), this, SLOT(handleCheckPoint()));
 
     resetAccelerometerMeasurements();
 
@@ -81,6 +82,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     connect(myLogin, SIGNAL( userNameChanged()), this, SLOT(updateUserName()));
 
     ui->labelMeasureTabResult->hide();
+    ui->pushButtonShowResultDialog->setEnabled(false);
 
     this->setWindowTitle("Speed Freak");
 
@@ -142,6 +144,8 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
+    initializeMeasures();
+    ui->pushButtonShowResultDialog->setEnabled(false);
     choice = ui->listViewStartTabAccelerationCategories->currentIndex();
     choiceInt = choice.row();
     qDebug() << choiceInt;
@@ -163,52 +167,10 @@ void CarMainWindow::on_autoStartButton_clicked()
         result->setDiagramGapStem(37.5);
     }
     ui->labelMeasureTabResult->setText("");
-    //delete measure;
-    //measure = NULL;
-    //measure = new MeasureDialog();
-   // connect(measure, SIGNAL(speedAchieved()), this, SLOT(openResultView()));
+
     timer->start();
-    // Show measure dialog.
-    //measure->show();
-
-    // TODO: Move next if else to the function which is called when target speed
-    // has reached.
-    if (choiceInt == 0)
-    {
-        if (floor(this->measures->getTime40kmh()) <= 5)
-        {
-            result->setDiagramGapHorizontal(80);
-        }
-
-        else if (floor(this->measures->getTime40kmh()) <= 10)
-        {
-            result->setDiagramGapHorizontal(40);
-        }
-
-        else
-        {
-            result->setDiagramGapHorizontal(20);
-        }
-    }
-
-    else
-    {
-        if (floor(this->measures->getTime40kmh()) <= 5)
-        {
-            result->setDiagramGapHorizontal(80);
-        }
-
-        else if (floor(this->measures->getTime40kmh()) <= 10)
-        {
-            result->setDiagramGapHorizontal(40);
-        }
-
-        else
-        {
-            result->setDiagramGapHorizontal(20);
-        }
-    }
-
+    time = 0;
+    speed = 0;
     ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
@@ -284,53 +246,7 @@ void CarMainWindow::setListViewTopList(QString category, int size)
   */
 void CarMainWindow::openResultView()
 {
-    //result->saveMeasuresToArray(measure->measures);
-    // Show result dialog.
-    //result->show();
-    ui->pushButtonSendResult->setEnabled(true);
-    QString timeInteger;
-    if (choiceInt == 0)
-    {
-        if (floor(this->measures->getTime40kmh()) <= 5)
-        {
-            result->setDiagramGapHorizontal(80);
-        }
 
-        else if (floor(this->measures->getTime40kmh()) <= 10)
-        {
-            result->setDiagramGapHorizontal(40);
-        }
-
-        else
-        {
-            result->setDiagramGapHorizontal(20);
-        }
-    }
-
-    else
-    {
-        if (floor(this->measures->getTime40kmh()) <= 5)
-        {
-            result->setDiagramGapHorizontal(80);
-        }
-
-        else if (floor(this->measures->getTime40kmh()) <= 10)
-        {
-            result->setDiagramGapHorizontal(40);
-        }
-
-        else
-        {
-            result->setDiagramGapHorizontal(20);
-        }
-    }
-    timeInteger.setNum(this->measures->getTime40kmh());
-    //time = "0 - 40 km/h: ";
-    //time.append(timeInteger);
-    //ui->labelResult40kmh->setText(time);
-    ui->labelMeasureTabResult->show();
-    ui->labelMeasureTabResult->setText(timeInteger);
-    //ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
 /**
@@ -398,87 +314,14 @@ void CarMainWindow::on_manualStartButton_clicked()
 void CarMainWindow::after_timeout()
 {
     QString timeString, speedString;
-    time++;
-    speed = speed +10;
+    //time++;
+    //speed = speed +10;
+    timeString.setNum(time);
+    speedString.setNum(speed);
+    ui->labelMeasureTabTime->setText(timeString);
+    ui->labelMeasureTabSpeed->setText(speedString);
 
-    if (floor(speed) == 10)
-    {
-        measures->setTime10kmh(time);
-    }
-
-    else if (floor(speed) == 20)
-    {
-        measures->setTime20kmh(time);
-    }
-
-    else if (floor(speed) == 30)
-    {
-        measures->setTime30kmh(time);
-    }
-
-    else if (floor(speed) == 40)
-    {
-        measures->setTime40kmh(time);
-    }
-
-    else if (floor(speed) == 50)
-    {
-        measures->setTime50kmh(time);
-    }
-
-    else if (floor(speed) == 60)
-    {
-        measures->setTime60kmh(time);
-    }
-
-    else if (floor(speed) == 70)
-    {
-        measures->setTime70kmh(time);
-    }
-
-    else if (floor(speed) == 80)
-    {
-        measures->setTime80kmh(time);
-    }
-
-    else if (floor(speed) == 90)
-    {
-        measures->setTime90kmh(time);
-    }
-
-    else if (floor(speed) == 100)
-    {
-        measures->setTime100kmh(time);
-    }
-
-    else
-    {
-
-    }
-
-    // If speed is over 40 km/h emits speedAchieved() signal and close this dialog.
-    if (speed >= 40.0)
-    {
-        timer->stop();
-        time = 0;
-        speed = 0;
-        //emit this->speedAchieved();
-        this->openResultView();
-        //this->close();
-
-    }
-
-    // Updates speed and time.
-    else
-    {
-        timeString.setNum(time);
-        speedString.setNum(speed);
-        ui->labelMeasureTabTime->setText(timeString);
-        ui->labelMeasureTabSpeed->setText(speedString);
-
-        timer->start();
-    }
-
+    //handleCheckPoint(time, speed);
 }
 
 /**
@@ -562,19 +405,7 @@ void CarMainWindow::on_drawRoutePushButton_clicked()
   */
 void CarMainWindow::on_pushButtonShowResultDialog_clicked()
 {
-    Measures meas;
-    meas.setTime10kmh(1.3);
-    meas.setTime20kmh(2.5);
-    meas.setTime30kmh(3.6);
-    meas.setTime40kmh(6.7);
-    meas.setTime50kmh(7.3);
-    meas.setTime60kmh(7.5);
-    meas.setTime70kmh(8.6);
-    meas.setTime80kmh(8.7);
-    meas.setTime90kmh(9.6);
-    meas.setTime100kmh(9.9);
-    result->setDiagramGapHorizontal(40);
-    result->saveMeasuresToArray(&meas);
+    result->saveMeasuresToArray(measures);
     this->result->show();
 }
 
@@ -613,10 +444,88 @@ void CarMainWindow::resetAccelerometerMeasurements()
   */
 void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
 {
-    // TODO
-    //totalTime;
-    //currentSpeed;
-    return;
+    switch (counterForSaveResults)
+    {
+    case 0:
+        measures->setTime10kmh(totalTime);
+        break;
+
+    case 1:
+        measures->setTime20kmh(totalTime);
+        break;
+
+    case 2:
+        measures->setTime30kmh(totalTime);
+        break;
+
+    case 3:
+        measures->setTime40kmh(totalTime);
+        break;
+
+    case 4:
+        measures->setTime50kmh(totalTime);
+        break;
+
+    case 5:
+        measures->setTime60kmh(totalTime);
+        break;
+
+    case 6:
+        measures->setTime70kmh(totalTime);
+        break;
+
+    case 7:
+        measures->setTime80kmh(totalTime);
+        break;
+
+    case 8:
+        measures->setTime90kmh(totalTime);
+        break;
+
+    case 9:
+        measures->setTime100kmh(totalTime);
+        break;
+
+    default:
+        break;
+    }
+    counterForSaveResults++;
+
+    if (choiceInt == 0 && measures->getTime40kmh() != 0)
+    {
+        setTimeAxisGapAndShowResult(measures->getTime40kmh());
+        timer->stop();
+        //this->accelerometerTimer->stop();
+        time = 0;
+        speed = 0;
+        counterForSaveResults = 0;
+    }
+
+    else if (choiceInt == 1 && measures->getTime100kmh() != 0)
+    {
+        setTimeAxisGapAndShowResult(measures->getTime100kmh());
+        timer->stop();
+        //this->accelerometerTimer->stop();
+        time = 0;
+        speed = 0;
+        counterForSaveResults = 0;
+
+    }
+
+    else if (choiceInt != 1 && choiceInt != 0 && measures->getTime80kmh() != 0)
+    {
+        setTimeAxisGapAndShowResult(measures->getTime80kmh());
+        timer->stop();
+        //this->accelerometerTimer->stop();
+        time = 0;
+        speed = 0;
+        counterForSaveResults = 0;
+    }
+
+    else
+    {
+
+    }
 }
 
 /**
@@ -777,5 +686,33 @@ void CarMainWindow::gpsStatus()
         {
             ui->labelRouteTabGPSStatus->setText("Waiting for GPS");
         }
+    }
+}
+
+/**
+  *Sets time axis right way in result dialog and shows target speed result.
+  *@param double pTime is the target speed result time which is shown to the user.
+  */
+void CarMainWindow::setTimeAxisGapAndShowResult(double pTime)
+{
+    ui->pushButtonShowResultDialog->setEnabled(true);
+    QString timeInteger;
+    timeInteger.setNum(pTime);
+    ui->labelMeasureTabResult->show();
+    ui->labelMeasureTabResult->setText(timeInteger);
+
+    if (floor(pTime) <= 5)
+    {
+        result->setDiagramGapHorizontal(80);
+    }
+
+    else if (floor(pTime) <= 10)
+    {
+        result->setDiagramGapHorizontal(40);
+    }
+
+    else
+    {
+        result->setDiagramGapHorizontal(20);
     }
 }
