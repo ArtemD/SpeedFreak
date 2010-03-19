@@ -63,7 +63,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     stopTime = 0;
     accelerationStartThreshold = 0.02;
 
-    QTimer *accelerometerTimer = new QTimer(this);
+    accelerometerTimer = new QTimer(this);
     connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
     accelerometerTimer->start(kAccelerometerSampleRate);
 
@@ -562,7 +562,7 @@ void CarMainWindow::readAccelerometerData()
     currentAcceleration = sqrt(x*x + y*y + z*z);
     changeInAcceleration = (currentAcceleration - firstAcceleration); // firstAcceleration only gets set once
 
-    if (((abs(changeInAcceleration) <= accelerationStartThreshold)
+    if (((fabs(changeInAcceleration) <= accelerationStartThreshold)
                 && !vehicleStartedMoving))
     {
         return;
@@ -574,7 +574,7 @@ void CarMainWindow::readAccelerometerData()
         if ((changeInAcceleration <= 0))
         {
             // actually increasing here...
-            changeInAcceleration = abs(changeInAcceleration);
+            changeInAcceleration = fabs(changeInAcceleration);
         }
         else
         {
@@ -588,7 +588,7 @@ void CarMainWindow::readAccelerometerData()
         {
             // we started to move backwards first time through
             reverseAccelerationFlag = true;
-            changeInAcceleration = abs(changeInAcceleration);
+            changeInAcceleration = fabs(changeInAcceleration);
         }
         vehicleStartedMoving = true;
 
