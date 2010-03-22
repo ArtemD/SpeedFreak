@@ -48,8 +48,8 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
     gpsTime = new QDateTime();
 
-    time = 0;
-    speed = 0;
+    this->time = 0;
+    this->speed = 0;
     counterForSaveResults = 0;
     timer = new QTimer();
 
@@ -65,7 +65,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     accelerometerTimer = new QTimer(this);
     connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
-    accelerometerTimer->start(kAccelerometerSampleRate);
+    //accelerometerTimer->start(kAccelerometerSampleRate);
 
     // Calculate
     calculate = new Calculate();
@@ -76,7 +76,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     measures = new Measures();
     this->initializeMeasures();
 
-    timer->setInterval(300);
+    this->timer->setInterval(300);
 
     connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
     connect(myLogin, SIGNAL( userNameChanged()), this, SLOT(updateUserName()));
@@ -145,6 +145,8 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
 void CarMainWindow::on_autoStartButton_clicked()
 {
     initializeMeasures();
+    resetAccelerometerMeasurements();
+    ui->pushButtonSendResult->setEnabled(false);
     ui->pushButtonShowResultDialog->setEnabled(false);
     choice = ui->listViewStartTabAccelerationCategories->currentIndex();
     choiceInt = choice.row();
@@ -168,9 +170,10 @@ void CarMainWindow::on_autoStartButton_clicked()
     }
     ui->labelMeasureTabResult->setText("");
 
-    timer->start();
-    time = 0;
-    speed = 0;
+    this->accelerometerTimer->start(kAccelerometerSampleRate);
+    this->timer->start();
+    this->time = 0;
+    this->speed = 0;
     ui->tabWidget->setCurrentWidget(this->ui->tabMeasureResult);
 }
 
@@ -346,6 +349,11 @@ void CarMainWindow::initializeMeasures()
   */
 void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
 {
+    ui->pushButtonSendResult->setEnabled(false);
+    ui->pushButtonShowResultDialog->setEnabled(false);
+    ui->labelMeasureTabResult->hide();
+    ui->labelMeasureTabTime->setText("");
+    ui->labelMeasureTabSpeed->setText("");
     measures->setTime10kmh(0);
     measures->setTime20kmh(0);
     measures->setTime30kmh(0);
@@ -356,9 +364,10 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
     measures->setTime80kmh(0);
     measures->setTime90kmh(0);
     measures->setTime100kmh(0);
-    timer->stop();
-    time = 0;
-    speed = 0;
+    this->accelerometerTimer->stop();
+    this->timer->stop();
+    this->time = 0;
+    this->speed = 0;
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
     //this->close();
 }
@@ -494,20 +503,20 @@ void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
     if (choiceInt == 0 && measures->getTime40kmh() != 0)
     {
         setTimeAxisGapAndShowResult(measures->getTime40kmh());
-        timer->stop();
-        //this->accelerometerTimer->stop();
-        time = 0;
-        speed = 0;
+        this->timer->stop();
+        this->accelerometerTimer->stop();
+        this->time = 0;
+        this->speed = 0;
         counterForSaveResults = 0;
     }
 
     else if (choiceInt == 1 && measures->getTime100kmh() != 0)
     {
         setTimeAxisGapAndShowResult(measures->getTime100kmh());
-        timer->stop();
-        //this->accelerometerTimer->stop();
-        time = 0;
-        speed = 0;
+        this->timer->stop();
+        this->accelerometerTimer->stop();
+        this->time = 0;
+        this->speed = 0;
         counterForSaveResults = 0;
 
     }
@@ -515,10 +524,10 @@ void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
     else if (choiceInt != 1 && choiceInt != 0 && measures->getTime80kmh() != 0)
     {
         setTimeAxisGapAndShowResult(measures->getTime80kmh());
-        timer->stop();
-        //this->accelerometerTimer->stop();
-        time = 0;
-        speed = 0;
+        this->timer->stop();
+        this->accelerometerTimer->stop();
+        this->time = 0;
+        this->speed = 0;
         counterForSaveResults = 0;
     }
 
@@ -696,6 +705,7 @@ void CarMainWindow::gpsStatus()
 void CarMainWindow::setTimeAxisGapAndShowResult(double pTime)
 {
     ui->pushButtonShowResultDialog->setEnabled(true);
+    ui->pushButtonSendResult->setEnabled(true);
     QString timeInteger;
     timeInteger.setNum(pTime);
     ui->labelMeasureTabResult->show();
