@@ -123,23 +123,23 @@ void gps_error_func(LocationGPSDControl *control, gint error, Maemo5LocationPriv
 
     switch (error) {
       case LOCATION_ERROR_USER_REJECTED_DIALOG:
-        emit gps->gps_err(0);
+        emit gps->gps_error(0);
         g_debug("User didn't enable requested methods");
         break;
       case LOCATION_ERROR_USER_REJECTED_SETTINGS:
-        emit gps->gps_err(1);
+        emit gps->gps_error(1);
         g_debug("User changed settings, which disabled location");
         break;
       case LOCATION_ERROR_BT_GPS_NOT_AVAILABLE:
-        emit gps->gps_err(2);
+        emit gps->gps_error(2);
         g_debug("Problems with BT GPS");
         break;
       case LOCATION_ERROR_METHOD_NOT_ALLOWED_IN_OFFLINE_MODE:
-        emit gps->gps_err(3);
+        emit gps->gps_error(3);
         g_debug("Requested method is not allowed in offline mode");
         break;
       case LOCATION_ERROR_SYSTEM:
-        emit gps->gps_err(4);
+        emit gps->gps_error(4);
         g_debug("System error");
         break;
       }

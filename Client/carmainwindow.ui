@@ -592,6 +592,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabRecStatus">
+         <property name="text">
+          <string>Label rec status</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabSpeed">
+         <property name="text">
+          <string>Label speed</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>

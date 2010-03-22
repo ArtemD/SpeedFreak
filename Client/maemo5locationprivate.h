@@ -66,7 +66,7 @@ signals:
     void locationUpdated();
     void gps_connected();
     void gps_disconnected();
-    void gps_err(int error);
+    void gps_error(int);
     void gpsd_running();
     void gpsd_stopped();
 

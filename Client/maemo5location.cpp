@@ -23,9 +23,9 @@ Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
     connect(ptr, SIGNAL(locationUpdated()), this, SIGNAL(locationUpdated()));
     connect(ptr, SIGNAL(gps_connected()), this, SIGNAL(gps_connected()));
     connect(ptr, SIGNAL(gps_disconnected()), this, SIGNAL(gps_disconnected()));
-    connect(ptr, SIGNAL(gps_err(int)), this, SIGNAL(gps_error(int)));
+    connect(ptr, SIGNAL(gps_error(int)), this, SIGNAL(gps_error(int)));
     connect(ptr, SIGNAL(gpsd_running()), this, SIGNAL(gpsd_running()));
-    connect(ptr, SIGNAL(gpsd_stopped()), this, SIGNAL(gpsd_stopped())); 
+    connect(ptr, SIGNAL(gpsd_stopped()), this, SIGNAL(gpsd_stopped()));
 }
 
 /**
