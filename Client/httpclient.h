@@ -18,8 +18,7 @@ class CarMainWindow;
 
 
 
-class HttpClient : public QObject
-{
+class HttpClient : public QObject {
     Q_OBJECT
 public:
     HttpClient(CarMainWindow *myCarw);
@@ -30,13 +29,11 @@ public:
 private:
     CarMainWindow *myMainw;
     QNetworkAccessManager *netManager;
-    //XmlWriter *myXmlwriter;
-    //XmlReader *myXmlreader;
 
 public slots:
     void requestRegistration();
     void checkLogin();
-    void sendResultXml();
+    void sendResultXml(QString category);
     void requestTopList(QString category, QString limit);
     void requestCategories();
     void ackOfResult();

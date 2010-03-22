@@ -13,28 +13,29 @@
 #include <QXmlStreamReader>
 #include <QStringList>
 #include <QNetworkReply>
+#include "categorylist.h"
 
-class XmlReader : public QObject
-{
+class XmlReader : public QObject {
+    Q_OBJECT
 public:
     XmlReader();
     ~XmlReader();
+    CategoryList *myCategoryList;
 
 private:
     QXmlStreamReader xmlreader;
-    QStringList top10List;              // Next 4 to be removed. Categorylist now in own class.
-    QStringList categoryList;
-    QString top10AccelerationList;
-    QString top10SpeedList;
-    QString top10GforceList;
 
     QXmlStreamAttributes attr;
     QString category;
     QString unit;
-    QString description;
+    QString date;
     QString position;
     QString user;
     QString value;
+
+signals:
+    void receivedCategoryList();
+    void receivedTop10List();
 
 public slots:
     void xmlReadTop10Results(QNetworkReply *device);

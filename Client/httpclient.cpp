@@ -3,6 +3,7 @@
 #include "httpclient.h"
 #include "carmainwindow.h"
 
+
 /**
   *@brief Constructor, connects object to GUI
   *@param Pointer to carmainwindow, which is temporarily used during development
@@ -58,14 +59,13 @@ void HttpClient::requestRegistration()
   *Send authentication information in the header.
   *@todo Read category elsewhere.
   */
-void HttpClient::sendResultXml()
+void HttpClient::sendResultXml(QString category)
 {
     qDebug() << "_sendResultXml";
 
     QBuffer *xmlbuffer = new QBuffer();
-    QString category_name = "acceleration-0-100";    //replace with real value from category list
 
-    QUrl qurl("http://api.speedfreak-app.com/api/update/" + category_name);
+    QUrl qurl("http://api.speedfreak-app.com/api/update/" + category);
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
@@ -74,7 +74,7 @@ void HttpClient::sendResultXml()
     myXmlwriter->writeResult(xmlbuffer);
     qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
 
-    QString credentials = myMainw->myRegistration->getUserName() + ":" + myMainw->myRegistration->getPassword();
+    QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
@@ -101,7 +101,7 @@ void HttpClient::requestTopList(QString category, QString limit)
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
 
-    QString credentials = myMainw->myRegistration->getUserName() + ":" + myMainw->myRegistration->getPassword();
+    QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
@@ -124,7 +124,7 @@ void HttpClient::requestCategories()
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
 
-    QString credentials = myMainw->myRegistration->getUserName() + ":" + myMainw->myRegistration->getPassword();
+    QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
@@ -147,7 +147,7 @@ void HttpClient::checkLogin()
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
 
-    QString credentials = myMainw->myRegistration->getUserName() + ":" + myMainw->myRegistration->getPassword();
+    QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
@@ -175,7 +175,7 @@ void HttpClient::ackOfResult()
     }
     else {
         qDebug() << "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
+        QMessageBox::about(myMainw, "Server reply to result sending", "Result received " + reply->readAll());
     }
 
 }
@@ -223,7 +223,7 @@ void HttpClient::ackOfCategories()
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
+        QMessageBox::about(myMainw, "Server reply to requesting categories ", "OK");
     }
 
 }
@@ -238,7 +238,6 @@ void HttpClient::ackOfLogin()
     qDebug() << "_ackOffLogin";
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    myXmlreader->xmlReadTop10Results(reply);
 
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
@@ -294,7 +293,7 @@ void HttpClient::ackOfToplist()
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        qDebug() << reply->readAll();
+        QMessageBox::about(myMainw, "Server reply to requesting top 10 list", "OK " + reply->readAll());
     }
 
 }

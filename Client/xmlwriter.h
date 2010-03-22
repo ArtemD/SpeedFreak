@@ -24,12 +24,23 @@
 #include <QApplication>
 
 
-class XmlWriter : public QObject
-{
+class XmlWriter : public QObject {
+    Q_OBJECT
 public:
     XmlWriter();
     ~XmlWriter();
     int tmpvalue;
+    typedef struct {
+            double time;
+            double latitude;
+            double longitude;
+            double altitude;
+            double speed;
+            double track;
+        } gpsPoint;
+    gpsPoint trackTable[100];
+    gpsPoint analyzeTable[100];
+    int trackInd;
 
 private:
     QXmlStreamWriter xmlwriter;
@@ -42,7 +53,10 @@ public slots:
     void writeXml();
     void writeItems();
     void serverWritesXml();
-
+    void writeGpsTrack(int startInd, int stopInd);
+    void initPointTable(gpsPoint *table, int count, double add1, int add2, int add3);
+    void analyzeGpsData();
 };
 
 #endif // XMLWRITER_H
+

@@ -56,12 +56,10 @@ public:
     CarMainWindow(QWidget *parent = 0);
     ~CarMainWindow();
     Registration *myRegistration;       //Check if this should be public or private
-
+    LoginWindow *myLogin;
 
     void setComboBoxStartTabUnits(QStringList units);       //Start-tab view
     void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
-    void setListViewTopList(QString category, int size);    //Top-tab view
-    void setCategoryCompoBox();                             //Top-tab
 
 protected:
     void changeEvent(QEvent *e);
@@ -71,9 +69,8 @@ private:
     ResultDialog *result;
     //MeasureDialog *measure;
     WelcomeDialog *welcomeDialog;
-    CategoryList *categorylist;
+    CategoryList *myCategorylist;
     HttpClient *myHttpClient;
-    LoginWindow *myLogin;
     RouteDialog *myRoute;
     GPSData *gpsData;
     Maemo5Location *location;
@@ -81,6 +78,7 @@ private:
     void initComboBoxStartTabUnits();                   //Start-tab view
     void initListViewStartTabAccelerationCategories();  //Start-tab view
     void initializeMeasures();
+    void setListViewTopList(QString category, int size);    //Top-tab view
     void resetAccelerometerMeasurements();
     void calibrateAccelerometer();
     void setTimeAxisGapAndShowResult(double pTime);
@@ -88,7 +86,7 @@ private:
 private:
     QStringList accelerationCategoriesStartTab;         //Start-tab view
     QStringList units;                                  //Start-tab view
-    QStringList categories;                             //Top-tab view
+    QString recentCategory;
 
     QTimer *timer;
     Accelerometer *accelerometer;
@@ -140,8 +138,6 @@ private slots:
     void on_manualStartButton_clicked();
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
-    void on_comboBoxTopCategory_activated(QString );
-    //void on_pushButton_clicked();
     void on_comboBoxTopCategory_currentIndexChanged(QString category);          //Top-tab view
     void on_listViewStartTabAccelerationCategories_clicked(QModelIndex index);  //Start-tab view
     void updateComboBoxStartTabUnits(QString unit);     //Start-tab view
@@ -154,6 +150,9 @@ private slots:
     void userLogin();
     void readAccelerometerData();
     void handleCheckPoint(double totalTime, double currentSpeed);
+    void setCategoryCompoBox();                         //Top-tab
+    void showTop10();
+
 };
 
 #endif // CARMAINWINDOW_H

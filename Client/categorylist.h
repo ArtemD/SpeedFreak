@@ -16,14 +16,19 @@ class CategoryList : public QObject
 public:
     CategoryList();
     ~CategoryList();
+    QString top10List;
+
     QStringList getCategoryList();
+    void fillCategoryList(int index, QString item);
+    void appendCategoryList(QString item);
+    QString itemOfCategoryList(int index);
     QString getTopList( QString category, int size);
+    void clearCategoryList();
+    int sizeOfCategoryList();
 
 private:
     QStringList categoryList;
-    QString top10AccelerationList;
-    QString top10SpeedList;
-    QString top10GforceList;
+
 };
 
 #endif // CATEGORYLIST_H

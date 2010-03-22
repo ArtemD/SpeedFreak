@@ -35,11 +35,13 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     initListViewStartTabAccelerationCategories();
 
     myLogin = new LoginWindow(this);
-    categorylist = new CategoryList();
+    myCategorylist = new CategoryList();
     myHttpClient = new HttpClient(this);
     myRegistration = new Registration(this);
     connect(myRegistration,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
     connect(myLogin,SIGNAL(userNameChanged()),this,SLOT(userLogin()));
+    connect(myHttpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
+    connect(myHttpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
     myRoute = new RouteDialog( this);
 
     //GPS
@@ -97,8 +99,8 @@ CarMainWindow::~CarMainWindow()
     ui = NULL;
     //delete result;
     //delete measure;
-    delete categorylist;
-    categorylist = NULL;
+    delete myCategorylist;
+    myCategorylist = NULL;
     delete welcomeDialog;
     welcomeDialog = NULL;
     delete myRoute;
@@ -230,17 +232,30 @@ void CarMainWindow::setListViewStartTabAccelerationCategories(QStringList accele
   */
 void CarMainWindow::setCategoryCompoBox()
 {
-    ui->comboBoxTopCategory->addItems(categorylist->getCategoryList());
+    qDebug() << "_setCategoryCompoBox";
+    ui->comboBoxTopCategory->addItems(myHttpClient->myXmlreader->myCategoryList->getCategoryList());
+}
+
+/**
+  *This function prcesses UI updating after a new top10List has been received.
+  *@todo Check where limitNr is taken, fixed or user input, see on_comboBoxTopCategory_currentIndexChanged.
+  */
+void CarMainWindow::showTop10()
+{
+    int limitNr = 5;
+    setListViewTopList(recentCategory, limitNr);
 }
 
 /**
   *This function is used to set items to labelTopList. Top-tab view.
-  *@param QString category
+  *@param Category
+  *@param Size, number of results.
   */
 void CarMainWindow::setListViewTopList(QString category, int size)
 {
+    qDebug() << "_setListViewTopList";
     QString topList;
-    topList.append( categorylist->getTopList(category, size));
+    topList.append(myHttpClient->myXmlreader->myCategoryList->getTopList(category, size));
     ui->labelTopList->setText(topList);
 }
 
@@ -266,30 +281,20 @@ void CarMainWindow::on_registratePushButton_clicked()
 void CarMainWindow::on_buttonTopRefresh_clicked()
 {
     myHttpClient->requestCategories();
-    setCategoryCompoBox();
 }
 
 /**
   *This slot function is called when ever category combobox current index changed. Top-tab view.
-  *@param QString category
-  *@todo Check where limitNr is taken.
+  *@param QString category.
+  *@todo Check where limitNr is taken, fixed or user input, see showTop10.
   */
 void CarMainWindow::on_comboBoxTopCategory_currentIndexChanged(QString category)
 {
-    int limitNr = 5;                    //replace with real value?
+    qDebug() << "_on_comboBoxTopCategory_currentIndexChanged: " << category;
+    recentCategory = category;      //for showTop10()
+    int limitNr = 5;
     QString limit = QString::number(limitNr);
-    category = "acceleration-0-100";    //replace with real value from category list/top window
     myHttpClient->requestTopList(category, limit);
-    setListViewTopList(category,10);
-}
-
-/**
-  *This slot function is called when ever category combobox activated. Top-tab view.
-  *@param QString category
-  */
-void CarMainWindow::on_comboBoxTopCategory_activated(QString category)
-{
-    setListViewTopList(category,10);
 }
 
 /**
@@ -372,9 +377,13 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
     //this->close();
 }
 
+/**
+  *This slot function is called when pushButtonSendResult is clicked.
+  *@todo Use real category value.
+  */
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
-    myHttpClient->sendResultXml();
+    myHttpClient->sendResultXml("acceleration-0-100");
     ui->pushButtonSendResult->setEnabled(false);
 }
 
@@ -388,12 +397,12 @@ void CarMainWindow::updateUserName()
     if (newUserName.length())
     {
        ui->setUserPushButton->setText( "Change User");
-       this->setWindowTitle("Speed freak - " + newUserName);
+       this->setWindowTitle("Speed Freak - " + newUserName);
     }
     else
     {
         ui->setUserPushButton->setText( "Set User");
-        this->setWindowTitle("Speed freak");
+        this->setWindowTitle("Speed Freak");
     }
 }
 

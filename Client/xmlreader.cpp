@@ -16,7 +16,7 @@
   */
 XmlReader::XmlReader()
 {
-    xmlShow();
+    myCategoryList = new CategoryList();
 }
 
 /**
@@ -26,20 +26,31 @@ XmlReader::~XmlReader()
 {
     category = "";
     unit = "";
-    description = "";
     position = "";
     user = "";
     value = "";
+    delete myCategoryList;
 }
 
 /**
-  *This function is used to parsing xml file.
+  *This function is used to parse top 10 results of a certain category.
   */
 void XmlReader::xmlReadTop10Results(QNetworkReply *device)
 {
     qDebug() << "_xmlReadTop10Results";
 
-    xmlreader.addData(device->readAll());
+    int i = 0;
+    int receivedFlag = 0;
+
+    xmlreader.clear();
+    QByteArray array = device->readAll();
+    qDebug() << "array: " << array;
+    xmlreader.addData(array);
+    //xmlreader.addData(device->readAll());
+
+    if(!(myCategoryList->top10List.isEmpty())) {
+        myCategoryList->top10List.clear();
+    }
 
     //Go trough the xml document
     while(!xmlreader.atEnd())
@@ -52,54 +63,35 @@ void XmlReader::xmlReadTop10Results(QNetworkReply *device)
             if(xmlreader.name() == "results")
             {
                 qDebug() << xmlreader.name();
-                attr = xmlreader.attributes();
-
-                category = attr.value("category").toString();
-                unit = attr.value("unit").toString();
-                description = attr.value("description").toString();
-
-                top10List << category;
-                qDebug() << top10List << unit << description;
             }
-
             if(xmlreader.name() == "result")
             {
                 qDebug() << "result";
                 attr = xmlreader.attributes();
 
+                user = attr.value("username").toString();
                 position = attr.value("position").toString();
-                user = attr.value("user").toString();
+                date = attr.value("date").toString();
+                unit = attr.value("unit").toString();
                 value = attr.value("value").toString();
 
-                if (category == "acceleration-0-100")
-                {
-                    top10AccelerationList.append(position + "\t" +
+                myCategoryList->top10List.append(position + "\t" +
                                                 user + "\t" +
-                                                value +
+                                                value + " " +
                                                 unit + "\t" +
-                                                description + "\n");
-                }
+                                                date + "\n");
 
-                if(category == "top10speed")
-                {
-                    top10SpeedList.append(position + "\t" +
-                                          user + "\t" +
-                                          value +
-                                          unit + "\t" +
-                                          description + "\n");
-                }
-
-                if(category == "top10gforce")
-                {
-                    top10GforceList.append(position + "\t" +
-                                           user + "\t" +
-                                           value +
-                                           unit + "\t" +
-                                           description + "\n");
-                }
-                qDebug() << position << user << value << unit;
+                qDebug() << position << user << value << unit << date;
+                i++;
+                receivedFlag = 1;
             }
         }
+    }
+    //Only change labelTopList if a new top10List has been received
+    if(receivedFlag)
+    {
+        qDebug() << "receivedTop10List() emitted";
+        emit receivedTop10List();
     }
 }
 
@@ -109,10 +101,18 @@ void XmlReader::xmlReadCategories(QNetworkReply *device)
     qDebug() << "_xmlReadCategories";
 
     int i = 0;
+    int receivedFlag = 0;
 
+    xmlreader.clear();
     QByteArray array = device->readAll();
-    qDebug() << array;
+    qDebug() << "array: " << array;
     xmlreader.addData(array);
+    //xmlreader.addData(device->readAll());
+
+    if(myCategoryList->sizeOfCategoryList() != 0) {
+        myCategoryList->clearCategoryList();
+    }
+    //qDebug() << "sizeOfCategoryList(): " << myCategoryList->sizeOfCategoryList();
 
     //Go trough the xml document
     while(!xmlreader.atEnd())
@@ -130,11 +130,18 @@ void XmlReader::xmlReadCategories(QNetworkReply *device)
             if(xmlreader.name() == "category")
             {
                 qDebug() << xmlreader.name();
-                categoryList.insert(i, xmlreader.readElementText());
-                qDebug() << "i=" << i << categoryList.at(i);
+                myCategoryList->appendCategoryList(xmlreader.readElementText());
+                qDebug() << "i=" << i << myCategoryList->itemOfCategoryList(i);
                 i++;
+                receivedFlag = 1;
             }
         }
+    }
+    //Only change comboBoxTopCategory if a new list has been received
+    if(receivedFlag)
+    {
+        qDebug() << "receivedCategoryList() emitted";
+        emit receivedCategoryList();
     }
 }
 
