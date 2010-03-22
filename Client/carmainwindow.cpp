@@ -689,7 +689,8 @@ void CarMainWindow::gpsStatus()
         if (location->getSatellitesInUse() >= 4)
         {
             //Set status
-            ui->labelRouteTabGPSStatus->setText("GPS ready");
+            //ui->labelRouteTabGPSStatus->setText("GPS ready");
+            ui->labelRouteTabGPSStatus->setText(QString::number(gpsData->roundCounter));
 
             //Set time
             gpsTime->setTime_t(location->getTime());
@@ -705,6 +706,19 @@ void CarMainWindow::gpsStatus()
             ui->labelRouteTabGPSStatus->setText("Waiting for GPS");
         }
     }
+    ui->labelRouteTabSpeed->setText(QString::number(location->getSpeed()));
+}
+
+void CarMainWindow::on_startRecPushButton_clicked()
+{
+    ui->labelRouteTabRecStatus->setText("Recording started");
+    gpsData->startRouteRecording(ui->labelRouteTabGPSTime->text());
+}
+
+void CarMainWindow::on_stopRecPushButton_clicked()
+{
+    ui->labelRouteTabRecStatus->setText("Recording stopped");
+    gpsData->stopRouteRecording(ui->labelRouteTabGPSTime->text());
 }
 
 /**

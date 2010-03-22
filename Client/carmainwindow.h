@@ -129,6 +129,8 @@ signals:
     void userNameChanged();
 
 private slots:
+    void on_stopRecPushButton_clicked();
+    void on_startRecPushButton_clicked();
     void on_pushButtonShowResultDialog_clicked();
     void on_gpsOnCheckBox_stateChanged(int GPSState);   //Route-tab view
     void gpsStatus();                                   //Route-tab view
