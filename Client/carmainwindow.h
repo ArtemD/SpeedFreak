@@ -96,6 +96,7 @@ private:
 
     QModelIndex choice;
     int choiceInt;
+    QStringList catList;
 
     Calculate *calculate;
 

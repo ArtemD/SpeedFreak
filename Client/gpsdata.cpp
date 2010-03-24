@@ -199,11 +199,17 @@ void GPSData::saveRoute()
     file.close();
 }
 
+/**
+  *@return Pointer to gpsDataArray[][].
+  */
 double* GPSData::getGpsDataArray()
 {
     return *gpsDataArray;
 }
 
+/**
+  *@return RoundCounter, the number of gpsDataArray[][] rows.
+  */
 int GPSData::getRoundCounter()
 {
     return roundCounter;

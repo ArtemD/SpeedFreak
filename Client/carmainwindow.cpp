@@ -66,7 +66,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     accelerationStartThreshold = 0.02;
 
     accelerometerTimer = new QTimer(this);
-    connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
+//tkk  connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
     //accelerometerTimer->start(kAccelerometerSampleRate);
 
     // Calculate
@@ -143,6 +143,7 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
 
 /**
   *This slot function is called when ever auto start button clicked. Start-tab view.
+  *@todo Check setDiagramGapStem(100) <- (choiceInt == 2)
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
@@ -152,19 +153,22 @@ void CarMainWindow::on_autoStartButton_clicked()
     ui->pushButtonShowResultDialog->setEnabled(false);
     choice = ui->listViewStartTabAccelerationCategories->currentIndex();
     choiceInt = choice.row();
-    qDebug() << choiceInt;
+    qDebug() << "choiceInt" << choiceInt << " " << catList.at(choiceInt);
     if (choiceInt == 0)
     {
         ui->labelMeasureTabHeader->setText("Accelerate to 40 km/h");
         result->setDiagramGapStem(75);
     }
-
     else if (choiceInt == 1)
     {
         ui->labelMeasureTabHeader->setText("Accelerate to 100 km/h");
         result->setDiagramGapStem(30);
+    }   
+    else if (choiceInt == 2)
+    {
+        ui->labelMeasureTabHeader->setText("Accelerate to 10 km/h");
+        result->setDiagramGapStem(100);
     }
-
     else
     {
         ui->labelMeasureTabHeader->setText("Accelerate to 80 km/h");
@@ -208,10 +212,18 @@ void CarMainWindow::setComboBoxStartTabUnits(QStringList units)
 
 /**
   *This function is used to init listViewStartTabAccelerationCategories. Start-tab view.
+  *@todo During development categories index values that are used for measuring are hardcoded
+  *@todo and accelerationCategoriesStartTab and catList are used instead of using
+  *@todo CategoryList::categoryList and CategoryList::cats.
   */
 void CarMainWindow::initListViewStartTabAccelerationCategories()
 {
-    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h"; //<< "0-1/4 Mile" << "0-1/8 Mile" << "0-50 km" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+    //Connect the user`s choice fron GUI to a correct variable name
+    catList.insert(0,"acceleration-0-40");
+    catList.insert(1,"acceleration-0-100");
+    catList.insert(2,"acceleration-0-10");
+
+    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h" << "0-10 km/h"; //<< "0-1/4 Mile" << "0-1/8 Mile" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
     ui->listViewStartTabAccelerationCategories->setModel(model);
 }
@@ -383,7 +395,8 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
   */
 void CarMainWindow::on_pushButtonSendResult_clicked()
 {
-    myHttpClient->sendResultXml("acceleration-0-100");
+    //Pick up relevant category name and pass it to the server
+    myHttpClient->sendResultXml(catList.at(choiceInt));
     ui->pushButtonSendResult->setEnabled(false);
 }
 
@@ -518,7 +531,6 @@ void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
         this->speed = 0;
         counterForSaveResults = 0;
     }
-
     else if (choiceInt == 1 && measures->getTime100kmh() != 0)
     {
         setTimeAxisGapAndShowResult(measures->getTime100kmh());
@@ -527,9 +539,16 @@ void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
         this->time = 0;
         this->speed = 0;
         counterForSaveResults = 0;
-
     }
-
+    else if (choiceInt == 2 && measures->getTime10kmh() != 0)
+    {
+        setTimeAxisGapAndShowResult(measures->getTime10kmh());
+        this->timer->stop();
+        this->accelerometerTimer->stop();
+        this->time = 0;
+        this->speed = 0;
+        counterForSaveResults = 0;
+    }
     else if (choiceInt != 1 && choiceInt != 0 && measures->getTime80kmh() != 0)
     {
         setTimeAxisGapAndShowResult(measures->getTime80kmh());
@@ -539,10 +558,9 @@ void CarMainWindow::handleCheckPoint(double totalTime, double currentSpeed)
         this->speed = 0;
         counterForSaveResults = 0;
     }
-
     else
     {
-
+        qDebug() << "something wrong in handleCheckPoint()";
     }
 }
 
