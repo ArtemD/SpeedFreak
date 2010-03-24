@@ -13,6 +13,7 @@
 #include <QList>
 #include <QMessageBox>
 #include <QFile>
+#include <QFileDialog>
 
 /*
   * Vector class
@@ -182,7 +183,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(QPen((Qt::black),2));
+    painter.setPen(QPen((Qt::white),2));
     painter.setBrush(QBrush((Qt::yellow), Qt::SolidPattern));
 
     // Draw route window frame
@@ -237,7 +238,10 @@ bool RouteDialog::readRouteFromFile( QString &filename)
     QString rivi;
     QFile file;
     //file.setFileName("route.txt");
-    file.setFileName( filename);
+    QString fileName = QFileDialog::getOpenFileName(this,
+    tr("Read Route"), "./", tr("Route Files (*.txt)"));
+
+    file.setFileName( fileName);
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
