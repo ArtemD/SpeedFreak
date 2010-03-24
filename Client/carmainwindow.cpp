@@ -66,7 +66,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     accelerationStartThreshold = 0.02;
 
     accelerometerTimer = new QTimer(this);
-//tkk  connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
+    connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
     //accelerometerTimer->start(kAccelerometerSampleRate);
 
     // Calculate
@@ -153,7 +153,7 @@ void CarMainWindow::on_autoStartButton_clicked()
     ui->pushButtonShowResultDialog->setEnabled(false);
     choice = ui->listViewStartTabAccelerationCategories->currentIndex();
     choiceInt = choice.row();
-    qDebug() << "choiceInt" << choiceInt << " " << catList.at(choiceInt);
+    //qDebug() << "choiceInt" << choiceInt << " " << catList.at(choiceInt);
     if (choiceInt == 0)
     {
         ui->labelMeasureTabHeader->setText("Accelerate to 40 km/h");
@@ -223,7 +223,8 @@ void CarMainWindow::initListViewStartTabAccelerationCategories()
     catList.insert(1,"acceleration-0-100");
     catList.insert(2,"acceleration-0-10");
 
-    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h" << "0-10 km/h"; //<< "0-1/4 Mile" << "0-1/8 Mile" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
+    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h" << "0-10 km/h";
+    //<< "0-1/4 Mile" << "0-1/8 Mile" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
     ui->listViewStartTabAccelerationCategories->setModel(model);
 }
@@ -236,6 +237,11 @@ void CarMainWindow::setListViewStartTabAccelerationCategories(QStringList accele
 {
     QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
     ui->listViewStartTabAccelerationCategories->setModel(model);
+}
+
+void CarMainWindow::setLabelInfoToUser(QString infoText)
+{
+    ui->labelInfoToUser->setText(infoText);
 }
 
 /**
