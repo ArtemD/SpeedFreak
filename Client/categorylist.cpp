@@ -36,6 +36,7 @@ QStringList CategoryList::getCategoryList()
 
 /**
   *Append an item in the end of the categorylist.
+  *@param Item.
   */
 void CategoryList::appendCategoryList(QString item)
 {
@@ -44,6 +45,8 @@ void CategoryList::appendCategoryList(QString item)
 
 /**
   *Input an item into the categorylist.
+  *@param Index.
+  *@param Item to be appended.
   */
 void CategoryList::fillCategoryList(int index, QString item)
 {
@@ -52,6 +55,7 @@ void CategoryList::fillCategoryList(int index, QString item)
 
 /**
   *Show an item of the categorylist.
+  *@param Index.
   */
 QString CategoryList::itemOfCategoryList(int index)
 {
@@ -64,7 +68,6 @@ QString CategoryList::itemOfCategoryList(int index)
 void CategoryList::clearCategoryList()
 {
     categoryList.clear();
-    qDebug() << "_clearCategoryList" ;
 }
 
 /**
@@ -76,7 +79,42 @@ int CategoryList::sizeOfCategoryList()
 }
 
 /**
-  *This function is used to get items to top list of current category.
+  *Append an item in the end of the categoryelementable.
+  *@param Index.
+  *@param Description of category.
+  *@param Unit.
+  *@param Category.
+  */
+void CategoryList::appendCats(int ind, QString des, QString uni, QString cat)
+{
+    cats[ind].description = des;
+    cats[ind].unit = uni;
+    cats[ind].category = cat;
+}
+
+/**
+  *Clear categs.
+  */
+QString CategoryList::desOfCats(int ind)
+{
+    return cats[ind].description;
+}
+
+/**
+  *Clear cats.
+  */
+void CategoryList::clearCats()
+{
+    for(int i = 0; i < 10; i++)
+    {
+        cats[i].description.clear();
+        cats[i].unit.clear();
+        cats[i].category.clear();
+    }
+}
+
+/**
+  *This function is used to get items to top list of the category that is chosen from combobox.
   *@param QString category
   *@param int size
   */

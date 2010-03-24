@@ -23,6 +23,8 @@ public:
     void startRouteRecording(QString time);
     void stopRouteRecording(QString time);
     int roundCounter; //testing, move private!!!
+    double *getGpsDataArray();
+    int getRoundCounter();
 
 private:
     Maemo5Location *location;

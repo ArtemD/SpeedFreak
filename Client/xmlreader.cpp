@@ -112,7 +112,7 @@ void XmlReader::xmlReadCategories(QNetworkReply *device)
     if(myCategoryList->sizeOfCategoryList() != 0) {
         myCategoryList->clearCategoryList();
     }
-    //qDebug() << "sizeOfCategoryList(): " << myCategoryList->sizeOfCategoryList();
+    myCategoryList->clearCats();
 
     //Go trough the xml document
     while(!xmlreader.atEnd())
@@ -130,8 +130,14 @@ void XmlReader::xmlReadCategories(QNetworkReply *device)
             if(xmlreader.name() == "category")
             {
                 qDebug() << xmlreader.name();
-                myCategoryList->appendCategoryList(xmlreader.readElementText());
-                qDebug() << "i=" << i << myCategoryList->itemOfCategoryList(i);
+                attr = xmlreader.attributes();
+                description = attr.value("description").toString();
+                unit = attr.value("unit").toString();
+                category = xmlreader.readElementText();
+                myCategoryList->appendCategoryList(category);
+                myCategoryList->appendCats(i, description, unit, category);
+                //qDebug() << "i=" << i << myCategoryList->itemOfCategoryList(i);
+                //qDebug() << "description: " << description << "unit: " << unit << "category: " << category;
                 i++;
                 receivedFlag = 1;
             }

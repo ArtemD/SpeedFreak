@@ -57,6 +57,7 @@ public:
     ~CarMainWindow();
     Registration *myRegistration;       //Check if this should be public or private
     LoginWindow *myLogin;
+    GPSData *gpsData;
 
     void setComboBoxStartTabUnits(QStringList units);       //Start-tab view
     void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
@@ -72,7 +73,6 @@ private:
     CategoryList *myCategorylist;
     HttpClient *myHttpClient;
     RouteDialog *myRoute;
-    GPSData *gpsData;
     Maemo5Location *location;
     //void initCategoryCompoBox();
     void initComboBoxStartTabUnits();                   //Start-tab view

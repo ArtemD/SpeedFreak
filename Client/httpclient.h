@@ -34,9 +34,11 @@ public slots:
     void requestRegistration();
     void checkLogin();
     void sendResultXml(QString category);
+    void sendRouteXml();
     void requestTopList(QString category, QString limit);
     void requestCategories();
     void ackOfResult();
+    void ackOfRoute();
     void ackOfRegistration();
     void ackOfCategories();
     void ackOfToplist();

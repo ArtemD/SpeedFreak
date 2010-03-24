@@ -198,3 +198,13 @@ void GPSData::saveRoute()
     route << "Stop: " << routeStopTime << "\n";
     file.close();
 }
+
+double* GPSData::getGpsDataArray()
+{
+    return *gpsDataArray;
+}
+
+int GPSData::getRoundCounter()
+{
+    return roundCounter;
+}

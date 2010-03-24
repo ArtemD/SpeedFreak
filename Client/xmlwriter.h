@@ -30,16 +30,6 @@ public:
     XmlWriter();
     ~XmlWriter();
     int tmpvalue;
-    typedef struct {
-            double time;
-            double latitude;
-            double longitude;
-            double altitude;
-            double speed;
-            double track;
-        } gpsPoint;
-    gpsPoint trackTable[100];
-    gpsPoint analyzeTable[100];
     int trackInd;
 
 private:
@@ -48,14 +38,12 @@ private:
 public slots:
     void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
     void writeResult(QBuffer *netbuf);
+    void writeGpsTrack(QBuffer *netbuf, double *ptrTable, int counter);
     bool writeXmlFile(QIODevice *device);
     //void writeXml(QString usr, QString psswd, QString email);
     void writeXml();
     void writeItems();
     void serverWritesXml();
-    void writeGpsTrack(int startInd, int stopInd);
-    void initPointTable(gpsPoint *table, int count, double add1, int add2, int add3);
-    void analyzeGpsData();
 };
 
 #endif // XMLWRITER_H

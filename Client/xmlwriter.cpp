@@ -17,7 +17,6 @@
 XmlWriter::XmlWriter()
 {
     tmpvalue = 110;
-    trackInd = 0;
 }
 
 /**
@@ -84,17 +83,21 @@ void XmlWriter::writeResult(QBuffer *netbuf)
 
 /**
   *@brief Write track to server.
-  *@param Starting index of gps results table.
-  *@param Ending index of gps results table.
-  *@todo Connect to real values.
-  *@todo Decide suitable parameters.
+  *@param ptrTable points to GPSData::gpsDataArray[100][4].
+  *@param counter is GPSData::roundCounter.
+  *@todo Decide suitable attributes.
   */
-void XmlWriter::writeGpsTrack(int startInd, int stopInd)
+void XmlWriter::writeGpsTrack(QBuffer *netbuf, double *ptrTable, int counter)
 {
     qDebug() << "_writeGpsTrack";
-    analyzeGpsData();
 
-    int i = 0;
+    double *ptrValue;
+    ptrValue = ptrTable;
+    double tmp = 0;
+
+    xmlwriter.setDevice(netbuf);
+
+    xmlwriter.writeStartDocument();
 
     xmlwriter.writeStartElement("gpx");
     xmlwriter.writeAttribute("someattribute", "abc");
@@ -115,27 +118,31 @@ void XmlWriter::writeGpsTrack(int startInd, int stopInd)
     xmlwriter.writeCharacters("Example Track");
     xmlwriter.writeEndElement();
     xmlwriter.writeStartElement("trkseg");
-    for(i = startInd; i < (stopInd - startInd); i++) {
+    for(int i = 0; i < counter; i++)
+    {
         xmlwriter.writeStartElement("trkpt");
-        xmlwriter.writeAttribute("lat", QString::number(trackTable[i].latitude));
-        xmlwriter.writeAttribute("lon", QString::number(trackTable[i].longitude));
+        tmp = *ptrValue;
+        ptrValue++;
+        xmlwriter.writeAttribute("lat", QString::number(tmp));    //gpspoints[i][0]
+        tmp = *ptrValue;
+        ptrValue++;
+        xmlwriter.writeAttribute("lon", QString::number(tmp));    //gpspoints[i][1]
         xmlwriter.writeStartElement("ele");
-        xmlwriter.writeCharacters(QString::number(trackTable[i].altitude));
-        xmlwriter.writeEndElement();
-        xmlwriter.writeStartElement("time");
-        xmlwriter.writeCharacters(QString::number(trackTable[i].time));
+        tmp = *ptrValue;
+        ptrValue++;
+        xmlwriter.writeCharacters(QString::number(tmp));          //gpspoints[i][2]
         xmlwriter.writeEndElement();
         xmlwriter.writeStartElement("speed");
-        xmlwriter.writeCharacters(QString::number(trackTable[i].speed));
-        xmlwriter.writeEndElement();
-        xmlwriter.writeStartElement("track");
-        xmlwriter.writeCharacters(QString::number(trackTable[i].track));
+        tmp = *ptrValue;
+        ptrValue++;
+        xmlwriter.writeCharacters(QString::number(tmp));          //gpspoints[i][3]
         xmlwriter.writeEndElement();
         xmlwriter.writeEndElement();    //trkpt
     }
-    xmlwriter.writeEndElement();    //trkseg
-    xmlwriter.writeEndElement();    //trk
-    xmlwriter.writeEndElement();    //gpx
+    xmlwriter.writeEndElement();        //trkseg
+    xmlwriter.writeEndElement();        //trk
+    xmlwriter.writeEndElement();        //gpx
+    xmlwriter.writeEndDocument();
 }
 
 
@@ -176,8 +183,7 @@ bool XmlWriter::writeXmlFile(QIODevice *device)
     xmlwriter.setDevice(device);
     xmlwriter.writeStartDocument();
     //writeItems();
-    //serverWritesXml();
-    writeGpsTrack(0, 16);
+    serverWritesXml();
     xmlwriter.writeEndDocument();
 
     return true;
@@ -204,26 +210,6 @@ void XmlWriter::writeItems()
   */
 void XmlWriter::serverWritesXml()
 {
-    /* Server sends to client */
-    /*
-    int i = 0;
-    int n = 5;
-
-    //Write top 10 Results
-    xmlwriter.writeStartElement("results");
-    xmlwriter.writeAttribute("category", "acceleration-0-40");
-    xmlwriter.writeAttribute("unit", "seconds");
-    xmlwriter.writeAttribute("description", "Acceleration from 0 to 100 km/h");
-
-    for (i = 0; i < n; i++) {
-        xmlwriter.writeStartElement("result");
-        xmlwriter.writeAttribute("position", QString::number(i));
-        xmlwriter.writeAttribute("user", "test123");
-        xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
-        xmlwriter.writeAttribute("value", QString::number(i+i+1));
-        xmlwriter.writeEndElement();
-    }
-    */
     //Write categories
     xmlwriter.writeStartElement("categories");
 
@@ -241,87 +227,3 @@ void XmlWriter::serverWritesXml()
 
     xmlwriter.writeEndElement();
 }
-
-
-/**
-  *@brief A temp function during development, used to create data for drawing route and for server.
-  */
-void XmlWriter::analyzeGpsData()
-{
-    qDebug() << "_analyzeGpsData";
-
-    double startTime;
-    int tableSize = 0;
-
-    qDebug() << "sizeof(analyzeTable)" << sizeof(analyzeTable);
-    tableSize = 16;
-
-    for(int i = 1; i < tableSize; i++)
-    {
-        //example of one feature whose consequent values are compared and saved if they differentiate too much
-        if(analyzeTable[i].speed < (analyzeTable[i-1].speed - 1) ||
-           analyzeTable[i].speed > (analyzeTable[i-1].speed + 1) )
-        {
-           trackTable[trackInd] = analyzeTable[i];
-           trackInd++;
-           qDebug() << "trackTable[trackInd].speed" << trackTable[trackInd].speed;
-        }
-    }
-}
-
-void XmlWriter::initPointTable(gpsPoint *table, int count, double add1, int add2, int add3)
-{
-    qDebug() << "_initPointTable";
-
-    int i = 1;
-    int j = 0;
-
-    table[0].latitude = 67.00;
-    table[0].longitude = 27.50;
-    table[0].altitude = 7.00;
-    table[0].speed = 0;
-    table[0].time = 0;
-
-    for(j = 0; j < count; j++)
-    {
-        table[i].latitude = table[i-1].latitude + add1;
-        //table[i].longitude = table[i-1].longitude + add1;
-        table[i].altitude = table[i-1].altitude + add1;
-        table[i].speed = table[i-1].speed + add2;
-        table[i].track = table[i-1].track + 1;
-        table[i].time = table[i-1].time + add3;
-        i++;
-    }
-    for(j = 0; j < count; j++)
-    {
-        //table[i].latitude = table[i-1].latitude + add1;
-        table[i].longitude = table[i-1].longitude + add1;
-        table[i].altitude = table[i-1].altitude -add1;
-        table[i].speed = table[i-1].speed + add2;
-        table[i].track = table[i-1].track + 1;
-        table[i].time = table[i-1].time + add3;
-        i++;
-    }
-    for(j = 0; j < count; j++)
-    {
-        table[i].latitude = table[i-1].latitude - add1;
-        //table[i].longitude = table[i-1].longitude + add1;
-        table[i].altitude = table[i-1].altitude + add1;
-        table[i].speed = table[i-1].speed - add2;
-        table[i].track = table[i-1].track - 1;
-        table[i].time = table[i-1].time + add3;
-        i++;
-    }
-    for(j = 0; j < count; j++)
-    {
-        //table[i].latitude = table[i-1].latitude + add1;
-        table[i].longitude = table[i-1].longitude - add1;
-        table[i].altitude = table[i-1].altitude - add1;
-        table[i].speed = table[i-1].speed - add2;
-        table[i].track = table[i-1].track - 1;
-        table[i].time = table[i-1].time + add3;
-        i++;
-    }
-}
-
-

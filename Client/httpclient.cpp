@@ -57,7 +57,6 @@ void HttpClient::requestRegistration()
 /**
   *@brief Sends result(s) to the server in xml format.
   *Send authentication information in the header.
-  *@todo Read category elsewhere.
   */
 void HttpClient::sendResultXml(QString category)
 {
@@ -80,6 +79,37 @@ void HttpClient::sendResultXml(QString category)
 
     currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfResult()));
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+
+    xmlbuffer->close();
+}
+
+/**
+  *@brief Sends route to the server in xml format.
+  *Send authentication information in the header.
+  *@todo Check destination URL.
+  */
+void HttpClient::sendRouteXml()
+{
+    qDebug() << "_sendResultXml";
+
+    QBuffer *xmlbuffer = new QBuffer();
+
+    QUrl qurl("http://api.speedfreak-app.com/api/update/route");
+    qDebug() << qurl.toString();
+    QNetworkRequest request(qurl);
+    QNetworkReply *currentDownload;
+
+    xmlbuffer->open(QBuffer::ReadWrite);
+    myXmlwriter->writeGpsTrack(xmlbuffer, myMainw->gpsData->getGpsDataArray(), myMainw->gpsData->getRoundCounter());
+    qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
+
+    QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
+    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
     xmlbuffer->close();
@@ -177,9 +207,29 @@ void HttpClient::ackOfResult()
         qDebug() << "errorcode:" << errorcode << reply->errorString();
         QMessageBox::about(myMainw, "Server reply to result sending", "Result received " + reply->readAll());
     }
-
 }
 
+/**
+  *@brief React to servers responce after result has been sent.
+  *@todo Implement consequencies of reply.
+  */
+void HttpClient::ackOfRoute()
+{
+    qDebug() << "_ackOfRoute";
+
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(myMainw, "Server reply to route sending ",reply->errorString());
+    }
+    else {
+        qDebug() << "errorcode:" << errorcode << reply->errorString();
+        QMessageBox::about(myMainw, "Server reply to route sending", "Route received " + reply->readAll());
+    }
+}
 
 /**
   *@brief React to servers responce after registration has been sent.

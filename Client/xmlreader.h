@@ -32,6 +32,7 @@ private:
     QString position;
     QString user;
     QString value;
+    QString description;
 
 signals:
     void receivedCategoryList();
