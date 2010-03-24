@@ -12,6 +12,7 @@ class RouteDialog : public QDialog {
 public:
     RouteDialog(QWidget *parent = 0);
     ~RouteDialog();
+    bool readRouteFromFile( QString &routeFile);
 
 protected:
     void changeEvent(QEvent *e);
@@ -19,6 +20,7 @@ protected:
 
 private:
     Ui::RouteDialog *ui;
+    int left, top, right, bottom;       // Limits in screen coordinates in route dialog
 
 private slots:
     void on_closePushButton_clicked();

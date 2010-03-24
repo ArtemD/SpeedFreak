@@ -11,7 +11,8 @@
 #include <cmath>
 #include <QPainter>
 #include <QList>
-//#include <QMessageBox>
+#include <QMessageBox>
+#include <QFile>
 
 /*
   * Vector class
@@ -53,81 +54,98 @@ public:
     };
 };
 
-int left, top, right, bottom;       // Limits in screen coordinates
+
+class Viewing
+{
+    Vector atPoint, fromPoint, up, a1, a2, a3;
+    qreal offsx, offsy, offsz;
+    qreal dval;
+    qreal angle;
+public:
+    qreal getOffsx() { return offsx; };
+    qreal getOffsy() { return offsx; };
+    qreal getOffsz() { return offsz; };
+    qreal getDval() { return dval; };
+    void setAngle( qreal newA) { angle = newA; };
+    void setUp( qreal newUpX, qreal newUpY, qreal newUpZ)
+    {
+        up.setX(newUpX); up.setY(newUpY); up.setZ(newUpZ);
+    };
+    void setAtPoint( qreal newX, qreal newY, qreal newZ)
+    {
+        atPoint.setX(newX); atPoint.setY(newY); atPoint.setZ(newZ);
+    };
+    void setFromPoint(qreal newX, qreal newY, qreal newZ)
+    {
+        fromPoint.setX(newX); fromPoint.setY(newY); fromPoint.setZ(newZ);
+    }
+    void setEye()
+    {
+        double amarkmag, tempmag;
+        Vector temp, dist;
+
+        dval = cos(angle/2.0)/sin(angle/2.0);
+        dist = atPoint-fromPoint;
+        amarkmag = dist.length();
+        a3 = dist/amarkmag;
+
+        temp.crossProduct( dist, up);
+        tempmag = temp.length();
+        a1 = temp/tempmag;
+
+        temp.crossProduct( a1, a3);
+        tempmag = temp.length();
+        a2 = temp/tempmag;
+
+        offsx = -a1.getX()*fromPoint.getX() - a1.getY()*fromPoint.getY() - a1.getZ()*fromPoint.getZ();
+        offsy = -a2.getX()*fromPoint.getX() - a2.getY()*fromPoint.getY() - a2.getZ()*fromPoint.getZ();
+        offsz = -a3.getX()*fromPoint.getX() - a3.getY()*fromPoint.getY() - a3.getZ()*fromPoint.getZ();
+        QString jono2 = QString("offsx %1 offsy %2 offsz %3").arg(offsx).arg(offsy).arg(offsz);
+        QMessageBox::about(0,"offs x y z", jono2);
+    } ;
+    Vector getAtPoint() { return atPoint; };
+    Vector getFromPoint() { return fromPoint; };
+    Vector getA1() { return a1; };
+    Vector getA2() { return a2; };
+    Vector getA3() { return a3; };
+    Viewing () {};
+};
+
 qreal xmax, xmin, ymin, ymax;       // Limits in world coordinates
 
 QList<Vector> vertexList;           // Vertecies of route
 
-Vector atPoint, fromPoint, up, a1, a2, a3;
-qreal offsx, offsy, offsz;
+//Vector atPoint, fromPoint, up, a1, a2, a3;
+//qreal offsx, offsy, offsz;
 
 qreal objxmin, objxmax, objymin, objymax, objzmin, objzmax;
-qreal angle;
-qreal a, b,c,d, dval;
+//qreal angle;
+qreal a, b,c,d; //, dval;
 
 #define maxof(val1,val2)  ((val1>val2)?val1:val2)
 #define toradians( degrees) (degrees*0.017453293)
 
 #define WIDTH 1.8
 
-int length = 24;
-int connection[30];
+int length = 34; // 24;
+int connection[50];
 
-void setAtPoint();
-void setFromPoint();
-void setEye();
+void setAtPoint( Viewing *v);
+void setFromPoint( Viewing *v);
+//void setEye();
+
+Viewing view3d;
+
+void dataMinMax( void);
+
+
 
 RouteDialog::RouteDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RouteDialog)
 {
     ui->setupUi(this);
-    //left = 50; top = 50; right = 350; bottom = 200;
-    left = 5; top = 5; right = 395; bottom = 295;
-    xmin =0.0; xmax=100.0; ymin = 0.0; ymax = 20.0;
-    // Ruudun koko 400 x 300
-
-    /*vertexList.append(QVector3D(40.02, 10.02, 10.02));
-   vertexList.append(QVector3D(50.01,  5.01, 10));
-   vertexList.append(QVector3D(69.98,  4.98, 10));
-   vertexList.append(QVector3D(80.02,  9.98, 10));
-   vertexList.append(QVector3D(70.01, 15.01, 10));
-   vertexList.append(QVector3D(49.99, 14.97, 10));
-   vertexList.append(QVector3D(40.01, 10.01, 10.02));
-*/
-       vertexList.append(Vector(0.0, 0.0, 0.0));
-       vertexList.append(Vector(1.0, 1.0, 1.0));
-       vertexList.append(Vector(1.0, 1.0, 0.0));
-
-       vertexList.append(Vector(1.0, 0.0, 0.0));
-       vertexList.append(Vector(1.0, 0.0, 1.0));
-       vertexList.append(Vector(0.0, 1.0, 1.0));
-
-       vertexList.append(Vector(0.0, 1.0, 0.0));
-       vertexList.append(Vector(0.0, 0.0, 0.0));
-       vertexList.append(Vector(0.0, 0.0, 1.0));
-
-   connection[0] = 0;
-   connection[1] = 1; connection[2] = 5; connection[3] = 8; connection[4] = -4;
-   connection[5] =  5; connection[6] = 6; connection[7] = 7; connection[8] = -8;
-   connection[9] =  6; connection[10] = 2; connection[11] = 3; connection[12] = -7;
-   connection[13] = 1; connection[14] = 4; connection[15] = 3; connection[16] = -2;
-   connection[17] = 8; connection[18] = 7; connection[19] = 3; connection[20] = -4;
-   connection[21] = 6;  connection[22] = 5; connection[23] = 1;  connection[24] = -2;
-
-   fromPoint.setX( 1.0); fromPoint.setY( 0.0); fromPoint.setZ( 0.0);
-   atPoint.setX( 0.0); atPoint.setY( 0.0); atPoint.setZ( 0.0);
-   up.setX( 0.0); up.setY( 0.0); up.setZ(1.0);
-
-   a = 400/2.;
-   b = 1 - a*(-1);
-   c = -300/2.;
-   d = 300 - c*(-1);
-   angle = toradians(60);
-
-   setAtPoint();
-   setFromPoint();
-   setEye();
+    left = 5; top = 5; right = 395; bottom = 195; // Limits in screen coordinates
 }
 
 RouteDialog::~RouteDialog()
@@ -151,50 +169,167 @@ void RouteDialog::changeEvent(QEvent *e)
 /**
   * Draws route to the route dialog
   * @param QPaintEvent
- *
+ */
+/* */
 void RouteDialog::paintEvent(QPaintEvent *)
 {
     // 2d draw
+    int startx, starty; // Starting point of the route
     int i, maxi;
     qreal x1, y1, x2, y2;
     int scx1, scy1, scx2, scy2;
+    Vector v1, v2;
+    QPainter painter(this);
 
-        QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(QPen((Qt::black),2));
+    painter.setBrush(QBrush((Qt::yellow), Qt::SolidPattern));
 
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setPen(QPen((Qt::black),2));
-        painter.setBrush(QBrush((Qt::yellow), Qt::SolidPattern));
+    // Draw route window frame
+    /*painter.drawLine(left,top,right,top);
+    painter.drawLine(right,top,right,bottom);
+    painter.drawLine(left,top,left,bottom);
+    painter.drawLine(left,bottom,right,bottom);
+    */
 
-        // Draw route window frsme
-        painter.drawLine(left,top,right,top);
-        painter.drawLine(right,top,right,bottom);
-        painter.drawLine(left,top,left,bottom);
-        painter.drawLine(left,bottom,right,bottom);
+    maxi = vertexList.size()-1; // -1 to remove wrong last point !!!
+    for (i=0; i<maxi-1; i++)
+    {
+        v1 = vertexList.at(i);
+        v2 = vertexList.at(i+1);
+        x1 = v1.getX(); y1 = v1.getY();
+        x2 = v2.getX(); y2 = v2.getY();
+        //QString jono = QString("x: %1 y: %2").arg(x1).arg(y1);
+        //QMessageBox::about(0,"Tark",jono);
 
-        //maxi = vertexList.size();
-        for (i=0; i<maxi-1; i++)
+        scx1 = left + (x1-xmin)/(xmax-xmin)*(right-left);
+        scy1 = top + (ymax-y1)/(ymax-ymin)*(bottom-top);
+        scx2 = left + (x2-xmin)/(xmax-xmin)*(right-left);
+        scy2 = top + (ymax-y2)/(ymax-ymin)*(bottom-top);
+
+        // Show with circle if starting point
+        if (i==0)
         {
-            x1 = vertexList.at(i).x();
-            y1 = vertexList.at(i).y();
-            x2 = vertexList.at(i+1).x();
-            y2 = vertexList.at(i+1).y();
-
-            scx1 = left + (x1-xmin)/(xmax-xmin)*(right-left);
-            scy1 = top + (ymax-y1)/(ymax-ymin)*(bottom-top);
-            scx2 = left + (x2-xmin)/(xmax-xmin)*(right-left);
-            scy2 = top + (ymax-y2)/(ymax-ymin)*(bottom-top);
-
-            painter.drawLine( scx1, scy1, scx2, scy2);
+            // Starting point
+            startx = scx1; starty = scy1;
+            painter.drawEllipse( scx1-5, scy1-5, 10, 10);
         }
+        painter.drawLine( scx1, scy1, scx2, scy2);
+    }
+    // Show the endig point if different than the starting point
+    if (scx2 != startx || scy2 != starty)
+    {
+        painter.drawEllipse( scx2-5, scy2-5, 10, 10);
+    }
 }
-*/
+/* */
 
 void RouteDialog::on_closePushButton_clicked()
 {
     close();
 }
 
-// Next functions below for 3D
+bool RouteDialog::readRouteFromFile( QString &filename)
+{
+/* 2d */
+    Vector temp;
+    int i;
+    QString rivi;
+    QFile file;
+    //file.setFileName("route.txt");
+    file.setFileName( filename);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::about(0, "Error", "File not found");
+        return false;
+    }
+
+    vertexList.clear();
+    i = 0;
+    //while( file.canReadLine())
+    while(!file.atEnd())
+    {
+        QString str1, str2, str3;
+        rivi = file.readLine();
+
+        str1 = rivi.section(" ", 0, 0);
+        if (str1.compare("Start:") == 0 || str1.compare("Stop:") == 0)
+        {
+
+        }
+        else
+        {
+            //QMessageBox::about(0, "LUKEE", file.readLine());
+            str1 = rivi.section(" ",  2, 2); // latitude y-value
+            str2 = rivi.section(" ",  4, 4); // longitude x-value
+            str3 = rivi.section(" ",  6, 6); // altitude z-value
+            QString str = QString("la: %1 lo: %2 al: %3").arg(str1).arg(str2).arg(str3);
+            //QMessageBox::about(0, "LUKEE", str);
+
+            double x, y, z;
+            x = str2.toDouble();
+            y = str1.toDouble();
+            z = str3.toDouble();
+            temp.setX( x); // Longitude
+            temp.setY( y);// Latitude
+            temp.setZ( z);// altitude
+
+           vertexList.append(temp);
+        }
+        i++;
+    }
+
+   // la: lo: al:
+    file.close();
+
+   /* */
+     /* for 3D test */
+     /*vertexList.append(Vector(0.0, 0.0, 0.0));
+     vertexList.append(Vector(1.0, 1.0, 1.0));
+     vertexList.append(Vector(1.0, 1.0, 0.0));
+
+     vertexList.append(Vector(1.0, 0.0, 0.0));
+     vertexList.append(Vector(1.0, 0.0, 1.0));
+     vertexList.append(Vector(0.0, 1.0, 1.0));
+
+     vertexList.append(Vector(0.0, 1.0, 0.0));
+     vertexList.append(Vector(0.0, 0.0, 0.0));
+     vertexList.append(Vector(0.0, 0.0, 1.0));
+*/
+     /* For 3d */
+     //int i;
+     for(i= 0; i<35; i++)
+     {
+         connection[i] = i;
+     }
+ /* connection[0] = 0;
+ connection[1] = 1; connection[2] = 5; connection[3] = 8; connection[4] = -4;
+ connection[5] =  5; connection[6] = 6; connection[7] = 7; connection[8] = -8;
+ connection[9] =  6; connection[10] = 2; connection[11] = 3; connection[12] = -7;
+ connection[13] = 1; connection[14] = 4; connection[15] = 3; connection[16] = -2;
+ connection[17] = 8; connection[18] = 7; connection[19] = 3; connection[20] = -4;
+ connection[21] = 6;  connection[22] = 5; connection[23] = 1;  connection[24] = -2;*/
+
+     /********  in 3d use only */
+     a = 400/2.;
+     b = 1 - a*(-1);
+     c = -300/2.;
+     d = 300 - c*(-1);
+     //angle = toradians(60);
+
+     view3d.setUp( 0.0, 0.0, 1.0);
+     view3d.setAngle(toradians(60));
+     setAtPoint( &view3d);
+     xmin = objxmin; xmax = objxmax; ymin = objymin; ymax = objymax;
+     setFromPoint( &view3d);
+     view3d.setEye();
+     /****** end of 3d *****/
+     return true;
+}
+
+/*
+  * Find out data range for x-, y- and z-coordinates
+  */
 void dataMinMax( void)
 {
     int i, maxi;
@@ -206,7 +341,7 @@ void dataMinMax( void)
     objymax = objymin = temp.getY();
     objzmax = objzmin = temp.getZ();
 
-    maxi = vertexList.size();
+    maxi = vertexList.size()-1; // Wrong last data
     //maxi = 9;
     for (i=1; i<maxi; i++)
     {
@@ -248,29 +383,54 @@ void dataMinMax( void)
     //QMessageBox::about(0,"Tark", jono);
 }
 
-void setAtPoint()
+
+void setAtPoint( Viewing *v)
 {
+    qreal x, y, z;
     dataMinMax();
-    atPoint.setX((objxmax+objxmin)/2.0);
-    atPoint.setY((objymax+objymin)/2.0);
-    atPoint.setZ((objzmax+objzmin)/2.0);
+    Vector test;
+    //atPoint.setX((
+            x = (objxmax+objxmin)/2.0;
+    //atPoint.setY(
+            y= (objymax+objymin)/2.0;
+    //atPoint.setZ(
+            z= (objzmax+objzmin)/2.0;
+            v->setAtPoint( x, y, z);
     //QString jono = QString("AtX %1 Aty %2 AtZ %3").arg(atPoint.x()).arg(atPoint.y()).arg(atPoint.z());
     //QString jono = QString("AtX %1 Aty %2 AtZ %3").arg(atPoint.x).arg(atPoint.y).arg(atPoint.z);
-    //QMessageBox::about(0,"At point", jono);
+
+    /* *
+    test = v->getAtPoint();
+    QString jono = QString("AtX %1 Aty %2 AtZ %3").arg(test.getX()).arg(test.getY()).arg(test.getZ());
+    QMessageBox::about(0,"At point", jono);
+    * */
 }
 
-void setFromPoint()
+void setFromPoint( Viewing *v)
 {
+    qreal x, y, z;
+    Vector point;
+    point = v->getAtPoint();
+    Vector test;
     //fromPoint.setX( atPoint.getX() + (objxmax-objxmin)/2.0 + WIDTH*maxof((objzmax-objzmin)/2.0,(objymax-objymin)/2.0));
-    fromPoint.setX(3.0);
-    fromPoint.setY( atPoint.getY());
-    fromPoint.setZ( atPoint.getZ());
+    //fromPoint.setX(
+            //x = 3.0;
+            x = point.getX() + 300; //25;
+    //fromPoint.setY(
+            y = point.getY();
+    //fromPoint.setZ(
+            z = point.getZ(); // + 150;
+            v->setFromPoint(x,y,z);
     //QString jono = QString("FromX %1 FromY %2 FromZ %3").arg(fromPoint.x()).arg(fromPoint.y()).arg(fromPoint.z());
     //QString jono = QString("FromX %1 FromY %2 FromZ %3").arg(fromPoint.x).arg(fromPoint.y).arg(fromPoint.z);
-    //QMessageBox::about(0,"From point", jono); // (1.9, 0.5, 0.5)
+    /* *
+    test = v->getFromPoint();
+    QString jono = QString("FromX %1 FromY %2 FromZ %3").arg(test.getX()).arg(test.getY()).arg(test.getZ());
+    QMessageBox::about(0,"From point", jono); // (1.9, 0.5, 0.5)
+    * */
 }
 
-void setEye()
+/*void setEye()
 {
     double amarkmag, tempmag;
     Vector temp, dist;
@@ -293,7 +453,7 @@ void setEye()
     offsz = -a3.getX()*fromPoint.getX() - a3.getY()*fromPoint.getY() - a3.getZ()*fromPoint.getZ();
     //QString jono2 = QString("offsx %1 offsy %2 offsz %3").arg(offsx).arg(offsy).arg(offsz);
     //QMessageBox::about(0,"offs x y z", jono2);
-}
+}*/
 
 #define NOEDGE     0x00
 #define LEFTEDGE   0x01
@@ -404,10 +564,20 @@ void clip3d( qreal x1, qreal y1, qreal z1, qreal x2, qreal y2, qreal z2, int *xs
   * Transform the segment connecting the two vectors into the viewing plane.
   * clip3d() clips the line if needed.
   */
-void transformseg( Vector *v1, Vector *v2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2 )
+void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2 )
 
 {
     qreal x1, y1, z1, x2, y2, z2;
+    qreal offsx, offsy, offsz;
+    qreal dval;
+    Vector a1, a2, a3;
+    a1 = v->getA1();
+    a2 = v->getA2();
+    a3 = v->getA3();
+    offsx = v->getOffsx();
+    offsy = v->getOffsy();
+    offsz = v->getOffsz();
+    dval = v->getDval();
 
     x1 = (a1.getX()*v1->getX() + a1.getY()*v1->getY() + a1.getZ()*v1->getZ() + offsx)*dval;
     y1 = (a2.getX()*v1->getX() + a2.getY()*v1->getY() + a2.getZ()*v1->getZ() + offsy)*dval;
@@ -420,12 +590,14 @@ void transformseg( Vector *v1, Vector *v2, int *xscreen1, int *yscreen1, int *xs
     clip3d(x1,y1,z1,x2,y2,z2, xscreen1, yscreen1, xscreen2, yscreen2 );
 }
 
+/*
+  *
+  * 3D route viewing
+*
 void RouteDialog::paintEvent(QPaintEvent *)
 {
     int i, startofside;
-    qreal x1, y1, x2, y2;
-    int scx1, scy1, scx2, scy2;
-    int xpc1, ypc1, xpc2, ypc2;
+    int xscreen1, yscreen1, xscreen2, yscreen2;
     Vector temp1, temp2;
 
     QPainter painter(this);
@@ -440,6 +612,21 @@ void RouteDialog::paintEvent(QPaintEvent *)
     //painter.drawLine(left,top,left,bottom);
     //painter.drawLine(left,bottom,right,bottom);
 
+    i = 1;
+    while (i<length)
+    {
+        temp1 = vertexList.at(connection[i-1]);
+        temp2 = vertexList.at(connection[i]);
+        transformseg( &view3d, &temp1,&temp2, &xscreen1, &yscreen1, &xscreen2, &yscreen2);
+
+        painter.drawLine(xscreen1, yscreen1, xscreen2, yscreen2);
+        if (i==1)
+        {
+            painter.drawEllipse( xscreen1-5, yscreen1-5, 10, 10);
+        }
+        i++;
+    }
+    /*
     i=1;
     while(i<length)
     {
@@ -450,23 +637,29 @@ void RouteDialog::paintEvent(QPaintEvent *)
             //transformseg( &pa[connection[i-1]],&pa[connection[i]], &xpc1, &ypc1, &xpc2, &ypc2);
             temp1 = vertexList.at(connection[i-1]);
             temp2 = vertexList.at(connection[i]);
-            transformseg( &temp1,&temp2, &xpc1, &ypc1, &xpc2, &ypc2);
+            transformseg( &view3d, &temp1,&temp2, &xscreen1, &yscreen1, &xscreen2, &yscreen2);
 
-            painter.drawLine(xpc1, ypc1, xpc2, ypc2);
+            painter.drawLine(xscreen1, yscreen1, xscreen2, yscreen2);
+            if (i==2)
+            {
+                painter.drawEllipse( xscreen1-5, yscreen1-5, 10, 10);
+            }
             i++;
         }
         // to last segment
         //transformseg( &pa[connection[i-1]],&pa[-connection[i]],&xpc1, &ypc1, &xpc2, &ypc2);
         temp1 = vertexList.at(connection[i-1]);
         temp2 = vertexList.at(-connection[i]);
-        transformseg( &temp1,&temp2, &xpc1, &ypc1, &xpc2, &ypc2);
-        painter.drawLine(xpc1, ypc1, xpc2, ypc2);
+        transformseg( &view3d, &temp1,&temp2, &xscreen1, &yscreen1, &xscreen2, &yscreen2);
+        painter.drawLine(xscreen1, yscreen1, xscreen2, yscreen2);
         // from last segemt to start
         //transformseg( &pa[-connection[i]],&pa[connection[startofside]],&xpc1, &ypc1, &xpc2, &ypc2);
         temp1 = vertexList.at(-connection[i]);
         temp2 = vertexList.at(connection[startofside]);
-        transformseg( &temp1,&temp2, &xpc1, &ypc1, &xpc2, &ypc2);
-        painter.drawLine(xpc1, ypc1, xpc2, ypc2);
+        transformseg( &view3d, &temp1,&temp2, &xscreen1, &yscreen1, &xscreen2, &yscreen2);
+        painter.drawLine(xscreen1, yscreen1, xscreen2, yscreen2);
         i++;
     }
+    *
 }
+** */

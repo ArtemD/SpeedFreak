@@ -427,7 +427,11 @@ void CarMainWindow::regUserToServer()
 
 void CarMainWindow::on_drawRoutePushButton_clicked()
 {
-    myRoute->show();
+    QString routeFile = QString("route.txt");
+    if (myRoute->readRouteFromFile( routeFile) == true)
+    {
+        myRoute->show();
+    }
 }
 
 /**
