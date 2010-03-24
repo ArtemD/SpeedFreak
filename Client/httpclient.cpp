@@ -27,7 +27,6 @@ HttpClient::~HttpClient()
 /**
   *@brief Sends registration information to the server in xml format.
   *Reads user name, password and emaol address from resuldialogs internal variables.
-  *@todo Replace msg box with better reaction to server`s responce.
   */
 void HttpClient::requestRegistration()
 {
@@ -50,6 +49,7 @@ void HttpClient::requestRegistration()
     currentDownload = netManager->post(request, ("xml=" + regbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRegistration()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Reguesting registration from server");
 
     regbuffer->close();
 }
@@ -80,6 +80,7 @@ void HttpClient::sendResultXml(QString category)
     currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfResult()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Sending result to server");
 
     xmlbuffer->close();
 }
@@ -111,6 +112,7 @@ void HttpClient::sendRouteXml()
     currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Sending route to server");
 
     xmlbuffer->close();
 }
@@ -138,6 +140,7 @@ void HttpClient::requestTopList(QString category, QString limit)
     currentDownload = netManager->post(request, ("data=" ));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfToplist()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Reguesting top10 list from server");
 }
 
 
@@ -161,6 +164,7 @@ void HttpClient::requestCategories()
     currentDownload = netManager->post(request, ("data=" ));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfCategories()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Reguesting categories from server");
 }
 
 
@@ -184,16 +188,18 @@ void HttpClient::checkLogin()
     currentDownload = netManager->post(request, ("data=" ));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfLogin()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+    myMainw->setLabelInfoToUser("Checking login validity from server");
 }
 
 
 /**
   *@brief React to servers responce after result has been sent.
-  *@todo Implement consequencies of reply.
   */
 void HttpClient::ackOfResult()
 {
     qDebug() << "_ackOfResult";
+
+    myMainw->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -210,12 +216,13 @@ void HttpClient::ackOfResult()
 }
 
 /**
-  *@brief React to servers responce after result has been sent.
-  *@todo Implement consequencies of reply.
+  *@brief React to servers responce after route has been sent.
   */
 void HttpClient::ackOfRoute()
 {
     qDebug() << "_ackOfRoute";
+
+    myMainw->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -239,6 +246,8 @@ void HttpClient::ackOfRegistration()
 {
     qDebug() << "_ackOfRegistration";
 
+    myMainw->setLabelInfoToUser("");
+
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
     QNetworkReply::NetworkError errorcode;
@@ -251,7 +260,6 @@ void HttpClient::ackOfRegistration()
         qDebug() << "errorcode=0" << errorcode << reply->errorString();
         QMessageBox::about(myMainw, "Server reply to registration", "User registration " + reply->readAll());
     }
-
 }
 
 
@@ -261,6 +269,8 @@ void HttpClient::ackOfRegistration()
 void HttpClient::ackOfCategories()
 {
     qDebug() << "_ackOfCategories";
+
+    myMainw->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     myXmlreader->xmlReadCategories(reply);
@@ -275,17 +285,17 @@ void HttpClient::ackOfCategories()
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         QMessageBox::about(myMainw, "Server reply to requesting categories ", "OK");
     }
-
 }
 
 
 /**
   *@brief React to servers responce after request of TopList in certain category has been sent.
-  *@todo Implement routing reply`s contents to UI.
   */
 void HttpClient::ackOfLogin()
 {
     qDebug() << "_ackOffLogin";
+
+    myMainw->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -309,28 +319,30 @@ void HttpClient::errorFromServer(QNetworkReply::NetworkError errorcode)
 {
     qDebug() << "_errorFromServer";
 
+    myMainw->setLabelInfoToUser("");
+
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode;
-        //Note that errors are already reported on other ach-functions for server communication
+        //Note that errors are already reported on other each functions for server communication
         //QMessageBox::about(myMainw, "Server reported an error", reply->errorString());
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         qDebug() << reply->readAll();
     }
-
 }
 
 
 /**
   *@brief React to servers responce after request of TopList in certain category has been sent.
-  *@todo Implement routing reply`s contents to UI.
   */
 void HttpClient::ackOfToplist()
 {
     qDebug() << "_ackOfToplist";
+
+    myMainw->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     myXmlreader->xmlReadTop10Results(reply);
@@ -345,6 +357,5 @@ void HttpClient::ackOfToplist()
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         QMessageBox::about(myMainw, "Server reply to requesting top 10 list", "OK " + reply->readAll());
     }
-
 }
 
