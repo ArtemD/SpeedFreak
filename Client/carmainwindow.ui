@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabTop">
      <attribute name="title">
@@ -127,9 +127,9 @@
      <widget class="QListView" name="listViewStartTabAccelerationCategories">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>20</x>
         <y>10</y>
-        <width>151</width>
+        <width>251</width>
         <height>301</height>
        </rect>
       </property>
@@ -137,9 +137,9 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>320</x>
         <y>10</y>
-        <width>311</width>
+        <width>161</width>
         <height>301</height>
        </rect>
       </property>
@@ -270,7 +270,7 @@
      <widget class="QLabel" name="labelMeasureTabHeader">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>20</x>
         <y>10</y>
         <width>261</width>
         <height>41</height>
@@ -329,7 +329,7 @@
      <widget class="QLabel" name="labelMeasureTabTimeHeader">
       <property name="geometry">
        <rect>
-        <x>25</x>
+        <x>20</x>
         <y>70</y>
         <width>60</width>
         <height>41</height>
@@ -369,7 +369,7 @@
      <widget class="QLabel" name="labelMeasureTabSpeedHeader">
       <property name="geometry">
        <rect>
-        <x>25</x>
+        <x>20</x>
         <y>160</y>
         <width>81</width>
         <height>41</height>
@@ -621,6 +621,19 @@
     </property>
     <property name="text">
      <string>Registrate</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelInfoToUser">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>461</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

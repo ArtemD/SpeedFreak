@@ -61,6 +61,7 @@ public:
 
     void setComboBoxStartTabUnits(QStringList units);       //Start-tab view
     void setListViewStartTabAccelerationCategories(QStringList numbers); //Start-tab view
+    void setLabelInfoToUser(QString infoText);
 
 protected:
     void changeEvent(QEvent *e);
