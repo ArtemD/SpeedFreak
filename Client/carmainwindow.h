@@ -123,6 +123,13 @@ private:
     QString totalTime;
 
     QDateTime *gpsTime;
+    QTimer *gpsTimer;
+    double gpsSpeedNow;     //Route-tab view
+    double gpsSpeedPrevious;//Route-tab view
+    double gpsAcceleration; //Route-tab view
+    double timeFromGps;     //Route-tab view
+    double gpsSpeed;        //Route-tab view
+    int gpsUpdateTime;      //Route-tab view
 
     int counterForSaveResults;
 
@@ -131,8 +138,8 @@ signals:
     void userNameChanged();
 
 private slots:
-    void on_stopRecPushButton_clicked();
-    void on_startRecPushButton_clicked();
+    void gpsTimerTimeout();                             //Route-tab view
+    void on_startRecPushButton_clicked();               //Route-tab view
     void on_pushButtonShowResultDialog_clicked();
     void on_gpsOnCheckBox_stateChanged(int GPSState);   //Route-tab view
     void gpsStatus();                                   //Route-tab view
