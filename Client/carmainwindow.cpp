@@ -14,8 +14,8 @@
 #include "carmainwindow.h"
 #include "math.h"
 
-#define kAccelerometerSampleRate    50
-#define kFilteringFactor            0.2
+#define kAccelerometerSampleRate    40
+#define kFilteringFactor            0.1
 #define kSecondsInHour              3600
 
 /**
@@ -26,6 +26,11 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 {
     ui->setupUi(this);
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
+
+    //Disable start buttons before calibration
+    ui->autoStartButton->setEnabled(false);
+    ui->manualStartButton->setEnabled(false);
+
     result = new ResultDialog();
     //measure = new MeasureDialog();
     welcomeDialog = new WelcomeDialog();
@@ -70,7 +75,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     isNewRun = true;
     isSetup = false;
     stopTime = 0;
-    accelerationStartThreshold = 0.02;
+    accelerationStartThreshold = 0.1;
 
     accelerometerTimer = new QTimer(this);
     connect(accelerometerTimer, SIGNAL(timeout()), this, SLOT(readAccelerometerData()));
@@ -479,13 +484,13 @@ void CarMainWindow::resetAccelerometerMeasurements()
     currentSpeed = "";
     currentTime = 0;
     distanceTraveled = "";
-    firstAcceleration = 0;
+    //firstAcceleration = 0;
     //horsepower = null;
     isNewRun = true;
     //lastScreenUpdateInSeconds = 0;
     previousTime = 0;
     reverseAccelerationFlag = false;
-    stopWatch.setHMS(0, 0, 0, 0);
+    stopWatch.start();
     //accelerometer->stop();
     totalTime = "";
     vehicleStartedMoving = false;
@@ -598,7 +603,11 @@ void CarMainWindow::readAccelerometerData()
     qreal x, y, z;
 
     accelerometer->getAcceleration(x, y, z);
-    accelerometer->smoothData(x, y, z);
+
+    //  keep the following line as close to the SetKinematicsProperties method as possible
+    currentTime = stopWatch.elapsed();
+
+    //accelerometer->smoothData(x, y, z);
 
     // Apply calibration
     x -= accelerometer->getCalibrationX();
@@ -609,54 +618,22 @@ void CarMainWindow::readAccelerometerData()
                           "acc y: " + QString::number(y) + "\n" +
                           "acc z: " + QString::number(z) + "\n");
 
-    if (!vehicleStartedMoving)
-    {
-        if (isNewRun)
-        {
-            firstAcceleration = sqrt(x*x + y*y + z*z);
-            //firstAcceleration = y; // first read
-            isNewRun = false;
-        }
-    }
-
-    currentAcceleration = sqrt(x*x + y*y + z*z);
-    changeInAcceleration = (currentAcceleration - firstAcceleration); // firstAcceleration only gets set once
+    currentAcceleration = z;//sqrt(x*x + y*y + z*z);
+    changeInAcceleration = currentAcceleration;
 
     if (((fabs(changeInAcceleration) <= accelerationStartThreshold)
                 && !vehicleStartedMoving))
     {
         return;
     }
-
-    if (reverseAccelerationFlag)
+    else if(!vehicleStartedMoving)
     {
-        // will be false until after 1st calculation
-        if ((changeInAcceleration <= 0))
-        {
-            // actually increasing here...
-            changeInAcceleration = fabs(changeInAcceleration);
-        }
-        else
-        {
-            // actually decreasing here...
-            changeInAcceleration = (changeInAcceleration * -1);
-        }
-    }
-    if (!vehicleStartedMoving)
-    {
-        if ((changeInAcceleration < 0))
-        {
-            // we started to move backwards first time through
-            reverseAccelerationFlag = true;
-            changeInAcceleration = fabs(changeInAcceleration);
-        }
         vehicleStartedMoving = true;
-
-        stopWatch.setHMS(0, 0, 0, 0);
         stopWatch.start();
+        previousTime = 0;
+        currentTime = 0;
     }
-    //  keep the following line as close to the SetKinematicsProperties method as possible
-    currentTime = stopWatch.elapsed();
+
     calculate->calculateParameters(changeInAcceleration, (currentTime - previousTime)/1000);
     previousTime = currentTime;
 
@@ -665,8 +642,8 @@ void CarMainWindow::readAccelerometerData()
 
     speed = 0.0;
     speed = calculate->getCurrentSpeed();
-    speed = ((speed*1000)/kSecondsInHour);
-    s.sprintf("%.2f", speed);
+    speed = speed*3.6;//((speed*1000)/kSecondsInHour);
+    s.sprintf("%.1f", speed);
     currentSpeed = s;
 
     s.sprintf("%.2f", calculate->getDistanceTraveled());
@@ -862,4 +839,12 @@ void CarMainWindow::setTimeAxisGapAndShowResult(double pTime)
     {
         result->setDiagramGapHorizontal(20);
     }
+}
+
+void CarMainWindow::on_calibrateButton_clicked()
+{
+    ui->autoStartButton->setEnabled(true);
+    ui->manualStartButton->setEnabled(true);
+
+    this->accelerometer->calibrate();
 }

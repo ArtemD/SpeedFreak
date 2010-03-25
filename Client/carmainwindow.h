@@ -111,7 +111,7 @@ private:
     double currentAcceleration;
     double currentTime;
     double previousTime;
-    double firstAcceleration;
+    //double firstAcceleration;
 
     QTimer *accelerometerTimer;
     QTime stopWatch;
@@ -138,6 +138,7 @@ signals:
     void userNameChanged();
 
 private slots:
+    void on_calibrateButton_clicked();
     void gpsTimerTimeout();                             //Route-tab view
     void on_startRecPushButton_clicked();               //Route-tab view
     void on_pushButtonShowResultDialog_clicked();
