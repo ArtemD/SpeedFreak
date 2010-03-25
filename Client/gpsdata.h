@@ -13,6 +13,7 @@
 #include <maemo5location.h>
 #include <QFile>
 #include <QTextStream>
+#include <QTimer>
 
 class GPSData : public QObject
 {
@@ -54,7 +55,9 @@ private:
 
     bool recordingStatus;
     //int roundCounter;
-    double gpsDataArray[100][4];
+    double gpsDataArray[4];
+    QTimer *gpsTimer;
+    int gpsTimeMS;
 
 private slots:
     void agnss();
@@ -65,6 +68,7 @@ private slots:
     void gpsError();
     void gpsdRunning();
     void gpsdStopped();
+    void gpsTimerTimeout();
 
 };
 

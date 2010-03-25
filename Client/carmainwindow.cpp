@@ -49,6 +49,13 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     gpsData = new GPSData(location);
     connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
     gpsTime = new QDateTime();
+    gpsTimer = new QTimer();
+    connect(gpsTimer, SIGNAL(timeout()),this, SLOT(gpsTimerTimeout()));
+    gpsSpeedNow = 0.0;
+    gpsSpeedPrevious = 0.0;
+    gpsAcceleration = 0.0;
+    timeFromGps = 0.0; //Measure-tab view.
+    gpsSpeed = 0.0;
 
     this->time = 0;
     this->speed = 0;
@@ -78,16 +85,16 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     measures = new Measures();
     this->initializeMeasures();
 
-    this->timer->setInterval(300);
+    this->timer->setInterval(100);
 
     connect(this->timer, SIGNAL(timeout()), this, SLOT(after_timeout()));
     connect(myLogin, SIGNAL( userNameChanged()), this, SLOT(updateUserName()));
 
     ui->labelMeasureTabResult->hide();
     ui->pushButtonShowResultDialog->setEnabled(false);
+    ui->pushButtonShowResultDialog->setEnabled(false);
 
     this->setWindowTitle("Speed Freak");
-
 }
 
 /**
@@ -109,6 +116,14 @@ CarMainWindow::~CarMainWindow()
     gpsData = NULL;
     delete gpsTime;
     gpsTime = NULL;
+
+    //Route-tab view
+    gpsSpeedNow = 0.0;
+    gpsSpeedPrevious = 0.0;
+    gpsAcceleration = 0.0;
+    timeFromGps = 0.0;
+    gpsSpeed = 0.0;
+    gpsUpdateTime = 0;
 }
 
 /**
@@ -321,15 +336,10 @@ void CarMainWindow::on_manualStartButton_clicked()
   */
 void CarMainWindow::after_timeout()
 {
-    QString timeString, speedString;
-    //time++;
-    //speed = speed +10;
-    timeString.setNum(time);
-    speedString.setNum(speed);
-    ui->labelMeasureTabTime->setText(timeString);
-    ui->labelMeasureTabSpeed->setText(speedString);
-
-    //handleCheckPoint(time, speed);
+    if ( gpsSpeed > 1.0 )
+    {
+        timeFromGps += 0.1;
+    }
 }
 
 /**
@@ -375,6 +385,10 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
     this->speed = 0;
     ui->tabWidget->setCurrentWidget(this->ui->StartTab);
     //this->close();
+
+    //GPS
+    gpsSpeed = 0.0;
+    timeFromGps = 0.0;
 }
 
 /**
@@ -662,63 +676,135 @@ void CarMainWindow::calibrateAccelerometer()
 }
 
 /**
-  *This slot function is called when GPS on checkbox state changed.  Route-tab view.
+  *This slot function is called when GPS on checkbox state changed. Route-tab view.
   *@param int GPSState
   */
 void CarMainWindow::on_gpsOnCheckBox_stateChanged(int GPSState)
 {
+    //Stop polling GPS. Route-tab view.
     if (GPSState == 0)
     {
-        ui->labelRouteTabGPSStatus->setText("GPS off");//testing
+        ui->labelRouteTabGPSStatus->setText("GPS status: GPS off");
         location->stopPollingGPS();
+        gpsUpdateTime = 0;
+        gpsTimer->stop();
     }
+    //Start polling GPS. Route-tab view.
     else
     {
-        ui->labelRouteTabGPSStatus->setText("GPS on");//testing
+        ui->labelRouteTabGPSStatus->setText("GPS status: GPS on");
         location->startPollingGPS();
     }
 }
 
 /**
-  *This slot function is called when GPS status changed.  Route-tab view.
+  *This slot function is called when GPS status changed. Route- and measure-tab view.
   */
 void CarMainWindow::gpsStatus()
 {
+    //IF GPS checkbox is ON
     if (ui->gpsOnCheckBox->isChecked())
     {
+        //If GPS find 4 satellite.
         if (location->getSatellitesInUse() >= 4)
         {
-            //Set status
-            //ui->labelRouteTabGPSStatus->setText("GPS ready");
-            ui->labelRouteTabGPSStatus->setText(QString::number(gpsData->roundCounter));
+            //Set gps status. Route-tab view.
+            ui->labelRouteTabGPSStatus->setText("GPS ready");
 
-            //Set time
+            //Set time. Route-tab view.
             gpsTime->setTime_t(location->getTime());
-            ui->labelRouteTabGPSTime->setText(gpsTime->toString());
+            QString gpsDateNow = gpsTime->toString("dd.MM.yyyy hh:mm:ss");
+            ui->labelRouteTabGPSTime->setText("GPS time: " + gpsDateNow);
 
-            //Set latitude & longitude
-            ui->labelRouteTabLatitude->setText("Lat: " + QString::number(location->getLatitude()));
-            ui->labelRouteTabLongitude->setText("Lon: " + QString::number(location->getLongitude()));
+            //Set latitude & longitude. Route-tab view.
+            ui->labelRouteTabLatitude->setText("Latitude: " + QString::number(location->getLatitude()));
+            ui->labelRouteTabLongitude->setText("Longitude: " + QString::number(location->getLongitude()));
+
+            //Set rec status. Route-tab view.
+            if (ui->startRecPushButton->text() == "Stop recording")
+            {
+                ui->labelRouteTabRecStatus->setText("Recorded " + QString::number(gpsData->roundCounter) + " point");
+            }
+
+            //Get speed. Route- and Measure-tab view.
+            gpsSpeed = location->getSpeed();
+
+            //Set speed. Route-tab view.
+            ui->labelRouteTabSpeed->setText("Speed:" + QString::number(gpsSpeed) + "km/h +/-" + QString::number(location->getEps()) + "km/h");
+
+            //Measure-tab view.
+            if (gpsSpeed < 40.0)
+            {              
+                ui->labelMeasureTabSpeed->setText(QString::number(gpsSpeed)); //Set speed. //Measure-tab view.
+                ui->labelMeasureTabTime->setText(QString::number(timeFromGps)); //Set time. //Measure-tab view.
+            }
+            //Measure-tab view.
+            else
+            {
+                timer->stop(); //Measure timer
+                ui->labelMeasureTabResult->setText(QString::number(timeFromGps));
+                ui->labelMeasureTabResult->show();
+                ui->pushButtonShowResultDialog->setEnabled(true);
+                ui->pushButtonShowResultDialog->setEnabled(true);
+            }
         }
 
+        //If GPS find less than 4 satellite.
         else
         {
-            ui->labelRouteTabGPSStatus->setText("Waiting for GPS");
+            ui->labelRouteTabGPSStatus->setText("GPS status: Waiting for GPS");
+            gpsTimer->stop();
         }
+
+        gpsUpdateTime = 0;
+        gpsTimer->start(10);
     }
-    ui->labelRouteTabSpeed->setText(QString::number(location->getSpeed()));
 }
 
+/**
+  *This slot function is called when gps timer timeout(10ms).
+  */
+void CarMainWindow::gpsTimerTimeout()
+{
+    int time1000ms;
+    time1000ms += 10;
+
+    //IF time is 1 second
+    if (time1000ms == 1000)
+    {
+        //Calculate acceleration 1/s
+        gpsSpeedPrevious = gpsSpeedNow; //Previous speed
+        gpsSpeedNow = (location->getSpeed())/3.6; //Speed now (m/s)
+        gpsAcceleration = (gpsSpeedNow - gpsSpeedPrevious)/1; //Calculate acceleration: speed now - previous speed / 1s.
+        //Set acceleration. Route-tab view.
+        ui->labelRouteTabAcceleration->setText("Acceleration: " + QString::number( gpsAcceleration ) + " m/s2");
+    }
+
+    gpsUpdateTime++;
+    //Set GPS update time. Route-tab view.
+    ui->labelRouteTabGPSUpdateTime->setText("GPS update time: " + QString::number(gpsUpdateTime) + " ms");
+}
+
+/**
+  *This slot function is called when start rec push button clicked. Route-tab view.
+  */
 void CarMainWindow::on_startRecPushButton_clicked()
 {
-    ui->labelRouteTabRecStatus->setText("Recording started");
-    gpsData->startRouteRecording(ui->labelRouteTabGPSTime->text());
-}
+    //Start route recording.
+    if (ui->startRecPushButton->text() == "Start recording")
+    {
+        ui->startRecPushButton->setText("Stop recording");
+        ui->labelRouteTabRecStatus->setText("Recording started");
+        gpsData->startRouteRecording(ui->labelRouteTabGPSTime->text());
+    }
 
-void CarMainWindow::on_stopRecPushButton_clicked()
-{
-    ui->labelRouteTabRecStatus->setText("Recording stopped");
-    gpsData->stopRouteRecording(ui->labelRouteTabGPSTime->text());
+    //Stop route recording.
+    else if (ui->startRecPushButton->text() == "Stop recording")
+    {
+        ui->startRecPushButton->setText("Start recording");
+        ui->labelRouteTabRecStatus->setText("Recording stopped");
+        gpsData->stopRouteRecording(ui->labelRouteTabGPSTime->text());
+    }
 }
 
 /**

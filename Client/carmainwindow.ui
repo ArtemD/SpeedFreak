@@ -467,9 +467,9 @@
      <widget class="QCheckBox" name="gpsOnCheckBox">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>201</width>
+        <x>20</x>
+        <y>40</y>
+        <width>191</width>
         <height>41</height>
        </rect>
       </property>
@@ -495,7 +495,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>76</y>
+        <y>130</y>
         <width>201</width>
         <height>61</height>
        </rect>
@@ -510,27 +510,6 @@
       </property>
       <property name="text">
        <string>Start recording</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="stopRecPushButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>201</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Bitstream Charter</family>
-        <pointsize>16</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Stop recording</string>
       </property>
      </widget>
      <widget class="QPushButton" name="drawRoutePushButton">
@@ -559,50 +538,64 @@
        <rect>
         <x>310</x>
         <y>16</y>
-        <width>451</width>
-        <height>211</height>
+        <width>461</width>
+        <height>291</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="labelRouteTabGPSStatus">
          <property name="text">
-          <string>Label GPS Status</string>
+          <string>GPS Status</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabGPSUpdateTime">
+         <property name="text">
+          <string>GPS Update time</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="labelRouteTabGPSTime">
          <property name="text">
-          <string>Label GPS Time</string>
+          <string>GPS Time</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="labelRouteTabLatitude">
          <property name="text">
-          <string>Label Latitude</string>
+          <string>Latitude</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="labelRouteTabLongitude">
          <property name="text">
-          <string>Label Longitude</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelRouteTabRecStatus">
-         <property name="text">
-          <string>Label rec status</string>
+          <string>Longitude</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="labelRouteTabSpeed">
          <property name="text">
-          <string>Label speed</string>
+          <string>Speed</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabAcceleration">
+         <property name="text">
+          <string>Acceleration</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelRouteTabRecStatus">
+         <property name="text">
+          <string>Rec status</string>
          </property>
         </widget>
        </item>
