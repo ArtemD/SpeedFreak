@@ -37,6 +37,8 @@ public:
     void setTime90kmh(qreal pTime);
     void setTime100kmh(qreal pTime);
 
+    void initializeMembers();
+
 
 private:
     qreal time10kmh;

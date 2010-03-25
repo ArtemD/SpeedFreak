@@ -13,6 +13,23 @@ Measures::Measures()
 }
 
 /**
+  * Initializes measures class's member variables.
+  */
+void Measures::initializeMembers()
+{
+    this->setTime10kmh(0);
+    this->setTime20kmh(0);
+    this->setTime30kmh(0);
+    this->setTime40kmh(0);
+    this->setTime50kmh(0);
+    this->setTime60kmh(0);
+    this->setTime70kmh(0);
+    this->setTime80kmh(0);
+    this->setTime90kmh(0);
+    this->setTime100kmh(0);
+}
+
+/**
  * Get the value of time10kmh
  * @return time10kmh the time in qreal when speed has been 10 km/h
  */

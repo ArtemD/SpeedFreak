@@ -78,7 +78,6 @@ private:
     //void initCategoryCompoBox();
     void initComboBoxStartTabUnits();                   //Start-tab view
     void initListViewStartTabAccelerationCategories();  //Start-tab view
-    void initializeMeasures();
     void setListViewTopList(QString category, int size);    //Top-tab view
     void resetAccelerometerMeasurements();
     void calibrateAccelerometer();

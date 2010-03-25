@@ -88,7 +88,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
     resetAccelerometerMeasurements();
 
     measures = new Measures();
-    this->initializeMeasures();
+    measures->initializeMembers();
 
     this->timer->setInterval(100);
 
@@ -167,7 +167,7 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
   */
 void CarMainWindow::on_autoStartButton_clicked()
 {
-    initializeMeasures();
+    measures->initializeMembers();
     resetAccelerometerMeasurements();
     ui->pushButtonSendResult->setEnabled(false);
     ui->pushButtonShowResultDialog->setEnabled(false);
@@ -359,27 +359,20 @@ void CarMainWindow::on_manualStartButton_clicked()
   */
 void CarMainWindow::after_timeout()
 {
-    if ( gpsSpeed > 1.0 )
+    //IF GPS checkbox is ON
+    if (ui->gpsOnCheckBox->isChecked())
     {
-        timeFromGps += 0.1;
+        if ( gpsSpeed > 1.0 )
+        {
+            timeFromGps += 0.1;
+        }
     }
-}
 
-/**
-  * Initializes measures class's member variables.
-  */
-void CarMainWindow::initializeMeasures()
-{
-    measures->setTime10kmh(0);
-    measures->setTime20kmh(0);
-    measures->setTime30kmh(0);
-    measures->setTime40kmh(0);
-    measures->setTime50kmh(0);
-    measures->setTime60kmh(0);
-    measures->setTime70kmh(0);
-    measures->setTime80kmh(0);
-    measures->setTime90kmh(0);
-    measures->setTime100kmh(0);
+    else
+    {
+        ui->labelMeasureTabSpeed->setText(QString::number(this->speed)); //Set speed. //Measure-tab view.
+        ui->labelMeasureTabTime->setText(QString::number(this->time)); //Set time. //Measure-tab view.
+    }
 }
 
 /**
@@ -392,16 +385,7 @@ void CarMainWindow::on_pushButtonMeasureTabAbort_clicked()
     ui->labelMeasureTabResult->hide();
     ui->labelMeasureTabTime->setText("");
     ui->labelMeasureTabSpeed->setText("");
-    measures->setTime10kmh(0);
-    measures->setTime20kmh(0);
-    measures->setTime30kmh(0);
-    measures->setTime40kmh(0);
-    measures->setTime50kmh(0);
-    measures->setTime60kmh(0);
-    measures->setTime70kmh(0);
-    measures->setTime80kmh(0);
-    measures->setTime90kmh(0);
-    measures->setTime100kmh(0);
+    measures->initializeMembers();
     this->accelerometerTimer->stop();
     this->timer->stop();
     this->time = 0;
