@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     gpsdata.cpp \
     maemo5locationprivate.cpp \
     maemo5location.cpp \
-    routedialog.cpp
+    routedialog.cpp \
+    movingaverage.cpp
 HEADERS += carmainwindow.h \
     resultdialog.h \
     stringlistmodel.h \
@@ -45,7 +46,8 @@ HEADERS += carmainwindow.h \
     gpsdata.h \
     maemo5locationprivate.h \
     maemo5location.h \
-    routedialog.h
+    routedialog.h \
+    movingaverage.h
 FORMS += carmainwindow.ui \
     resultdialog.ui \
     measuredialog.ui \

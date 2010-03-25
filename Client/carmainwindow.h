@@ -44,6 +44,7 @@
 #include "routedialog.h"
 #include "calculate.h"
 #include "gpsdata.h"
+#include "movingaverage.h"
 #include <maemo5location.h>
 
 namespace Ui {
@@ -90,6 +91,7 @@ private:
 
     QTimer *timer;
     Accelerometer *accelerometer;
+    MovingAverage* movingAverageZ;
     double time;
     double speed;
     Measures *measures;

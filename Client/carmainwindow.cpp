@@ -7,6 +7,7 @@
  * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
  * @author     Rikhard Kuutti <rikhard.kuutti@fudeco.com>
  * @author     Kai Rasilainen <kai.rasilainen@fudeco.com>
+ * @author     Jukka Kurttila <jukka.kurttila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -69,6 +70,7 @@ CarMainWindow::CarMainWindow(QWidget *parent):QMainWindow(parent), ui(new Ui::Ca
 
     // Accelerometer
     accelerometer = new Accelerometer();
+    movingAverageZ = new MovingAverage(10);
 
     reverseAccelerationFlag = false;
     vehicleStartedMoving = false;
@@ -593,6 +595,10 @@ void CarMainWindow::readAccelerometerData()
 
     //accelerometer->smoothData(x, y, z);
 
+    //Calculate average
+    movingAverageZ->Enqueue(z);
+    z = movingAverageZ->Average();
+
     // Apply calibration
     x -= accelerometer->getCalibrationX();
     y -= accelerometer->getCalibrationY();
@@ -755,7 +761,7 @@ void CarMainWindow::gpsStatus()
   */
 void CarMainWindow::gpsTimerTimeout()
 {
-    int time1000ms;
+    int time1000ms = 0;
     time1000ms += 10;
 
     //IF time is 1 second
