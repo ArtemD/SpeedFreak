@@ -92,29 +92,30 @@ void HttpClient::sendResultXml(QString category)
   */
 void HttpClient::sendRouteXml()
 {
-    qDebug() << "_sendResultXml";
+    qDebug() << "_sendRouteXml";
 
-    QBuffer *xmlbuffer = new QBuffer();
+    QString filename = "route.xml";
+    QFile file(filename);
+    if (!file.open(QFile::ReadOnly)) {
+        qDebug() << "_sendRouteXml file.open() fail";
+        return;
+    }
 
     QUrl qurl("http://api.speedfreak-app.com/api/update/route");
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
 
-    xmlbuffer->open(QBuffer::ReadWrite);
-    myXmlwriter->writeGpsTrack(xmlbuffer, myMainw->gpsData->getGpsDataArray(), myMainw->gpsData->getRoundCounter());
-    qDebug() << "carmainwindow: xmlbuffer->data(): " << xmlbuffer->data();
-
     QString credentials = myMainw->myLogin->getUserName() + ":" + myMainw->myLogin->getPassword();
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
-    currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
+    currentDownload = netManager->post(request, ("xml=" + file.readAll()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
     myMainw->setLabelInfoToUser("Sending route to server");
 
-    xmlbuffer->close();
+    file.close();
 }
 
 /**

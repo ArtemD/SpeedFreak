@@ -156,11 +156,12 @@ void CarMainWindow::on_listViewStartTabAccelerationCategories_clicked(QModelInde
 {
     QString str = index.data().toString();
     QStringList list = str.split("-");
-    QStringList list2 = list[1].split(" ");
+    QStringList list3 = list[1].split(" ");
+    QStringList list2 = list[0].split(" ");
 
-    ui->lineEditStartTabMin->setText(list[0]);
-    ui->lineEditStartTabMax->setText(list2[0]);
-    updateComboBoxStartTabUnits(list2[1]);
+    ui->lineEditStartTabMin->setText(list2[1]);
+    ui->lineEditStartTabMax->setText(list3[0]);
+    updateComboBoxStartTabUnits(list3[1]);
 }
 
 /**
@@ -245,7 +246,7 @@ void CarMainWindow::initListViewStartTabAccelerationCategories()
     catList.insert(1,"acceleration-0-100");
     catList.insert(2,"acceleration-0-10");
 
-    accelerationCategoriesStartTab << "0-40 km/h" << "0-100 km/h" << "0-10 km/h";
+    accelerationCategoriesStartTab << "Acceleration 0-40 km/h" << "Acceleration 0-100 km/h" << "Acceleration 0-10 km/h";
     //<< "0-1/4 Mile" << "0-1/8 Mile" << "50-100 Mile" << "0-60 Mph" << "0-100 m" << "0-50 ft" << "0-50 yrd" << "0-500 in";
     QAbstractItemModel *model = new StringListModel(accelerationCategoriesStartTab);
     ui->listViewStartTabAccelerationCategories->setModel(model);
@@ -443,6 +444,11 @@ void CarMainWindow::on_drawRoutePushButton_clicked()
     {
         myRoute->show();
     }
+}
+
+void CarMainWindow::on_sendRoutePushButton_clicked()
+{
+    myHttpClient->sendRouteXml();
 }
 
 /**
@@ -838,3 +844,4 @@ void CarMainWindow::on_calibrateButton_clicked()
 
     this->accelerometer->calibrate();
 }
+

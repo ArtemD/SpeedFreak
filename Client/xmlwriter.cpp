@@ -16,7 +16,7 @@
   */
 XmlWriter::XmlWriter()
 {
-    tmpvalue = 110;
+    tmpvalue = 3010;
 }
 
 /**
@@ -83,65 +83,37 @@ void XmlWriter::writeResult(QBuffer *netbuf)
 
 /**
   *@brief Write track to server.
-  *@param ptrTable points to GPSData::gpsDataArray[100][4].
+  *@param netbuf where to write.
   *@param counter is GPSData::roundCounter.
   *@todo Decide suitable attributes.
   */
-void XmlWriter::writeGpsTrack(QBuffer *netbuf, double *ptrTable, int counter)
+void XmlWriter::writeGpsTrack(QBuffer *netbuf, int counter, int start, int stop, int lat, int lon, int alt, int speed, int time)
 {
     qDebug() << "_writeGpsTrack";
 
     double *ptrValue;
-    ptrValue = ptrTable;
+    //ptrValue = ptrTable;
     double tmp = 0;
 
     xmlwriter.setDevice(netbuf);
 
     xmlwriter.writeStartDocument();
 
-    xmlwriter.writeStartElement("gpx");
-    xmlwriter.writeAttribute("someattribute", "abc");
-    xmlwriter.writeAttribute("otherattribute", "cde");
-
-    xmlwriter.writeStartElement("metadata");
-    xmlwriter.writeStartElement("link");
-    xmlwriter.writeAttribute("href", "http://api.speedfreak-app.com/api/track");
-    xmlwriter.writeCharacters("Speed Freak");
-    xmlwriter.writeEndElement();
-    xmlwriter.writeStartElement("time");
-    xmlwriter.writeCharacters(QDateTime::currentDateTime().toString());
-    xmlwriter.writeEndElement();
-    xmlwriter.writeEndElement();    //metadata
-
-    xmlwriter.writeStartElement("trk");
-    xmlwriter.writeStartElement("name");
-    xmlwriter.writeCharacters("Example Track");
-    xmlwriter.writeEndElement();
-    xmlwriter.writeStartElement("trkseg");
+    xmlwriter.writeStartElement("Route");
+    xmlwriter.writeAttribute("starttime", QDateTime::currentDateTime().toString());
+    xmlwriter.writeAttribute("endtime", QDateTime::currentDateTime().toString());
+    xmlwriter.writeAttribute("points", QDateTime::currentDateTime().toString());
     for(int i = 0; i < counter; i++)
     {
-        xmlwriter.writeStartElement("trkpt");
-        tmp = *ptrValue;
-        ptrValue++;
-        xmlwriter.writeAttribute("lat", QString::number(tmp));    //gpspoints[i][0]
-        tmp = *ptrValue;
-        ptrValue++;
-        xmlwriter.writeAttribute("lon", QString::number(tmp));    //gpspoints[i][1]
-        xmlwriter.writeStartElement("ele");
-        tmp = *ptrValue;
-        ptrValue++;
-        xmlwriter.writeCharacters(QString::number(tmp));          //gpspoints[i][2]
+        xmlwriter.writeStartElement("point");
+        xmlwriter.writeAttribute("lat", QString::number(lat));
+        xmlwriter.writeAttribute("lon", QString::number(lon));
+        xmlwriter.writeAttribute("alt", QString::number(alt));
+        xmlwriter.writeAttribute("speed", QString::number(speed));
+        xmlwriter.writeAttribute("time", QString::number(time));
         xmlwriter.writeEndElement();
-        xmlwriter.writeStartElement("speed");
-        tmp = *ptrValue;
-        ptrValue++;
-        xmlwriter.writeCharacters(QString::number(tmp));          //gpspoints[i][3]
-        xmlwriter.writeEndElement();
-        xmlwriter.writeEndElement();    //trkpt
     }
-    xmlwriter.writeEndElement();        //trkseg
-    xmlwriter.writeEndElement();        //trk
-    xmlwriter.writeEndElement();        //gpx
+    xmlwriter.writeEndElement();
     xmlwriter.writeEndDocument();
 }
 
@@ -182,8 +154,7 @@ bool XmlWriter::writeXmlFile(QIODevice *device)
 {
     xmlwriter.setDevice(device);
     xmlwriter.writeStartDocument();
-    //writeItems();
-    serverWritesXml();
+    writeItems();
     xmlwriter.writeEndDocument();
 
     return true;
@@ -204,26 +175,3 @@ void XmlWriter::writeItems()
     xmlwriter.writeEndElement();
 }
 
-
-/**
-  *@brief A temp function during development, used to create a "serverfile".
-  */
-void XmlWriter::serverWritesXml()
-{
-    //Write categories
-    xmlwriter.writeStartElement("categories");
-
-    xmlwriter.writeStartElement("category");
-    xmlwriter.writeCharacters("acceleration-0-10");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeStartElement("category");
-    xmlwriter.writeCharacters("acceleration-0-40");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeStartElement("category");
-    xmlwriter.writeCharacters("acceleration-0-100");
-    xmlwriter.writeEndElement();
-
-    xmlwriter.writeEndElement();
-}

@@ -262,13 +262,6 @@ void GPSData::saveRoute()
     }
 }
 
-/**
-  *@return Pointer to gpsDataArray[][].
-  */
-double* GPSData::getGpsDataArray()
-{
-    return *gpsDataArray;
-}
 
 /**
   *@return RoundCounter, the number of gpsDataArray[][] rows.

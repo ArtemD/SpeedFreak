@@ -38,12 +38,11 @@ private:
 public slots:
     void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
     void writeResult(QBuffer *netbuf);
-    void writeGpsTrack(QBuffer *netbuf, double *ptrTable, int counter);
+    void writeGpsTrack(QBuffer *netbuf, int counter, int start, int stop, int lat, int lon, int alt, int speed, int time);
     bool writeXmlFile(QIODevice *device);
     //void writeXml(QString usr, QString psswd, QString email);
     void writeXml();
     void writeItems();
-    void serverWritesXml();
 };
 
 #endif // XMLWRITER_H

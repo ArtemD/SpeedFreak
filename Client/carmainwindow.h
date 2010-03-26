@@ -146,6 +146,7 @@ private slots:
     void on_gpsOnCheckBox_stateChanged(int GPSState);   //Route-tab view
     void gpsStatus();                                   //Route-tab view
     void on_drawRoutePushButton_clicked();
+    void on_sendRoutePushButton_clicked();
     void on_pushButtonSendResult_clicked();
     void on_pushButtonMeasureTabAbort_clicked();
     void on_manualStartButton_clicked();

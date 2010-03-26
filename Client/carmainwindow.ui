@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabTop">
      <attribute name="title">
@@ -489,7 +489,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>20</y>
         <width>191</width>
         <height>41</height>
        </rect>
@@ -516,7 +516,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>130</y>
+        <y>80</y>
         <width>201</width>
         <height>61</height>
        </rect>
@@ -537,7 +537,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>250</y>
+        <y>160</y>
         <width>201</width>
         <height>61</height>
        </rect>
@@ -621,6 +621,27 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="sendRoutePushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>240</y>
+        <width>201</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Send route</string>
+      </property>
      </widget>
     </widget>
    </widget>
