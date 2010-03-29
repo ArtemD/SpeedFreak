@@ -5,8 +5,11 @@ TARGET = speedfreak
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
-    creditsdialog.cpp
+    creditsdialog.cpp \
+    routedialog.cpp
 HEADERS += mainwindow.h \
-    creditsdialog.h
+    creditsdialog.h \
+    routedialog.h
 FORMS += mainwindow.ui \
-    creditsdialog.ui
+    creditsdialog.ui \
+    routedialog.ui
