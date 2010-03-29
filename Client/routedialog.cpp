@@ -167,6 +167,7 @@ RouteDialog::RouteDialog(QWidget *parent) :
     ui(new Ui::RouteDialog)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
 }
 
@@ -348,7 +349,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
 
         QString jono;
         jono = QString("%1 m/s").arg(maxv);
-        ui->maxSpeedLabel->setText(jono);
+        ui->speedValueLabel->setText(jono);
     }
 }
 
