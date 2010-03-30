@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InstructionsDialog</class>
+ <widget class="QDialog" name="InstructionsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>751</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pellentesque imperdiet risus. Morbi nec ligula eget magna posuere consectetur nec cursus turpis. In hac habitasse platea dictumst. Nunc egestas porta dictum. Phasellus feugiat, libero nec vulputate rhoncus, mi massa tincidunt lorem, accumsan auctor leo nulla nec mauris. Pellentesque mauris lectus, sodales at viverra in, gravida sit amet lacus. Duis et lectus eu turpis luctus rutrum. Aenean blandit orci at odio placerat luctus. Nulla volutpat lacinia sem egestas auctor. Etiam quis dui purus, ac feugiat tortor. Integer et auctor risus. Aliquam purus dolor, placerat in consequat vitae, ullamcorper a augue. In hac habitasse platea dictumst. Cras convallis, ipsum eget tincidunt laoreet, tellus enim ullamcorper velit, vitae suscipit ipsum orci nec nisi. Aenean leo turpis, lacinia eget venenatis id, ullamcorper blandit tortor. Proin pharetra sem nec sapien luctus dictum accumsan mi vehicula. Mauris in diam massa. Nam a arcu sit amet metus adipiscing fringilla et vitae arcu.
+
+Maecenas fringilla ornare elit, laoreet malesuada nisi semper non. Aenean ut leo erat, a pulvinar leo. Fusce at felis libero, non molestie quam. Duis nec est a est posuere iaculis. Integer lectus augue, iaculis et tristique ut, elementum ut ante. Morbi hendrerit commodo mauris, a pretium lorem malesuada nec. Donec convallis tristique libero non commodo. Integer ornare dolor at leo consequat sed aliquet dolor dapibus. Praesent eget libero est. Donec elit erat, facilisis et semper et, rutrum vel tortor. Vivamus luctus laoreet arcu, in hendrerit sapien feugiat non. </string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -8,15 +8,18 @@ SOURCES += main.cpp \
     creditsdialog.cpp \
     routedialog.cpp \
     routesavedialog.cpp \
-    welcomedialog.cpp
+    welcomedialog.cpp \
+    instructionsdialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
     routesavedialog.h \
-    welcomedialog.h
+    welcomedialog.h \
+    instructionsdialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
     routesavedialog.ui \
-    welcomedialog.ui
+    welcomedialog.ui \
+    instructionsdialog.ui
 RESOURCES += graphics.qrc

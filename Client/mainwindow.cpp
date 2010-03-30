@@ -11,12 +11,17 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QCoreApplication::setOrganizationName("Fudeco Oy");
+    QCoreApplication::setOrganizationDomain("fudeco.com");
+    QCoreApplication::setApplicationName("Speed Freak");
 
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
