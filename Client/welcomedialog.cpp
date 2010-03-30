@@ -2,6 +2,7 @@
  * Welcome dialog
  *
  * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @author     Rikhard Kuutti <rikhard.kuutti@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
