@@ -2,12 +2,16 @@
  * Welcome dialog
  *
  * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @author     Rikhard Kuutti <rikhard.kuutti@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #include "welcomedialog.h"
 #include "ui_welcomedialog.h"
+#include "instructionsdialog.h"
+
+#include <QSettings>
 
 WelcomeDialog::WelcomeDialog(QWidget *parent) :
     QDialog(parent),
@@ -46,5 +50,16 @@ void WelcomeDialog::stop(int currentFrame)
     {
         movie->stop();
         this->close();
+
+        // Show instructionsDialog if this is
+        // the first time the application is run
+        QSettings settings;
+        bool firstRunGone = settings.value("firstRunGone").toBool();
+        if (!firstRunGone) {
+            // show instructions
+            InstructionsDialog *instructionsDialog = new InstructionsDialog;
+            instructionsDialog->show();
+            settings.setValue("firstRunGone", true);
+        }
     }
 }

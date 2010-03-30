@@ -49,10 +49,22 @@ void Calculate::reset()
     totalTime = 0;
     count = 0;
 
-    speedCheckPoints.append(10);
-    speedCheckPoints.append(20);
-    speedCheckPoints.append(30);
-    speedCheckPoints.append(40);
+    if(speedCheckPoints.count() == 0)
+    {
+        speedCheckPoints.append(10);
+        speedCheckPoints.append(20);
+        speedCheckPoints.append(30);
+        speedCheckPoints.append(40);
+        speedCheckPoints.append(50);
+        speedCheckPoints.append(60);
+        speedCheckPoints.append(70);
+        speedCheckPoints.append(80);
+        speedCheckPoints.append(90);
+        speedCheckPoints.append(100);
+    }
+
+    checkPointCounter = 0;
+    checkPoint = speedCheckPoints[checkPointCounter];
 
 }
 
@@ -114,27 +126,27 @@ void Calculate::calculateParameters(double currentAcceleration, double seconds)
         numOfIterations--;
     }
 
-    // Checkpoints
-    if ((lastSpeed == 0))
+    if( (checkPoint > 0) && (currentSpeed*3.6 > checkPoint) )
     {
-        lastCheckpoint = 0;
-    }
-
-    // List of checkpoints
-    if (!(speedCheckPoints.isEmpty()))
-    {
-        foreach (double speed, speedCheckPoints)
+        //Update checkPoint
+        if( checkPointCounter <= speedCheckPoints.count() )
         {
-            if ((lastCheckpoint != floor(speed)) && (floor(getCurrentSpeed()) == floor(speed)))
+            //Save time
+            valuesMap.insert( checkPoint, totalTime );
+            if( checkPointCounter < speedCheckPoints.count() )
             {
-                emit checkPointReached(totalTime, getCurrentSpeed());
-                lastCheckpoint = floor(getCurrentSpeed());
+                checkPoint = speedCheckPoints[checkPointCounter];
             }
+            else
+            {
+                checkPoint = 0;
+            }
+            checkPointCounter++;
         }
     }
 
     // Check for movement
-    accelStoppedCheck(currentAcceleration);
+    //accelStoppedCheck(currentAcceleration);
 
     lastSpeed = currentSpeed;
     lastAcceleration = currentAcceleration;

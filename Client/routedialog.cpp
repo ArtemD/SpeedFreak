@@ -8,12 +8,14 @@
 
 #include "routedialog.h"
 #include "ui_routedialog.h"
+#include "usersettings.h"
 #include <cmath>
 #include <QPainter>
 #include <QList>
 #include <QMessageBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QPolygon>
 
 /*
   * Vector class.
@@ -22,16 +24,19 @@
   */
 class Vector
 {
-    qreal x, y, z;
+    qreal x, y, z;      // Location
+    qreal v;            // Velocity
 public:
     Vector() { x=0.; y=0. ; z=0.; };
     Vector( qreal initX, qreal initY, qreal initZ) { x = initX, y = initY; z = initZ; };
     void setX( qreal newX) { x = newX; };
     void setY( qreal newY) { y = newY; };
     void setZ( qreal newZ) { z = newZ; };
+    void setV( qreal newV) { v = newV; };
     qreal getX() { return x; };
     qreal getY() { return y; };
     qreal getZ() { return z; };
+    qreal getV() { return v; };
     qreal length() { return sqrt(x*x+y*y+z*z); };
     Vector operator+(Vector v)
     {
@@ -163,7 +168,15 @@ RouteDialog::RouteDialog(QWidget *parent) :
     ui(new Ui::RouteDialog)
 {
     ui->setupUi(this);
-    left = 5; top = 5; right = 395; bottom = 195; // Limits in screen coordinates
+    this->setWindowTitle("Route");
+    left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
+
+    // Send rout to server button disable/enable.
+    ui->sendPushButton->setEnabled(false);
+    if (loginSaved())
+    {
+        ui->sendPushButton->setEnabled(true);
+    }
 }
 
 RouteDialog::~RouteDialog()
@@ -182,7 +195,75 @@ void RouteDialog::changeEvent(QEvent *e)
         break;
     }
 }
+int RouteDialog::getLeft()
+{
+    return left;
+}
+int RouteDialog::getRight()
+{
+    return right;
+}
+int RouteDialog::getTop()
+{
+    return top;
+}
+int RouteDialog::getBottom()
+{
+    return bottom;
+}
 
+void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
+{
+    /*QPolygon pg;
+
+    pg.setPoint(0,x, y-25);
+    pg.setPoint(1,x+10,y-20);
+    pg.setPoint(2,x, y-15);
+    pg.setPoint(3,x,y-20);*/
+    if (y> (rD->getTop() + 25))
+    {
+        // Upside
+        p->drawLine(x,y,x,y-15);
+        if (x <= (rD->getRight()-20))
+        {
+            // flag right
+            p->drawLine( x,    y-25, x+10, y-20);
+            p->drawLine( x+10, y-20, x,    y-15);
+            p->drawLine( x,    y-15, x,    y-25);
+        }
+        else
+        {
+            // Flag left
+            p->drawLine( x,    y-25, x-10, y-20);
+            p->drawLine( x-10, y-20, x,    y-15);
+            p->drawLine( x,    y-15, x,    y-25);
+        }
+
+    }
+    else if (y <= (rD->getTop() + 25))
+    {
+        // downside
+        p->drawLine(x,y,x,y+15);
+        if (x <= (rD->getRight()-20))
+        {
+            // flag right
+            p->drawLine( x,    y+25, x+10, y+20);
+            p->drawLine( x+10, y+20, x,    y+15);
+            p->drawLine( x,    y+15, x,    y+25);
+        }
+        else
+        {
+            // Flag left
+            p->drawLine( x,    y+25, x-10, y+20);
+            p->drawLine( x-10, y+20, x,    y+15);
+            p->drawLine( x,    y+15, x,    y+25);
+        }
+    }
+    //p->drawPolygon();
+   // p->drawPolygon( pg,Qt::OddEvenFill);
+    //p->drawPolyline( &pg);
+    //p->drawPoints( pg);
+}
 
 /**
   * Draws route to the route dialog.
@@ -201,15 +282,15 @@ void RouteDialog::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(QPen((Qt::black),2));
+    painter.setPen(QPen((Qt::white),2));
     painter.setBrush(QBrush((Qt::yellow), Qt::SolidPattern));
 
     // Draw route window frame
     /*painter.drawLine(left,top,right,top);
     painter.drawLine(right,top,right,bottom);
     painter.drawLine(left,top,left,bottom);
-    painter.drawLine(left,bottom,right,bottom);
-    */
+    painter.drawLine(left,bottom,right,bottom);*/
+
     maxi = vertexList.size();
 
     for (i=0; i<maxi-1; i++)
@@ -239,27 +320,49 @@ void RouteDialog::paintEvent(QPaintEvent *)
         {
             // Starting point
             startx = x1Screen; starty = y1Screen;
-            painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
+           // painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
+           drawFlag( this, &painter,  x1Screen ,  y1Screen);
         }
         painter.drawLine( x1Screen, y1Screen, x2Screen, y2Screen);
     }
     // Show the endig point if different than the starting point
     if (x2Screen != startx || y2Screen != starty)
     {
-        painter.drawEllipse( x2Screen-5, y2Screen-5, 10, 10);
+        //painter.drawEllipse( x2Screen-5, y2Screen-5, 10, 10);
+        drawFlag( this, &painter,x2Screen, y2Screen );
+    }
+
+    {
+        qreal maxvx, maxvy; // max speed point coordinates
+        qreal maxv;         // max speed
+        Vector v;
+
+        maxv = 0.0;
+        for (i=0; i<maxi-1; i++)
+        {
+            v = vertexList.at(i);
+            if (v.getV() > maxv)
+            {
+                maxv = v.getV();
+                maxvx = v.getX();
+                maxvy = v.getY();
+            }
+        }
+        // Translate world coordinates to screen coordinates
+        x1Screen = left + (maxvx-xmin)/(xmax-xmin)*(right-left);
+        y1Screen = top + (ymax-maxvy)/(ymax-ymin)*(bottom-top);
+
+        // Show max velocity point by yellow circle
+        painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
+
+        QString jono;
+        jono = QString("%1 m/s").arg(maxv);
+        ui->speedValueLabel->setText(jono);
     }
 }
 
-void RouteDialog::on_closePushButton_clicked()
-{
-    close();
-}
-
-/*
-  * Read route coordinates (latitude, longitude, altitude) from file.
-  */
-bool RouteDialog::readRouteFromFile( QString &filename)
-{
+bool RouteDialog::readRouteFromFile( QString &routeFile)
+ {
     Vector temp;
     QString rivi;
     QFile file;
@@ -277,27 +380,30 @@ bool RouteDialog::readRouteFromFile( QString &filename)
     vertexList.clear();
     while(!file.atEnd())
     {
-        QString str1, str2, str3;
+        QString str1, str2, str3, str4;
         rivi = file.readLine();
 
         str1 = rivi.section(" ", 0, 0);
         if (str1.compare("Start:") != 0 && str1.compare("Stop:") != 0)
         {
-            str1 = rivi.section(" ",  2, 2); // latitude y-value
-            str2 = rivi.section(" ",  4, 4); // longitude x-value
-            str3 = rivi.section(" ",  6, 6); // altitude z-value
+            str1 = rivi.section(" ", 2, 2); // latitude y-value
+            str2 = rivi.section(" ", 4, 4); // longitude x-value
+            str3 = rivi.section(" ", 6, 6); // altitude z-value
+            str4 = rivi.section(" ", 8, 8); // speed m/s
             //QString str = QString("la: %1 lo: %2 al: %3").arg(str1).arg(str2).arg(str3);
             //QMessageBox::about(0, "LUKEE", str);
 
             if (str1.length() > 0)
             {
-                double x, y, z;
+                double x, y, z, v;
                 x = str2.toDouble();
                 y = str1.toDouble();
                 z = str3.toDouble();
+                v = str4.toDouble();
                 temp.setX( x); // Longitude
                 temp.setY( y); // Latitude
                 temp.setZ( z); // altitude
+                temp.setV( v);
 
                 vertexList.append(temp);
             }
@@ -335,7 +441,7 @@ bool RouteDialog::readRouteFromFile( QString &filename)
      */
 
      return true;
-}
+ }
 
 /*
   * Find out data range for x-, y- and z-coordinates
@@ -573,4 +679,14 @@ void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscre
     z2 = a3.getX()*v2->getX() + a3.getY()*v2->getY() + a3.getZ()*v2->getZ() + v->getOffsz();
 
     clip3d(x1,y1,z1,x2,y2,z2, xscreen1, yscreen1, xscreen2, yscreen2 );
+}
+
+void RouteDialog::on_newPushButton_clicked()
+{
+    close();    // go back to previous dialog
+}
+
+void RouteDialog::on_sendPushButton_clicked()
+{
+    // Send route points file to server
 }

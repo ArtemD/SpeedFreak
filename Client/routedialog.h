@@ -1,3 +1,11 @@
+/*
+ * RouteDialog class
+ *
+ * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef ROUTEDIALOG_H
 #define ROUTEDIALOG_H
 
@@ -13,6 +21,10 @@ public:
     RouteDialog(QWidget *parent = 0);
     ~RouteDialog();
     bool readRouteFromFile( QString &routeFile);
+    int getLeft();
+    int getTop();
+    int getRight();
+    int getBottom();
 
 protected:
     void changeEvent(QEvent *e);
@@ -23,7 +35,8 @@ private:
     int left, top, right, bottom;       // Limits in screen coordinates in route dialog
 
 private slots:
-    void on_closePushButton_clicked();
+    void on_sendPushButton_clicked();
+    void on_newPushButton_clicked();
 };
 
 #endif // ROUTEDIALOG_H

@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QTime>
 #include <QList>
+#include <QMap>
 
 class Calculate : public QObject
 {
@@ -70,16 +71,19 @@ private:
     double maxSpeed;
     double distanceTraveled;
     double lastAcceleration;
-    double lastCheckpoint;
     double lastDistance;
     double lastSpeed;
+    double checkPoint;
     long numOfIterations;
     double totalTime;
     int count;
+    int checkPointCounter;
     double peakPower;
     double currentPower;
     double averagePower;
     QList<int> speedCheckPoints;
+public:
+    QMap<int,double> valuesMap;
 
 signals:
     void checkPointReached(double totalTime, double currentSpeed);

@@ -6,24 +6,63 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>634</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="closePushButton">
+  <widget class="QPushButton" name="newPushButton">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>226</y>
-     <width>121</width>
+     <x>520</x>
+     <y>6</y>
+     <width>101</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>Close</string>
+    <string>New</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sendPushButton">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>56</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxSpeedLabel">
+   <property name="geometry">
+    <rect>
+     <x>531</x>
+     <y>106</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Max speed</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="speedValueLabel">
+   <property name="geometry">
+    <rect>
+     <x>531</x>
+     <y>146</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>
