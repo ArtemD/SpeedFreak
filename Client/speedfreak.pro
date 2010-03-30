@@ -1,7 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-03-29T09:21:42
 # -------------------------------------------------
-QT += dbus
+QT += dbus \
+    network \
+    xml
 TARGET = speedfreak
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -19,7 +21,12 @@ SOURCES += main.cpp \
     accelerometer.cpp \
     movingaverage.cpp \
     calculate.cpp \
-    calibratedialog.cpp
+    calibratedialog.cpp \
+    topresultdialog.cpp \
+    categorylist.cpp \
+    httpclient.cpp \
+    xmlreader.cpp \
+    xmlwriter.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -34,7 +41,12 @@ HEADERS += mainwindow.h \
     accelerometer.h \
     movingaverage.h \
     calculate.h \
-    calibratedialog.h
+    calibratedialog.h \
+    topresultdialog.h \
+    categorylist.h \
+    httpclient.h \
+    xmlreader.h \
+    xmlwriter.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -45,5 +57,6 @@ FORMS += mainwindow.ui \
     settingsdialog.ui \
     accelerationstartdialog.ui \
     accrealtimedialog.ui \
-    calibratedialog.ui
+    calibratedialog.ui \
+    topresultdialog.ui
 RESOURCES += graphics.qrc

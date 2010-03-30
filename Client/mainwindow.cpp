@@ -12,6 +12,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSettings>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,7 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
     settingsDialog = new SettingsDialog;
+    topResultDialog = new TopResultDialog;
+    connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
+    connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
     accstart = NULL;
+
+    httpClient = new HttpClient(this);
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -79,4 +85,27 @@ void MainWindow::on_pushButtonAccelerate_clicked()
     if(!accstart)
         accstart = new accelerationstart(this);
     accstart->show();
+}
+
+void MainWindow::on_pushButtonResults_clicked()
+{
+    topResultDialog->show();
+}
+
+/**
+  *This slot function is called when ever mytTopResultDialog emits signal refreshCategoryList button clicked.
+  */
+void MainWindow::clientRequestCategoryList()
+{
+    httpClient->requestCategories();
+}
+
+/**
+  *This slot function is called when ever mytTopResultDialog emits signal refreshTopList button clicked.
+  */
+void MainWindow::clientRequestTopList(int index)
+{
+    qDebug() << "index" << index << httpClient->myXmlreader->myCategoryList->getRecentCategory(index);
+    QString limit = QString::number(topResultDialog->getLimitNr());
+    httpClient->requestTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(index), limit);
 }

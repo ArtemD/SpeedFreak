@@ -10,11 +10,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QMessageBox>
 #include "creditsdialog.h"
 #include "routesavedialog.h"
 #include "welcomedialog.h"
 #include "settingsdialog.h"
 #include "accelerationstart.h"
+#include "topresultdialog.h"
+#include "httpclient.h"
 
 namespace Ui {
     class MainWindow;
@@ -31,6 +37,8 @@ public:
     WelcomeDialog *welcomeDialog;
     SettingsDialog *settingsDialog;
     accelerationstart* accstart;
+    TopResultDialog *topResultDialog;
+    HttpClient *httpClient;
 
 protected:
     void changeEvent(QEvent *e);
@@ -39,11 +47,14 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
+    void on_pushButtonResults_clicked();
     void on_pushButtonAccelerate_clicked();
     void on_pushButtonSettings_clicked();
     void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonWWW_clicked();
+    void clientRequestCategoryList();
+    void clientRequestTopList(int index);
 };
 
 #endif // MAINWINDOW_H
