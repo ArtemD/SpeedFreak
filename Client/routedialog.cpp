@@ -8,6 +8,7 @@
 
 #include "routedialog.h"
 #include "ui_routedialog.h"
+#include "usersettings.h"
 #include <cmath>
 #include <QPainter>
 #include <QList>
@@ -169,6 +170,13 @@ RouteDialog::RouteDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
+
+    // Send rout to server button disable/enable.
+    ui->sendPushButton->setEnabled(false);
+    if (loginSaved())
+    {
+        ui->sendPushButton->setEnabled(true);
+    }
 }
 
 RouteDialog::~RouteDialog()
