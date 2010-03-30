@@ -11,6 +11,7 @@
 
 #include <QMainWindow>
 #include "creditsdialog.h"
+#include "routesavedialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -23,6 +24,7 @@ public:
     ~MainWindow();
 
     CreditsDialog *creditsDialog;
+    RouteSaveDialog *routeSaveDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -31,6 +33,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
+    void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonWWW_clicked();
 };
