@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include "creditsdialog.h"
 #include "routesavedialog.h"
+#include "welcomedialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -25,6 +26,7 @@ public:
 
     CreditsDialog *creditsDialog;
     RouteSaveDialog *routeSaveDialog;
+    WelcomeDialog *welcomeDialog;
 
 protected:
     void changeEvent(QEvent *e);

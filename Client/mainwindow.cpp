@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
+
+    welcomeDialog = new WelcomeDialog;
+    welcomeDialog->show();
 }
 
 MainWindow::~MainWindow()
