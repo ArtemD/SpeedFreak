@@ -4,7 +4,7 @@
  * then a full URL will be used, eg: http://localhost/kohana/. If it only includes
  * the path, and a site_protocol is specified, the domain will be auto-detected.
  */
-$config['site_domain'] = '/api';
+$config['site_domain'] = '/projects/misc/speedfreak.git/Server';
 
 /**
  * Force a default protocol to be used by the site. If no site_protocol is
@@ -52,7 +52,7 @@ $config['internal_cache_encrypt'] = FALSE;
  *
  * The cache is deleted when/if the key changes.
  */
-$config['internal_cache_key'] = 'foobar-changeme';
+$config['internal_cache_key'] = 'sdfhdshkjhu8yuanm__saa-dc_ay/&%&&7556sdbskjhkjH___1-1!!!';
 
 /**
  * Enable or disable gzip output compression. This can dramatically decrease
