@@ -16,16 +16,32 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>30</y>
+     <x>30</x>
+     <y>20</y>
      <width>751</width>
-     <height>311</height>
+     <height>371</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pellentesque imperdiet risus. Morbi nec ligula eget magna posuere consectetur nec cursus turpis. In hac habitasse platea dictumst. Nunc egestas porta dictum. Phasellus feugiat, libero nec vulputate rhoncus, mi massa tincidunt lorem, accumsan auctor leo nulla nec mauris. Pellentesque mauris lectus, sodales at viverra in, gravida sit amet lacus. Duis et lectus eu turpis luctus rutrum. Aenean blandit orci at odio placerat luctus. Nulla volutpat lacinia sem egestas auctor. Etiam quis dui purus, ac feugiat tortor. Integer et auctor risus. Aliquam purus dolor, placerat in consequat vitae, ullamcorper a augue. In hac habitasse platea dictumst. Cras convallis, ipsum eget tincidunt laoreet, tellus enim ullamcorper velit, vitae suscipit ipsum orci nec nisi. Aenean leo turpis, lacinia eget venenatis id, ullamcorper blandit tortor. Proin pharetra sem nec sapien luctus dictum accumsan mi vehicula. Mauris in diam massa. Nam a arcu sit amet metus adipiscing fringilla et vitae arcu.
+    <string>About:
 
-Maecenas fringilla ornare elit, laoreet malesuada nisi semper non. Aenean ut leo erat, a pulvinar leo. Fusce at felis libero, non molestie quam. Duis nec est a est posuere iaculis. Integer lectus augue, iaculis et tristique ut, elementum ut ante. Morbi hendrerit commodo mauris, a pretium lorem malesuada nec. Donec convallis tristique libero non commodo. Integer ornare dolor at leo consequat sed aliquet dolor dapibus. Praesent eget libero est. Donec elit erat, facilisis et semper et, rutrum vel tortor. Vivamus luctus laoreet arcu, in hendrerit sapien feugiat non. </string>
+Speed Freak is an application for measuring your car's performance. With Speed Freak you can e.g. measure how fast your car accelerates to 40 km/h. You can also upload your records to an online server for all the world to see and browse server top lists! Speed Freak also includes a GPS tracking feature to track a custom route. When used in a level road and with fairly short measurements time span, the application provides reasonably accurate results for acceleration.
+
+Calibration:
+
+Prior measuring your car's performance, you must calibrate the device! This calibration will be quite fast, but must be done everytime you open the application. To calibrate the device, please mount the device securely e.g. to your cars dashboard. The device must be oriented so that the camera side is of the application is pointing towards your driving direction. If you don't change the orientation of the device, you do not need to calibrate the device again until you restart the application.
+
+Enjoy our application and drive safely.
+
+The Speed Freak</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
