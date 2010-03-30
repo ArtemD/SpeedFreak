@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
     settingsDialog = new SettingsDialog;
+    accstart = NULL;
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -36,6 +37,9 @@ MainWindow::~MainWindow()
     delete ui;
 
     delete routeSaveDialog;
+
+    if(!accstart)
+        delete accstart;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -68,4 +72,11 @@ void MainWindow::on_pushButtonRoute_clicked()
 void MainWindow::on_pushButtonSettings_clicked()
 {
     settingsDialog->show();
+}
+
+void MainWindow::on_pushButtonAccelerate_clicked()
+{
+    if(!accstart)
+        accstart = new accelerationstart(this);
+    accstart->show();
 }
