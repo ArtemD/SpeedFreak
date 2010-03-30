@@ -15,6 +15,7 @@
 #include <QDBusPendingReply>
 
 #define kFilteringFactor 0.2
+#define kIterations      1024
 
 /**
  * Default constructor for Accelerometer class
@@ -57,7 +58,12 @@ void Accelerometer::calibrate(void)
     unsigned int iteration = 0;
     qreal sampleX, sampleY, sampleZ;
 
+    calibrateDialog = new CalibrateDialog();
+    calibrateDialog->show();
+    calibrateDialog->resetProgressValue();
+
     do {
+        calibrateDialog->setProgressValue(iteration);
 
         getAcceleration(sampleX, sampleY, sampleZ);
 
@@ -67,11 +73,13 @@ void Accelerometer::calibrate(void)
 
         iteration++;
 
-    } while(iteration != 1024);        // 1024 times
+    } while(iteration != kIterations);        // kIterations times
 
-    calibrationX = calibrationX/1024;  // division by 1024
-    calibrationY = calibrationY/1024;
-    calibrationZ = calibrationZ/1024;
+    calibrationX = calibrationX/kIterations;  // division by kIterations
+    calibrationY = calibrationY/kIterations;
+    calibrationZ = calibrationZ/kIterations;
+
+    calibrateDialog->hide();
 }
 
 /**

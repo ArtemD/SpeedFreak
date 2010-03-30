@@ -14,6 +14,7 @@
 #include <QObject>
 
 #include "calculate.h"
+#include "calibratedialog.h"
 
 class Accelerometer : public QObject
 {
@@ -34,6 +35,8 @@ public:
 private:
     qreal previousAccelerationX, previousAccelerationY, previousAccelerationZ;
     qreal calibrationX, calibrationY, calibrationZ;
+
+    CalibrateDialog *calibrateDialog;
 };
 
 #endif // ACCELEROMETER_H
