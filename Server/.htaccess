@@ -2,7 +2,7 @@
 RewriteEngine On
 
 # Installation directory
-RewriteBase /projects/misc/speedfreak.git/Server
+RewriteBase /api
 
 # Protect application and system files from being viewed
 RewriteRule ^(application|modules|system) - [F,L]
