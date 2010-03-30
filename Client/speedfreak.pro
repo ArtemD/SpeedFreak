@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     accrealtimedialog.cpp \
     accelerometer.cpp \
     movingaverage.cpp \
-    calculate.cpp
+    calculate.cpp \
+    calibratedialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -32,7 +33,8 @@ HEADERS += mainwindow.h \
     accrealtimedialog.h \
     accelerometer.h \
     movingaverage.h \
-    calculate.h
+    calculate.h \
+    calibratedialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -42,5 +44,6 @@ FORMS += mainwindow.ui \
     instructionsdialog.ui \
     settingsdialog.ui \
     accelerationstartdialog.ui \
-    accrealtimedialog.ui
+    accrealtimedialog.ui \
+    calibratedialog.ui
 RESOURCES += graphics.qrc
