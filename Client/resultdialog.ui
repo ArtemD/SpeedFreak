@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultDialog</class>
+ <widget class="QDialog" name="ResultDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Results</string>
+  </property>
+  <widget class="QLabel" name="labelResult10kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>245</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 10 km/h: 5,6 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult40kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>170</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 40 km/h: 9,8 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult20kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>220</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 20 km/h: 6,9 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult30kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>195</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 30 km/h: 8,6 s</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSend">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>280</y>
+     <width>131</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bitstream Charter</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Send to server</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult80kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>70</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 80 km/h: 9,8 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult70kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>95</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 70 km/h: 8,6 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult60kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>120</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 60 km/h: 6,9 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult50kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>145</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 50 km/h: 5,6 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult90kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>45</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 90 km/h: 8,6 s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelResult100kmh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>20</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 - 100 km/h: 9,8 s</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonNew">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>280</y>
+     <width>131</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>New run</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

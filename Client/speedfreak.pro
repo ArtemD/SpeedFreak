@@ -9,16 +9,19 @@ SOURCES += main.cpp \
     routedialog.cpp \
     routesavedialog.cpp \
     welcomedialog.cpp \
-    usersettings.cpp
+    usersettings.cpp \
+    resultdialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
     routesavedialog.h \
     welcomedialog.h \
-    usersettings.h
+    usersettings.h \
+    resultdialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
     routesavedialog.ui \
-    welcomedialog.ui
+    welcomedialog.ui \
+    resultdialog.ui
 RESOURCES += graphics.qrc
