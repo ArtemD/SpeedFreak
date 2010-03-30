@@ -6,10 +6,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
     creditsdialog.cpp \
-    routedialog.cpp
+    routedialog.cpp \
+    routesavedialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
-    routedialog.h
+    routedialog.h \
+    routesavedialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
-    routedialog.ui
+    routedialog.ui \
+    routesavedialog.ui
