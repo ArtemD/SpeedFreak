@@ -11,11 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     creditsDialog = new CreditsDialog;
+    routeSaveDialog = new RouteSaveDialog;
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    delete routeSaveDialog;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -38,4 +41,9 @@ void MainWindow::on_pushButtonWWW_clicked()
 void MainWindow::on_pushButtonCredits_clicked()
 {
     creditsDialog->show();
+}
+
+void MainWindow::on_pushButtonRoute_clicked()
+{
+    routeSaveDialog->show();
 }
