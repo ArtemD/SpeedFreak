@@ -23,7 +23,7 @@ class Result_Model extends Model {
      * @return object|bool Returns object containing results if everything is ok and false otherwise
      */
     public function get_results($category, $limit=10){
-        $results = $this->db->query("SELECT u.username as username, c.unit as unit, r.value as value, r.result_date as result_date, c.slug as slug FROM users u, results r, categories c WHERE r.user_id=u.id AND c.slug = ? AND r.cat_id=c.id ORDER BY value DESC LIMIT ".(int)$limit, $category);
+        $results = $this->db->query("SELECT u.username as username, c.unit as unit, r.value as value, r.result_date as result_date, c.slug as slug FROM users u, results r, categories c WHERE r.user_id=u.id AND c.slug = ? AND r.cat_id=c.id ORDER BY r.value ASC LIMIT ".(int)$limit, $category);
     if ($results->count()>0)
             return $results;
         else
