@@ -8,12 +8,14 @@ SOURCES += main.cpp \
     creditsdialog.cpp \
     routedialog.cpp \
     routesavedialog.cpp \
-    welcomedialog.cpp
+    welcomedialog.cpp \
+    usersettings.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
     routesavedialog.h \
-    welcomedialog.h
+    welcomedialog.h \
+    usersettings.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
