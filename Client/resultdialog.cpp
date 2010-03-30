@@ -8,6 +8,7 @@
 
 #include "resultdialog.h"
 #include "ui_resultdialog.h"
+#include "usersettings.h"
 #include "math.h"
 #include <QPainter>
 #include <QPicture>
@@ -55,6 +56,7 @@ ResultDialog::ResultDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     timeAxelLength = 10;
+    resultString = "";
     speedList << "0" << "10" << "20" << "30" << "40" << "50" << "60" << "70" << "80" << "90" << "100" ;
     timeList << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11"
             << "12" << "13" << "14" << "15" << "16" << "17" << "18" << "19" << "20";
@@ -62,17 +64,15 @@ ResultDialog::ResultDialog(QWidget *parent) :
     {
         timeArray[i] = 0;
     }
-    /*
-    // TODO check that logging is ok.
-    if (isloggingNotOk)
-    {
-        ui->pushButtonSend->setEnabled(false);
-    }
-    else
+
+    if (loginSaved())
     {
         ui->pushButtonSend->setEnabled(true);
     }
-    */
+    else
+    {
+        ui->pushButtonSend->setEnabled(false);
+    }
 }
 
 /**
@@ -101,27 +101,7 @@ void ResultDialog::changeEvent(QEvent *e)
  */
 void ResultDialog::paintEvent(QPaintEvent *)
 {
-    QString resultString;
-    resultString.append("Time was ");
-
-    if (this->diagramGapStem == DIAGRAMGAP100KMH)
-    {
-        resultString.append(QString::number(timeArray[10]));
-        this->setWindowTitle("Result for accelerating 100 km/h");
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
-    {
-        resultString.append(QString::number(timeArray[8]));
-        this->setWindowTitle("Result for accelerating 80 km/h");
-    }
-
-    else
-    {
-        resultString.append(QString::number(timeArray[4]));
-        this->setWindowTitle("Result for accelerating 40 km/h");
-    }
-
+    setHeaders();
     QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -185,69 +165,14 @@ void ResultDialog::paintEvent(QPaintEvent *)
     }
 
     // Draws result line to the diagram
-    if (this->diagramGapStem == DIAGRAMGAP100KMH)
+    if (pointsUnderDiagramWidth)
     {
-        if (pointsUnderDiagramWidth)
-        {
-            painter.drawPolyline(points, 11);
-        }
-
-        else
-        {
-            painter.drawPolyline(points, pointsToShow);
-        }
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
-    {
-        if (pointsUnderDiagramWidth)
-        {
-            painter.drawPolyline(points, 9);
-        }
-
-        else
-        {
-            painter.drawPolyline(points, pointsToShow);
-        }
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP60KMH)
-    {
-        if (pointsUnderDiagramWidth)
-        {
-            painter.drawPolyline(points, 7);
-        }
-
-        else
-        {
-            painter.drawPolyline(points, pointsToShow);
-        }
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP50KMH)
-    {
-        if (pointsUnderDiagramWidth)
-        {
-            painter.drawPolyline(points, 6);
-        }
-
-        else
-        {
-            painter.drawPolyline(points, pointsToShow);
-        }
+        painter.drawPolyline(points, this->getTargetChoice() + 1);
     }
 
     else
     {
-        if (pointsUnderDiagramWidth)
-        {
-            painter.drawPolyline(points, 5);
-        }
-
-        else
-        {
-            painter.drawPolyline(points, pointsToShow);
-        }
+        painter.drawPolyline(points, pointsToShow);
     }
 }
 
@@ -264,35 +189,9 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
     int timeAsPixels;
 
     // Calculate speed and time to the point which can be drawn to the diagram
-    if (this->diagramGapStem == DIAGRAMGAP100KMH)
-    {
-        speedAsPixels = DIAGRAM_HEIGHT*aSpeed/100;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
-    }
+    speedAsPixels = (DIAGRAM_HEIGHT*aSpeed) / (this->getTargetChoice() * 10);
+    timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
 
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
-    {
-        speedAsPixels = DIAGRAM_HEIGHT*aSpeed/80;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP60KMH)
-    {
-        speedAsPixels = DIAGRAM_HEIGHT*aSpeed/60;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP50KMH)
-    {
-        speedAsPixels = DIAGRAM_HEIGHT*aSpeed/50;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
-    }
-
-    else
-    {
-        speedAsPixels = DIAGRAM_HEIGHT*aSpeed/40;
-        timeAsPixels = DIAGRAM_WIDTH*aTime/timeAxelLength;
-    }
     point.setY(diagramStemStart.y()-speedAsPixels);
     point.setX(diagramStemStart.x()+timeAsPixels);
 
@@ -300,56 +199,7 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
 }
 
 /**
-  * Saves the given measures to array.
-  * @param pMeasures has information about acceleration.
-  */
-/*
-void ResultDialog::saveMeasuresToArray(Measures *pMeasures)
-{
-    timeArray[0] = 0;
-    timeArray[1] = pMeasures->getTime10kmh();
-    timeArray[2] = pMeasures->getTime20kmh();
-    timeArray[3] = pMeasures->getTime30kmh();
-    timeArray[4] = pMeasures->getTime40kmh();
-    timeArray[5] = pMeasures->getTime50kmh();
-    timeArray[6] = pMeasures->getTime60kmh();
-    timeArray[7] = pMeasures->getTime70kmh();
-    timeArray[8] = pMeasures->getTime80kmh();
-    timeArray[9] = pMeasures->getTime90kmh();
-    timeArray[10] = pMeasures->getTime100kmh();
-
-    setTimeAxelLength();
-
-    for (int i = 0; i < 11; i++)
-    {
-        points[i] = changeMeasuresToDiagramPoint(speedArray[i], timeArray[i]);
-    }
-
-    setTimesIntoLabels();
-    this->repaint();
-}*/
-
-/**
-  * Saves the given diagram gap to the member variable.
-  * @param pDiagramGapStem has information about the right gap for diagram stem axel.
-  */
-void ResultDialog::setDiagramGapStem(double pDiagramGapStem)
-{
-    this->diagramGapStem = pDiagramGapStem;
-}
-
-/**
-  * Saves the given diagram gap to the member variable.
-  * @param pDiagramGapHorizontal has information about the right gap for diagram horizontal axel.
-  */
-void ResultDialog::setDiagramGapHorizontal(double pDiagramGapHorizontal)
-{
-    this->diagramGapHorizontal = pDiagramGapHorizontal;
-}
-
-/**
-  * Sets result times in to the labels and shows only wanted results and hides
-  * unwanted.
+  * Sets result times in to the labels.
   */
 void ResultDialog::setTimesIntoLabels()
 {
@@ -404,110 +254,33 @@ void ResultDialog::setTimesIntoLabels()
     time.append(timeInteger);
     ui->labelResult100kmh->setText(time);
 
-    if (this->diagramGapStem == DIAGRAMGAP40KMH)
-    {
-        ui->labelResult50kmh->hide();
-        ui->labelResult60kmh->hide();
-        ui->labelResult70kmh->hide();
-        ui->labelResult80kmh->hide();
-        ui->labelResult90kmh->hide();
-        ui->labelResult100kmh->hide();
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
-    {
-        ui->labelResult50kmh->show();
-        ui->labelResult60kmh->show();
-        ui->labelResult70kmh->show();
-        ui->labelResult80kmh->show();
-        ui->labelResult90kmh->hide();
-        ui->labelResult100kmh->hide();
-    }
-
-    else
-    {
-        ui->labelResult50kmh->show();
-        ui->labelResult60kmh->show();
-        ui->labelResult70kmh->show();
-        ui->labelResult80kmh->show();
-        ui->labelResult90kmh->show();
-        ui->labelResult100kmh->show();
-    }
+    showOrHideLabels();
 }
 
 /**
   * Sets right timeAxelLength value depending the time which
   * has spent to reach target speed.
   */
-void ResultDialog::setTimeAxelLength()
+void ResultDialog::setTimeAxelLength(int pChoice)
 {
-    if (this->diagramGapStem == DIAGRAMGAP40KMH)
+    if (timeArray[pChoice] <= 5)
     {
-        if (timeArray[4] <= 5)
-        {
-            timeAxelLength = 5;
-        }
-
-        else if (timeArray[4] <= 10)
-        {
-            timeAxelLength = 10;
-        }
-
-        else if (timeArray[4] <= 15)
-        {
-            timeAxelLength = 15;
-        }
-
-        else
-        {
-            timeAxelLength = 20;
-        }
+        timeAxelLength = 5;
     }
 
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    else if (timeArray[pChoice] <= 10)
     {
-        if (timeArray[8] <= 5)
-        {
-            timeAxelLength = 5;
-        }
+        timeAxelLength = 10;
+    }
 
-        else if (timeArray[8] <= 10)
-        {
-            timeAxelLength = 10;
-        }
-
-        else if (timeArray[8] <= 15)
-        {
-            timeAxelLength = 15;
-        }
-
-        else
-        {
-            timeAxelLength = 20;
-        }
+    else if (timeArray[pChoice] <= 15)
+    {
+        timeAxelLength = 15;
     }
 
     else
     {
-        if (timeArray[10] <= 5)
-        {
-            timeAxelLength = 5;
-        }
-
-        else if (timeArray[10] <= 10)
-        {
-            timeAxelLength = 10;
-        }
-
-        else if (timeArray[10] <= 15)
-        {
-            timeAxelLength = 15;
-        }
-
-        else
-        {
-            timeAxelLength = 20;
-        }
+        timeAxelLength = 20;
     }
 }
 
@@ -529,20 +302,7 @@ void ResultDialog::on_pushButtonNew_clicked()
   */
 void ResultDialog::on_pushButtonSend_clicked()
 {
-    if (this->diagramGapStem == DIAGRAMGAP100KMH)
-    {
-        emit sendresult(timeArray[10]);
-    }
-
-    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
-    {
-        emit sendresult(timeArray[8]);
-    }
-
-    else
-    {
-        emit sendresult(timeArray[4]);
-    }
+    emit sendresult(timeArray[this->getTargetChoice()]);
 }
 
 /**
@@ -597,17 +357,16 @@ void ResultDialog::setEnd(int pValue)
         this->diagramGapStem = DIAGRAMGAP100KMH;
         break;
     }
-
 }
 
 /**
-  * This public function stores times in timeArray
+  * This public function stores time in timeArray
   * @param pSpeed is the speed value at the time so we know where store time
   * @param pTime is the result which needs to be store in timeArray
   */
 void ResultDialog::setValue(int pSpeed, double pTime)
 {
-    timeArray[0] = 0;
+    //timeArray[0] = 0;
     if (floor(pTime) <= 5)
     {
         this->diagramGapHorizontal = DIAGRAMGAP5S;
@@ -656,7 +415,8 @@ void ResultDialog::setValue(int pSpeed, double pTime)
         timeArray[10] = pTime;
         break;
     }
-    setTimeAxelLength();
+
+    setTimeAxelLength(getTargetChoice());
 
     for (int i = 0; i < 11; i++)
     {
@@ -665,4 +425,281 @@ void ResultDialog::setValue(int pSpeed, double pTime)
 
     setTimesIntoLabels();
     this->repaint();
+}
+
+/**
+  * Sets dialog's heading and result text
+  */
+void ResultDialog::setHeaders()
+{
+    //QString resultString;
+    resultString.append("Time was ");
+
+    if (this->diagramGapStem == DIAGRAMGAP100KMH)
+    {
+        resultString.append(QString::number(timeArray[10]));
+        this->setWindowTitle("Result for accelerating 100 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP90KMH)
+    {
+        resultString.append(QString::number(timeArray[9]));
+        this->setWindowTitle("Result for accelerating 90 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    {
+        resultString.append(QString::number(timeArray[8]));
+        this->setWindowTitle("Result for accelerating 80 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP70KMH)
+    {
+        resultString.append(QString::number(timeArray[7]));
+        this->setWindowTitle("Result for accelerating 70 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP60KMH)
+    {
+        resultString.append(QString::number(timeArray[6]));
+        this->setWindowTitle("Result for accelerating 60 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP50KMH)
+    {
+        resultString.append(QString::number(timeArray[5]));
+        this->setWindowTitle("Result for accelerating 50 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP40KMH)
+    {
+        resultString.append(QString::number(timeArray[4]));
+        this->setWindowTitle("Result for accelerating 40 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP30KMH)
+    {
+        resultString.append(QString::number(timeArray[3]));
+        this->setWindowTitle("Result for accelerating 30 km/h");
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP20KMH)
+    {
+        resultString.append(QString::number(timeArray[2]));
+        this->setWindowTitle("Result for accelerating 20 km/h");
+    }
+
+    else
+    {
+        resultString.append(QString::number(timeArray[1]));
+        this->setWindowTitle("Result for accelerating 10 km/h");
+    }
+}
+
+/**
+  * Shows only wanted results and hides
+  * unwanted
+  */
+void ResultDialog::showOrHideLabels()
+{
+    if (this->diagramGapStem == DIAGRAMGAP10KMH)
+    {
+        ui->labelResult20kmh->hide();
+        ui->labelResult30kmh->hide();
+        ui->labelResult40kmh->hide();
+        ui->labelResult50kmh->hide();
+        ui->labelResult60kmh->hide();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP20KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->hide();
+        ui->labelResult40kmh->hide();
+        ui->labelResult50kmh->hide();
+        ui->labelResult60kmh->hide();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP30KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->hide();
+        ui->labelResult50kmh->hide();
+        ui->labelResult60kmh->hide();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP40KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->hide();
+        ui->labelResult60kmh->hide();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP50KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->hide();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP60KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->hide();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP70KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->show();
+        ui->labelResult80kmh->hide();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->show();
+        ui->labelResult80kmh->show();
+        ui->labelResult90kmh->hide();
+        ui->labelResult100kmh->hide();
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP90KMH)
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->show();
+        ui->labelResult80kmh->show();
+        ui->labelResult90kmh->show();
+        ui->labelResult100kmh->hide();
+    }
+
+    else
+    {
+        ui->labelResult10kmh->show();
+        ui->labelResult20kmh->show();
+        ui->labelResult30kmh->show();
+        ui->labelResult40kmh->show();
+        ui->labelResult50kmh->show();
+        ui->labelResult60kmh->show();
+        ui->labelResult70kmh->show();
+        ui->labelResult80kmh->show();
+        ui->labelResult90kmh->show();
+        ui->labelResult100kmh->show();
+    }
+}
+
+/**
+  * Checks which target speed has been choosed
+  * @return targetChoice which tells to caller integer value about the target speed
+  * e.g. 20 km/h is value 2 and 60 km/h is value 6
+  */
+int ResultDialog::getTargetChoice()
+{
+
+    int targetChoice = 0;
+
+    if (this->diagramGapStem == DIAGRAMGAP10KMH)
+    {
+       targetChoice = 1;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP20KMH)
+    {
+        targetChoice = 2;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP30KMH)
+    {
+        targetChoice = 3;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP40KMH)
+    {
+        targetChoice = 4;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP50KMH)
+    {
+        targetChoice = 5;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP60KMH)
+    {
+        targetChoice = 6;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP70KMH)
+    {
+        targetChoice = 7;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP80KMH)
+    {
+        targetChoice = 8;
+    }
+
+    else if (this->diagramGapStem == DIAGRAMGAP90KMH)
+    {
+        targetChoice = 9;
+    }
+
+    else
+    {
+        targetChoice = 10;
+    }
+    return targetChoice;
 }

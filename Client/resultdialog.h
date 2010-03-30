@@ -21,9 +21,6 @@ class ResultDialog : public QDialog {
 public:
     ResultDialog(QWidget *parent = 0);
     ~ResultDialog();
-    //void saveMeasuresToArray(Measures *pMeasures);
-    void setDiagramGapStem(double pDiagramGapStem);
-    void setDiagramGapHorizontal(double pDiagramGapHorizontal);
 
     void setEnd(int pValue);
     void setValue(int pSpeed, double pTime);
@@ -38,7 +35,10 @@ protected:
 private:
     QPoint changeMeasuresToDiagramPoint(int aSpeed, qreal aTime);
     void setTimesIntoLabels();
-    void setTimeAxelLength();
+    void setTimeAxelLength(int pChoice);
+    void setHeaders();
+    void showOrHideLabels();
+    int getTargetChoice();
 
 private:
     Ui::ResultDialog *ui;
@@ -48,6 +48,7 @@ private:
     QStringList speedList;
     QStringList timeList;
     int timeAxelLength;
+    QString resultString;
 
 private slots:
     void on_pushButtonNew_clicked();
