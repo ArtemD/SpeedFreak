@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
+    settingsDialog = new SettingsDialog;
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -62,4 +63,9 @@ void MainWindow::on_pushButtonCredits_clicked()
 void MainWindow::on_pushButtonRoute_clicked()
 {
     routeSaveDialog->show();
+}
+
+void MainWindow::on_pushButtonSettings_clicked()
+{
+    settingsDialog->show();
 }

@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     welcomedialog.cpp \
     usersettings.cpp \
     resultdialog.cpp \
-    instructionsdialog.cpp
+    instructionsdialog.cpp \
+    settingsdialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -19,12 +20,14 @@ HEADERS += mainwindow.h \
     welcomedialog.h \
     usersettings.h \
     resultdialog.h \
-    instructionsdialog.h
+    instructionsdialog.h \
+    settingsdialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
     routesavedialog.ui \
     welcomedialog.ui \
     resultdialog.ui \
-    instructionsdialog.ui
+    instructionsdialog.ui \
+    settingsdialog.ui
 RESOURCES += graphics.qrc

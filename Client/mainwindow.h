@@ -13,6 +13,7 @@
 #include "creditsdialog.h"
 #include "routesavedialog.h"
 #include "welcomedialog.h"
+#include "settingsdialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -27,6 +28,7 @@ public:
     CreditsDialog *creditsDialog;
     RouteSaveDialog *routeSaveDialog;
     WelcomeDialog *welcomeDialog;
+    SettingsDialog *settingsDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -35,6 +37,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
+    void on_pushButtonSettings_clicked();
     void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonWWW_clicked();
