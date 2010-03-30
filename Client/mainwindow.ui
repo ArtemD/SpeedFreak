@@ -24,7 +24,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>Accelerate</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="graphics.qrc">
+      <normaloff>:/new/prefix1/Graphics/Speedometer .png</normaloff>:/new/prefix1/Graphics/Speedometer .png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>125</width>
+      <height>125</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonRoute">
@@ -37,7 +47,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>Route</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="graphics.qrc">
+      <normaloff>:/new/prefix1/Graphics/route.png</normaloff>:/new/prefix1/Graphics/route.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>125</width>
+      <height>125</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonResults">
@@ -114,6 +134,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>

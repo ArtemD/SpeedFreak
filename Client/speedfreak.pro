@@ -16,3 +16,4 @@ FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
     routesavedialog.ui
+RESOURCES += graphics.qrc
