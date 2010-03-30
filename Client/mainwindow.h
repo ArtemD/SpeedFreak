@@ -14,6 +14,7 @@
 #include "routesavedialog.h"
 #include "welcomedialog.h"
 #include "settingsdialog.h"
+#include "accelerationstart.h"
 
 namespace Ui {
     class MainWindow;
@@ -29,6 +30,7 @@ public:
     RouteSaveDialog *routeSaveDialog;
     WelcomeDialog *welcomeDialog;
     SettingsDialog *settingsDialog;
+    accelerationstart* accstart;
 
 protected:
     void changeEvent(QEvent *e);
@@ -37,6 +39,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
+    void on_pushButtonAccelerate_clicked();
     void on_pushButtonSettings_clicked();
     void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();

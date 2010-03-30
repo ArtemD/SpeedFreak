@@ -1,6 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-03-29T09:21:42
 # -------------------------------------------------
+QT += dbus
 TARGET = speedfreak
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -12,7 +13,12 @@ SOURCES += main.cpp \
     usersettings.cpp \
     resultdialog.cpp \
     instructionsdialog.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    accelerationstart.cpp \
+    accrealtimedialog.cpp \
+    accelerometer.cpp \
+    movingaverage.cpp \
+    calculate.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -21,7 +27,12 @@ HEADERS += mainwindow.h \
     usersettings.h \
     resultdialog.h \
     instructionsdialog.h \
-    settingsdialog.h
+    settingsdialog.h \
+    accelerationstart.h \
+    accrealtimedialog.h \
+    accelerometer.h \
+    movingaverage.h \
+    calculate.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -29,5 +40,7 @@ FORMS += mainwindow.ui \
     welcomedialog.ui \
     resultdialog.ui \
     instructionsdialog.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    accelerationstartdialog.ui \
+    accrealtimedialog.ui
 RESOURCES += graphics.qrc
