@@ -1,3 +1,11 @@
+/*
+ * Credits Dialog
+ *
+ * @author      Rikhard Kuutti <rikhard.kuutti@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef CREDITSDIALOG_H
 #define CREDITSDIALOG_H
 
