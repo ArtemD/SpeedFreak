@@ -20,7 +20,7 @@ a {color:#21b3c6; outline:none;}
 a:hover{text-decoration:none;}
 p {padding-top:20px;}
 h2{ font-size:3.846em; text-transform:uppercase; line-height:1.2em; padding-bottom:2px;}
-h3{ font-size:2.308em; background:url(../static/img/title-bg.gif) no-repeat 0 2px; color:#fff; line-height:1.2em; padding:0 0 3px 44px;}
+h3{ font-size:2.308em; background:url(../static/img/title-bg.gif) no-repeat 0 2px; color:#fff; line-height:1.2em; padding-bottom:5px;}
 h4{ font-size:1.538em; line-height:1.2em; padding-bottom:12px;}
 h5{ font-size:1.538em; line-height:1.2em; padding:7px 0 0 13px;}
 strong{ color:#21b3c6; display:block; padding-bottom:3px;}

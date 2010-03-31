@@ -4,4 +4,4 @@
  *
  * Sets the default route to "welcome"
  */
-$config['_default'] = 'api';
+$config['_default'] = 'pages';
