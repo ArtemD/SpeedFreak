@@ -23,6 +23,7 @@ public:
 
     void setProgressValue(int value);
     void resetProgressValue();
+    void setMaxValue(int max);
 
 protected:
     void changeEvent(QEvent *e);

@@ -1,3 +1,10 @@
+/*
+ * Acceleration start dialog
+ *
+ * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 #include "accelerationstart.h"
 #include "ui_accelerationstartdialog.h"
 #include <QMessageBox>

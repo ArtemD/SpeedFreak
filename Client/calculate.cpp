@@ -2,6 +2,7 @@
  * Calculate class to process accelerometer data
  *
  * @author      Kai Rasilainen
+ * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -303,3 +304,7 @@ void Calculate::setMaxSpeed(double value)
     maxSpeed = value;
 }
 
+QMap<int,double> Calculate::getValuesMap()
+{
+    return valuesMap;
+}
