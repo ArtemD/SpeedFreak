@@ -47,6 +47,12 @@ void UserSettings::writeLoginSettings( QString userName, QString password)
     settings.setValue("password", password);
 }
 
+void getLoginInfo(QString *userName, QString *password)
+{
+    UserSettings myLogin;
+    myLogin.readLoginSettings( userName, password);
+}
+
 void saveLogin( QString userName, QString password)
 {
     UserSettings myLogin;

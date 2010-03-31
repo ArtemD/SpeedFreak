@@ -1,5 +1,14 @@
+/*
+ * SettingsDialog class
+ *
+ * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include "usersettings.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -9,6 +18,21 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     this->setWindowTitle("Settings");
     this->ui->regEMailLineEdit->setText("@meili.fi");
     instructionsDialog = new InstructionsDialog;
+
+    if (loginSaved())
+    {
+        QString uName, pWord;
+
+        getLoginInfo( &uName, &pWord);
+        this->username = uName;
+        this->password = pWord;
+
+        ui->setUserPasswordLineEdit->setText(this->password);
+        ui->setUserUsernameLineEdit->setText(this->username);
+
+        // Already someone as user - change button text to "Change"
+        ui->setUserPushButton->setText("Change user");
+    }
 }
 
 SettingsDialog::~SettingsDialog()
@@ -90,6 +114,19 @@ void SettingsDialog::on_setUserPushButton_clicked()
 {
     this->username = ui->setUserUsernameLineEdit->text();
     this->password = ui->setUserPasswordLineEdit->text();
+
+    // Save these also to usersettings
+    saveLogin( this->username, this->password);
+
+    // Set "Set/Change User" button text
+    if (this->username.length() > 0)
+    {
+        ui->setUserPushButton->setText("Change user");
+    }
+    else
+    {   // Username "cleared"
+        ui->setUserPushButton->setText("Set user");
+    }
 
     emit userNameChanged();
     close();

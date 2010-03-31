@@ -1,3 +1,11 @@
+/*
+ * SettingsDialog class
+ *
+ * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 

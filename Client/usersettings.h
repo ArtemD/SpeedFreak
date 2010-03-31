@@ -21,5 +21,6 @@ public:
 
 bool loginSaved( void);
 void saveLogin( QString userName, QString password);
+void getLoginInfo( QString *userName, QString *password);
 
 #endif // USERSETTINGS_H
