@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
+    <width>800</width>
     <height>300</height>
    </rect>
   </property>
@@ -16,56 +16,84 @@
   <widget class="QPushButton" name="newPushButton">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>6</y>
-     <width>101</width>
-     <height>41</height>
+     <x>670</x>
+     <y>110</y>
+     <width>90</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="text">
-    <string>New</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/route_new.png</normaloff>:/new/prefix1/Graphics/route_new.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>85</width>
+     <height>85</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="sendPushButton">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>56</y>
-     <width>101</width>
-     <height>41</height>
+     <x>670</x>
+     <y>10</y>
+     <width>90</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="text">
-    <string>Send</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/route_save.png</normaloff>:/new/prefix1/Graphics/route_save.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>85</width>
+     <height>85</height>
+    </size>
    </property>
   </widget>
-  <widget class="QLabel" name="maxSpeedLabel">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>531</x>
-     <y>106</y>
-     <width>91</width>
-     <height>31</height>
+     <x>660</x>
+     <y>210</y>
+     <width>121</width>
+     <height>81</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Max speed</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="speedValueLabel">
-   <property name="geometry">
-    <rect>
-     <x>531</x>
-     <y>146</y>
-     <width>91</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="maxSpeedLabel">
+      <property name="text">
+       <string>Max speed</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="speedValueLabel">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>

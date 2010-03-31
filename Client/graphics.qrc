@@ -11,5 +11,7 @@
         <file>Graphics/Speedometer.png</file>
         <file>Graphics/Speedometer2.png</file>
         <file>Graphics/info.png</file>
+        <file>Graphics/route_new.png</file>
+        <file>Graphics/route_save.png</file>
     </qresource>
 </RCC>

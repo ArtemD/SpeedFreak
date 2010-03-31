@@ -171,6 +171,12 @@ RouteDialog::RouteDialog(QWidget *parent) :
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
 
+    //Button settings
+    ui->sendPushButton->setAutoFillBackground(true);
+    ui->sendPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->newPushButton->setAutoFillBackground(true);
+    ui->newPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+
     // Send rout to server button disable/enable.
     ui->sendPushButton->setEnabled(false);
     if (loginSaved())
