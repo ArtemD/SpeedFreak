@@ -278,19 +278,19 @@ void ResultDialog::setTimesIntoLabels()
   */
 void ResultDialog::setTimeAxelLength(int pChoice)
 {
-    if (timeArray[pChoice] <= 5)
+    if (timeArray[pChoice] <= 5.0)
     {
         timeAxelLength = 5;
     }
 
-    else if (timeArray[pChoice] <= 10)
+    else if (timeArray[pChoice] <= 10.0 && timeArray[pChoice] > 5.0)
     {
         timeAxelLength = 10;
     }
 
-    else if (timeArray[pChoice] <= 15)
+    else if (timeArray[pChoice] <= 16.0 && timeArray[pChoice] > 10.0)
     {
-        timeAxelLength = 15;
+        timeAxelLength = 16;
     }
 
     else
@@ -394,12 +394,12 @@ void ResultDialog::setValue(int pSpeed, double pTime)
         this->diagramGapHorizontal = DIAGRAMGAP5S;
     }
 
-    else if (pTime <= 10.0)
+    else if (pTime <= 10.0 && pTime > 5.0)
     {
        this->diagramGapHorizontal = DIAGRAMGAP10S;
     }
 
-    else if (pTime <= 16.0)
+    else if (pTime <= 16.0 && pTime > 10.0)
     {
         this->diagramGapHorizontal = DIAGRAMGAP16S;
     }
@@ -742,9 +742,3 @@ int ResultDialog::getTargetChoice()
     }
     return targetChoice;
 }
-
-void ResultDialog::setLabelInfoToUser(QString infoText)
-{
-    this->ui->labelInfoToUser->setText(infoText);
-}
-
