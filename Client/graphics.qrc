@@ -10,5 +10,6 @@
         <file>Graphics/applications_internet.png</file>
         <file>Graphics/Speedometer.png</file>
         <file>Graphics/Speedometer2.png</file>
+        <file>Graphics/info.png</file>
     </qresource>
 </RCC>
