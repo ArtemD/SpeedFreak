@@ -80,26 +80,41 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * This slot function opens browser to project www page.
+  */
 void MainWindow::on_pushButtonWWW_clicked()
 {
     QDesktopServices::openUrl(QUrl("http://garage.maemo.org/projects/speedfreak/"));
 }
 
+/**
+  * This slot function opens the credits dialog
+  */
 void MainWindow::on_pushButtonCredits_clicked()
 {
     creditsDialog->show();
 }
 
+/**
+  * This slot function opens the route save dialog
+  */
 void MainWindow::on_pushButtonRoute_clicked()
 {
     routeSaveDialog->show();
 }
 
+/**
+  * This slot function opens the settings dialog
+  */
 void MainWindow::on_pushButtonSettings_clicked()
 {
     settingsDialog->show();
 }
 
+/**
+  * This slot function opens the acceleration dialog
+  */
 void MainWindow::on_pushButtonAccelerate_clicked()
 {
     if(!accstart)
@@ -107,6 +122,9 @@ void MainWindow::on_pushButtonAccelerate_clicked()
     accstart->show();
 }
 
+/**
+  * This slot function opens the top results dialog
+  */
 void MainWindow::on_pushButtonResults_clicked()
 {
     topResultDialog->show();
@@ -164,11 +182,17 @@ void MainWindow::setListViewTopList(QString category, int size)
     topResultDialog->showTopList(topList);
 }
 
+/**
+  * This function performs registration to server
+  */
 void MainWindow::regUserToServer()
 {
     httpClient->requestRegistration();
 }
 
+/**
+  * This function performs login to server
+  */
 void MainWindow::userLogin()
 {
     httpClient->checkLogin();
