@@ -318,7 +318,13 @@ void ResultDialog::on_pushButtonNew_clicked()
   */
 void ResultDialog::on_pushButtonSend_clicked()
 {
-    emit sendresult(timeArray[this->getTargetChoice()]);
+    emit sendresult();
+    //emit sendresult(timeArray[this->getTargetChoice()]);
+}
+
+double ResultDialog::getResult()
+{
+    return timeArray[this->getTargetChoice()];
 }
 
 /**

@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
     resultDialog = new ResultDialog;
-    connect(resultDialog, SIGNAL(sendResult(double)), this, SLOT(clientSendResult(double)));
+    connect(resultDialog, SIGNAL(sendresult()), this, SLOT(clientSendResult()));
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -200,9 +200,11 @@ void MainWindow::clientSendRoute()
     httpClient->sendRouteXml();
 }
 
-void MainWindow::clientSendResult(double result)
+void MainWindow::clientSendResult()
 {
+    qDebug() << "_clientSendResult";
     if(accstart) {
-        httpClient->sendResultXml(accstart->getMeasureCategory(), result);
+        qDebug() << "_clientSendResult, calling server";
+        httpClient->sendResultXml(accstart->getMeasureCategory(), resultDialog->getResult());
     }
 }

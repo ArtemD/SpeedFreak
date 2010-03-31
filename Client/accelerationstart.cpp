@@ -74,8 +74,8 @@ void accelerationstart::on_categorComboBox_currentIndexChanged( int index )
 {
     stopMeasureSpeed = 0;
     if( index == 1 ) {
-        stopMeasureSpeed = 10;
-        measureCategory = "acceleration-0-10";
+        stopMeasureSpeed = 20;
+        measureCategory = "acceleration-0-20";
     }
     else if( index == 2 ) {
         stopMeasureSpeed = 40;
