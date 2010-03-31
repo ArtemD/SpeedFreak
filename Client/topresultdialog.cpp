@@ -36,11 +36,6 @@ void TopResultDialog::on_buttonTopRefresh_clicked()
     emit refreshCategoryList();
 }
 
-void TopResultDialog::on_pushButton_debclose_clicked()
-{
-    close();
-}
-
 void TopResultDialog::setCompoBoxCategories(QStringList list)
 {
     ui->comboBoxTopCategory->addItems(list);
@@ -70,4 +65,9 @@ void TopResultDialog::on_comboBoxTopCategory_currentIndexChanged(int index)
 {
     recentCategoryIndex = index;
     emit refreshTopList(index);
+}
+
+void TopResultDialog::setLabelInfoToUser(QString infoText)
+{
+    this->ui->labelInfoToUser->setText(infoText);
 }

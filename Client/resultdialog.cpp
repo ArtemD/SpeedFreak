@@ -736,3 +736,9 @@ int ResultDialog::getTargetChoice()
     }
     return targetChoice;
 }
+
+void ResultDialog::setLabelInfoToUser(QString infoText)
+{
+    this->ui->labelInfoToUser->setText(infoText);
+}
+

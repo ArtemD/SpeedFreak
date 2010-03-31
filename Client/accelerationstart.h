@@ -20,6 +20,7 @@ class accelerationstart : public QDialog {
 public:
     accelerationstart(QWidget *parent = 0);
     ~accelerationstart();
+    QString getMeasureCategory();
 
 protected:
     void changeEvent(QEvent *e);
@@ -28,6 +29,7 @@ private:
     Ui::accelerationstart *ui;
     AccRealTimeDialog* accRealTimeDialog;
     double stopMeasureSpeed;
+    QString measureCategory;
 
 private slots:
     void on_categorComboBox_currentIndexChanged(int index);

@@ -17,6 +17,7 @@ public:
     int getRecentCategoryIndex();
     int getLimitNr();
     void setLimitNr(int number);
+    void setLabelInfoToUser(QString infoText);
 
 protected:
     void changeEvent(QEvent *e);
@@ -32,7 +33,6 @@ private:
 
 private slots:
     void on_comboBoxTopCategory_currentIndexChanged(int index);
-    void on_pushButton_debclose_clicked();
     void on_buttonTopRefresh_clicked();
 
 };
