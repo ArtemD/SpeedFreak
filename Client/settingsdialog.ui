@@ -72,7 +72,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Registrate new user:</string>
+    <string>Register new user:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="registratePushButton">
@@ -85,7 +85,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Registrate</string>
+    <string>Register</string>
    </property>
   </widget>
   <widget class="QWidget" name="">
