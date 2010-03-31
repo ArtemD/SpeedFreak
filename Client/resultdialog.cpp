@@ -29,6 +29,7 @@ const int DIAGRAMGAP100KMH = 30;
 
 const int DIAGRAMGAP5S = 80;
 const int DIAGRAMGAP10S = 40;
+const int DIAGRAMGAP16S = 25;
 const int DIAGRAMGAP20S = 20;
 
 const QPoint diagramStemStart(70, 330);
@@ -388,14 +389,19 @@ void ResultDialog::setEnd(int pValue)
 void ResultDialog::setValue(int pSpeed, double pTime)
 {
     //timeArray[0] = 0;
-    if (floor(pTime) <= 5)
+    if (pTime <= 5.0)
     {
         this->diagramGapHorizontal = DIAGRAMGAP5S;
     }
 
-    else if (floor(pTime) <= 10)
+    else if (pTime <= 10.0)
     {
        this->diagramGapHorizontal = DIAGRAMGAP10S;
+    }
+
+    else if (pTime <= 16.0)
+    {
+        this->diagramGapHorizontal = DIAGRAMGAP16S;
     }
 
     else
