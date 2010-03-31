@@ -27,12 +27,16 @@ MainWindow::MainWindow(QWidget *parent) :
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
     settingsDialog = new SettingsDialog;
+    connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
+    connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(userLogin()));
     topResultDialog = new TopResultDialog;
     connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
     accstart = NULL;
 
     httpClient = new HttpClient(this);
+    connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
+    connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -108,4 +112,48 @@ void MainWindow::clientRequestTopList(int index)
     qDebug() << "index" << index << httpClient->myXmlreader->myCategoryList->getRecentCategory(index);
     QString limit = QString::number(topResultDialog->getLimitNr());
     httpClient->requestTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(index), limit);
+}
+
+/**
+  *This function is used to set items to category combobox. Top-tab view.
+  *@param
+  */
+void MainWindow::setCategoryCompoBox()
+{
+    qDebug() << "_setCategoryCompoBox";
+    topResultDialog->setCompoBoxCategories(httpClient->myXmlreader->myCategoryList->getCategoryList());
+}
+
+/**
+  *This function prcesses UI updating after a new top10List has been received.
+  *@todo Check where limitNr is taken, fixed or user input, see on_comboBoxTopCategory_currentIndexChanged.
+  */
+void MainWindow::showTop10()
+{
+    qDebug() << "_showTop10";
+    int ind = topResultDialog->getRecentCategoryIndex();
+    setListViewTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(ind), topResultDialog->getLimitNr());
+}
+
+/**
+  *This function is used to set items to labelTopList. Top-tab view.
+  *@param Category
+  *@param Size, number of results.
+  */
+void MainWindow::setListViewTopList(QString category, int size)
+{
+    qDebug() << "_setListViewTopList" << category;
+    QString topList;
+    topList.append(httpClient->myXmlreader->myCategoryList->getTopList(category, size));
+    topResultDialog->showTopList(topList);
+}
+
+void MainWindow::regUserToServer()
+{
+    httpClient->requestRegistration();
+}
+
+void MainWindow::userLogin()
+{
+    httpClient->checkLogin();
 }

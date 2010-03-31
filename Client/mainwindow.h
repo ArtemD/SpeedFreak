@@ -45,6 +45,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    void setListViewTopList(QString category, int size);
 
 private slots:
     void on_pushButtonResults_clicked();
@@ -55,6 +56,10 @@ private slots:
     void on_pushButtonWWW_clicked();
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
+    void setCategoryCompoBox();
+    void showTop10();
+    void regUserToServer();
+    void userLogin();
 };
 
 #endif // MAINWINDOW_H

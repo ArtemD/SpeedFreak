@@ -25,6 +25,10 @@ public:
     QString getUserName();
     QString getPassword();
 
+signals:
+    void sendregistration();
+    void userNameChanged();
+
 protected:
     void changeEvent(QEvent *e);
 

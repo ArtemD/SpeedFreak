@@ -7,6 +7,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Settings");
+    this->ui->regEMailLineEdit->setText("@meili.fi");
     instructionsDialog = new InstructionsDialog;
 }
 
@@ -45,7 +46,7 @@ void SettingsDialog::on_registratePushButton_clicked()
     this->regPassword = ui->regPasswordLineEdit->text();
     this->regEmail = ui->regEMailLineEdit->text();
 
-    //emit sendregistration();
+    emit sendregistration();
 
     close();
 }
@@ -90,7 +91,7 @@ void SettingsDialog::on_setUserPushButton_clicked()
     this->username = ui->setUserUsernameLineEdit->text();
     this->password = ui->setUserPasswordLineEdit->text();
 
-    //emit userNameChanged();
+    emit userNameChanged();
     close();
 }
 
