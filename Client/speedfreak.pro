@@ -1,5 +1,8 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-03-29T09:21:42
+# @author     Speed Freak team
+# @copyright  (c) 2010 Speed Freak team
+# @license    http://opensource.org/licenses/gpl-license.php GNU Public License
 # -------------------------------------------------
 TARGET = speedfreak
 TEMPLATE = app
@@ -7,13 +10,36 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     creditsdialog.cpp \
     routedialog.cpp \
-    routesavedialog.cpp
+    routesavedialog.cpp \
+    gpsdata.cpp \
+    maemo5locationprivate.cpp \
+    maemo5location.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
-    routesavedialog.h
+    routesavedialog.h \
+    gpsdata.h \
+    maemo5locationprivate.h \
+    maemo5location.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
     routesavedialog.ui
 RESOURCES += graphics.qrc
+
+contains(QT_CONFIG, hildon):CONFIG += hildon
+CONFIG += link_pkgconfig
+
+# Enable this to disable debugging
+DEFINES += QT_NO_DEBUG_OUTPUT
+target.path += /usr/lib
+devincludes.files = $$HEADERS
+devincludes.path += /usr/include/$$TEMPLATE$$TARGET
+INSTALLS += target \
+    devincludes
+PKGCONFIG += glib-2.0 \
+    liblocation
+exists(/usr/lib/liblocation.so) {
+    DEFINES += LIBLOCATION
+    message(liblocation found)
+}

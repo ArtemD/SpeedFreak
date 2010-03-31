@@ -28,7 +28,11 @@
     </property>
     <property name="icon">
      <iconset resource="graphics.qrc">
-      <normaloff>:/new/prefix1/Graphics/Speedometer .png</normaloff>:/new/prefix1/Graphics/Speedometer .png</iconset>
+      <normaloff>:/new/prefix1/Graphics/Speedometer.png</normaloff>
+      <normalon>:/new/prefix1/Graphics/Speedometer2.png</normalon>
+      <disabledon>:/new/prefix1/Graphics/Speedometer2.png</disabledon>
+      <activeon>:/new/prefix1/Graphics/Speedometer2.png</activeon>
+      <selectedon>:/new/prefix1/Graphics/Speedometer2.png</selectedon>:/new/prefix1/Graphics/Speedometer.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -70,7 +74,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>Results</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="graphics.qrc">
+      <normaloff>:/new/prefix1/Graphics/trophy_gold.png</normaloff>:/new/prefix1/Graphics/trophy_gold.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>125</width>
+      <height>125</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonSettings">
@@ -83,7 +97,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>Settings</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="graphics.qrc">
+      <normaloff>:/new/prefix1/Graphics/settings.png</normaloff>:/new/prefix1/Graphics/settings.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>125</width>
+      <height>125</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonWWW">
@@ -95,8 +119,21 @@
       <height>130</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="text">
-     <string>WWW</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="graphics.qrc">
+      <normaloff>:/new/prefix1/Graphics/applications_internet.png</normaloff>:/new/prefix1/Graphics/applications_internet.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>125</width>
+      <height>125</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonCredits">
@@ -119,7 +156,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

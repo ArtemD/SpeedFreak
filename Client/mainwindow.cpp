@@ -20,12 +20,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
+
+    //Button settings
+    ui->pushButtonAccelerate->setAutoFillBackground(true);
+    ui->pushButtonAccelerate->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonRoute->setAutoFillBackground(true);
+    ui->pushButtonRoute->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonResults->setAutoFillBackground(true);
+    ui->pushButtonResults->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonSettings->setAutoFillBackground(true);
+    ui->pushButtonSettings->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonWWW->setAutoFillBackground(true);
+    ui->pushButtonWWW->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-
     delete routeSaveDialog;
 }
 

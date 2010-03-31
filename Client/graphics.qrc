@@ -2,6 +2,13 @@
     <qresource prefix="/new/prefix1">
         <file>Graphics/meter.png</file>
         <file>Graphics/route.png</file>
-        <file>Graphics/Speedometer .png</file>
+        <file>Graphics/satellite_vista.png</file>
+        <file>Graphics/route_play.png</file>
+        <file>Graphics/route_stop.png</file>
+        <file>Graphics/settings.png</file>
+        <file>Graphics/trophy_gold.png</file>
+        <file>Graphics/applications_internet.png</file>
+        <file>Graphics/Speedometer.png</file>
+        <file>Graphics/Speedometer2.png</file>
     </qresource>
 </RCC>
