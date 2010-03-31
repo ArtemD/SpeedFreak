@@ -137,6 +137,7 @@ void CategoryList::clearCats()
   *This function is used to get items to top list of the category that is chosen from combobox.
   *@param QString category
   *@param int size
+  *@todo Now there is only one (the latest top10List). Later picking up the requested category.
   */
 QString CategoryList::getTopList( QString category, int size)
 {

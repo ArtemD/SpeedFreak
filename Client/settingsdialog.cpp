@@ -16,7 +16,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Settings");
-    this->ui->regEMailLineEdit->setText("@meili.fi");
+    this->ui->regEMailLineEdit->setText("@");
     instructionsDialog = new InstructionsDialog;
 
     if (loginSaved())
@@ -72,7 +72,7 @@ void SettingsDialog::on_registratePushButton_clicked()
 
     emit sendregistration();
 
-    close();
+    //close();      //using close() hides popup-window which reports error from server
 }
 
 // Next 6 functions can be removed if Settingsdialog is implemented without
@@ -129,7 +129,8 @@ void SettingsDialog::on_setUserPushButton_clicked()
     }
 
     emit userNameChanged();
-    close();
+
+    //close();  //using close() hides popup-window which reports error from server
 }
 
 // Next 4 functions can be removed if Settingsdialog is implemented without
@@ -154,3 +155,7 @@ QString SettingsDialog::getPassword()
     return this->password;
 }
 
+void SettingsDialog::setLabelInfoToUser(QString infoText)
+{
+    this->ui->labelInfoToUser->setText(infoText);
+}

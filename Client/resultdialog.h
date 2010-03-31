@@ -24,9 +24,10 @@ public:
 
     void setEnd(int pValue);
     void setValue(int pSpeed, double pTime);
+    void setLabelInfoToUser(QString infoText);
 
 signals:
-    void sendresult(double result);
+    void sendresult(double);
 
 protected:
     void changeEvent(QEvent *e);

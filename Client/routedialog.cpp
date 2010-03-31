@@ -737,5 +737,10 @@ void RouteDialog::on_newPushButton_clicked()
 
 void RouteDialog::on_sendPushButton_clicked()
 {
-    // Send route points file to server
+    emit sendroute();
+}
+
+void RouteDialog::setLabelInfoToUser(QString infoText)
+{
+    this->ui->labelInfoToUser->setText(infoText);
 }

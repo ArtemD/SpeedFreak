@@ -16,12 +16,15 @@
 #include <QMessageBox>
 #include "creditsdialog.h"
 #include "routesavedialog.h"
+#include "routedialog.h"
 #include "welcomedialog.h"
 #include "settingsdialog.h"
 #include "accelerationstart.h"
 #include "topresultdialog.h"
 #include "httpclient.h"
 #include "routedialog.h"
+#include "resultdialog.h"
+
 
 namespace Ui {
     class MainWindow;
@@ -35,12 +38,14 @@ public:
 
     CreditsDialog *creditsDialog;
     RouteSaveDialog *routeSaveDialog;
+    RouteDialog *routeDialog;
     WelcomeDialog *welcomeDialog;
     SettingsDialog *settingsDialog;
     accelerationstart* accstart;
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
     RouteDialog *routeDialog;
+    ResultDialog *resultDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -58,10 +63,12 @@ private slots:
     void on_pushButtonWWW_clicked();
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
+    void clientSendRoute();
+    void clientRegUserToServer();
+    void clientUserLogin();
+    void clientSendResult(double result);
     void setCategoryCompoBox();
     void showTop10();
-    void regUserToServer();
-    void userLogin();
 };
 
 #endif // MAINWINDOW_H

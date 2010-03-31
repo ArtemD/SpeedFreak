@@ -16,9 +16,9 @@
   <widget class="QPushButton" name="pushButtonHelp">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>300</y>
-     <width>241</width>
+     <x>520</x>
+     <y>310</y>
+     <width>221</width>
      <height>51</height>
     </rect>
    </property>
@@ -47,9 +47,9 @@
   <widget class="QPushButton" name="setUserPushButton">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>240</y>
-     <width>191</width>
+     <x>520</x>
+     <y>220</y>
+     <width>221</width>
      <height>51</height>
     </rect>
    </property>
@@ -78,9 +78,9 @@
   <widget class="QPushButton" name="registratePushButton">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>120</y>
-     <width>191</width>
+     <x>520</x>
+     <y>60</y>
+     <width>221</width>
      <height>51</height>
     </rect>
    </property>
@@ -88,12 +88,12 @@
     <string>Register</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>531</width>
+     <width>491</width>
      <height>121</height>
     </rect>
    </property>
@@ -145,12 +145,12 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>210</y>
-     <width>531</width>
+     <width>491</width>
      <height>81</height>
     </rect>
    </property>
@@ -187,6 +187,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="labelInfoToUser">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>521</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>
