@@ -33,7 +33,6 @@ SOURCES += main.cpp \
     gpsdata.cpp \
     maemo5locationprivate.cpp \
     maemo5location.cpp
-
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -53,10 +52,10 @@ HEADERS += mainwindow.h \
     categorylist.h \
     httpclient.h \
     xmlreader.h \
-    xmlwriter.h
-    gpsdata.h \
+    xmlwriter.h \
     maemo5locationprivate.h \
-    maemo5location.h
+    maemo5location.h \
+    gpsdata.h
 
 FORMS += mainwindow.ui \
     creditsdialog.ui \
@@ -71,7 +70,6 @@ FORMS += mainwindow.ui \
     calibratedialog.ui \
     topresultdialog.ui
 RESOURCES += graphics.qrc
-
 contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
 
@@ -84,7 +82,7 @@ INSTALLS += target \
     devincludes
 PKGCONFIG += glib-2.0 \
     liblocation
-exists(/usr/lib/liblocation.so) {
+exists(/usr/lib/liblocation.so) { 
     DEFINES += LIBLOCATION
     message(liblocation found)
 }
