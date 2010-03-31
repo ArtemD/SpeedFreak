@@ -24,6 +24,7 @@ public:
     void setPassword(QString password);
     QString getUserName();
     QString getPassword();
+    void setLabelInfoToUser(QString infoText);
 
 signals:
     void sendregistration();

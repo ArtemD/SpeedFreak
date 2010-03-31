@@ -66,10 +66,23 @@ void accelerationstart::on_buttonStart_clicked()
 void accelerationstart::on_categorComboBox_currentIndexChanged( int index )
 {
     stopMeasureSpeed = 0;
-    if( index == 1 )
-        stopMeasureSpeed = 20;
-    else if( index == 2 )
+    if( index == 1 ) {
+        stopMeasureSpeed = 10;
+        measureCategory = "acceleration-0-10";
+    }
+    else if( index == 2 ) {
         stopMeasureSpeed = 40;
-    else if( index == 3 )
+        measureCategory = "acceleration-0-40";
+    }
+    else if( index == 3 ) {
         stopMeasureSpeed = 100;
+        measureCategory = "acceleration-0-100";
+    }
 }
+
+
+QString accelerationstart::getMeasureCategory()
+{
+    return measureCategory;
+}
+

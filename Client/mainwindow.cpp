@@ -24,19 +24,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationDomain("fudeco.com");
     QCoreApplication::setApplicationName("Speed Freak");
 
+    accstart = NULL;
+
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
+    routeDialog = new RouteDialog;
+    connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
     settingsDialog = new SettingsDialog;
-    connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(regUserToServer()));
-    connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(userLogin()));
+    connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
+    connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(clientUserLogin()));
     topResultDialog = new TopResultDialog;
     connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
-    accstart = NULL;
-
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
+    resultDialog = new ResultDialog;
+    connect(resultDialog, SIGNAL(sendResult(double)), this, SLOT(clientSendResult(double)));
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -109,7 +113,6 @@ void MainWindow::clientRequestCategoryList()
   */
 void MainWindow::clientRequestTopList(int index)
 {
-    qDebug() << "index" << index << httpClient->myXmlreader->myCategoryList->getRecentCategory(index);
     QString limit = QString::number(topResultDialog->getLimitNr());
     httpClient->requestTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(index), limit);
 }
@@ -120,7 +123,6 @@ void MainWindow::clientRequestTopList(int index)
   */
 void MainWindow::setCategoryCompoBox()
 {
-    qDebug() << "_setCategoryCompoBox";
     topResultDialog->setCompoBoxCategories(httpClient->myXmlreader->myCategoryList->getCategoryList());
 }
 
@@ -130,7 +132,6 @@ void MainWindow::setCategoryCompoBox()
   */
 void MainWindow::showTop10()
 {
-    qDebug() << "_showTop10";
     int ind = topResultDialog->getRecentCategoryIndex();
     setListViewTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(ind), topResultDialog->getLimitNr());
 }
@@ -142,18 +143,29 @@ void MainWindow::showTop10()
   */
 void MainWindow::setListViewTopList(QString category, int size)
 {
-    qDebug() << "_setListViewTopList" << category;
     QString topList;
     topList.append(httpClient->myXmlreader->myCategoryList->getTopList(category, size));
     topResultDialog->showTopList(topList);
 }
 
-void MainWindow::regUserToServer()
+void MainWindow::clientRegUserToServer()
 {
     httpClient->requestRegistration();
 }
 
-void MainWindow::userLogin()
+void MainWindow::clientUserLogin()
 {
     httpClient->checkLogin();
+}
+
+void MainWindow::clientSendRoute()
+{
+    httpClient->sendRouteXml();
+}
+
+void MainWindow::clientSendResult(double result)
+{
+    if(accstart) {
+        httpClient->sendResultXml(accstart->getMeasureCategory(), result);
+    }
 }

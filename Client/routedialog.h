@@ -25,6 +25,10 @@ public:
     int getTop();
     int getRight();
     int getBottom();
+    void setLabelInfoToUser(QString infoText);
+
+signals:
+    void sendroute();
 
 protected:
     void changeEvent(QEvent *e);
