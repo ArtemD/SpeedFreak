@@ -11,5 +11,6 @@
         <file>Graphics/Speedometer.png</file>
         <file>Graphics/Speedometer2.png</file>
         <file>Graphics/info.png</file>
+        <file>Graphics/speedfreak.png</file>
     </qresource>
 </RCC>
