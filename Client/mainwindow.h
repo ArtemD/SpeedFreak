@@ -21,6 +21,7 @@
 #include "accelerationstart.h"
 #include "topresultdialog.h"
 #include "httpclient.h"
+#include "routedialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -39,6 +40,7 @@ public:
     accelerationstart* accstart;
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
+    RouteDialog *routeDialog;
 
 protected:
     void changeEvent(QEvent *e);

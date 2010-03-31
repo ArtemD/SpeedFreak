@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationDomain("fudeco.com");
     QCoreApplication::setApplicationName("Speed Freak");
 
+    routeDialog = new RouteDialog;
     creditsDialog = new CreditsDialog;
     routeSaveDialog = new RouteSaveDialog;
     settingsDialog = new SettingsDialog;
@@ -47,6 +48,7 @@ MainWindow::~MainWindow()
     delete ui;
 
     delete routeSaveDialog;
+    delete routeDialog;
 
     if(!accstart)
         delete accstart;

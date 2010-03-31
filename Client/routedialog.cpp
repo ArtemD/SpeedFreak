@@ -367,10 +367,11 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
     QString rivi;
     QFile file;
 
-    QString fileName = QFileDialog::getOpenFileName(this,
-         tr("Read Route"), "./", tr("Route Files (*.txt)"));
+    //QString fileName = QFileDialog::getOpenFileName(this,
+    //     tr("Read Route"), "./", tr("Route Files (*.txt)"));
 
-    file.setFileName( fileName);
+    //file.setFileName( fileName);
+    file.setFileName( "routetemp.xml");
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
@@ -378,11 +379,58 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
     }
 
     vertexList.clear();
+
     while(!file.atEnd())
     {
+        int count;
+        bool allRead;
+        QString astr1, astr2, astr3, astr4;
         QString str1, str2, str3, str4;
         rivi = file.readLine();
 
+        allRead = false;
+        count = 0;
+        while( !allRead)
+        {
+            astr1 = rivi.section(" ", count*4+1, count*4+1); // latitude=""
+            astr2 = rivi.section(" ", count*4+2, count*4+2); // longitude=""
+            astr3 = rivi.section(" ", count*4+3, count*4+3); // altitude=""
+            astr4 = rivi.section(" ", count*4+4, count*4+4); // speed=""
+
+            {
+                double x, y, z, v;
+                str1 = astr1.section('"',1,1);
+                str2 = astr2.section('"',1,1);
+                str3 = astr3.section('"',1,1);
+                str4 = astr4.section('"',1,1);
+            //QString str = QString("%1 %2 %3 %4").arg(str1).arg(str2).arg(str3).arg(str4);
+            //QMessageBox::about(0, "LUKEE", str);
+                /* */
+
+                if (str1.length() > 0)
+                {
+                    x = str2.toDouble();// latitude y-value
+                    y = str1.toDouble();// longitude x-value
+                    z = str3.toDouble();// altitude z-value
+                    v = str4.toDouble();// speed m/s
+               // QString str = QString("%1 %2 %3 %4").arg(x).arg(y).arg(z).arg(v);
+               // QMessageBox::about(0, "LUKEE", str);
+                    temp.setX( x); // Longitude
+                    temp.setY( y); // Latitude
+                    temp.setZ( z); // altitude
+                    temp.setV( v);
+
+                    vertexList.append(temp);
+                    count++;
+                }
+                else
+                {
+                    allRead = true;
+                }
+            }
+        }
+        // Older version
+        /*
         str1 = rivi.section(" ", 0, 0);
         if (str1.compare("Start:") != 0 && str1.compare("Stop:") != 0)
         {
@@ -408,6 +456,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
                 vertexList.append(temp);
             }
         }
+        */
     }
 
     file.close();
