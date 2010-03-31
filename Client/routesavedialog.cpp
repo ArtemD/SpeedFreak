@@ -18,6 +18,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui(new Ui::RouteSaveDialog)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Tracking");
 
     ui->labelRouteSatelliteStatus->setVisible(0);
     ui->labelRouteSatellitePicture->setVisible(0);
