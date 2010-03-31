@@ -44,7 +44,6 @@ public:
     accelerationstart* accstart;
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
-    RouteDialog *routeDialog;
     ResultDialog *resultDialog;
 
 protected:
