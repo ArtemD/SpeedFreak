@@ -1,3 +1,11 @@
+/*
+ * Instructions dialog for speedFreak project
+ *
+ * @author      Rikhard Kuutti 	<rikhard.kuutti@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "instructionsdialog.h"
 #include "ui_instructionsdialog.h"
 
