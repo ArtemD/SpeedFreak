@@ -24,6 +24,7 @@
 Accelerometer::Accelerometer()
 {
     initValues();
+    calibrateDialog = NULL;
 }
 
 /**
@@ -32,6 +33,8 @@ Accelerometer::Accelerometer()
  */
 Accelerometer::~Accelerometer()
 {
+    if(calibrateDialog)
+        delete calibrateDialog;
 }
 
 /**
@@ -61,6 +64,7 @@ void Accelerometer::calibrate(void)
     calibrateDialog = new CalibrateDialog();
     calibrateDialog->show();
     calibrateDialog->resetProgressValue();
+    calibrateDialog->setMaxValue( kIterations + 1 );
 
     do {
         calibrateDialog->setProgressValue(iteration);
@@ -79,7 +83,7 @@ void Accelerometer::calibrate(void)
     calibrationY = calibrationY/kIterations;
     calibrationZ = calibrationZ/kIterations;
 
-    calibrateDialog->hide();
+    calibrateDialog->close();
 }
 
 /**

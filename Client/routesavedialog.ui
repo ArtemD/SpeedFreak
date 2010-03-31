@@ -7,11 +7,22 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>360</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Bitstream Charter</family>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Route</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="graphics.qrc">
+    <normaloff>:/new/prefix1/Graphics/route.png</normaloff>:/new/prefix1/Graphics/route.png</iconset>
   </property>
   <widget class="QPushButton" name="buttonRouteStartStop">
    <property name="geometry">
@@ -23,20 +34,42 @@
     </rect>
    </property>
    <property name="text">
-    <string>Start</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/route_play.png</normaloff>:/new/prefix1/Graphics/route_play.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>125</width>
+     <height>125</height>
+    </size>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="labelRouteSatellitePicture">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>150</y>
-     <width>100</width>
-     <height>100</height>
+     <x>200</x>
+     <y>60</y>
+     <width>80</width>
+     <height>80</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Satellite</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/satellite_vista.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -45,11 +78,16 @@
   <widget class="QLabel" name="labelRouteSatelliteStatus">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>280</y>
-     <width>251</width>
+     <x>90</x>
+     <y>80</y>
+     <width>301</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Satellite status</string>
@@ -58,7 +96,79 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="labelRoutePicture">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>170</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/route.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelRouteStatus">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>190</y>
+     <width>301</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Route status</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelGpsSpeed">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>40</y>
+     <width>241</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>36</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>GPS speed</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>

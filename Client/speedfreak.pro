@@ -1,5 +1,8 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-03-29T09:21:42
+# @author     Speed Freak team
+# @copyright  (c) 2010 Speed Freak team
+# @license    http://opensource.org/licenses/gpl-license.php GNU Public License
 # -------------------------------------------------
 QT += dbus \
     network \
@@ -26,7 +29,10 @@ SOURCES += main.cpp \
     categorylist.cpp \
     httpclient.cpp \
     xmlreader.cpp \
-    xmlwriter.cpp
+    xmlwriter.cpp \
+    gpsdata.cpp \
+    maemo5locationprivate.cpp \
+    maemo5location.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -46,7 +52,11 @@ HEADERS += mainwindow.h \
     categorylist.h \
     httpclient.h \
     xmlreader.h \
-    xmlwriter.h
+    xmlwriter.h \
+    maemo5locationprivate.h \
+    maemo5location.h \
+    gpsdata.h
+
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -60,3 +70,19 @@ FORMS += mainwindow.ui \
     calibratedialog.ui \
     topresultdialog.ui
 RESOURCES += graphics.qrc
+contains(QT_CONFIG, hildon):CONFIG += hildon
+CONFIG += link_pkgconfig
+
+# Enable this to disable debugging
+DEFINES += QT_NO_DEBUG_OUTPUT
+target.path += /usr/lib
+devincludes.files = $$HEADERS
+devincludes.path += /usr/include/$$TEMPLATE$$TARGET
+INSTALLS += target \
+    devincludes
+PKGCONFIG += glib-2.0 \
+    liblocation
+exists(/usr/lib/liblocation.so) { 
+    DEFINES += LIBLOCATION
+    message(liblocation found)
+}

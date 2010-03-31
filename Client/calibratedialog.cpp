@@ -43,3 +43,8 @@ void CalibrateDialog::resetProgressValue()
 {
     ui->progressBar->reset();
 }
+
+void CalibrateDialog::setMaxValue(int max)
+{
+    ui->progressBar->setMaximum( max );
+}

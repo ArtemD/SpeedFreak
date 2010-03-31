@@ -11,7 +11,12 @@
 
 #include <QDialog>
 #include <QPixmap>
+#include <QIcon>
+#include <QSize>
 #include <QTimer>
+#include <maemo5location.h>
+#include "gpsdata.h"
+#include "routedialog.h"
 
 namespace Ui {
     class RouteSaveDialog;
@@ -29,10 +34,22 @@ protected:
 private:
     Ui::RouteSaveDialog *ui;
     QTimer *timerSatellitePicture;
+    QTimer *timerRoutePicture;
+    GPSData *gpsData;
+    Maemo5Location *location;
+    RouteDialog *routeDialog;
+    QString gpsSpeed;
+    QPixmap *pixmapRouteStop;
+    QPixmap *pixmapRoutePlay;
+    QIcon *iconRouteStop;
+    QIcon *iconRoutePlay;
+    bool buttonStatus;
 
 private slots:
     void on_buttonRouteStartStop_clicked();
     void timerSatellitePictureTimeout();
+    void timerRoutePictureTimeout();
+    void gpsStatus();
 };
 
 #endif // ROUTESAVEDIALOG_H

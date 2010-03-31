@@ -122,6 +122,18 @@ void ResultDialog::paintEvent(QPaintEvent *)
     painter.setPen(QPen((Qt::darkCyan),2));
     painter.drawLine(diagramStemStart, diagramStemEnd);
     painter.drawLine(diagramHorizontalStart, diagramHorizontalEnd);
+    painter.drawText(diagramStemStart.x() - 50, diagramStemEnd.y() + 100, "S");
+    painter.drawText(diagramStemStart.x() - 50, diagramStemEnd.y() + 115, "P");
+    painter.drawText(diagramStemStart.x() - 50, diagramStemEnd.y() + 130, "E");
+    painter.drawText(diagramStemStart.x() - 50, diagramStemEnd.y() + 145, "E");
+    painter.drawText(diagramStemStart.x() - 50, diagramStemEnd.y() + 160, "D");
+    painter.drawText(diagramStemStart.x() - 65, diagramStemEnd.y() + 180, "(km/h)");
+
+    painter.drawText(diagramStemStart.x() + 140, diagramStemStart.y() + 40, "T");
+    painter.drawText(diagramStemStart.x() + 150, diagramStemStart.y() + 40, "I");
+    painter.drawText(diagramStemStart.x() + 155, diagramStemStart.y() + 40, "M");
+    painter.drawText(diagramStemStart.x() + 165, diagramStemStart.y() + 40, "E");
+    painter.drawText(diagramStemStart.x() + 180, diagramStemStart.y() + 40, "(s)");
 
     int currentX = 0;
     int currentY = diagramStemStart.y();
@@ -314,6 +326,12 @@ void ResultDialog::on_pushButtonSend_clicked()
   */
 void ResultDialog::setEnd(int pValue)
 {
+    for (int i = 0; i < 11; i++)
+    {
+        timeArray[i] = 0;
+    }
+    resultString = "";
+
     switch (pValue)
     {
     case 10:
@@ -438,63 +456,75 @@ void ResultDialog::setHeaders()
     //QString resultString;
     resultString.append("Time was ");
 
+    QString time;
+
     if (this->diagramGapStem == DIAGRAMGAP100KMH)
     {
-        resultString.append(QString::number(timeArray[10]));
+        time.sprintf("%.2f", timeArray[10]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 100 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP90KMH)
     {
-        resultString.append(QString::number(timeArray[9]));
+        time.sprintf("%.2f", timeArray[9]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 90 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP80KMH)
     {
-        resultString.append(QString::number(timeArray[8]));
+        time.sprintf("%.2f", timeArray[8]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 80 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP70KMH)
     {
-        resultString.append(QString::number(timeArray[7]));
+        time.sprintf("%.2f", timeArray[7]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 70 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP60KMH)
     {
-        resultString.append(QString::number(timeArray[6]));
+        time.sprintf("%.2f", timeArray[6]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 60 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP50KMH)
     {
-        resultString.append(QString::number(timeArray[5]));
+        time.sprintf("%.2f", timeArray[5]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 50 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP40KMH)
     {
-        resultString.append(QString::number(timeArray[4]));
+        time.sprintf("%.2f", timeArray[4]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 40 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP30KMH)
     {
-        resultString.append(QString::number(timeArray[3]));
+        time.sprintf("%.2f", timeArray[3]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 30 km/h");
     }
 
     else if (this->diagramGapStem == DIAGRAMGAP20KMH)
     {
-        resultString.append(QString::number(timeArray[2]));
+        time.sprintf("%.2f", timeArray[2]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 20 km/h");
     }
 
     else
     {
-        resultString.append(QString::number(timeArray[1]));
+        time.sprintf("%.2f", timeArray[1]);
+        resultString.append(time);
         this->setWindowTitle("Result for accelerating 10 km/h");
     }
 }

@@ -117,7 +117,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/Speedometer .png</pixmap>
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/Speedometer.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

@@ -20,12 +20,42 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Tracking");
 
+    routeDialog = new RouteDialog;
+
+    //Button settings
+    buttonStatus = true;
+    pixmapRouteStop = new QPixmap("Graphics/route_stop.png");
+    pixmapRoutePlay = new QPixmap("Graphics/route_play.png");
+    iconRouteStop = new QIcon(*pixmapRouteStop);
+    iconRoutePlay = new QIcon(*pixmapRoutePlay);
+    QSize iconSize(125, 125);
+    ui->buttonRouteStartStop->setIconSize(iconSize);
+    ui->buttonRouteStartStop->setIcon(*iconRoutePlay);
+    ui->buttonRouteStartStop->setAutoFillBackground(true);
+    ui->buttonRouteStartStop->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+
+    //Satellite picture and label
     ui->labelRouteSatelliteStatus->setVisible(0);
     ui->labelRouteSatellitePicture->setVisible(0);
-    ui->labelRouteSatellitePicture->setPixmap(QPixmap("satellite_vista.png"));
+    //ui->labelRouteSatellitePicture->setPixmap(QPixmap("Graphics/satellite_vista.png"));
     timerSatellitePicture = new QTimer();
     timerSatellitePicture->setInterval(400);
     connect(timerSatellitePicture, SIGNAL(timeout()),this, SLOT(timerSatellitePictureTimeout()));
+
+    //Route picture and label
+    ui->labelRouteStatus->setVisible(0);
+    ui->labelRoutePicture->setVisible(0);
+    timerRoutePicture = new QTimer();
+    timerRoutePicture->setInterval(400);
+    connect(timerRoutePicture, SIGNAL(timeout()),this, SLOT(timerRoutePictureTimeout()));
+
+    //GPS speed label
+    ui->labelGpsSpeed->setVisible(0);
+
+    //GPS
+    location = new Maemo5Location(this);
+    gpsData = new GPSData(location);
+    connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
 }
 
 /**
@@ -34,6 +64,15 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
 RouteSaveDialog::~RouteSaveDialog()
 {
     delete ui;
+    delete timerSatellitePicture;
+    delete timerRoutePicture;
+    delete location;
+    delete gpsData;
+    delete routeDialog;
+    delete pixmapRouteStop;
+    delete pixmapRoutePlay;
+    delete iconRouteStop;
+    delete iconRoutePlay;
 }
 
 void RouteSaveDialog::changeEvent(QEvent *e)
@@ -53,20 +92,37 @@ void RouteSaveDialog::changeEvent(QEvent *e)
   */
 void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 {
-    if ( ui->buttonRouteStartStop->text() == "Start" )
+    //If start button clicked
+    if ( buttonStatus == true )
     {
-        ui->buttonRouteStartStop->setText("Stop");
-        ui->labelRouteSatelliteStatus->setText("Searching satellite");
-        ui->labelRouteSatelliteStatus->setVisible(1);
-        ui->labelRouteSatellitePicture->setVisible(1);
-        timerSatellitePicture->start();
+        buttonStatus = false;
+        ui->buttonRouteStartStop->setIcon(*iconRouteStop);
+        location->startPollingGPS();
+        gpsStatus();
     }
     else
     {
-        ui->buttonRouteStartStop->setText("Start");
+        buttonStatus = true;
+        ui->buttonRouteStartStop->setIcon(*iconRoutePlay);
+
+        //Satellite picture and label
+        ui->labelRouteSatelliteStatus->setText("Searching satellite");
         ui->labelRouteSatelliteStatus->setVisible(0);
         ui->labelRouteSatellitePicture->setVisible(0);
         timerSatellitePicture->stop();
+
+        //Route picture and label
+        ui->labelRouteStatus->setVisible(0);
+        ui->labelRoutePicture->setVisible(0);
+        timerRoutePicture->stop();
+        location->stopPollingGPS();
+        routeDialog->show();
+
+        //GPS speed label
+        ui->labelGpsSpeed->setVisible(0);
+
+        //Stop route recording
+        gpsData->stopRouteRecording();
     }
 }
 
@@ -87,4 +143,88 @@ void RouteSaveDialog::timerSatellitePictureTimeout()
         ui->labelRouteSatellitePicture->setVisible(1);
     }
     timerSatellitePicture->start();
+}
+
+/**
+  *This slot function is called when route picture timer timeout(400ms).
+  */
+void RouteSaveDialog::timerRoutePictureTimeout()
+{
+    //If route picture visible.
+    if (ui->labelRoutePicture->isVisible() == 1)
+    {
+        ui->labelRouteStatus->setVisible(0);
+        ui->labelRoutePicture->setVisible(0);
+    }
+    else
+    {
+        ui->labelRouteStatus->setVisible(1);
+        ui->labelRoutePicture->setVisible(1);
+    }
+    timerRoutePicture->start();
+}
+
+void RouteSaveDialog::gpsStatus()
+{
+    //IF GPS start button clicked
+    if (buttonStatus == false)
+    {
+        //If GPS find 4 satellite.
+        if (location->getSatellitesInUse() >= 4)
+        {
+            //Satellite picture and label
+            ui->labelRouteSatelliteStatus->setText("GPS Ready");
+            ui->labelRouteSatelliteStatus->setVisible(1);
+            ui->labelRouteSatellitePicture->setVisible(1);
+            timerSatellitePicture->stop();
+
+            //Route picture and label
+            ui->labelRouteStatus->setText("Recorded " + QString::number(gpsData->roundCounter) + " route point");
+            ui->labelRouteStatus->setVisible(1);
+            ui->labelRoutePicture->setVisible(1);
+            timerRoutePicture->start();
+
+            //Set GPS speed.
+            gpsSpeed.sprintf("%.0f",location->getSpeed());
+            ui->labelGpsSpeed->setText(gpsSpeed + " km/h");
+            ui->labelGpsSpeed->setVisible(1);
+
+            //Start route recording
+            gpsData->startRouteRecording();
+        }
+
+        //If GPS find less than 4 satellite.
+        else
+        {
+            //Satellite picture and label
+            ui->labelRouteSatelliteStatus->setText("Searching satellite");
+            ui->labelRouteSatelliteStatus->setVisible(1);
+            ui->labelRouteSatellitePicture->setVisible(1);
+            timerSatellitePicture->start();
+
+            //Route picture and label
+            ui->labelRouteStatus->setVisible(0);
+            ui->labelRoutePicture->setVisible(0);
+            timerRoutePicture->stop();
+
+            //GPS speed label
+            ui->labelGpsSpeed->setVisible(0);
+        }
+    }
+    else
+    {
+        //Satellite picture and label
+        ui->labelRouteSatelliteStatus->setText("Searching satellite");
+        ui->labelRouteSatelliteStatus->setVisible(0);
+        ui->labelRouteSatellitePicture->setVisible(0);
+        timerSatellitePicture->stop();
+
+        //Route picture and label
+        ui->labelRouteStatus->setVisible(0);
+        ui->labelRoutePicture->setVisible(0);
+        timerRoutePicture->stop();
+
+        //GPS speed label
+        ui->labelGpsSpeed->setVisible(0);
+    }
 }

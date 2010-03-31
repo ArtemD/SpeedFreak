@@ -2,6 +2,7 @@
  * Calculate class to process accelerometer data
  *
  * @author      Kai Rasilainen
+ * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -25,6 +26,7 @@ public:
     void reset();
     void calculateParameters(double currentAcceleration, double seconds);
     void accelStoppedCheck(double currentAcceleration);
+    QMap<int,double> getValuesMap();
 
     double getAverageSpeed();
     void setAverageSpeed(double value);
@@ -82,7 +84,7 @@ private:
     double currentPower;
     double averagePower;
     QList<int> speedCheckPoints;
-public:
+
     QMap<int,double> valuesMap;
 
 signals:

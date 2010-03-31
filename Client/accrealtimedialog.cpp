@@ -1,3 +1,11 @@
+/*
+ * Acceleration info in real time dialog
+ *
+ * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "accrealtimedialog.h"
 #include "ui_accrealtimedialog.h"
 #include <math.h>
@@ -19,9 +27,7 @@ AccRealTimeDialog::AccRealTimeDialog(QWidget *parent) :
     updateScreenCounter = 0;
     resetAccelerometerMeasurements();
 
-    //Load image
-    QPixmap pixMap("back.png",0,Qt::AutoColor);
-    ui->pictureLabel->setPixmap(pixMap);
+    resultDialog = NULL;
 }
 
 AccRealTimeDialog::~AccRealTimeDialog()
@@ -31,6 +37,8 @@ AccRealTimeDialog::~AccRealTimeDialog()
     delete accelerometerTimer;
     delete calculate;
     delete movingAverageZ;
+    if(resultDialog)
+        delete resultDialog;
 }
 
 void AccRealTimeDialog::changeEvent(QEvent *e)
@@ -69,9 +77,9 @@ void AccRealTimeDialog::readAccelerometerData()
     y -= accelerometer->getCalibrationY();
     z -= accelerometer->getCalibrationZ();
 
-    QString str = QString("acc x: " + QString::number(x) + "\n" +
-                          "acc y: " + QString::number(y) + "\n" +
-                          "acc z: " + QString::number(z) + "\n");
+//    QString str = QString("acc x: " + QString::number(x) + "\n" +
+//                          "acc y: " + QString::number(y) + "\n" +
+//                          "acc z: " + QString::number(z) + "\n");
 
     currentAcceleration = z;//sqrt(x*x + y*y + z*z);
     changeInAcceleration = currentAcceleration;
@@ -128,9 +136,24 @@ void AccRealTimeDialog::readAccelerometerData()
     updateScreenCounter++;
 
     //Open result dialog if target speed reached
-    if( speed > stopMeasureSpeed )
+    if( (stopMeasureSpeed > 0) && (speed > stopMeasureSpeed) )
     {
         this->accelerometerTimer->stop();
+        if(!resultDialog)
+        {
+            resultDialog = new ResultDialog(this);
+        }
+        resultDialog->setEnd(stopMeasureSpeed);
+
+        //Put all times from all speeds
+        QMap<int,double> tempMap = calculate->getValuesMap();
+
+        for( int i = 1 ; i <= tempMap.count() ; i++ )
+        {
+            resultDialog->setValue(i*10,tempMap[i*10]);
+        }
+        resultDialog->show();
+        this->hide();
     }
 }
 
@@ -164,6 +187,9 @@ void AccRealTimeDialog::on_buttonAbort_clicked()
 }
 void AccRealTimeDialog::startAccelerationMeasure()
 {
+    double temp = stopMeasureSpeed;
+    resetAccelerometerMeasurements();
+    stopMeasureSpeed = temp;
     accelerometerTimer->start(40);
 }
 void AccRealTimeDialog::SetStopMeasureSpeed(double speed)

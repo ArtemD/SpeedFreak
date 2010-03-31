@@ -1,3 +1,10 @@
+/*
+ * Acceleration info in real time dialog
+ *
+ * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 #ifndef ACCREALTIMEDIALOG_H
 #define ACCREALTIMEDIALOG_H
 
@@ -5,6 +12,8 @@
 #include <QTimer>
 #include "accelerometer.h"
 #include "movingaverage.h"
+#include "resultdialog.h"
+
 
 namespace Ui {
     class AccRealTimeDialog;
@@ -35,6 +44,7 @@ private:
     Accelerometer* accelerometer;
     Calculate *calculate;
     MovingAverage* movingAverageZ;
+    ResultDialog* resultDialog;
 
     int updateScreenCounter;
     double accelerationStartThreshold;

@@ -7,39 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>150</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>30</y>
-     <width>201</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>line_chart.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignHCenter|Qt::AlignTop</set>
-   </property>
-  </widget>
   <widget class="QProgressBar" name="progressBar">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>220</y>
+     <x>50</x>
+     <y>40</y>
      <width>681</width>
      <height>71</height>
     </rect>
