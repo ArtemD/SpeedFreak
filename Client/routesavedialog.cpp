@@ -116,7 +116,12 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         ui->labelRoutePicture->setVisible(0);
         timerRoutePicture->stop();
         location->stopPollingGPS();
-        routeDialog->show();
+
+        QString routeFile = QString("routetemp.xml");
+        if (routeDialog->readRouteFromFile( routeFile) == true)
+        {
+            routeDialog->show();
+        }
 
         //GPS speed label
         ui->labelGpsSpeed->setVisible(0);
