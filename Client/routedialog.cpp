@@ -356,7 +356,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
         painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
 
         QString jono;
-        jono = QString("%1 m/s").arg(maxv);
+        jono = QString("%1 km/h").arg(maxv);
         ui->speedValueLabel->setText(jono);
     }
 }
@@ -412,7 +412,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
                     x = str2.toDouble();// latitude y-value
                     y = str1.toDouble();// longitude x-value
                     z = str3.toDouble();// altitude z-value
-                    v = str4.toDouble();// speed m/s
+                    v = str4.toDouble();// speed km/h
                // QString str = QString("%1 %2 %3 %4").arg(x).arg(y).arg(z).arg(v);
                // QMessageBox::about(0, "LUKEE", str);
                     temp.setX( x); // Longitude
@@ -437,7 +437,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
             str1 = rivi.section(" ", 2, 2); // latitude y-value
             str2 = rivi.section(" ", 4, 4); // longitude x-value
             str3 = rivi.section(" ", 6, 6); // altitude z-value
-            str4 = rivi.section(" ", 8, 8); // speed m/s
+            str4 = rivi.section(" ", 8, 8); // speed km/h
             //QString str = QString("la: %1 lo: %2 al: %3").arg(str1).arg(str2).arg(str3);
             //QMessageBox::about(0, "LUKEE", str);
 
