@@ -60,7 +60,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete routeSaveDialog;
 
-    if(!accstart)
+    if(accstart)
         delete accstart;
 }
 
