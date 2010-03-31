@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButtonSettings->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonWWW->setAutoFillBackground(true);
     ui->pushButtonWWW->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonCredits->setAutoFillBackground(true);
+    ui->pushButtonCredits->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
 MainWindow::~MainWindow()
