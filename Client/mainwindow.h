@@ -65,9 +65,10 @@ private slots:
     void clientSendRoute();
     void clientRegUserToServer();
     void clientUserLogin();
-    void clientSendResult(double result);
+    void clientSendResult();
     void setCategoryCompoBox();
     void showTop10();
+
 };
 
 #endif // MAINWINDOW_H

@@ -212,7 +212,7 @@ void HttpClient::ackOfResult()
     }
     else {
         qDebug() << "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->resultDialog, "Server reply to result sending", "Result received " + reply->readAll());
+        QMessageBox::about(myMainw->resultDialog, "Server reply to result sending", "Result received " + reply->readAll());
     }
 }
 
@@ -235,7 +235,7 @@ void HttpClient::ackOfRoute()
     }
     else {
         qDebug() << "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw, "Server reply to route sending", "Route received " + reply->readAll());
+        QMessageBox::about(myMainw, "Server reply to route sending", "Route received " + reply->readAll());
     }
 }
 
@@ -259,7 +259,7 @@ void HttpClient::ackOfRegistration()
     }
     else {
         qDebug() << "errorcode=0" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->settingsDialog, "Server reply to registration", "User registration " + reply->readAll());
+        QMessageBox::about(myMainw->settingsDialog, "Server reply to registration", "User registration " + reply->readAll());
     }
 }
 
@@ -284,7 +284,7 @@ void HttpClient::ackOfCategories()
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
+        QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
     }
 }
 
@@ -308,7 +308,7 @@ void HttpClient::ackOfLogin()
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->settingsDialog, "Server reply to login", "User login " + reply->readAll());
+        QMessageBox::about(myMainw->settingsDialog, "Server reply to login", "User login " + reply->readAll());
     }
 
     myMainw->settingsDialog->close();

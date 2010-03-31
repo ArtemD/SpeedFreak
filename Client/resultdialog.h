@@ -10,7 +10,7 @@
 #define RESULTDIALOG_H
 
 #include <QDialog>
-//#include "measures.h"
+
 
 namespace Ui {
     class ResultDialog;
@@ -25,9 +25,10 @@ public:
     void setEnd(int pValue);
     void setValue(int pSpeed, double pTime);
     void setLabelInfoToUser(QString infoText);
+    double getResult();
 
 signals:
-    void sendresult(double);
+    void sendresult();
 
 protected:
     void changeEvent(QEvent *e);
