@@ -42,10 +42,10 @@
 #page4 .column-2 .column-2{ width:285px;}
 
 /* ============================= page5 ===========================*/
-#page5 .col-1{ width:285px;}
-#page5 .col-2{ width:580px;}
+#general .col-1{ width:285px;}
+#general .col-2{ width:580px;}
 
-#page5 .box1 .col-1{ width:569px;}
-#page5 .box1 .col-2{ width:230px;}
+#default .box1 .col-1{ width:569px;}
+#default .box1 .col-2{ width:230px;}
 
 /* ============================= page6 ===========================*/
