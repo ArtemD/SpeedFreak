@@ -1,4 +1,11 @@
 <?php
+/**
+ * Static pages controller
+ * 
+ * @todo Refactoring needed
+ * @author Artem Daniliants <artem@daniliants.com>
+ *
+ */
 class Pages_Controller extends Template_Controller {
 
 	public $template = 'pages/base'; //defaults to template but you can set your own view file
@@ -9,13 +16,29 @@ class Pages_Controller extends Template_Controller {
 	{
 		parent::__construct(); //necessary
 	}
+	
+	
+	/**
+	 * Generate lightbox markup
+	 * 
+	 * @param array $images
+	 */
+	private function lightbox($images){
+		$output = '';
+		foreach ($images as $i){
+			$output .= '<a href="'.url::base().'static/img/screenshots/big/'.$i['img'].'.png" rel="lightbox[screenshots]" title="'.$i['title'].'"><img border=0 class="lightbox_thumbs" src="'.url::base().'static/img/screenshots/small/'.$i['img'].'.png" alt="'.$i['alt'].'"/></a>';
+		}
+		return $output;
+	}
 
 	public function index()
 	{
+
 		$this->template->title = 'Maemo5 application for car enthusiasts and speed freaks';
 		$this->template->header = 'Home';
+		
 		$this->template->content = '
-SpeedFreak is a free application for your mobile that allows you to measure your car\'s performance such as acceleration and top speed. In order to make it even 
+			SpeedFreak is a free application for your mobile that allows you to measure your car\'s performance such as acceleration and top speed. In order to make it even 
 more interesting you can compete against others on our leaderboards to see who\'s car packs the most punch!		
 <br /><br />
 
@@ -90,8 +113,42 @@ community link!
 	{
 		$this->template->title = 'Screenshots';
 		$this->template->header = 'Screenshots';
+		$this->template->head = '
+		<script type="text/javascript" src="'.url::base().'static/js/prototype.js"></script>
+		<script type="text/javascript" src="'.url::base().'static/js/scriptaculous.js?load=effects,builder"></script>
+		<script type="text/javascript" src="'.url::base().'static/js/lightbox.js"></script>
+		<link rel="stylesheet" href="'.url::base().'static/css/lightbox.css" type="text/css" media="screen" />
+		';
+		
+		$screenshots=array();
+		$screenshots[0]['img']=1;
+		$screenshots[0]['alt']='Main window';
+		$screenshots[0]['title']='OpenSource Maemo 5 application for car enthusiasts';
+		
+		$screenshots[1]['img']=2;
+		$screenshots[1]['alt']='Acceleration screen';
+		$screenshots[1]['title']='See how fast your car accelerates and compete for the first position on our leaderboards';
+		
+		$screenshots[2]['img']=3;
+		$screenshots[2]['alt']='Categories window';
+		$screenshots[2]['title']='You can compete in defferent categories';
+		
+		$screenshots[3]['img']=4;
+		$screenshots[3]['alt']='Route window';
+		$screenshots[3]['title']='Save your roadtrip route';
+		
+		$screenshots[4]['img']=5;
+		$screenshots[4]['alt']='Registration window';
+		$screenshots[4]['title']="Participating in our community is as easy as registering for an account";
+		
+		$screenshots[5]['img']=6;
+		$screenshots[5]['alt']='Credits window';
+		$screenshots[5]['title']='SpeedFreak is developed by a group of dedicated contributors. Join us and help make it even better!';
+		
+		$lightbox = $this->lightbox($screenshots);
+		
 		$this->template->content = '
-Our freaky elfs are still working on those. Check back later =)
+'.$lightbox.'
 ';
 		$this->template->sidebar_title = 'SpeedFreak for Nokia N900';
 		$this->template->sidebar_content ='
@@ -99,8 +156,6 @@ Our freaky elfs are still working on those. Check back later =)
 <p>Download SpeedFreak for Nokia N900.</p>
 <p><a href="#" class="link"><span><span>Download now</span></span></a></p>
 ';
-
-
 
 	}
 }

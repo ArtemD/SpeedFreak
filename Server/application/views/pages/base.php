@@ -1,4 +1,4 @@
-<?php echo View::factory('pages/head')->set('title',$title)->render(); ?>
+<?php if (empty($head))$head=''; echo View::factory('pages/head')->set('title',$title)->set('head',$head)->render(); ?>
 <body id="default">
 	<div class="top-bg"> 
 	<div id="main"> 
