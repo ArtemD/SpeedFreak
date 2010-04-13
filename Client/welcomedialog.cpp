@@ -19,7 +19,7 @@ WelcomeDialog::WelcomeDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(" ");
-    movie = new QMovie("start.gif");
+    movie = new QMovie("Graphics/start.gif");
     ui->labelWelcome->setMovie(movie);
     movie->start();
     connect(movie,SIGNAL(frameChanged(int)),this,SLOT(stop(int)));

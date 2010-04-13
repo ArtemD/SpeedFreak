@@ -1,3 +1,12 @@
+/*
+ * Topresultdialog
+ *
+ * @author     Olavi Pulkkinen <olavi.pulkkinena@fudeco.com>
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include <QDebug>
 #include "topresultdialog.h"
 #include "ui_topresultdialog.h"
@@ -33,6 +42,8 @@ void TopResultDialog::changeEvent(QEvent *e)
 
 void TopResultDialog::on_buttonTopRefresh_clicked()
 {
+    ui->labelTopList->clear();
+    ui->comboBoxTopCategory->clear();
     emit refreshCategoryList();
 }
 
@@ -63,6 +74,7 @@ int TopResultDialog::getLimitNr()
 
 void TopResultDialog::on_comboBoxTopCategory_currentIndexChanged(int index)
 {
+    ui->labelTopList->clear();
     recentCategoryIndex = index;
     emit refreshTopList(index);
 }

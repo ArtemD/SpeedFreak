@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>180</y>
+     <y>190</y>
      <width>371</width>
      <height>31</height>
     </rect>
@@ -61,7 +61,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
+     <y>0</y>
      <width>271</width>
      <height>31</height>
     </rect>
@@ -91,10 +91,78 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
+     <x>40</x>
+     <y>220</y>
+     <width>401</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="setUserUsernameLabel">
+      <property name="text">
+       <string>Username:        </string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="setUserUsernameLineEdit">
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="maxLength">
+       <number>12</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="setUserPasswordLabel">
+      <property name="text">
+       <string>Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="setUserPasswordLineEdit">
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="maxLength">
+       <number>255</number>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="labelInfoToUser">
+   <property name="geometry">
+    <rect>
      <x>10</x>
-     <y>50</y>
-     <width>491</width>
-     <height>121</height>
+     <y>320</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>28</y>
+     <width>401</width>
+     <height>151</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -107,6 +175,12 @@
     </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="regUserNameLineEdit">
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="maxLength">
        <number>12</number>
       </property>
@@ -121,6 +195,12 @@
     </item>
     <item row="1" column="1">
      <widget class="QLineEdit" name="regPasswordLineEdit">
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="maxLength">
        <number>255</number>
       </property>
@@ -138,70 +218,30 @@
     </item>
     <item row="2" column="1">
      <widget class="QLineEdit" name="regEMailLineEdit">
+      <property name="font">
+       <font>
+        <family>Bitstream Charter</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="maxLength">
        <number>255</number>
       </property>
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>210</y>
-     <width>491</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QLabel" name="setUserUsernameLabel">
-      <property name="text">
-       <string>Username:        </string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="setUserUsernameLineEdit">
-      <property name="maxLength">
-       <number>12</number>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="setUserPasswordLabel">
-      <property name="text">
-       <string>Password:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="setUserPasswordLineEdit">
-      <property name="maxLength">
-       <number>255</number>
-      </property>
-      <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QLabel" name="labelInfoToUser">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>310</y>
-     <width>521</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>regUserNameLineEdit</tabstop>
+  <tabstop>regPasswordLineEdit</tabstop>
+  <tabstop>regEMailLineEdit</tabstop>
+  <tabstop>registratePushButton</tabstop>
+  <tabstop>setUserUsernameLineEdit</tabstop>
+  <tabstop>setUserPasswordLineEdit</tabstop>
+  <tabstop>setUserPushButton</tabstop>
+  <tabstop>pushButtonHelp</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
