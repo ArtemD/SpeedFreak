@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>360</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="font">
@@ -27,7 +27,7 @@
   <widget class="QPushButton" name="buttonRouteStartStop">
    <property name="geometry">
     <rect>
-     <x>600</x>
+     <x>650</x>
      <y>170</y>
      <width>130</width>
      <height>130</height>
@@ -38,7 +38,7 @@
    </property>
    <property name="icon">
     <iconset resource="graphics.qrc">
-     <normaloff>:/new/prefix1/Graphics/route_play.png</normaloff>:/new/prefix1/Graphics/route_play.png</iconset>
+     <normaloff>:/new/prefix1/Graphics/route_start.png</normaloff>:/new/prefix1/Graphics/route_start.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -164,6 +164,22 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
    </property>
   </widget>
  </widget>

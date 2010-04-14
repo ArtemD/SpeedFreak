@@ -25,12 +25,12 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     //Button settings
     buttonStatus = true;
     pixmapRouteStop = new QPixmap("Graphics/route_stop.png");
-    pixmapRoutePlay = new QPixmap("Graphics/route_play.png");
+    pixmapRouteStart = new QPixmap("Graphics/route_start.png");
     iconRouteStop = new QIcon(*pixmapRouteStop);
-    iconRoutePlay = new QIcon(*pixmapRoutePlay);
+    iconRouteStart = new QIcon(*pixmapRouteStart);
     QSize iconSize(125, 125);
     ui->buttonRouteStartStop->setIconSize(iconSize);
-    ui->buttonRouteStartStop->setIcon(*iconRoutePlay);
+    ui->buttonRouteStartStop->setIcon(*iconRouteStart);
     ui->buttonRouteStartStop->setAutoFillBackground(true);
     ui->buttonRouteStartStop->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
@@ -70,9 +70,9 @@ RouteSaveDialog::~RouteSaveDialog()
     delete gpsData;
     delete routeDialog;
     delete pixmapRouteStop;
-    delete pixmapRoutePlay;
+    delete pixmapRouteStart;
     delete iconRouteStop;
-    delete iconRoutePlay;
+    delete iconRouteStart;
 }
 
 void RouteSaveDialog::changeEvent(QEvent *e)
@@ -103,7 +103,7 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
     else
     {
         buttonStatus = true;
-        ui->buttonRouteStartStop->setIcon(*iconRoutePlay);
+        ui->buttonRouteStartStop->setIcon(*iconRouteStart);
 
         //Satellite picture and label
         ui->labelRouteSatelliteStatus->setText("Searching satellite");

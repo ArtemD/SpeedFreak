@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>360</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButtonHelp">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>310</y>
+     <x>540</x>
+     <y>180</y>
      <width>221</width>
      <height>51</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QLabel" name="setUserLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>190</y>
+     <x>50</x>
+     <y>210</y>
      <width>371</width>
      <height>31</height>
     </rect>
@@ -47,8 +47,8 @@
   <widget class="QPushButton" name="setUserPushButton">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>220</y>
+     <x>540</x>
+     <y>270</y>
      <width>221</width>
      <height>51</height>
     </rect>
@@ -60,7 +60,7 @@
   <widget class="QLabel" name="registrateLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>40</x>
      <y>0</y>
      <width>271</width>
      <height>31</height>
@@ -78,8 +78,8 @@
   <widget class="QPushButton" name="registratePushButton">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>60</y>
+     <x>540</x>
+     <y>80</y>
      <width>221</width>
      <height>51</height>
     </rect>
@@ -91,8 +91,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>220</y>
+     <x>100</x>
+     <y>240</y>
      <width>401</width>
      <height>101</height>
     </rect>
@@ -110,7 +110,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="maxLength">
@@ -130,7 +130,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="maxLength">
@@ -156,10 +156,10 @@
     <string/>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>100</x>
      <y>28</y>
      <width>401</width>
      <height>151</height>
@@ -178,7 +178,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="maxLength">
@@ -198,7 +198,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="maxLength">
@@ -221,7 +221,7 @@
       <property name="font">
        <font>
         <family>Bitstream Charter</family>
-        <pointsize>8</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="maxLength">
@@ -231,6 +231,31 @@
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>pushButtonHelp</zorder>
+  <zorder>setUserLabel</zorder>
+  <zorder>setUserPushButton</zorder>
+  <zorder>registrateLabel</zorder>
+  <zorder>registratePushButton</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>labelInfoToUser</zorder>
+  <zorder>layoutWidget</zorder>
  </widget>
  <tabstops>
   <tabstop>regUserNameLineEdit</tabstop>
@@ -242,6 +267,8 @@
   <tabstop>setUserPushButton</tabstop>
   <tabstop>pushButtonHelp</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>

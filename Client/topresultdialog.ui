@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="buttonTopRefresh">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>221</width>
-     <height>71</height>
+     <x>650</x>
+     <y>20</y>
+     <width>130</width>
+     <height>130</height>
     </rect>
    </property>
    <property name="font">
@@ -31,34 +31,25 @@
     </font>
    </property>
    <property name="text">
-    <string>Refresh list</string>
+    <string/>
    </property>
-  </widget>
-  <widget class="QListView" name="listViewTopList">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>0</y>
-     <width>491</width>
-     <height>251</height>
-    </rect>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/trophy_gold_refresh.png</normaloff>:/new/prefix1/Graphics/trophy_gold_refresh.png</iconset>
    </property>
-   <property name="font">
-    <font>
-     <family>Bitstream Charter</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="flow">
-    <enum>QListView::LeftToRight</enum>
+   <property name="iconSize">
+    <size>
+     <width>125</width>
+     <height>125</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="labelTopList">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>0</y>
-     <width>451</width>
+     <x>150</x>
+     <y>70</y>
+     <width>471</width>
      <height>251</height>
     </rect>
    </property>
@@ -71,14 +62,14 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelCategory">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>0</y>
      <width>221</width>
      <height>51</height>
     </rect>
@@ -96,9 +87,9 @@
   <widget class="QComboBox" name="comboBoxTopCategory">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>260</y>
-     <width>601</width>
+     <x>140</x>
+     <y>10</y>
+     <width>491</width>
      <height>41</height>
     </rect>
    </property>
@@ -106,9 +97,9 @@
   <widget class="QLabel" name="labelInfoToUser">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>120</x>
      <y>310</y>
-     <width>521</width>
+     <width>671</width>
      <height>51</height>
     </rect>
    </property>
@@ -116,7 +107,31 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>230</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>buttonTopRefresh</zorder>
+  <zorder>labelTopList</zorder>
+  <zorder>labelCategory</zorder>
+  <zorder>comboBoxTopCategory</zorder>
+  <zorder>labelInfoToUser</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>

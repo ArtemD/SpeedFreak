@@ -3,10 +3,6 @@
         <file>Graphics/meter.png</file>
         <file>Graphics/satellite_vista.png</file>
         <file>Graphics/route.png</file>
-        <file>Graphics/route_play.png</file>
-        <file>Graphics/route_stop.png</file>
-        <file>Graphics/route_new.png</file>
-        <file>Graphics/route_save.png</file>
         <file>Graphics/settings.png</file>
         <file>Graphics/trophy_gold.png</file>
         <file>Graphics/applications_internet.png</file>
@@ -15,5 +11,13 @@
         <file>Graphics/info.png</file>
         <file>Graphics/speedfreak.png</file>
         <file>Graphics/start.gif</file>
+        <file>Graphics/sf.png</file>
+        <file>Graphics/Speedometer_calibrate.png</file>
+        <file>Graphics/Speedometer_start.png</file>
+        <file>Graphics/route_new.png</file>
+        <file>Graphics/route_save.png</file>
+        <file>Graphics/route_start.png</file>
+        <file>Graphics/route_stop.png</file>
+        <file>Graphics/trophy_gold_refresh.png</file>
     </qresource>
 </RCC>

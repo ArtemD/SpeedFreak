@@ -23,6 +23,12 @@ accelerationstart::accelerationstart(QWidget *parent) :
     ui->categorComboBox->addItem("0 - 20 km/h",20);
     ui->categorComboBox->addItem("0 - 40 km/h");
     ui->categorComboBox->addItem("0 - 100 km/h");
+
+    //Button settings
+    ui->buttonCalib->setAutoFillBackground(true);
+    ui->buttonCalib->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->buttonStart->setAutoFillBackground(true);
+    ui->buttonStart->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
 accelerationstart::~accelerationstart()

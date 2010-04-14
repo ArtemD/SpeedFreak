@@ -40,9 +40,9 @@ private:
     RouteDialog *routeDialog;
     QString gpsSpeed;
     QPixmap *pixmapRouteStop;
-    QPixmap *pixmapRoutePlay;
+    QPixmap *pixmapRouteStart;
     QIcon *iconRouteStop;
-    QIcon *iconRoutePlay;
+    QIcon *iconRouteStart;
     bool buttonStatus;
 
 private slots:

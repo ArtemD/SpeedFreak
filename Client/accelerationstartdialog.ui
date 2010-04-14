@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,40 +16,78 @@
   <widget class="QComboBox" name="categorComboBox">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>140</y>
+     <x>140</x>
+     <y>160</y>
      <width>221</width>
      <height>51</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonCalib">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>130</y>
-     <width>171</width>
-     <height>71</height>
+     <x>0</x>
+     <y>230</y>
+     <width>150</width>
+     <height>150</height>
     </rect>
    </property>
    <property name="text">
-    <string>Calibrate</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonStart">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>130</y>
-     <width>181</width>
-     <height>71</height>
+     <x>590</x>
+     <y>0</y>
+     <width>201</width>
+     <height>381</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Start</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="buttonCalib">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="graphics.qrc">
+        <normaloff>:/new/prefix1/Graphics/Speedometer_calibrate.png</normaloff>:/new/prefix1/Graphics/Speedometer_calibrate.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>125</width>
+        <height>125</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="buttonStart">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="graphics.qrc">
+        <normaloff>:/new/prefix1/Graphics/Speedometer_start.png</normaloff>:/new/prefix1/Graphics/Speedometer_start.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>125</width>
+        <height>125</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="graphics.qrc"/>
+ </resources>
  <connections/>
 </ui>
