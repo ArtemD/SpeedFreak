@@ -172,4 +172,3 @@ void XmlWriter::writeItems()
     xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
     xmlwriter.writeEndElement();
 }
-

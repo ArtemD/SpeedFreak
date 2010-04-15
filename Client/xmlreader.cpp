@@ -167,4 +167,3 @@ void XmlReader::xmlShow()
     //xmlReadCategories(&file);
     file.close();
 }
-

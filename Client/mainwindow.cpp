@@ -26,23 +26,28 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setApplicationName("Speed Freak");
 
     routeDialog = new RouteDialog;
-    accstart = NULL;
-
-    creditsDialog = new CreditsDialog;
-    routeSaveDialog = new RouteSaveDialog;
-    routeDialog = new RouteDialog;
     connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
+
+    routeSaveDialog = new RouteSaveDialog;
+
     settingsDialog = new SettingsDialog;
     connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
     connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(clientUserLogin()));
+
     topResultDialog = new TopResultDialog;
     connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
+
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
+
     resultDialog = new ResultDialog;
     connect(resultDialog, SIGNAL(sendresult()), this, SLOT(clientSendResult()));
+
+    accstart = NULL;
+
+    creditsDialog = new CreditsDialog;
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -195,11 +200,17 @@ void MainWindow::clientUserLogin()
     httpClient->checkLogin();
 }
 
+/**
+  * This function send route to server
+  */
 void MainWindow::clientSendRoute()
 {
     httpClient->sendRouteXml();
 }
 
+/**
+  * This function send acceleration data to server
+  */
 void MainWindow::clientSendResult()
 {
     qDebug() << "_clientSendResult";
