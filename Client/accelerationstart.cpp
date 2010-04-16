@@ -15,7 +15,9 @@ accelerationstart::accelerationstart(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonStart->setDisabled(true);
+
     accRealTimeDialog = NULL;
+
     stopMeasureSpeed = 0;
 
     ui->categorComboBox->addItem("Select category");
@@ -54,6 +56,8 @@ void accelerationstart::on_buttonCalib_clicked()
 {
     if(accRealTimeDialog == NULL)
         accRealTimeDialog = new AccRealTimeDialog(this);
+
+    connect(accRealTimeDialog, SIGNAL(sendresult(double)), this, SLOT(sendResult(double)));
 
     accRealTimeDialog->Calibrate();
 
@@ -99,3 +103,11 @@ QString accelerationstart::getMeasureCategory()
     return measureCategory;
 }
 
+/**
+  *This slot function emit mainwindow sendresult.
+  *
+  **/
+void accelerationstart::sendResult(double result)
+{
+    emit sendresult(measureCategory, result);
+}

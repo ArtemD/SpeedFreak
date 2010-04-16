@@ -143,6 +143,7 @@ void AccRealTimeDialog::readAccelerometerData()
         {
             resultDialog = new ResultDialog(this);
         }
+        connect(resultDialog, SIGNAL(sendresult(double)), this, SLOT(sendResult(double)));
         resultDialog->setEnd(stopMeasureSpeed);
 
         //Put all times from all speeds
@@ -174,6 +175,7 @@ void AccRealTimeDialog::resetAccelerometerMeasurements()
     vehicleStartedMoving = false;
     stopMeasureSpeed = 0;
 }
+
 void AccRealTimeDialog::Calibrate()
 {
     accelerometer->calibrate();
@@ -185,6 +187,7 @@ void AccRealTimeDialog::on_buttonAbort_clicked()
     resetAccelerometerMeasurements();
     this->close();
 }
+
 void AccRealTimeDialog::startAccelerationMeasure()
 {
     double temp = stopMeasureSpeed;
@@ -192,7 +195,17 @@ void AccRealTimeDialog::startAccelerationMeasure()
     stopMeasureSpeed = temp;
     accelerometerTimer->start(40);
 }
+
 void AccRealTimeDialog::SetStopMeasureSpeed(double speed)
 {
     stopMeasureSpeed = speed;
+}
+
+/**
+  *This slot function emit accelerationstart sendresult.
+  *
+  **/
+void AccRealTimeDialog::sendResult(double result)
+{
+    emit sendresult(result);
 }

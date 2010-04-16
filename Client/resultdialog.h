@@ -28,7 +28,7 @@ public:
     double getResult();
 
 signals:
-    void sendresult();
+    void sendresult(double);
 
 protected:
     void changeEvent(QEvent *e);

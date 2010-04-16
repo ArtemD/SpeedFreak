@@ -34,17 +34,21 @@ protected:
 private slots:
     void on_buttonAbort_clicked();
     void readAccelerometerData();
+    void sendResult(double);
+
+signals:
+    void sendresult(double);
 
 private:
     Ui::AccRealTimeDialog *ui;
     void resetAccelerometerMeasurements();
+    ResultDialog* resultDialog;
 
     QTimer *accelerometerTimer;
     QTime elapsedTime;
     Accelerometer* accelerometer;
     Calculate *calculate;
     MovingAverage* movingAverageZ;
-    ResultDialog* resultDialog;
 
     int updateScreenCounter;
     double accelerationStartThreshold;

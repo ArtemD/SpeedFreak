@@ -28,6 +28,7 @@ protected:
 private:
     Ui::accelerationstart *ui;
     AccRealTimeDialog* accRealTimeDialog;
+
     double stopMeasureSpeed;
     QString measureCategory;
 
@@ -35,6 +36,10 @@ private slots:
     void on_categorComboBox_currentIndexChanged(int index);
     void on_buttonStart_clicked();
     void on_buttonCalib_clicked();
+    void sendResult(double);
+
+signals:
+    void sendresult(QString, double);
 };
 
 #endif // ACCELERATIONSTART_H
