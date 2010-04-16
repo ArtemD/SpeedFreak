@@ -315,11 +315,12 @@ void ResultDialog::on_pushButtonNew_clicked()
 /**
   * This slot function emits sendresult signal for sending results to server when
   * send results -button has been clicked.
+  * Emit accrealtimedialog sendresult.
   */
 void ResultDialog::on_pushButtonSend_clicked()
 {
-    emit sendresult();
-    //emit sendresult(timeArray[this->getTargetChoice()]);
+    //emit sendresult();
+    emit sendresult(timeArray[this->getTargetChoice()]);
 }
 
 double ResultDialog::getResult()

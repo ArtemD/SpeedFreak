@@ -65,7 +65,7 @@ private slots:
     void clientSendRoute();
     void clientRegUserToServer();
     void clientUserLogin();
-    void clientSendResult();
+    void clientSendResult(QString, double);
     void setCategoryCompoBox();
     void showTop10();
 

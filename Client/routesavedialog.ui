@@ -179,7 +179,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf_2.png</pixmap>
    </property>
   </widget>
  </widget>

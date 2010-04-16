@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
 
     resultDialog = new ResultDialog;
-    connect(resultDialog, SIGNAL(sendresult()), this, SLOT(clientSendResult()));
 
     accstart = NULL;
 
@@ -128,6 +127,7 @@ void MainWindow::on_pushButtonAccelerate_clicked()
 {
     if(!accstart)
         accstart = new accelerationstart(this);
+    connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
     accstart->show();
 }
 
@@ -211,11 +211,18 @@ void MainWindow::clientSendRoute()
 /**
   * This function send acceleration data to server
   */
-void MainWindow::clientSendResult()
+void MainWindow::clientSendResult(QString category, double result)
 {
-    qDebug() << "_clientSendResult";
+    /*QMessageBox msgBox;
+    msgBox.setWindowTitle("client send result!");
+    msgBox.setText("client send result!");
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();*/
+
+    qDebug() << "__clientSendResult";
     if(accstart) {
         qDebug() << "_clientSendResult, calling server";
-        httpClient->sendResultXml(accstart->getMeasureCategory(), resultDialog->getResult());
+        httpClient->sendResultXml(category, result);
+        //httpClient->sendResultXml(accstart->getMeasureCategory(), resultDialog->getResult());
     }
 }

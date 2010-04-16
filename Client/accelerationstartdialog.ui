@@ -36,10 +36,10 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf.png</pixmap>
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf_2.png</pixmap>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>590</x>
