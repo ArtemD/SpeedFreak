@@ -40,7 +40,7 @@ public:
 
     //CreditsDialog *creditsDialog;
     RouteSaveDialog *routeSaveDialog;
-    RouteDialog *routeDialog;
+    //RouteDialog *routeDialog;
     WelcomeDialog *welcomeDialog;
     SettingsDialog *settingsDialog;
     accelerationstart* accstart;
@@ -70,6 +70,7 @@ private slots:
     void clientSendResult(QString category, double result);
     void setCategoryCompoBox();
     void showTop10();
+    void killDialog();
 
 };
 

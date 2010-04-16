@@ -25,25 +25,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationDomain("fudeco.com");
     QCoreApplication::setApplicationName("Speed Freak");
 
-    routeDialog = new RouteDialog;
-    connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
+    //routeDialog = new RouteDialog;
+    //connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
 
     helpDialog = NULL;
+    accstart = NULL;
     routeSaveDialog = NULL;
+    topResultDialog = NULL;
 
     settingsDialog = new SettingsDialog;
     connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
     connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(clientUserLogin()));
 
-    topResultDialog = new TopResultDialog;
-    connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
-    connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
-
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
-    connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
-
-    accstart = NULL;
+    connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));    
 
     //creditsDialog = new CreditsDialog;
 
@@ -68,11 +64,27 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete routeSaveDialog;
-    delete routeDialog;
+
+    if(routeSaveDialog)
+        delete routeSaveDialog;
 
     if(accstart)
         delete accstart;
+
+    if(topResultDialog)
+        delete topResultDialog;
+
+    if(settingsDialog)
+        delete settingsDialog;
+
+    if(welcomeDialog)
+        delete welcomeDialog;
+
+    if(httpClient)
+        delete httpClient;
+
+    if(helpDialog)
+        delete helpDialog;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -114,6 +126,7 @@ void MainWindow::on_pushButtonRoute_clicked()
     if(!routeSaveDialog)
         routeSaveDialog = new RouteSaveDialog;
     connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
+    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     routeSaveDialog->show();
 }
 
@@ -133,6 +146,7 @@ void MainWindow::on_pushButtonAccelerate_clicked()
     if(!accstart)
         accstart = new accelerationstart(this);
     connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
+    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     accstart->show();
 }
 
@@ -141,6 +155,12 @@ void MainWindow::on_pushButtonAccelerate_clicked()
   */
 void MainWindow::on_pushButtonResults_clicked()
 {
+    if (!topResultDialog)
+        topResultDialog = new TopResultDialog;
+    clientRequestCategoryList();
+    connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
+    connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
+    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     topResultDialog->show();
 }
 
@@ -193,7 +213,7 @@ void MainWindow::setListViewTopList(QString category, int size)
 }
 
 /**
-  * This function
+  * This function register user to server.
   */
 void MainWindow::clientRegUserToServer()
 {
@@ -201,7 +221,7 @@ void MainWindow::clientRegUserToServer()
 }
 
 /**
-  * This function performs login to server
+  * This function performs login to server.
   */
 void MainWindow::clientUserLogin()
 {
@@ -209,7 +229,7 @@ void MainWindow::clientUserLogin()
 }
 
 /**
-  * This function send route to server
+  * This function send route data to server.
   */
 void MainWindow::clientSendRoute()
 {
@@ -217,7 +237,7 @@ void MainWindow::clientSendRoute()
 }
 
 /**
-  * This function send acceleration data to server
+  * This function send acceleration data to server.
   */
 void MainWindow::clientSendResult(QString category, double result)
 {
@@ -225,5 +245,26 @@ void MainWindow::clientSendResult(QString category, double result)
     if(accstart) {
         qDebug() << "_clientSendResult, calling server";
         httpClient->sendResultXml(category, result);
+    }
+}
+/**
+  * This slot function called when ever dialog finished.
+  */
+void MainWindow::killDialog()
+{
+    if(topResultDialog)
+    {
+        delete topResultDialog;
+        topResultDialog = NULL;
+    }
+    else if(routeSaveDialog)
+    {
+        delete routeSaveDialog;
+        routeSaveDialog = NULL;
+    }
+    else if(accstart)
+    {
+        delete accstart;
+        accstart = NULL;
     }
 }

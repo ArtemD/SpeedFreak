@@ -115,7 +115,7 @@ void HttpClient::sendRouteXml()
     currentDownload = netManager->post(request, ("xml=" + file.readAll()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-    myMainw->routeDialog->setLabelInfoToUser("Sending route to server");
+    myMainw->routeSaveDialog->routeDialog->setLabelInfoToUser("Sending route to server");
 
     file.close();
 }
@@ -230,7 +230,7 @@ void HttpClient::ackOfRoute()
 {
     qDebug() << "_ackOfRoute";
 
-    myMainw->routeDialog->setLabelInfoToUser("");
+    myMainw->routeSaveDialog->routeDialog->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -238,7 +238,7 @@ void HttpClient::ackOfRoute()
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->routeDialog, "Server reply to route sending ",reply->errorString());
+        QMessageBox::about(myMainw->routeSaveDialog->routeDialog, "Server reply to route sending ",reply->errorString());
     }
     else {
         qDebug() << "errorcode:" << errorcode << reply->errorString();
@@ -287,11 +287,11 @@ void HttpClient::ackOfCategories()
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories",reply->errorString());
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories",reply->errorString());
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
     }
 }
 
@@ -361,7 +361,7 @@ void HttpClient::ackOfToplist()
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list",reply->errorString());
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list",reply->errorString());
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();

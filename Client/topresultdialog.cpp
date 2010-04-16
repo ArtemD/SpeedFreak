@@ -24,6 +24,10 @@ TopResultDialog::TopResultDialog(QWidget *parent) :
     //Button settings
     ui->buttonTopRefresh->setAutoFillBackground(true);
     ui->buttonTopRefresh->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+
+    //Clear labels
+    ui->labelInfoToUser->setText("");
+    ui->labelTopList->setText("");
 }
 
 TopResultDialog::~TopResultDialog()

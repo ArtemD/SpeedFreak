@@ -27,6 +27,7 @@ class RouteSaveDialog : public QDialog {
 public:
     RouteSaveDialog(QWidget *parent = 0);
     ~RouteSaveDialog();
+    RouteDialog *routeDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -37,7 +38,6 @@ private:
     QTimer *timerRoutePicture;
     GPSData *gpsData;
     Maemo5Location *location;
-    RouteDialog *routeDialog;
     QString gpsSpeed;
     QPixmap *pixmapRouteStop;
     QPixmap *pixmapRouteStart;

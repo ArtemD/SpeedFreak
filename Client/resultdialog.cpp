@@ -77,6 +77,9 @@ ResultDialog::ResultDialog(QWidget *parent) :
     {
         ui->pushButtonSend->setEnabled(false);
     }
+
+    //Clear info label
+    ui->labelInfoToUser->setText("");
 }
 
 /**
