@@ -50,6 +50,11 @@ private slots:
     void timerSatellitePictureTimeout();
     void timerRoutePictureTimeout();
     void gpsStatus();
+    void sendRoute();
+
+signals:
+    void sendroute();
+
 };
 
 #endif // ROUTESAVEDIALOG_H

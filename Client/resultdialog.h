@@ -1,7 +1,8 @@
 /*
  * CarMainWindow main class
  *
- * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
+ * @author      Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */

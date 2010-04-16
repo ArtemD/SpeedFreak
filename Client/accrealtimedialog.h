@@ -1,7 +1,8 @@
 /*
  * Acceleration info in real time dialog
  *
- * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @author      Jukka Kurttila  <jukka.kurttila@fudeco.com>
+ * @author      Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -24,6 +25,7 @@ class AccRealTimeDialog : public QDialog {
 public:
     AccRealTimeDialog(QWidget *parent = 0);
     ~AccRealTimeDialog();
+    ResultDialog* resultDialog;
     void Calibrate();
     void startAccelerationMeasure();
     void SetStopMeasureSpeed(double speed);
@@ -31,18 +33,9 @@ public:
 protected:
     void changeEvent(QEvent *e);
 
-private slots:
-    void on_buttonAbort_clicked();
-    void readAccelerometerData();
-    void sendResult(double);
-
-signals:
-    void sendresult(double);
-
 private:
     Ui::AccRealTimeDialog *ui;
     void resetAccelerometerMeasurements();
-    ResultDialog* resultDialog;
 
     QTimer *accelerometerTimer;
     QTime elapsedTime;
@@ -63,6 +56,14 @@ private:
 
     QString currentSpeed;
     QString totalTime;
+
+private slots:
+    void on_buttonAbort_clicked();
+    void readAccelerometerData();
+    void sendResult(double);
+
+signals:
+    void sendresult(double);
 };
 
 #endif // ACCREALTIMEDIALOG_H

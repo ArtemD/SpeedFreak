@@ -1,7 +1,8 @@
 /*
  * Mainwindow for speedFreak project
  *
- * @author      Rikhard Kuutti <rikhard.kuutti@fudeco.com>
+ * @author      Rikhard Kuutti  <rikhard.kuutti@fudeco.com>
+ * @author      Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -45,7 +46,6 @@ public:
     accelerationstart* accstart;
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
-    ResultDialog *resultDialog;
     HelpDialog *helpDialog;
 
 protected:
@@ -67,7 +67,7 @@ private slots:
     void clientSendRoute();
     void clientRegUserToServer();
     void clientUserLogin();
-    void clientSendResult(QString, double);
+    void clientSendResult(QString category, double result);
     void setCategoryCompoBox();
     void showTop10();
 

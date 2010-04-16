@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     routeDialog = new RouteDialog;
     connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
 
-    routeSaveDialog = new RouteSaveDialog;
     helpDialog = NULL;
+    routeSaveDialog = NULL;
 
     settingsDialog = new SettingsDialog;
     connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
@@ -42,8 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));
-
-    resultDialog = new ResultDialog;
 
     accstart = NULL;
 
@@ -113,6 +111,9 @@ void MainWindow::on_pushButtonCredits_clicked()
   */
 void MainWindow::on_pushButtonRoute_clicked()
 {
+    if(!routeSaveDialog)
+        routeSaveDialog = new RouteSaveDialog;
+    connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
     routeSaveDialog->show();
 }
 
@@ -191,6 +192,9 @@ void MainWindow::setListViewTopList(QString category, int size)
     topResultDialog->showTopList(topList);
 }
 
+/**
+  * This function
+  */
 void MainWindow::clientRegUserToServer()
 {
     httpClient->requestRegistration();
@@ -217,16 +221,9 @@ void MainWindow::clientSendRoute()
   */
 void MainWindow::clientSendResult(QString category, double result)
 {
-    /*QMessageBox msgBox;
-    msgBox.setWindowTitle("client send result!");
-    msgBox.setText("client send result!");
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();*/
-
     qDebug() << "__clientSendResult";
     if(accstart) {
         qDebug() << "_clientSendResult, calling server";
         httpClient->sendResultXml(category, result);
-        //httpClient->sendResultXml(accstart->getMeasureCategory(), resultDialog->getResult());
     }
 }

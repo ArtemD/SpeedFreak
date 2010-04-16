@@ -14,13 +14,12 @@
   *@param QWidget pointer to parent object. By default the value is NULL.
   */
 RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::RouteSaveDialog)
-{
+    QDialog(parent), ui(new Ui::RouteSaveDialog){
+
     ui->setupUi(this);
     this->setWindowTitle("Tracking");
 
-    routeDialog = new RouteDialog;
+    routeDialog = NULL;
 
     //Button settings
     buttonStatus = true;
@@ -75,6 +74,9 @@ RouteSaveDialog::~RouteSaveDialog()
     delete iconRouteStart;
 }
 
+/**
+  *
+  */
 void RouteSaveDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -118,8 +120,11 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         location->stopPollingGPS();
 
         QString routeFile = QString("routetemp.xml");
-        if (routeDialog->readRouteFromFile( routeFile) == true)
+        if (routeDialog->readRouteFromFile( routeFile ) == true)
         {
+            if(!routeDialog)
+                routeDialog = new RouteDialog;
+            connect(routeDialog, SIGNAL(sendroute()), this, SLOT(sendRoute()));
             routeDialog->show();
         }
 
@@ -169,6 +174,9 @@ void RouteSaveDialog::timerRoutePictureTimeout()
     timerRoutePicture->start();
 }
 
+/**
+  *
+  */
 void RouteSaveDialog::gpsStatus()
 {
     //IF GPS start button clicked
@@ -232,4 +240,12 @@ void RouteSaveDialog::gpsStatus()
         //GPS speed label
         ui->labelGpsSpeed->setVisible(0);
     }
+}
+
+/**
+  * This slot function is called when routeDialog emit sendroute (sendPushButton).
+  */
+void RouteSaveDialog::sendRoute()
+{
+    emit sendroute(); //Emit mainwindow clientSendRoute
 }

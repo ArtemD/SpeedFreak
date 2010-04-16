@@ -80,7 +80,9 @@ void HttpClient::sendResultXml(QString category, double result)
     currentDownload = netManager->post(request, ("xml=" + xmlbuffer->data()));
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfResult()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
-    myMainw->resultDialog->setLabelInfoToUser("Sending result to server");
+
+    //Indicating user
+    myMainw->accstart->accRealTimeDialog->resultDialog->setLabelInfoToUser("Sending result to server");
 
     xmlbuffer->close();
 }
@@ -200,7 +202,8 @@ void HttpClient::ackOfResult()
 {
     qDebug() << "_ackOfResult";
 
-    myMainw->resultDialog->setLabelInfoToUser("");
+    //Indicating user
+    myMainw->accstart->accRealTimeDialog->resultDialog->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -208,11 +211,15 @@ void HttpClient::ackOfResult()
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->resultDialog, "Server reply to result sending ",reply->errorString());
+
+        //Indicating user
+        QMessageBox::about(myMainw->accstart->accRealTimeDialog->resultDialog, "Server reply to result sending ",reply->errorString());
     }
     else {
         qDebug() << "errorcode:" << errorcode << reply->errorString();
-        QMessageBox::about(myMainw->resultDialog, "Server reply to result sending", "Result received " + reply->readAll());
+
+        //Indicating user
+        QMessageBox::about(myMainw->accstart->accRealTimeDialog->resultDialog, "Server reply to result sending", "Result received " + reply->readAll());
     }
 }
 

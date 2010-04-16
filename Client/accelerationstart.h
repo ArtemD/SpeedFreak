@@ -1,7 +1,8 @@
 /*
  * Acceleration start dialog
  *
- * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @author      Jukka Kurttila  <jukka.kurttila@fudeco.com>
+ * @author      Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -20,6 +21,7 @@ class accelerationstart : public QDialog {
 public:
     accelerationstart(QWidget *parent = 0);
     ~accelerationstart();
+    AccRealTimeDialog* accRealTimeDialog;
     QString getMeasureCategory();
 
 protected:
@@ -27,7 +29,6 @@ protected:
 
 private:
     Ui::accelerationstart *ui;
-    AccRealTimeDialog* accRealTimeDialog;
 
     double stopMeasureSpeed;
     QString measureCategory;
