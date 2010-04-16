@@ -14,7 +14,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QMessageBox>
-#include "creditsdialog.h"
+//#include "creditsdialog.h"
 #include "routesavedialog.h"
 #include "routedialog.h"
 #include "welcomedialog.h"
@@ -24,6 +24,7 @@
 #include "httpclient.h"
 #include "routedialog.h"
 #include "resultdialog.h"
+#include "helpdialog.h"
 
 
 namespace Ui {
@@ -36,7 +37,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    CreditsDialog *creditsDialog;
+    //CreditsDialog *creditsDialog;
     RouteSaveDialog *routeSaveDialog;
     RouteDialog *routeDialog;
     WelcomeDialog *welcomeDialog;
@@ -45,6 +46,7 @@ public:
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
     ResultDialog *resultDialog;
+    HelpDialog *helpDialog;
 
 protected:
     void changeEvent(QEvent *e);

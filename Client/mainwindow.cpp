@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
 
     routeSaveDialog = new RouteSaveDialog;
+    helpDialog = NULL;
 
     settingsDialog = new SettingsDialog;
     connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     accstart = NULL;
 
-    creditsDialog = new CreditsDialog;
+    //creditsDialog = new CreditsDialog;
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
@@ -101,7 +102,10 @@ void MainWindow::on_pushButtonWWW_clicked()
   */
 void MainWindow::on_pushButtonCredits_clicked()
 {
-    creditsDialog->show();
+    if(!helpDialog)
+        helpDialog = new HelpDialog;
+    helpDialog->show();
+    //creditsDialog->show();
 }
 
 /**

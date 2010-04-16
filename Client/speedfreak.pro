@@ -32,7 +32,11 @@ SOURCES += main.cpp \
     xmlwriter.cpp \
     gpsdata.cpp \
     maemo5locationprivate.cpp \
-    maemo5location.cpp
+    maemo5location.cpp \
+    helpdialog.cpp \
+    helpresultsdialog.cpp \
+    helpaccelerationdialog.cpp \
+    helproutingdialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -55,8 +59,11 @@ HEADERS += mainwindow.h \
     xmlwriter.h \
     maemo5locationprivate.h \
     maemo5location.h \
-    gpsdata.h
-
+    gpsdata.h \
+    helpdialog.h \
+    helpresultsdialog.h \
+    helpaccelerationdialog.h \
+    helproutingdialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -68,7 +75,11 @@ FORMS += mainwindow.ui \
     accelerationstartdialog.ui \
     accrealtimedialog.ui \
     calibratedialog.ui \
-    topresultdialog.ui
+    topresultdialog.ui \
+    helpdialog.ui \
+    helpresultsdialog.ui \
+    helpaccelerationdialog.ui \
+    helproutingdialog.ui
 RESOURCES += graphics.qrc
 contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig

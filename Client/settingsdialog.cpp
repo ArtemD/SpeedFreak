@@ -17,7 +17,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Settings");
     this->ui->regEMailLineEdit->setText("@");
-    instructionsDialog = new InstructionsDialog;
 
     if (loginSaved())
     {
@@ -50,14 +49,6 @@ void SettingsDialog::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-
-//
-// Help
-//
-void SettingsDialog::on_pushButtonHelp_clicked()
-{
-    instructionsDialog->show();
 }
 
 //

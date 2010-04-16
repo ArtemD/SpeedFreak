@@ -43,7 +43,6 @@ protected:
 
 private:
     Ui::SettingsDialog *ui;
-    InstructionsDialog *instructionsDialog;
     QString regUsername;
     QString regPassword;
     QString regEmail;
@@ -53,7 +52,6 @@ private:
 private slots:
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
-    void on_pushButtonHelp_clicked();
 };
 
 #endif // SETTINGSDIALOG_H
