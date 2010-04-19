@@ -20,6 +20,7 @@
         <file>Graphics/route_stop.png</file>
         <file>Graphics/trophy_gold_refresh.png</file>
         <file>Graphics/sf_2.png</file>
-	<file>Graphics/measuringDialog.png</file>
+        <file>Graphics/measuringDialog.png</file>
+        <file>Graphics/settingsDialog.png</file>
     </qresource>
 </RCC>

@@ -6,6 +6,7 @@
 #include <helpaccelerationdialog.h>
 #include <helproutingdialog.h>
 #include "creditsdialog.h"
+#include <helpsettingsdialog.h>
 
 namespace Ui {
     class HelpDialog;
@@ -21,6 +22,7 @@ public:
    HelpAccelerationDialog *helpAccelerationDialog;
    HelpRoutingDialog *helpRoutingDialog;
    CreditsDialog *creditsDialog;
+   HelpSettingsDialog *helpSettingsDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -30,6 +32,7 @@ private:
 
 
 private slots:
+    void on_pushButtonHelpSettings_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonHelpRoute_clicked();
     void on_pushButtonHelpAccelerate_clicked();

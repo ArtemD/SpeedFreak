@@ -10,6 +10,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     helpAccelerationDialog = NULL;
     helpRoutingDialog = NULL;
     creditsDialog = NULL;
+    helpSettingsDialog = NULL;
 }
 
 HelpDialog::~HelpDialog()
@@ -64,4 +65,13 @@ void HelpDialog::on_pushButtonCredits_clicked()
         creditsDialog = new CreditsDialog;
     }
     creditsDialog->show();
+}
+
+void HelpDialog::on_pushButtonHelpSettings_clicked()
+{
+    if(!helpSettingsDialog)
+    {
+        helpSettingsDialog = new HelpSettingsDialog;
+    }
+    helpSettingsDialog->show();
 }

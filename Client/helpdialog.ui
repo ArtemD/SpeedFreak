@@ -130,32 +130,6 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonHelpWWW">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>300</y>
-     <width>61</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="graphics.qrc">
-     <normaloff>:/new/prefix1/Graphics/applications_internet.png</normaloff>:/new/prefix1/Graphics/applications_internet.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>55</width>
-     <height>55</height>
-    </size>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelHelpRoute">
    <property name="geometry">
     <rect>
@@ -215,7 +189,7 @@
     <rect>
      <x>230</x>
      <y>310</y>
-     <width>171</width>
+     <width>261</width>
      <height>41</height>
     </rect>
    </property>
@@ -225,20 +199,39 @@
     </font>
    </property>
    <property name="text">
-    <string>WWW-page</string>
+    <string>Speed freak's home page</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonCredits">
    <property name="geometry">
     <rect>
-     <x>432</x>
-     <y>306</y>
+     <x>620</x>
+     <y>290</y>
      <width>111</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
     <string>Credits</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelWwwPage">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>300</y>
+     <width>55</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/applications_internet.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
