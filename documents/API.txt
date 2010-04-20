@@ -119,6 +119,22 @@ category that result belongs to. Below is example of XML:
 <result value="14" unit="seconds" date="14/2/2010" />
 
 
+Sending route
+=============
+
+URL:
+
+Below is example of XML:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Route Start-time="19.04.2010 21:44:49" Stop-time="19.04.2010 22:05:44" Points="4">
+	<Point Latitude="65.0024" Longitude="25.4804" Altitude="32" Speed="29.052"/>
+	<Point Latitude="65.0023" Longitude="25.5508" Altitude="45" Speed="29.052"/>
+	<Point Latitude="65.0022" Longitude="25.5509" Altitude="41.5" Speed="29.052"/>
+	<Point Latitude="65.0022" Longitude="25.551" Altitude="37.5" Speed="29.052"/>
+</Route>
+
+
 Logout
 ======
 
