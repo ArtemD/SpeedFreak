@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="text">
-    <string> Set User</string>
+    <string>Log in</string>
    </property>
   </widget>
   <widget class="QLabel" name="registrateLabel">

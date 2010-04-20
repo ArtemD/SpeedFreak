@@ -71,6 +71,7 @@ private slots:
     void setCategoryCompoBox();
     void showTop10();
     void killDialog();
+    void setUsernameToMainPanel();
 
 };
 

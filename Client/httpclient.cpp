@@ -312,13 +312,18 @@ void HttpClient::ackOfLogin()
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         QMessageBox::about(myMainw->settingsDialog, "Server does not recognize your username. Please registrate.",reply->errorString());
+        myMainw->settingsDialog->usernameOk(false);
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         QMessageBox::about(myMainw->settingsDialog, "Server reply to login", "User login " + reply->readAll());
+        // here signal emit to mainwindow for username setting to main panel
+        emit loginOK();
+        myMainw->settingsDialog->usernameOk(true);
+        myMainw->settingsDialog->close();    
     }
 
-    myMainw->settingsDialog->close();
+
 }
 
 

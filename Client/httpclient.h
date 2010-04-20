@@ -30,6 +30,9 @@ private:
     MainWindow *myMainw;
     QNetworkAccessManager *netManager;
 
+signals:
+    void loginOK();
+
 public slots:
     void requestRegistration();
     void checkLogin();

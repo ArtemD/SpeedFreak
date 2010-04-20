@@ -14,6 +14,7 @@
 #include <QUrl>
 #include <QSettings>
 #include <QDebug>
+#include "usersettings.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     settingsDialog = new SettingsDialog;
     connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
     connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(clientUserLogin()));
+    connect(settingsDialog, SIGNAL(logout()), this, SLOT(setUsernameToMainPanel()));
 
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
@@ -45,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     welcomeDialog = new WelcomeDialog;
     welcomeDialog->show();
+
+    this->setUsernameToMainPanel();
 
     //Button settings
     ui->pushButtonAccelerate->setAutoFillBackground(true);
@@ -225,6 +229,7 @@ void MainWindow::clientRegUserToServer()
   */
 void MainWindow::clientUserLogin()
 {
+    connect(httpClient, SIGNAL(loginOK()), this, SLOT(setUsernameToMainPanel()));
     httpClient->checkLogin();
 }
 
@@ -266,5 +271,17 @@ void MainWindow::killDialog()
     {
         delete accstart;
         accstart = NULL;
+    }
+}
+
+void MainWindow::setUsernameToMainPanel()
+{
+    if (loginSaved())
+    {
+        this->setWindowTitle("SpeedFreak - " + settingsDialog->getUserName());
+    }
+    else
+    {
+        this->setWindowTitle("SpeedFreak - Not logged");
     }
 }

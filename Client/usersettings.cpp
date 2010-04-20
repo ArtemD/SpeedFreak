@@ -71,7 +71,7 @@ bool loginSaved()
 
     myLogin.readLoginSettings( &userName, &password);
 
-    if (userName.length() > 0)
+    if (userName.compare(""))
     {
         return true;
     }

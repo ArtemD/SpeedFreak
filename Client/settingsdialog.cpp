@@ -9,6 +9,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include "usersettings.h"
+#include <QMessageBox>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -30,7 +31,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         ui->setUserUsernameLineEdit->setText(this->username);
 
         // Already someone as user - change button text to "Change"
-        ui->setUserPushButton->setText("Change user");
+        ui->setUserPushButton->setText("Log out");
     }
 }
 
@@ -103,24 +104,57 @@ QString SettingsDialog::getRegEmail()
 //
 void SettingsDialog::on_setUserPushButton_clicked()
 {
-    this->username = ui->setUserUsernameLineEdit->text();
-    this->password = ui->setUserPasswordLineEdit->text();
+    if (!ui->setUserPushButton->text().compare("Log out"))
+    {
+        ui->setUserUsernameLineEdit->setDisabled(false);
+        ui->setUserPasswordLineEdit->setDisabled(false);
+        //ui->setUserUsernameLineEdit->setText("");
+        //ui->setUserPasswordLineEdit->setText("");
+        ui->setUserUsernameLineEdit->clear();
+        ui->setUserPasswordLineEdit->clear();
+        this->username = ui->setUserUsernameLineEdit->text();
+        this->password = ui->setUserPasswordLineEdit->text();
+        ui->setUserPushButton->setText("Log in");
+        saveLogin( this->username, this->password);
+        emit logout();
+    }
+    else
+    {
+        this->username = ui->setUserUsernameLineEdit->text();
+        this->password = ui->setUserPasswordLineEdit->text();
+        saveLogin( this->username, this->password);
+        ui->setUserPushButton->setText("Log out");
 
+        if(this->username.compare(""))
+        {
+            emit userNameChanged();
+            //ui->setUserPushButton->setText("Log out");
+        }
+
+        else
+        {
+            QMessageBox::about(this, "Username field is empty", "Set username and log in again");
+            ui->setUserPushButton->setText("Log in");
+        }
+    }
     // Save these also to usersettings
-    saveLogin( this->username, this->password);
+    //saveLogin( this->username, this->password);
 
+
+
+    /*
     // Set "Set/Change User" button text
     if (this->username.length() > 0)
     {
-        ui->setUserPushButton->setText("Change user");
+        ui->setUserPushButton->setText("Log out");
     }
     else
     {   // Username "cleared"
-        ui->setUserPushButton->setText("Set user");
+        ui->setUserPushButton->setText("Log in");
     }
 
     emit userNameChanged();
-
+    */
     //close();  //using close() hides popup-window which reports error from server
 }
 
@@ -149,4 +183,21 @@ QString SettingsDialog::getPassword()
 void SettingsDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
+}
+
+void SettingsDialog::usernameOk(bool isOk)
+{
+    if (isOk)
+    {
+        ui->setUserPushButton->setText("Log out");
+        ui->setUserUsernameLineEdit->setDisabled(true);
+        ui->setUserPasswordLineEdit->setDisabled(true);
+    }
+
+    else
+    {
+        ui->setUserPushButton->setText("Log in");
+        ui->setUserUsernameLineEdit->clear();
+        ui->setUserPasswordLineEdit->clear();
+    }
 }

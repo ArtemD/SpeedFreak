@@ -33,10 +33,12 @@ public:
     QString getUserName();
     QString getPassword();
     void setLabelInfoToUser(QString infoText);
+    void usernameOk(bool isOk);
 
 signals:
     void sendregistration();
     void userNameChanged();
+    void logout();
 
 protected:
     void changeEvent(QEvent *e);
