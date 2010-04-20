@@ -72,7 +72,8 @@ void XmlReader::xmlReadTop10Results(QNetworkReply *device)
                 user = attr.value("username").toString();
                 position = attr.value("position").toString();
                 date = attr.value("date").toString();
-                unit = attr.value("unit").toString();
+                //unit = attr.value("unit").toString();
+                unit = "s";
                 value = attr.value("value").toString();
 
                 myCategoryList->top10List.append(position + "\t" +
