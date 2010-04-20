@@ -182,7 +182,7 @@
     <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf_2.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="labelUserInfo">
    <property name="geometry">
     <rect>
      <x>200</x>

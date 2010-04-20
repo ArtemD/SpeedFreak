@@ -363,7 +363,8 @@ void RouteDialog::paintEvent(QPaintEvent *)
         painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
 
         QString jono;
-        jono = QString("%1 km/h").arg(maxv);
+        //jono = QString("%1 km/h").arg(maxv);
+        jono.sprintf("%.1f km/h", maxv);
         ui->speedValueLabel->setText(jono);
     }
 }

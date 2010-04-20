@@ -51,6 +51,9 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     //GPS speed label
     ui->labelGpsSpeed->setVisible(0);
 
+    //User info label
+    ui->labelUserInfo->setText("");
+
     //GPS
     location = new Maemo5Location(this);
     gpsData = new GPSData(location);
