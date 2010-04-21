@@ -62,7 +62,15 @@ void SettingsDialog::on_registratePushButton_clicked()
     this->regPassword = ui->regPasswordLineEdit->text();
     this->regEmail = ui->regEMailLineEdit->text();
 
-    emit sendregistration();
+    if (this->regUsername.compare("") && this->regPassword.compare("") && this->regEmail.compare("") && this->regEmail.compare("@"))
+    {
+        emit sendregistration();
+
+    }
+    else
+    {
+        QMessageBox::about(this, "One or more of the fields is empty", "Set username (3-12 characters), password (at least 6 characters) and valid email address");
+    }
 
     //close();      //using close() hides popup-window which reports error from server
 }
