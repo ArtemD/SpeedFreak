@@ -108,12 +108,13 @@ class Api_Controller extends Controller{
      * Get results
      *
      */
-    public function results($category, $limit){
+    public function results($category, $limit, $show_unit=false){
 	$results = New Result_Model();
 	$cat = New Category_Model();
         if ($cat->category_exists($category) AND $this->is_authorized() AND isset($limit)){
 	        $view = new View('api/results');
 	        $view->results = $results->get_results($category, $limit);
+	        $view->show_unit=$show_unit;
 	        $view->render(true);
 	    }
         else
