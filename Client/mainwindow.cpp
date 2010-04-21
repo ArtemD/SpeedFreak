@@ -150,7 +150,7 @@ void MainWindow::on_pushButtonAccelerate_clicked()
     if(!accstart)
         accstart = new accelerationstart(this);
     connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
-    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
     accstart->show();
 }
 

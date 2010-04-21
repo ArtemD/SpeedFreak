@@ -69,6 +69,9 @@ ResultDialog::ResultDialog(QWidget *parent) :
         timeArray[i] = 0;
     }
 
+    //Clear info label
+    ui->labelInfoToUser->setText("");
+
     if (loginSaved())
     {
         ui->pushButtonSend->setEnabled(true);
@@ -76,10 +79,8 @@ ResultDialog::ResultDialog(QWidget *parent) :
     else
     {
         ui->pushButtonSend->setEnabled(false);
+        ui->labelInfoToUser->setText("You're not logged! Please register or log in and accelerate again.");
     }
-
-    //Clear info label
-    ui->labelInfoToUser->setText("");
 }
 
 /**
