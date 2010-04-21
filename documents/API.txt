@@ -79,13 +79,16 @@ In any other case it will return 401 HTTP error code along with error descriptio
 Fetching results
 ================
 
-URL: /results/category_name/limit
+URL: /results/category_name/limit/show_unit
 
 Category: For example "acceleration-0-100", "top-speed" and so on
 Limit: This will tell server how many results you want to get back. Results are
 ordered by record position starting with highest record first.
 
-Both parameters are required.
+category_name and limit are required parameters while show_unit is optional. show_unit can have
+only one value which is true (string). When show_unit is specified every result will have a unit
+attribute where by default it's km/h. Results can have up to two decimals. Dot is used as
+decimal separator.
 
 Below is example of what client might get back in return when sending following
 request: /results/acceleration-0-100/10
@@ -93,11 +96,11 @@ request: /results/acceleration-0-100/10
 <?xml version="1.0" encoding="utf-8"?>
 <results category="acceleration-0-100" unit="seconds" description="Acceleration from 0 to 100 km/h">
     <result position="1" user="test928" date="12/1/2010" value="13" />
-    <result position="2" user="test922" date="15/1/2010" value="12" />
-    <result position="3" user="test92a" date="11/1/2010" value="11" />
+    <result position="2" user="test922" date="15/1/2010" value="12.22" />
+    <result position="3" user="test92a" date="11/1/2010" value="11.12" />
     <result position="4" user="test92s" date="15/2/2010" value="10" />
     <result position="5" user="test92d" date="1/1/2010" value="9" />
-    <result position="6" user="test92f" date="31/1/2010" value="8" />
+    <result position="6" user="test92f" date="31/1/2010" value="8.32" />
     <result position="7" user="test92f" date="1/1/2010" value="7" />
     <result position="8" user="test92g" date="2/1/2010" value="6" />
     <result position="9" user="test92w" date="3/1/2010" value="5" />
