@@ -58,6 +58,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButtonWWW->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonCredits->setAutoFillBackground(true);
     ui->pushButtonCredits->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    /*
+    QIcon* icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/Speedometer.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/Speedometer2.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    customButtonAccelerate = new CustomButton(this,icon);
+    delete icon;
+
+    int buttons_x = 50,buttons_y = 165;
+    customButtonAccelerate->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonAccelerate, SIGNAL(OpenDialog()), this, SLOT(OpenAccStartDialog()));
+
+    customButtonAccelerate->show();
+    */
 }
 
 MainWindow::~MainWindow()
@@ -84,6 +98,10 @@ MainWindow::~MainWindow()
 
     if(helpDialog)
         delete helpDialog;
+/*
+    if(customButtonAccelerate)
+        delete customButtonAccelerate;
+*/
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -321,4 +339,15 @@ void MainWindow::setUsernameToMainPanel()
     {
         this->setWindowTitle("SpeedFreak - Not logged");
     }
+}
+/**
+  * This slot function opens acceleration start dialog.
+  */
+void MainWindow::OpenAccStartDialog()
+{
+    if(!accstart)
+        accstart = new accelerationstart(this);
+    connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
+    connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
+    accstart->show();
 }

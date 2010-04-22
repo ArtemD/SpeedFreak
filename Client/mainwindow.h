@@ -26,6 +26,7 @@
 #include "routedialog.h"
 #include "resultdialog.h"
 #include "helpdialog.h"
+#include "custombutton.h"
 
 
 namespace Ui {
@@ -55,6 +56,8 @@ private:
     Ui::MainWindow *ui;
     void setListViewTopList(QString category, int size);
 
+    CustomButton* customButtonAccelerate;
+
 private slots:
     void on_pushButtonResults_clicked();
     void on_pushButtonAccelerate_clicked();
@@ -72,6 +75,7 @@ private slots:
     void showTop10();
     void killDialog();
     void setUsernameToMainPanel();
+    void OpenAccStartDialog();
 
 };
 
