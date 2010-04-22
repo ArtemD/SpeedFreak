@@ -15,7 +15,7 @@
 #include <QDBusPendingReply>
 
 #define kFilteringFactor 0.2
-#define kIterations      1024
+#define kIterations      100
 
 /**
  * Default constructor for Accelerometer class
