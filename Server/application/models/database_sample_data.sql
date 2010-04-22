@@ -23,9 +23,9 @@ LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
 INSERT INTO `categories` (`id`,`slug`,`description`,`unit`)
 VALUES
-	(1,'acceleration-0-10','Acceleration from 0km/h to 100km/h','km/h'),
-	(2,'acceleration-0-40','Acceleration from 0km/h to 100km/h','km/h'),
-	(3,'acceleration-0-100','Acceleration from 0km/h to 100km/h','km/h');
+    (1,'acceleration-0-10','Acceleration from 0km/h to 10km/h','km/h'),
+    (2,'acceleration-0-40','Acceleration from 0km/h to 40km/h','km/h'),
+    (3,'acceleration-0-100','Acceleration from 0km/h to 100km/h','km/h');
 
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
