@@ -16,6 +16,7 @@
   */
 XmlReader::XmlReader()
 {
+    qDebug() << "__XmlReader";
     myCategoryList = new CategoryList();
 }
 
@@ -24,12 +25,15 @@ XmlReader::XmlReader()
   */
 XmlReader::~XmlReader()
 {
+    qDebug() << "__~XmlReader";
     category = "";
     unit = "";
     position = "";
     user = "";
     value = "";
-    delete myCategoryList;
+
+    if(myCategoryList)
+        delete myCategoryList;
 }
 
 /**
@@ -44,7 +48,7 @@ void XmlReader::xmlReadTop10Results(QNetworkReply *device)
 
     xmlreader.clear();
     QByteArray array = device->readAll();
-    qDebug() << "array: " << array;
+    //qDebug() << "array: " << array;
     xmlreader.addData(array);
     //xmlreader.addData(device->readAll());
 
@@ -106,7 +110,7 @@ void XmlReader::xmlReadCategories(QNetworkReply *device)
 
     xmlreader.clear();
     QByteArray array = device->readAll();
-    qDebug() << "array: " << array;
+    //qDebug() << "array: " << array;
     xmlreader.addData(array);
     //xmlreader.addData(device->readAll());
 

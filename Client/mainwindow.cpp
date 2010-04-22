@@ -26,9 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationDomain("fudeco.com");
     QCoreApplication::setApplicationName("Speed Freak");
 
-    //routeDialog = new RouteDialog;
-    //connect(routeDialog,SIGNAL(sendroute()),this,SLOT(clientSendRoute()));
-
     helpDialog = NULL;
     accstart = NULL;
     routeSaveDialog = NULL;
@@ -43,10 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));    
 
-    //creditsDialog = new CreditsDialog;
-
     welcomeDialog = new WelcomeDialog;
-    welcomeDialog->show();
+    //welcomeDialog->show();
 
     this->setUsernameToMainPanel();
 
@@ -118,8 +113,8 @@ void MainWindow::on_pushButtonCredits_clicked()
 {
     if(!helpDialog)
         helpDialog = new HelpDialog;
+
     helpDialog->show();
-    //creditsDialog->show();
 }
 
 /**
@@ -129,8 +124,9 @@ void MainWindow::on_pushButtonRoute_clicked()
 {
     if(!routeSaveDialog)
         routeSaveDialog = new RouteSaveDialog;
+
     connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
-    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    connect(routeSaveDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     routeSaveDialog->show();
 }
 
@@ -149,6 +145,7 @@ void MainWindow::on_pushButtonAccelerate_clicked()
 {
     if(!accstart)
         accstart = new accelerationstart(this);
+
     connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
     connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
     accstart->show();
@@ -161,6 +158,7 @@ void MainWindow::on_pushButtonResults_clicked()
 {
     if (!topResultDialog)
         topResultDialog = new TopResultDialog;
+
     clientRequestCategoryList();
     connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
@@ -173,7 +171,8 @@ void MainWindow::on_pushButtonResults_clicked()
   */
 void MainWindow::clientRequestCategoryList()
 {
-    httpClient->requestCategories();
+    if(httpClient)
+        httpClient->requestCategories();
 }
 
 /**
@@ -181,8 +180,13 @@ void MainWindow::clientRequestCategoryList()
   */
 void MainWindow::clientRequestTopList(int index)
 {
-    QString limit = QString::number(topResultDialog->getLimitNr());
-    httpClient->requestTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(index), limit);
+    QString limit;
+
+    if(topResultDialog && httpClient->myXmlreader->myCategoryList)
+    {
+        limit = QString::number(topResultDialog->getLimitNr());
+        httpClient->requestTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(index), limit);
+    }
 }
 
 /**
@@ -191,7 +195,8 @@ void MainWindow::clientRequestTopList(int index)
   */
 void MainWindow::setCategoryCompoBox()
 {
-    topResultDialog->setCompoBoxCategories(httpClient->myXmlreader->myCategoryList->getCategoryList());
+    if(topResultDialog && httpClient->myXmlreader->myCategoryList)
+        topResultDialog->setCompoBoxCategories(httpClient->myXmlreader->myCategoryList->getCategoryList());
 }
 
 /**
@@ -200,8 +205,13 @@ void MainWindow::setCategoryCompoBox()
   */
 void MainWindow::showTop10()
 {
-    int ind = topResultDialog->getRecentCategoryIndex();
-    setListViewTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(ind), topResultDialog->getLimitNr());
+    int ind;
+
+    if(topResultDialog && httpClient->myXmlreader->myCategoryList && topResultDialog)
+    {
+        ind = topResultDialog->getRecentCategoryIndex();
+        setListViewTopList(httpClient->myXmlreader->myCategoryList->getRecentCategory(ind), topResultDialog->getLimitNr());
+    }
 }
 
 /**
@@ -212,8 +222,12 @@ void MainWindow::showTop10()
 void MainWindow::setListViewTopList(QString category, int size)
 {
     QString topList;
-    topList.append(httpClient->myXmlreader->myCategoryList->getTopList(category, size));
-    topResultDialog->showTopList(topList);
+
+    if(httpClient->myXmlreader->myCategoryList && topResultDialog)
+    {
+        topList.append(httpClient->myXmlreader->myCategoryList->getTopList(category, size));
+        topResultDialog->showTopList(topList);
+    }
 }
 
 /**
@@ -221,7 +235,8 @@ void MainWindow::setListViewTopList(QString category, int size)
   */
 void MainWindow::clientRegUserToServer()
 {
-    httpClient->requestRegistration();
+    if(httpClient)
+        httpClient->requestRegistration();
 }
 
 /**
@@ -229,8 +244,12 @@ void MainWindow::clientRegUserToServer()
   */
 void MainWindow::clientUserLogin()
 {
-    connect(httpClient, SIGNAL(loginOK()), this, SLOT(setUsernameToMainPanel()));
-    httpClient->checkLogin();
+    
+    if(httpClient)
+    {
+	connect(httpClient, SIGNAL(loginOK()), this, SLOT(setUsernameToMainPanel()));
+        httpClient->checkLogin();
+    }
 }
 
 /**
@@ -238,7 +257,8 @@ void MainWindow::clientUserLogin()
   */
 void MainWindow::clientSendRoute()
 {
-    httpClient->sendRouteXml();
+    if(httpClient)
+        httpClient->sendRouteXml();
 }
 
 /**
@@ -249,7 +269,8 @@ void MainWindow::clientSendResult(QString category, double result)
     qDebug() << "__clientSendResult";
     if(accstart) {
         qDebug() << "_clientSendResult, calling server";
-        httpClient->sendResultXml(category, result);
+        if(httpClient)
+            httpClient->sendResultXml(category, result);
     }
 }
 /**
@@ -259,18 +280,33 @@ void MainWindow::killDialog()
 {
     if(topResultDialog)
     {
+        qDebug() << "__MW kill: topResultDialog";
         delete topResultDialog;
         topResultDialog = NULL;
     }
-    else if(routeSaveDialog)
+    if(routeSaveDialog)
     {
-        delete routeSaveDialog;
-        routeSaveDialog = NULL;
+        qDebug() << "__MW kill: routeSaveDialog";
+        //delete routeSaveDialog;
+        //routeSaveDialog = NULL;
     }
-    else if(accstart)
+    if(accstart)
     {
+        qDebug() << "__MW kill: accstart";
         delete accstart;
         accstart = NULL;
+    }
+    if(welcomeDialog)
+    {
+        qDebug() << "__MW kill: welcomeDialog";
+        delete welcomeDialog;
+        welcomeDialog = NULL;
+    }
+    if(helpDialog)
+    {
+        qDebug() << "__MW kill: helpDialog";
+        delete helpDialog;
+        helpDialog = NULL;
     }
 }
 

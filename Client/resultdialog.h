@@ -27,6 +27,7 @@ public:
     void setValue(int pSpeed, double pTime);
     void setLabelInfoToUser(QString infoText);
     double getResult();
+    void setSendServerButtonEnabled();
 
 signals:
     void sendresult(double);

@@ -88,7 +88,7 @@ contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
 
 # Enable this to disable debugging
-DEFINES += QT_NO_DEBUG_OUTPUT
+#DEFINES += QT_NO_DEBUG_OUTPUT
 target.path += /usr/lib
 devincludes.files = $$HEADERS
 devincludes.path += /usr/include/$$TEMPLATE$$TARGET

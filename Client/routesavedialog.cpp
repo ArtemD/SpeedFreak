@@ -8,6 +8,7 @@
 
 #include "routesavedialog.h"
 #include "ui_routesavedialog.h"
+#include <QDebug>
 
 /**
   *Constructor of this class.
@@ -16,10 +17,13 @@
 RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::RouteSaveDialog){
 
+    qDebug() << "__RouteSaveDialog";
     ui->setupUi(this);
     this->setWindowTitle("Tracking");
 
     routeDialog = NULL;
+    location = NULL;
+    gpsData = NULL;
 
     //Button settings
     buttonStatus = true;
@@ -41,18 +45,14 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     timerSatellitePicture->setInterval(400);
     connect(timerSatellitePicture, SIGNAL(timeout()),this, SLOT(timerSatellitePictureTimeout()));
 
-    //Route picture and label
+    //Invisible or clear labels
     ui->labelRouteStatus->setVisible(0);
     ui->labelRoutePicture->setVisible(0);
+    ui->labelGpsSpeed->setVisible(0); //GPS speed label
+    ui->labelUserInfo->setText(""); //User info label
     timerRoutePicture = new QTimer();
     timerRoutePicture->setInterval(400);
     connect(timerRoutePicture, SIGNAL(timeout()),this, SLOT(timerRoutePictureTimeout()));
-
-    //GPS speed label
-    ui->labelGpsSpeed->setVisible(0);
-
-    //User info label
-    ui->labelUserInfo->setText("");
 
     //GPS
     location = new Maemo5Location(this);
@@ -65,12 +65,18 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
   */
 RouteSaveDialog::~RouteSaveDialog()
 {
-    delete ui;
+    qDebug() << "__~RouteSaveDialog";
+    if(ui)
+        delete ui;
+    if(gpsData)
+        delete gpsData;
+    if(location)
+        delete location;
+    if(routeDialog)
+        delete routeDialog;
+
     delete timerSatellitePicture;
     delete timerRoutePicture;
-    delete location;
-    delete gpsData;
-    delete routeDialog;
     delete pixmapRouteStop;
     delete pixmapRouteStart;
     delete iconRouteStop;
@@ -97,16 +103,17 @@ void RouteSaveDialog::changeEvent(QEvent *e)
   */
 void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 {
-    //If start button clicked
-    if ( buttonStatus == true )
+    if ( buttonStatus == true )//If start button clicked
     {
+        qDebug() << "__start button clicked";
         buttonStatus = false;
         ui->buttonRouteStartStop->setIcon(*iconRouteStop);
         location->startPollingGPS();
         gpsStatus();
     }
-    else
+    else //If stop button clicked
     {
+        qDebug() << "__stop button clicked";
         buttonStatus = true;
         ui->buttonRouteStartStop->setIcon(*iconRouteStart);
 

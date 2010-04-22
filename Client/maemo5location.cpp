@@ -9,6 +9,7 @@
 //#ifdef Q_WS_MAEMO_5
 #include "maemo5locationprivate.h"
 #include "maemo5location.h"
+#include <QDebug>
 
 /**
   *Default constructor of this class.
@@ -16,6 +17,7 @@
   */
 Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
 {
+    qDebug() << "__Maemo5Location";
     ptr = new Maemo5LocationPrivate(this);
 
     connect(ptr, SIGNAL(agnss()), this, SIGNAL(agnss()));
@@ -33,7 +35,9 @@ Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
   */
 Maemo5Location::~Maemo5Location()
 {
-    delete ptr;
+    qDebug() << "__~Maemo5Location";
+    if(ptr)
+        delete ptr;
 }
 
 /**
@@ -41,6 +45,7 @@ Maemo5Location::~Maemo5Location()
   */
 void Maemo5Location::startPollingGPS()
 {
+    qDebug() << "__Maemo5Location: startPollingGPS";
     ptr->get_agnss();
 }
 
@@ -49,6 +54,7 @@ void Maemo5Location::startPollingGPS()
   */
 void Maemo5Location::stopPollingGPS()
 {
+    qDebug() << "__Maemo5Location: stopPollingGPS";
     ptr->stop();
 }
 

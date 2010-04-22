@@ -7,12 +7,14 @@
  */
 
 #include "gpsdata.h"
+#include <QDebug>
 
 /**
   *Default constructor of this class.
   */
 GPSData::GPSData(Maemo5Location *maemo5location)
 {
+    qDebug() << "__GPSData";
     location = maemo5location;
 
     connect(location,SIGNAL(agnss()),this,SLOT(agnss()));
@@ -33,10 +35,16 @@ GPSData::GPSData(Maemo5Location *maemo5location)
   */
 GPSData::~GPSData()
 {
-    delete location;
-    delete gpsDateTime;
+    qDebug() << "__~GPSData";
+    location = NULL;
+
+    if(gpsDateTime)
+        delete gpsDateTime;
 }
 
+/**
+  * This function reset all variables
+  */
 void GPSData::resetAll()
 {
     satellitesInUse = 0;

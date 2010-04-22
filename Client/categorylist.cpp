@@ -14,7 +14,7 @@
   */
 CategoryList::CategoryList()
 {
-
+    qDebug() << "__CategoryList";
 }
 
 /**
@@ -22,6 +22,7 @@ CategoryList::CategoryList()
   */
 CategoryList::~CategoryList()
 {
+    qDebug() << "__~CategoryList";
 }
 
 /**
@@ -30,7 +31,7 @@ CategoryList::~CategoryList()
   */
 QStringList CategoryList::getCategoryList()
 {
-    qDebug() << "_getCategoryList" << realSizeOfCats;
+    qDebug() << "__getCategoryList" << realSizeOfCats;
 
     if(sizeOfCategoryList() != 0) {
         clearCategoryList();

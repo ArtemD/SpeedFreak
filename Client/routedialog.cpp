@@ -3,8 +3,8 @@
  *
  * @author      Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
  * @author      Toni Jussila 	<toni.jussila@fudeco.com>
- * @copyright  (c) 2010 Speed Freak team
- * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #include "routedialog.h"
@@ -17,8 +17,9 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QPolygon>
+#include <QDebug>
 
-/*
+/**
   * Vector class.
   * In starting Qt 4.6 there is QVector3D.
   * Later (updating Qt version) this class can be removed.
@@ -141,7 +142,8 @@ void setFromPoint( Viewing *v);
 void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2 );
 
 #define R 6378.140 // The radius of the earth by kilometers
-/*
+
+/**
   * count distance of two points (defined by longitude & latitude)
   * on the surface of the earth.
   */
@@ -164,10 +166,14 @@ qreal countDistance(Vector *p1, Vector *p2)
     return R*c;   // Return distance in kilometers
 }
 
+/**
+  * Constructor of this class.
+  */
 RouteDialog::RouteDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RouteDialog)
 {
+    qDebug() << "__RouteDialog";
     ui->setupUi(this);
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
@@ -178,19 +184,36 @@ RouteDialog::RouteDialog(QWidget *parent) :
     ui->newPushButton->setAutoFillBackground(true);
     ui->newPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
+    //Clear labels
+    ui->labelInfoToUser->setText("");
+    ui->maxSpeedLabel->setText("");
+    ui->speedValueLabel->setText("");
+
     // Send rout to server button disable/enable.
     ui->sendPushButton->setEnabled(false);
     if (loginSaved())
     {
         ui->sendPushButton->setEnabled(true);
     }
+    else
+    {
+        ui->labelInfoToUser->setText("You're not logged! Please register or log in.");
+    }
 }
 
+/**
+  * Destructor of this class.
+  */
 RouteDialog::~RouteDialog()
 {
-    delete ui;
+    qDebug() << "__~RouteDialog";
+    if(ui)
+        delete ui;
 }
 
+/**
+  *
+  */
 void RouteDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -202,23 +225,42 @@ void RouteDialog::changeEvent(QEvent *e)
         break;
     }
 }
+
+/**
+  *
+  */
 int RouteDialog::getLeft()
 {
     return left;
 }
+
+/**
+  *
+  */
 int RouteDialog::getRight()
 {
     return right;
 }
+
+/**
+  *
+  */
 int RouteDialog::getTop()
 {
     return top;
 }
+
+/**
+  *
+  */
 int RouteDialog::getBottom()
 {
     return bottom;
 }
 
+/**
+  *
+  */
 void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
 {
     /*QPolygon pg;
@@ -369,8 +411,12 @@ void RouteDialog::paintEvent(QPaintEvent *)
     }
 }
 
+/**
+  *
+  */
 bool RouteDialog::readRouteFromFile( QString &routeFile)
  {
+    QString rFile = routeFile; //Not used
     Vector temp;
     QString rivi;
     QFile file;
@@ -500,7 +546,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
      return true;
  }
 
-/*
+/**
   * Find out data range for x-, y- and z-coordinates
   */
 void dataMinMax( void)
@@ -555,7 +601,7 @@ void dataMinMax( void)
     //QMessageBox::about(0,"Tark", jono);
 }
 
-/*
+/**
   * Setting the point where the viewed object is. In the middle of datapoints.
   */
 void setAtPoint( Viewing *v)
@@ -579,7 +625,7 @@ void setAtPoint( Viewing *v)
     * */
 }
 
-/*
+/**
   * Setting the point where the object is viewed by eye.
   */
 void setFromPoint( Viewing *v)
@@ -612,7 +658,8 @@ void setFromPoint( Viewing *v)
 #define RIGHTEDGE  0x02
 #define BOTTOMEDGE 0x04
 #define TOPEDGE    0x08
-/*
+
+/**
   * Returns a code specifying which edge in the viewing pyramid was crossed.
   * There may be more than one.
   */
@@ -629,7 +676,7 @@ int code( qreal x, qreal y, qreal z)
     return c;
 }
 
-/*
+/**
   * Converts clipped world coordinates to screen coordinates.
   */
 void WORLDtoSCREEN( qreal xWorld, qreal yWorld, int *xScreen, int *yScreen)
@@ -638,7 +685,7 @@ void WORLDtoSCREEN( qreal xWorld, qreal yWorld, int *xScreen, int *yScreen)
    *yScreen = (int) (c*yWorld+d);
 }
 
-/*
+/**
   * Clips the line segment in three-dimensional coordinates to the
   * viewing pyramid.
   */
@@ -713,7 +760,7 @@ void clip3d( qreal x1, qreal y1, qreal z1, qreal x2, qreal y2, qreal z2, int *xs
     //Now ready to draw line( xscreen1, yscreen1, xscreen2, yscreen2);
 }
 
-/*
+/**
   * Transform the segment connecting the two vectors into the viewing plane.
   * clip3d() clips the line if needed.
   */
@@ -738,17 +785,35 @@ void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscre
     clip3d(x1,y1,z1,x2,y2,z2, xscreen1, yscreen1, xscreen2, yscreen2 );
 }
 
+/**
+  * This slot function is called when ever new push button clicked.
+  */
 void RouteDialog::on_newPushButton_clicked()
 {
     close();    // go back to previous dialog
 }
 
+/**
+  * This slot function is called when ever send push button clicked.
+  */
 void RouteDialog::on_sendPushButton_clicked()
 {
+    ui->sendPushButton->setEnabled(false);
     emit sendroute();
 }
 
+/**
+  * This function is set info text to user.
+  */
 void RouteDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
+}
+
+/**
+  * This function enable send server button.
+  */
+void RouteDialog::setSendServerButtonEnabled()
+{
+    ui->sendPushButton->setEnabled(true);
 }

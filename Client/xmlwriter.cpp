@@ -2,13 +2,12 @@
  * Xml writer
  *
  * @author     Tiina Kivilinna-Korhola
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #include "xmlwriter.h"
-
-
 
 /**
   *@brief Constructor, connects object to GUI
@@ -59,7 +58,6 @@ void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QS
     xmlwriter.writeEndDocument();
 }
 
-
 /**
   *@brief Writes Speed Freek results items as tags and contents into a buffer.
   *@todo Consider looping when writing many values.
@@ -77,7 +75,6 @@ void XmlWriter::writeResult(QBuffer *netbuf, double result)
     xmlwriter.writeEndElement();
     xmlwriter.writeEndDocument();
 }
-
 
 /**
   *@brief Write track to server.
@@ -114,7 +111,6 @@ void XmlWriter::writeGpsTrack(QBuffer *netbuf, int counter, int start, int stop,
     xmlwriter.writeEndElement();
     xmlwriter.writeEndDocument();
 }
-
 
 /**
   *@brief Opens and closes a file, when xml information is written into a file,
@@ -157,7 +153,6 @@ bool XmlWriter::writeXmlFile(QIODevice *device)
 
     return true;
 }
-
 
 /**
   *@brief Writes Speed Freek results items as tags and contents to earlier defined target.

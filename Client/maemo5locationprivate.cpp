@@ -7,6 +7,7 @@
  */
 
 #include "maemo5locationprivate.h"
+#include <QDebug>
 
 /**
   *Default constructor of this class.
@@ -14,13 +15,16 @@
   */
 Maemo5LocationPrivate::Maemo5LocationPrivate(Maemo5Location* location):QObject(location)
 {
+    qDebug() << "__Maemo5LocationPrivate";
     //Initialize variables
     gps_online = false;
     usegps = -1;
     resetAll();
     //Get gps control object
+    control = NULL;
     control = location_gpsd_control_get_default();
     //create gps device
+    device = NULL;
     device = (LocationGPSDevice*) g_object_new(LOCATION_TYPE_GPS_DEVICE, NULL);
 
     g_signal_connect(device, "changed", G_CALLBACK(gps_data_changed), this);
@@ -37,8 +41,9 @@ Maemo5LocationPrivate::Maemo5LocationPrivate(Maemo5Location* location):QObject(l
   */
 Maemo5LocationPrivate::~Maemo5LocationPrivate()
 {
-    delete device;
-    delete control;
+    qDebug() << "__~Maemo5LocationPrivate";
+    //delete device;
+    //delete control;
 }
 
 /**

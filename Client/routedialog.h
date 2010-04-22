@@ -3,8 +3,8 @@
  *
  * @author      Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
  * @author      Toni Jussila 	<toni.jussila@fudeco.com>
- * @copyright  (c) 2010 Speed Freak team
- * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #ifndef ROUTEDIALOG_H
@@ -18,6 +18,7 @@ namespace Ui {
 
 class RouteDialog : public QDialog {
     Q_OBJECT
+
 public:
     RouteDialog(QWidget *parent = 0);
     ~RouteDialog();
@@ -27,6 +28,7 @@ public:
     int getRight();
     int getBottom();
     void setLabelInfoToUser(QString infoText);
+    void setSendServerButtonEnabled();
 
 signals:
     void sendroute();

@@ -324,7 +324,7 @@ void ResultDialog::on_pushButtonNew_clicked()
   */
 void ResultDialog::on_pushButtonSend_clicked()
 {
-    //emit sendresult();
+    ui->pushButtonSend->setEnabled(false);
     emit sendresult(timeArray[this->getTargetChoice()]);
 }
 
@@ -758,4 +758,12 @@ int ResultDialog::getTargetChoice()
 void ResultDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
+}
+
+/**
+  * This function enable send server button.
+  */
+void ResultDialog::setSendServerButtonEnabled()
+{
+    ui->pushButtonSend->setEnabled(true);
 }
