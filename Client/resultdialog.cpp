@@ -315,6 +315,7 @@ void ResultDialog::on_pushButtonNew_clicked()
     }
     resultString = "";
     this->close();
+    emit rejected();
 }
 
 /**

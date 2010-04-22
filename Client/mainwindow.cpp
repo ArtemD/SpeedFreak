@@ -114,6 +114,7 @@ void MainWindow::on_pushButtonCredits_clicked()
     if(!helpDialog)
         helpDialog = new HelpDialog;
 
+    connect(helpDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     helpDialog->show();
 }
 

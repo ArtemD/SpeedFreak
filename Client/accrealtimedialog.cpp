@@ -143,19 +143,22 @@ void AccRealTimeDialog::readAccelerometerData()
         if(!resultDialog)
         {
             resultDialog = new ResultDialog(this);
+            connect(resultDialog, SIGNAL(rejected()), this, SLOT(killResultDialog()));
+            connect(resultDialog, SIGNAL(sendresult(double)), this, SLOT(sendResult(double)));
         }
-        connect(resultDialog, SIGNAL(sendresult(double)), this, SLOT(sendResult(double)));
-        resultDialog->setEnd(stopMeasureSpeed);
-
-        //Put all times from all speeds
-        QMap<int,double> tempMap = calculate->getValuesMap();
-
-        for( int i = 1 ; i <= tempMap.count() ; i++ )
+        if(resultDialog)
         {
-            resultDialog->setValue(i*10,tempMap[i*10]);
+            resultDialog->setEnd(stopMeasureSpeed);
+            //Put all times from all speeds
+            QMap<int,double> tempMap = calculate->getValuesMap();
+
+            for( int i = 1 ; i <= tempMap.count() ; i++ )
+            {
+                resultDialog->setValue(i*10,tempMap[i*10]);
+            }
+            resultDialog->show();
+            this->hide();
         }
-        resultDialog->show();
-        this->hide();
     }
 }
 
@@ -209,4 +212,17 @@ void AccRealTimeDialog::SetStopMeasureSpeed(double speed)
 void AccRealTimeDialog::sendResult(double result)
 {
     emit sendresult(result);
+}
+
+/**
+  *This slot function kills resultDialog.
+  *
+  **/
+void AccRealTimeDialog::killResultDialog()
+{
+    if(resultDialog)
+    {
+        delete resultDialog;
+        resultDialog = NULL;
+    }
 }

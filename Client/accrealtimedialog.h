@@ -61,6 +61,7 @@ private slots:
     void on_buttonAbort_clicked();
     void readAccelerometerData();
     void sendResult(double);
+    void killResultDialog();
 
 signals:
     void sendresult(double);
