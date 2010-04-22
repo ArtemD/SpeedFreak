@@ -170,35 +170,25 @@ qreal countDistance(Vector *p1, Vector *p2)
   * Constructor of this class.
   */
 RouteDialog::RouteDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::RouteDialog)
+    QDialog(parent), ui(new Ui::RouteDialog)
 {
     qDebug() << "__RouteDialog";
     ui->setupUi(this);
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
 
-    //Button settings
+    // Button settings
     ui->sendPushButton->setAutoFillBackground(true);
     ui->sendPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->newPushButton->setAutoFillBackground(true);
     ui->newPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
-    //Clear labels
+    // Clear labels
     ui->labelInfoToUser->setText("");
-    ui->maxSpeedLabel->setText("");
     ui->speedValueLabel->setText("");
 
-    // Send rout to server button disable/enable.
-    ui->sendPushButton->setEnabled(false);
-    if (loginSaved())
-    {
-        ui->sendPushButton->setEnabled(true);
-    }
-    else
-    {
-        ui->labelInfoToUser->setText("You're not logged! Please register or log in.");
-    }
+    // Check login
+    checkLogin();
 }
 
 /**
@@ -322,6 +312,9 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
 /* */
 void RouteDialog::paintEvent(QPaintEvent *)
 {
+    // Check login
+    checkLogin();
+
     int type = 0; //  0 for 2d, 1 for 3d
     int startx, starty; // Starting point of the route
     int i, maxi;
@@ -371,6 +364,9 @@ void RouteDialog::paintEvent(QPaintEvent *)
             startx = x1Screen; starty = y1Screen;
            // painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
            drawFlag( this, &painter,  x1Screen ,  y1Screen);
+
+           // Draw star text
+           painter.drawText(x1Screen+10, y1Screen, "Start");
         }
         painter.drawLine( x1Screen, y1Screen, x2Screen, y2Screen);
     }
@@ -379,6 +375,9 @@ void RouteDialog::paintEvent(QPaintEvent *)
     {
         //painter.drawEllipse( x2Screen-5, y2Screen-5, 10, 10);
         drawFlag( this, &painter,x2Screen, y2Screen );
+
+        // Draw finish text
+        painter.drawText(x2Screen+10, y2Screen, "Finish");
     }
 
     {
@@ -403,10 +402,11 @@ void RouteDialog::paintEvent(QPaintEvent *)
 
         // Show max velocity point by yellow circle
         painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
+        painter.drawEllipse( 650, 225, 10, 10);
 
         QString jono;
         //jono = QString("%1 km/h").arg(maxv);
-        jono.sprintf("%.1f km/h", maxv);
+        jono.sprintf("%.1f km/h", maxv); // Show only 1 decimal
         ui->speedValueLabel->setText(jono);
     }
 }
@@ -816,4 +816,21 @@ void RouteDialog::setLabelInfoToUser(QString infoText)
 void RouteDialog::setSendServerButtonEnabled()
 {
     ui->sendPushButton->setEnabled(true);
+}
+
+/**
+  * This function check login and set send route to server button disabled/enabled.
+  */
+void RouteDialog::checkLogin()
+{
+    if (loginSaved())
+    {
+        ui->sendPushButton->setEnabled(true);
+        ui->labelInfoToUser->setText("");
+    }
+    else
+    {
+        ui->sendPushButton->setEnabled(false);
+        ui->labelInfoToUser->setText("You're not logged! Please register or log in.");
+    }
 }

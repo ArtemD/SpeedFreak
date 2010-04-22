@@ -40,6 +40,7 @@ protected:
 private:
     Ui::RouteDialog *ui;
     int left, top, right, bottom;       // Limits in screen coordinates in route dialog
+    void checkLogin();
 
 private slots:
     void on_sendPushButton_clicked();
