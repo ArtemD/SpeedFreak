@@ -195,6 +195,19 @@
     <string>User info label</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelSignalStrength">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>120</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>labelSignalStrength</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="graphics.qrc"/>

@@ -107,33 +107,37 @@ void GPSData::agnss()
 
         QFile routeTempFile("routetemp.xml");//Temp xml.
 
-        //If first round
-        if (roundCounter == 0)
+        //If GPS find 4 or more satellite and signal stregth is 30 or more.
+        if (location->getSatellitesInUse() >= 4 && location->getSignalStrength() >= 30)
         {
-            if (!routeTempFile.open(QIODevice::WriteOnly | QIODevice::Text))
-                return;
-            writeRouteXml(&routeTempFile, 0);
-            routeTempFile.close();
-            roundCounter ++;
-        }
-
-        //Points writing round.
-        else
-        { 
-            sLatitudeNow.sprintf("%.4f", latitude);  //Latitude now to string
-            sLongitudeNow.sprintf("%.4f", longitude);//Longitude now to string
-            sLatitudePrevious.sprintf("%.4f", latitudePrevious);  //Previous latitude to string
-            sLongitudePrevious.sprintf("%.4f", longitudePrevious); //Previous longitude to string
-
-            //If latitude or longitude change
-            if ( sLatitudeNow != sLatitudePrevious || sLongitudeNow != sLongitudePrevious )
+            //If first round
+            if (roundCounter == 0)
             {
-                if (!routeTempFile.open(QIODevice::Append | QIODevice::Text))
+                if (!routeTempFile.open(QIODevice::WriteOnly | QIODevice::Text))
                     return;
-
                 writeRouteXml(&routeTempFile, 0);
-                roundCounter ++;
                 routeTempFile.close();
+                roundCounter ++;
+            }
+
+            //Points writing round.
+            else
+            {
+                sLatitudeNow.sprintf("%.4f", latitude);  //Latitude now to string
+                sLongitudeNow.sprintf("%.4f", longitude);//Longitude now to string
+                sLatitudePrevious.sprintf("%.4f", latitudePrevious);  //Previous latitude to string
+                sLongitudePrevious.sprintf("%.4f", longitudePrevious); //Previous longitude to string
+
+                //If latitude or longitude change
+                if ( sLatitudeNow != sLatitudePrevious || sLongitudeNow != sLongitudePrevious )
+                {
+                    if (!routeTempFile.open(QIODevice::Append | QIODevice::Text))
+                        return;
+
+                    writeRouteXml(&routeTempFile, 0);
+                    roundCounter ++;
+                    routeTempFile.close();
+                }
             }
         }
     }

@@ -251,7 +251,7 @@ int RouteDialog::getBottom()
 /**
   *
   */
-void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
+void drawFlag( RouteDialog *rD, QPainter *p, int x, int y, QString startFinish)
 {
     /*QPolygon pg;
 
@@ -269,6 +269,9 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
             p->drawLine( x,    y-25, x+10, y-20);
             p->drawLine( x+10, y-20, x,    y-15);
             p->drawLine( x,    y-15, x,    y-25);
+
+            // Draw start or finish
+            p->drawText(x+10, y, startFinish);
         }
         else
         {
@@ -276,8 +279,10 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
             p->drawLine( x,    y-25, x-10, y-20);
             p->drawLine( x-10, y-20, x,    y-15);
             p->drawLine( x,    y-15, x,    y-25);
-        }
 
+            // Draw start or finish
+            p->drawText(x+10, y, startFinish);
+        }    
     }
     else if (y <= (rD->getTop() + 25))
     {
@@ -289,6 +294,9 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
             p->drawLine( x,    y+25, x+10, y+20);
             p->drawLine( x+10, y+20, x,    y+15);
             p->drawLine( x,    y+15, x,    y+25);
+
+            // Draw start or finish
+            p->drawText(x+10, y+15, startFinish);
         }
         else
         {
@@ -296,6 +304,9 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y)
             p->drawLine( x,    y+25, x-10, y+20);
             p->drawLine( x-10, y+20, x,    y+15);
             p->drawLine( x,    y+15, x,    y+25);
+
+            // Draw start or finish
+            p->drawText(x+10, y+15, startFinish);
         }
     }
     //p->drawPolygon();
@@ -322,6 +333,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
     int x1Screen, y1Screen, x2Screen, y2Screen;
     Vector v1, v2;
     QPainter painter(this);
+    int startStop = 0;
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen((Qt::white),2));
@@ -363,10 +375,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
             // Starting point
             startx = x1Screen; starty = y1Screen;
            // painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
-           drawFlag( this, &painter,  x1Screen ,  y1Screen);
-
-           // Draw star text
-           painter.drawText(x1Screen+10, y1Screen, "Start");
+           drawFlag( this, &painter,  x1Screen,  y1Screen, "Start" );
         }
         painter.drawLine( x1Screen, y1Screen, x2Screen, y2Screen);
     }
@@ -374,10 +383,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
     if (x2Screen != startx || y2Screen != starty)
     {
         //painter.drawEllipse( x2Screen-5, y2Screen-5, 10, 10);
-        drawFlag( this, &painter,x2Screen, y2Screen );
-
-        // Draw finish text
-        painter.drawText(x2Screen+10, y2Screen, "Finish");
+        drawFlag( this, &painter, x2Screen, y2Screen, "Finish" );
     }
 
     {
