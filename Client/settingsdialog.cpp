@@ -27,8 +27,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         this->username = uName;
         this->password = pWord;
 
+        // Set line edit
         ui->setUserPasswordLineEdit->setText(this->password);
         ui->setUserUsernameLineEdit->setText(this->username);
+        ui->setUserPasswordLineEdit->setDisabled(1); // Disable because user logged
+        ui->setUserUsernameLineEdit->setDisabled(1); // Disable because user logged
 
         // Already someone as user - change button text to "Change"
         ui->setUserPushButton->setText("Log out");
