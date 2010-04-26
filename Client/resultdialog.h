@@ -11,6 +11,7 @@
 #define RESULTDIALOG_H
 
 #include <QDialog>
+#include <helpaccelerationdialog.h>
 
 
 namespace Ui {
@@ -22,6 +23,7 @@ class ResultDialog : public QDialog {
 public:
     ResultDialog(QWidget *parent = 0);
     ~ResultDialog();
+    HelpAccelerationDialog *helpAccelerationDialog;
 
     void setEnd(int pValue);
     void setValue(int pSpeed, double pTime);
@@ -55,8 +57,10 @@ private:
     QString resultString;
 
 private slots:
+    void on_pushButtonInfo_clicked();
     void on_pushButtonNew_clicked();
     void on_pushButtonSend_clicked();
+    void killHelpDialog();
 };
 
 #endif // RESULTDIALOG_H

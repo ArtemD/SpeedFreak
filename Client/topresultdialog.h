@@ -11,6 +11,7 @@
 #define TOPRESULTDIALOG_H
 
 #include <QDialog>
+#include <helpresultsdialog.h>
 
 namespace Ui {
     class TopResultDialog;
@@ -21,6 +22,7 @@ class TopResultDialog : public QDialog {
 public:
     TopResultDialog(QWidget *parent = 0);
     ~TopResultDialog();
+    HelpResultsDialog *helpResultsDialog;
     void setCompoBoxCategories(QStringList list);
     void showTopList(QString str);
     int getRecentCategoryIndex();
@@ -41,9 +43,10 @@ private:
     int limitNr;
 
 private slots:
+    void on_pushButtonInfo_clicked();
     void on_comboBoxTopCategory_currentIndexChanged(int index);
     void on_buttonTopRefresh_clicked();
-
+    void killHelpDialog();
 };
 
 #endif // TOPRESULTDIALOG_H

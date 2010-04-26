@@ -1,21 +1,25 @@
 /*
  * SettingsDialog class
  *
- * @author     Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
- * @copyright  (c) 2010 Speed Freak team
- * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @author      Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
+ * @author      Toni Jussila    <toni.jussila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include "usersettings.h"
 #include <QMessageBox>
+#include <QDebug>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::SettingsDialog)
+    QDialog(parent), ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+
+    helpSettingsDialog = NULL;
+
     this->setWindowTitle("Settings");
     this->ui->regEMailLineEdit->setText("@");
 
@@ -35,6 +39,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
         // Already someone as user - change button text to "Change"
         ui->setUserPushButton->setText("Log out");
+
+        // Button settings
+        ui->pushButtonInfo->setAutoFillBackground(true);
+        ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     }
 }
 
@@ -221,4 +229,30 @@ void SettingsDialog::clearRegisterLineEdits()
     ui->regEMailLineEdit->setText("@");
     ui->regPasswordLineEdit->setText("");
     ui->regUserNameLineEdit->setText("");
+}
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void SettingsDialog::on_pushButtonInfo_clicked()
+{
+    if(!helpSettingsDialog)
+    {
+        helpSettingsDialog = new HelpSettingsDialog;
+    }
+    connect(helpSettingsDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpSettingsDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void SettingsDialog::killHelpDialog()
+{
+    if(helpSettingsDialog)
+    {
+        qDebug() << "__Settings kill: helpSettingsDialog";
+        delete helpSettingsDialog;
+        helpSettingsDialog = NULL;
+    }
 }

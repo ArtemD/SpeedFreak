@@ -12,10 +12,12 @@
 #include "ui_topresultdialog.h"
 
 TopResultDialog::TopResultDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TopResultDialog)
+    QDialog(parent), ui(new Ui::TopResultDialog)
 {
     ui->setupUi(this);
+
+    helpResultsDialog = NULL;
+
     this->setWindowTitle("Top Results");
 
     //Set the amount of requested top results here, untill there is user input
@@ -24,6 +26,8 @@ TopResultDialog::TopResultDialog(QWidget *parent) :
     //Button settings
     ui->buttonTopRefresh->setAutoFillBackground(true);
     ui->buttonTopRefresh->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonInfo->setAutoFillBackground(true);
+    ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
     //Clear labels
     ui->labelInfoToUser->setText("");
@@ -90,4 +94,30 @@ void TopResultDialog::on_comboBoxTopCategory_currentIndexChanged(int index)
 void TopResultDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
+}
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void TopResultDialog::on_pushButtonInfo_clicked()
+{
+    if(!helpResultsDialog)
+    {
+        helpResultsDialog = new HelpResultsDialog;
+    }
+    connect(helpResultsDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpResultsDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void TopResultDialog::killHelpDialog()
+{
+    if(helpResultsDialog)
+    {
+        qDebug() << "__Top result kill: helpResultsDialog";
+        delete helpResultsDialog;
+        helpResultsDialog = NULL;
+    }
 }

@@ -24,6 +24,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     routeDialog = NULL;
     location = NULL;
     gpsData = NULL;
+    helpRoutingDialog = NULL;
 
     //Button settings
     buttonStatus = true;
@@ -36,6 +37,8 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->buttonRouteStartStop->setIcon(*iconRouteStart);
     ui->buttonRouteStartStop->setAutoFillBackground(true);
     ui->buttonRouteStartStop->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonInfo->setAutoFillBackground(true);
+    ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
     //Satellite picture and label
     ui->labelRouteSatelliteStatus->setVisible(0);
@@ -265,4 +268,30 @@ void RouteSaveDialog::gpsStatus()
 void RouteSaveDialog::sendRoute()
 {
     emit sendroute(); //Emit mainwindow clientSendRoute
+}
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void RouteSaveDialog::on_pushButtonInfo_clicked()
+{
+    if(!helpRoutingDialog)
+    {
+        helpRoutingDialog = new HelpRoutingDialog;
+    }
+    connect(helpRoutingDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpRoutingDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void RouteSaveDialog::killHelpDialog()
+{
+    if(helpRoutingDialog)
+    {
+        qDebug() << "__Route save kill: helpRoutingDialog";
+        delete helpRoutingDialog;
+        helpRoutingDialog = NULL;
+    }
 }

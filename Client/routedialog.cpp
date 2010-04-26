@@ -174,6 +174,9 @@ RouteDialog::RouteDialog(QWidget *parent) :
 {
     qDebug() << "__RouteDialog";
     ui->setupUi(this);
+
+    helpRoutingDialog = NULL;
+
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
 
@@ -838,5 +841,31 @@ void RouteDialog::checkLogin()
     {
         ui->sendPushButton->setEnabled(false);
         ui->labelInfoToUser->setText("You're not logged! Please register or log in.");
+    }
+}
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void RouteDialog::on_pushButtonInfo_clicked()
+{    
+    if(!helpRoutingDialog)
+    {
+        helpRoutingDialog = new HelpRoutingDialog;
+    }
+    connect(helpRoutingDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpRoutingDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void RouteDialog::killHelpDialog()
+{
+    if(helpRoutingDialog)
+    {
+        qDebug() << "__Route kill: helpRoutingDialog";
+        delete helpRoutingDialog;
+        helpRoutingDialog = NULL;
     }
 }

@@ -1,7 +1,7 @@
 /*
  * Acceleration start dialog
  *
- * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @author      Jukka Kurttila  <jukka.kurttila@fudeco.com>
  * @author      Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -9,6 +9,7 @@
 #include "accelerationstart.h"
 #include "ui_accelerationstartdialog.h"
 #include <QMessageBox>
+#include <QDebug>
 
 accelerationstart::accelerationstart(QWidget *parent) :
     QDialog(parent),
@@ -18,6 +19,7 @@ accelerationstart::accelerationstart(QWidget *parent) :
     ui->buttonStart->setDisabled(true);
 
     accRealTimeDialog = NULL;
+    helpAccelerationDialog = NULL;
 
     stopMeasureSpeed = 0;
 
@@ -32,6 +34,8 @@ accelerationstart::accelerationstart(QWidget *parent) :
     ui->buttonCalib->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->buttonStart->setAutoFillBackground(true);
     ui->buttonStart->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonInfo->setAutoFillBackground(true);
+    ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
 accelerationstart::~accelerationstart()
@@ -111,4 +115,30 @@ QString accelerationstart::getMeasureCategory()
 void accelerationstart::sendResult(double result)
 {
     emit sendresult(measureCategory, result);
+}
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void accelerationstart::on_pushButtonInfo_clicked()
+{
+    if(!helpAccelerationDialog)
+    {
+        helpAccelerationDialog = new HelpAccelerationDialog;
+    }
+    connect(helpAccelerationDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpAccelerationDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void accelerationstart::killHelpDialog()
+{
+    if(helpAccelerationDialog)
+    {
+        qDebug() << "__Acc kill: helpAccelerationDialog";
+        delete helpAccelerationDialog;
+        helpAccelerationDialog = NULL;
+    }
 }

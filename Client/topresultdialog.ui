@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>20</y>
+     <y>70</y>
      <width>130</width>
      <height>130</height>
     </rect>
@@ -123,11 +123,35 @@
     <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf_2.png</pixmap>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonInfo">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>0</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/info.png</normaloff>:/new/prefix1/Graphics/info.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+  </widget>
   <zorder>label</zorder>
   <zorder>buttonTopRefresh</zorder>
   <zorder>labelTopList</zorder>
   <zorder>labelCategory</zorder>
   <zorder>comboBoxTopCategory</zorder>
+  <zorder>pushButtonInfo</zorder>
   <zorder>labelInfoToUser</zorder>
  </widget>
  <resources>

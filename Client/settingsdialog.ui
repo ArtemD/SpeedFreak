@@ -234,14 +234,29 @@
     <pixmap resource="graphics.qrc">:/new/prefix1/Graphics/sf_2.png</pixmap>
    </property>
   </widget>
-  <zorder>label</zorder>
-  <zorder>setUserLabel</zorder>
-  <zorder>setUserPushButton</zorder>
-  <zorder>registrateLabel</zorder>
-  <zorder>registratePushButton</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>labelInfoToUser</zorder>
-  <zorder>layoutWidget</zorder>
+  <widget class="QPushButton" name="pushButtonInfo">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>0</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="graphics.qrc">
+     <normaloff>:/new/prefix1/Graphics/info.png</normaloff>:/new/prefix1/Graphics/info.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>regUserNameLineEdit</tabstop>

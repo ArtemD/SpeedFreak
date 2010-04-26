@@ -17,6 +17,7 @@
 #include <maemo5location.h>
 #include "gpsdata.h"
 #include "routedialog.h"
+#include <helproutingdialog.h>
 
 namespace Ui {
     class RouteSaveDialog;
@@ -28,6 +29,7 @@ public:
     RouteSaveDialog(QWidget *parent = 0);
     ~RouteSaveDialog();
     RouteDialog *routeDialog;
+    HelpRoutingDialog *helpRoutingDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -46,11 +48,13 @@ private:
     bool buttonStatus;
 
 private slots:
+    void on_pushButtonInfo_clicked();
     void on_buttonRouteStartStop_clicked();
     void timerSatellitePictureTimeout();
     void timerRoutePictureTimeout();
     void gpsStatus();
     void sendRoute();
+    void killHelpDialog();
 
 signals:
     void sendroute();

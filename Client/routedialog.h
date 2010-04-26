@@ -11,6 +11,7 @@
 #define ROUTEDIALOG_H
 
 #include <QDialog>
+#include <helproutingdialog.h>
 
 namespace Ui {
     class RouteDialog;
@@ -29,6 +30,7 @@ public:
     int getBottom();
     void setLabelInfoToUser(QString infoText);
     void setSendServerButtonEnabled();
+    HelpRoutingDialog *helpRoutingDialog;
 
 signals:
     void sendroute();
@@ -43,8 +45,10 @@ private:
     void checkLogin();
 
 private slots:
+    void on_pushButtonInfo_clicked();
     void on_sendPushButton_clicked();
     void on_newPushButton_clicked();
+    void killHelpDialog();
 };
 
 #endif // ROUTEDIALOG_H

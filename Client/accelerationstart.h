@@ -11,6 +11,7 @@
 
 #include <QDialog>
 #include "accrealtimedialog.h"
+#include <helpaccelerationdialog.h>
 
 namespace Ui {
     class accelerationstart;
@@ -23,6 +24,7 @@ public:
     ~accelerationstart();
     AccRealTimeDialog* accRealTimeDialog;
     QString getMeasureCategory();
+    HelpAccelerationDialog *helpAccelerationDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -34,10 +36,12 @@ private:
     QString measureCategory;
 
 private slots:
+    void on_pushButtonInfo_clicked();
     void on_categorComboBox_currentIndexChanged(int index);
     void on_buttonStart_clicked();
     void on_buttonCalib_clicked();
     void sendResult(double);
+    void killHelpDialog();
 
 signals:
     void sendresult(QString, double);

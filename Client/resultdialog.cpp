@@ -13,6 +13,7 @@
 #include "math.h"
 #include <QPainter>
 #include <QPicture>
+#include <QDebug>
 
 const int DIAGRAM_WIDTH = 400;
 const int DIAGRAM_HEIGHT = 300;
@@ -57,6 +58,9 @@ ResultDialog::ResultDialog(QWidget *parent) :
     ui(new Ui::ResultDialog)
 {
     ui->setupUi(this);
+
+    helpAccelerationDialog = NULL;
+
     timeAxelLength = 10;
     resultString = "";
     speedList << "0" << "10" << "20" << "30" << "40" << "50" << "60" << "70" << "80" << "90" << "100" ;
@@ -768,3 +772,30 @@ void ResultDialog::setSendServerButtonEnabled()
 {
     ui->pushButtonSend->setEnabled(true);
 }
+
+/**
+  * This slot function called when ever info button clicked.
+  */
+void ResultDialog::on_pushButtonInfo_clicked()
+{
+    if(!helpAccelerationDialog)
+    {
+        helpAccelerationDialog = new HelpAccelerationDialog;
+    }
+    connect(helpAccelerationDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    helpAccelerationDialog->show();
+}
+
+/**
+  * This slot function called when ever dialog rejected.
+  */
+void ResultDialog::killHelpDialog()
+{
+    if(helpAccelerationDialog)
+    {
+        qDebug() << "__Result kill: helpAccelerationDialog";
+        delete helpAccelerationDialog;
+        helpAccelerationDialog = NULL;
+    }
+}
+
