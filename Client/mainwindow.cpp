@@ -309,7 +309,9 @@ void MainWindow::killDialog()
         helpDialog = NULL;
     }
 }
-
+/**
+  *
+  */
 void MainWindow::setUsernameToMainPanel()
 {
     if (loginSaved())

@@ -44,12 +44,13 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     timerSatellitePicture = new QTimer();
     timerSatellitePicture->setInterval(400);
     connect(timerSatellitePicture, SIGNAL(timeout()),this, SLOT(timerSatellitePictureTimeout()));
+    ui->labelUserInfo->setText("Push start button");  //User info label
 
     //Invisible or clear labels
     ui->labelRouteStatus->setVisible(0);
     ui->labelRoutePicture->setVisible(0);
     ui->labelGpsSpeed->setVisible(0); //GPS speed label
-    ui->labelUserInfo->setText(""); //User info label
+    ui->labelSignalStrength->setText(""); //GPS signal strength label
     timerRoutePicture = new QTimer();
     timerRoutePicture->setInterval(400);
     connect(timerRoutePicture, SIGNAL(timeout()),this, SLOT(timerRoutePictureTimeout()));
@@ -143,6 +144,9 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 
         //Stop route recording
         gpsData->stopRouteRecording();
+
+        //User info label
+        ui->labelUserInfo->setText("Push start button");
     }
 }
 
@@ -192,8 +196,10 @@ void RouteSaveDialog::gpsStatus()
     //IF GPS start button clicked
     if (buttonStatus == false)
     {
-        //If GPS find 4 satellite.
-        if (location->getSatellitesInUse() >= 4)
+        //ui->labelSignalStrength->setText(QString::number(location->getSignalStrength()));    //Returns average signal strength of satellites which are in use.
+
+        //If GPS find 4 or more satellite and signal stregth is 30 or more.
+        if (location->getSatellitesInUse() >= 4 && location->getSignalStrength() >= 30)
         {
             //Satellite picture and label
             ui->labelRouteSatelliteStatus->setText("GPS Ready");
@@ -203,6 +209,7 @@ void RouteSaveDialog::gpsStatus()
 
             //Route picture and label
             ui->labelRouteStatus->setText("Recorded " + QString::number(gpsData->roundCounter) + " route point");
+            ui->labelUserInfo->setText("Recorded " + QString::number(gpsData->roundCounter) + " route point");
             ui->labelRouteStatus->setVisible(1);
             ui->labelRoutePicture->setVisible(1);
             timerRoutePicture->start();
@@ -215,12 +222,11 @@ void RouteSaveDialog::gpsStatus()
             //Start route recording
             gpsData->startRouteRecording();
         }
-
-        //If GPS find less than 4 satellite.
-        else
+        else //If GPS find less than 4 satellite or signal strength is poor.
         {
             //Satellite picture and label
             ui->labelRouteSatelliteStatus->setText("Searching satellite");
+            ui->labelUserInfo->setText("Searching satellite");
             ui->labelRouteSatelliteStatus->setVisible(1);
             ui->labelRouteSatellitePicture->setVisible(1);
             timerSatellitePicture->start();
@@ -234,10 +240,11 @@ void RouteSaveDialog::gpsStatus()
             ui->labelGpsSpeed->setVisible(0);
         }
     }
-    else
+    else //If stop button clicked
     {
         //Satellite picture and label
         ui->labelRouteSatelliteStatus->setText("Searching satellite");
+        ui->labelUserInfo->setText("Push start button");
         ui->labelRouteSatelliteStatus->setVisible(0);
         ui->labelRouteSatellitePicture->setVisible(0);
         timerSatellitePicture->stop();
