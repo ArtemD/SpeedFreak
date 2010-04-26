@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(httpClient->myXmlreader, SIGNAL(receivedTop10List()), this, SLOT(showTop10()));    
 
     welcomeDialog = new WelcomeDialog;
-    //welcomeDialog->show();
+    welcomeDialog->show();
 
     this->setUsernameToMainPanel();
 

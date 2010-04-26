@@ -120,14 +120,14 @@ your registering will be confirmed.   </string>
    <property name="text">
     <string>2. After succesful registering you need
 to put username and password to the
-fields and press Set user button. After
+fields and press Log in -button. After
 that you are logged in and can send
 own results to the server.
 
 NOTE: If you are registered your user-
 name before you just need to set your
 username and password in to the Set user
-fields and press Set user -button.</string>
+fields and press Log in -button.</string>
    </property>
   </widget>
  </widget>
