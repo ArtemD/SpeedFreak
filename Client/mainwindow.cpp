@@ -293,7 +293,7 @@ void MainWindow::clientSendResult(QString category, double result)
     }
 }
 /**
-  * This slot function called when ever dialog finished.
+  * This slot function called when ever dialog rejected.
   */
 void MainWindow::killDialog()
 {

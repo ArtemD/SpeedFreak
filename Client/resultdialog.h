@@ -1,5 +1,5 @@
 /*
- * CarMainWindow main class
+ * Result dialog
  *
  * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
  * @author      Toni Jussila 	<toni.jussila@fudeco.com>

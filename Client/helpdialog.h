@@ -1,3 +1,12 @@
+/*
+ * Help dialog
+ *
+ * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @author     Toni Jussila 	<toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #ifndef HELPDIALOG_H
 #define HELPDIALOG_H
 
@@ -37,6 +46,7 @@ private slots:
     void on_pushButtonHelpRoute_clicked();
     void on_pushButtonHelpAccelerate_clicked();
     void on_pushButtonHelpResults_clicked();
+    void killHelpDialogs();
 };
 
 #endif // HELPDIALOG_H
