@@ -306,7 +306,10 @@ void HttpClient::ackOfRegistration()
     else {
         qDebug() << "errorcode=0" << errorcode << reply->errorString();
         if(myMainw->settingsDialog)
+        {
             QMessageBox::about(myMainw->settingsDialog, "Server reply to registration", "User registration " + reply->readAll());
+            myMainw->settingsDialog->clearRegisterLineEdits();
+        }
     }
 }
 

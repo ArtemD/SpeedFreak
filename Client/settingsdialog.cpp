@@ -215,3 +215,10 @@ void SettingsDialog::usernameOk(bool isOk)
         saveLogin( this->username, this->password);
     }
 }
+
+void SettingsDialog::clearRegisterLineEdits()
+{
+    ui->regEMailLineEdit->setText("@");
+    ui->regPasswordLineEdit->setText("");
+    ui->regUserNameLineEdit->setText("");
+}

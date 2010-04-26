@@ -34,6 +34,7 @@ public:
     QString getPassword();
     void setLabelInfoToUser(QString infoText);
     void usernameOk(bool isOk);
+    void clearRegisterLineEdits();
 
 signals:
     void sendregistration();
