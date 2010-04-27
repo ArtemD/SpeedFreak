@@ -26,6 +26,12 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     gpsData = NULL;
     helpRoutingDialog = NULL;
 
+    //Clear variables
+    averageSpeed = 0.0;
+    speed = 0.0;
+    allSpeeds = 0.0;
+    speedCount = 0;
+
     //Button settings
     buttonStatus = true;
     pixmapRouteStop = new QPixmap("Graphics/route_stop.png");
@@ -53,6 +59,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->labelRouteStatus->setVisible(0);
     ui->labelRoutePicture->setVisible(0);
     ui->labelGpsSpeed->setVisible(0); //GPS speed label
+    ui->labelGpsAvgSpeed->setVisible(0); //GPS average speed label
     ui->labelSignalStrength->setText(""); //GPS signal strength label
     timerRoutePicture = new QTimer();
     timerRoutePicture->setInterval(400);
@@ -110,6 +117,13 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
     if ( buttonStatus == true )//If start button clicked
     {
         qDebug() << "__start button clicked";
+
+        //Clear variables
+        averageSpeed = 0.0;
+        speed = 0.0;
+        allSpeeds = 0.0;
+        speedCount = 1;
+
         buttonStatus = false;
         ui->buttonRouteStartStop->setIcon(*iconRouteStop);
         location->startPollingGPS();
@@ -137,13 +151,14 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         if (routeDialog->readRouteFromFile( routeFile ) == true)
         {
             if(!routeDialog)
-                routeDialog = new RouteDialog;
+                routeDialog = new RouteDialog(this);
             connect(routeDialog, SIGNAL(sendroute()), this, SLOT(sendRoute()));
             routeDialog->show();
         }
 
-        //GPS speed label
+        //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
+        ui->labelGpsAvgSpeed->setVisible(0);
 
         //Stop route recording
         gpsData->stopRouteRecording();
@@ -192,7 +207,7 @@ void RouteSaveDialog::timerRoutePictureTimeout()
 }
 
 /**
-  *
+  * This slot function is called when GPS update location.
   */
 void RouteSaveDialog::gpsStatus()
 {
@@ -217,10 +232,21 @@ void RouteSaveDialog::gpsStatus()
             ui->labelRoutePicture->setVisible(1);
             timerRoutePicture->start();
 
-            //Set GPS speed.
-            gpsSpeed.sprintf("%.0f",location->getSpeed());
+            //Get GPS speed
+            speed = location->getSpeed();
+
+            //Set GPS speed
+            gpsSpeed.sprintf("%.0f", speed);
             ui->labelGpsSpeed->setText(gpsSpeed + " km/h");
             ui->labelGpsSpeed->setVisible(1);
+
+            //Set GPS average speed
+            allSpeeds += speed;
+            averageSpeed = allSpeeds/speedCount;
+            gpsSpeed.sprintf("%.0f",averageSpeed);
+            ui->labelGpsAvgSpeed->setText("Average: " + gpsSpeed + " km/h");
+            ui->labelGpsAvgSpeed->setVisible(1);
+            speedCount++;
 
             //Start route recording
             gpsData->startRouteRecording();
@@ -239,8 +265,9 @@ void RouteSaveDialog::gpsStatus()
             ui->labelRoutePicture->setVisible(0);
             timerRoutePicture->stop();
 
-            //GPS speed label
+            //Set GPS speed labels in visible
             ui->labelGpsSpeed->setVisible(0);
+            ui->labelGpsAvgSpeed->setVisible(0);
         }
     }
     else //If stop button clicked
@@ -257,8 +284,9 @@ void RouteSaveDialog::gpsStatus()
         ui->labelRoutePicture->setVisible(0);
         timerRoutePicture->stop();
 
-        //GPS speed label
+        //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
+        ui->labelGpsAvgSpeed->setVisible(0);
     }
 }
 
@@ -294,4 +322,13 @@ void RouteSaveDialog::killHelpDialog()
         delete helpRoutingDialog;
         helpRoutingDialog = NULL;
     }
+}
+
+/**
+  * This function return speed average.
+  * @return double average speed
+  */
+double RouteSaveDialog::getAverageSpeed()
+{
+    return averageSpeed;
 }

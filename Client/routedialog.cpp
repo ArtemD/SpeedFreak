@@ -7,6 +7,7 @@
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+#include "routesavedialog.h"
 #include "routedialog.h"
 #include "ui_routedialog.h"
 #include "usersettings.h"
@@ -169,7 +170,8 @@ qreal countDistance(Vector *p1, Vector *p2)
 /**
   * Constructor of this class.
   */
-RouteDialog::RouteDialog(QWidget *parent) :
+//RouteDialog::RouteDialog(QWidget *parent) :
+RouteDialog::RouteDialog(RouteSaveDialog *parent) :
     QDialog(parent), ui(new Ui::RouteDialog)
 {
     qDebug() << "__RouteDialog";
@@ -189,9 +191,13 @@ RouteDialog::RouteDialog(QWidget *parent) :
     // Clear labels
     ui->labelInfoToUser->setText("");
     ui->speedValueLabel->setText("");
+    ui->avgSpeedValueLabel->setText("");
 
     // Check login
     checkLogin();
+
+    // Set average speed
+    ui->avgSpeedValueLabel->setText(QString::number(parent->getAverageSpeed()) + " km/h");
 }
 
 /**
@@ -411,7 +417,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
 
         // Show max velocity point by yellow circle
         painter.drawEllipse( x1Screen-5, y1Screen-5, 10, 10);
-        painter.drawEllipse( 650, 225, 10, 10);
+        painter.drawEllipse( ui->maxSpeedLabel->geometry().x()-15, ui->maxSpeedLabel->geometry().y()+15, 10, 10);
 
         QString jono;
         //jono = QString("%1 km/h").arg(maxv);
