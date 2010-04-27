@@ -46,12 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setUsernameToMainPanel();
 
     //Button settings
-    //ui->pushButtonAccelerate->setAutoFillBackground(true);
-    //ui->pushButtonAccelerate->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    ui->pushButtonRoute->setAutoFillBackground(true);
-    ui->pushButtonRoute->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    ui->pushButtonResults->setAutoFillBackground(true);
-    ui->pushButtonResults->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonSettings->setAutoFillBackground(true);
     ui->pushButtonSettings->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonWWW->setAutoFillBackground(true);
@@ -59,9 +53,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButtonCredits->setAutoFillBackground(true);
     ui->pushButtonCredits->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
+    //Create icon for acceleration start button
     QIcon* icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer2.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    //Acceleration start button
 
     customButtonAccelerate = new CustomButton(this,icon);
     delete icon;
@@ -69,9 +66,37 @@ MainWindow::MainWindow(QWidget *parent) :
     int buttons_x = 50,buttons_y = 165;
     customButtonAccelerate->setGeometry(buttons_x,buttons_y,130,130);
     connect(customButtonAccelerate, SIGNAL(OpenDialog()), this, SLOT(OpenAccStartDialog()));
-
     customButtonAccelerate->show();
 
+    //Create icon for route dialog button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/route.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/route_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    //Route dialog button
+
+    customButtonRoute = new CustomButton(this,icon);
+    delete icon;
+
+    buttons_x += 140;
+    customButtonRoute->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonRoute, SIGNAL(OpenDialog()), this, SLOT(OpenRouteDialog()));
+    customButtonRoute->show();
+
+    //Create icon for results dialog button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/trophy_gold.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/trophy_gold_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    //Results dialog button
+
+    customButtonResults = new CustomButton(this,icon);
+    delete icon;
+
+    buttons_x += 140;
+    customButtonResults->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonResults, SIGNAL(OpenDialog()), this, SLOT(OpenResultDialog()));
+    customButtonResults->show();
 }
 
 MainWindow::~MainWindow()
@@ -101,6 +126,10 @@ MainWindow::~MainWindow()
 
     if(customButtonAccelerate)
         delete customButtonAccelerate;
+    if(customButtonRoute)
+        delete customButtonRoute;
+    if(customButtonResults)
+        delete customButtonResults;
 
 }
 
@@ -137,39 +166,11 @@ void MainWindow::on_pushButtonCredits_clicked()
 }
 
 /**
-  * This slot function opens the route save dialog
-  */
-void MainWindow::on_pushButtonRoute_clicked()
-{
-    if(!routeSaveDialog)
-        routeSaveDialog = new RouteSaveDialog;
-
-    connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
-    connect(routeSaveDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
-    routeSaveDialog->show();
-}
-
-/**
   * This slot function opens the settings dialog
   */
 void MainWindow::on_pushButtonSettings_clicked()
 {
     settingsDialog->show();
-}
-
-/**
-  * This slot function opens the top results dialog
-  */
-void MainWindow::on_pushButtonResults_clicked()
-{
-    if (!topResultDialog)
-        topResultDialog = new TopResultDialog;
-
-    clientRequestCategoryList();
-    connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
-    connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
-    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
-    topResultDialog->show();
 }
 
 /**
@@ -340,4 +341,30 @@ void MainWindow::OpenAccStartDialog()
     connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
     connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
     accstart->show();
+}
+/**
+  * This slot function opens the route save dialog
+  */
+void MainWindow::OpenRouteDialog()
+{
+    if(!routeSaveDialog)
+        routeSaveDialog = new RouteSaveDialog;
+
+    connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
+    connect(routeSaveDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    routeSaveDialog->show();
+}
+/**
+  * This slot function opens the top results dialog
+  */
+void MainWindow::OpenResultDialog()
+{
+    if (!topResultDialog)
+        topResultDialog = new TopResultDialog;
+
+    clientRequestCategoryList();
+    connect(topResultDialog, SIGNAL(refreshCategoryList()), this, SLOT(clientRequestCategoryList()));
+    connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
+    connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    topResultDialog->show();
 }

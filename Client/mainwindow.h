@@ -57,11 +57,11 @@ private:
     void setListViewTopList(QString category, int size);
 
     CustomButton* customButtonAccelerate;
+    CustomButton* customButtonRoute;
+    CustomButton* customButtonResults;
 
 private slots:
-    void on_pushButtonResults_clicked();
     void on_pushButtonSettings_clicked();
-    void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonWWW_clicked();
     void clientRequestCategoryList();
@@ -75,6 +75,8 @@ private slots:
     void killDialog();
     void setUsernameToMainPanel();
     void OpenAccStartDialog();
+    void OpenRouteDialog();
+    void OpenResultDialog();
 
 };
 
