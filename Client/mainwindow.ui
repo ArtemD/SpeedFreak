@@ -14,33 +14,6 @@
    <string>SpeedFreak</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButtonAccelerate">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>150</y>
-      <width>130</width>
-      <height>130</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="graphics.qrc">
-      <normaloff>:/new/prefix1/Graphics/Speedometer.png</normaloff>
-      <normalon>:/new/prefix1/Graphics/Speedometer2.png</normalon>
-      <disabledon>:/new/prefix1/Graphics/Speedometer2.png</disabledon>
-      <activeon>:/new/prefix1/Graphics/Speedometer2.png</activeon>
-      <selectedon>:/new/prefix1/Graphics/Speedometer2.png</selectedon>:/new/prefix1/Graphics/Speedometer.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>125</width>
-      <height>125</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButtonRoute">
     <property name="geometry">
      <rect>

@@ -37,7 +37,8 @@ SOURCES += main.cpp \
     helpresultsdialog.cpp \
     helpaccelerationdialog.cpp \
     helproutingdialog.cpp \
-    helpsettingsdialog.cpp
+    helpsettingsdialog.cpp \
+    custombutton.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -65,7 +66,8 @@ HEADERS += mainwindow.h \
     helpresultsdialog.h \
     helpaccelerationdialog.h \
     helproutingdialog.h \
-    helpsettingsdialog.h
+    helpsettingsdialog.h \
+    custombutton.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -88,7 +90,7 @@ contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
 
 # Enable this to disable debugging
-#DEFINES += QT_NO_DEBUG_OUTPUT
+# DEFINES += QT_NO_DEBUG_OUTPUT
 target.path += /usr/lib
 devincludes.files = $$HEADERS
 devincludes.path += /usr/include/$$TEMPLATE$$TARGET

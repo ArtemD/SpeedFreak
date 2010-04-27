@@ -46,8 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setUsernameToMainPanel();
 
     //Button settings
-    ui->pushButtonAccelerate->setAutoFillBackground(true);
-    ui->pushButtonAccelerate->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    //ui->pushButtonAccelerate->setAutoFillBackground(true);
+    //ui->pushButtonAccelerate->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonRoute->setAutoFillBackground(true);
     ui->pushButtonRoute->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonResults->setAutoFillBackground(true);
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButtonWWW->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonCredits->setAutoFillBackground(true);
     ui->pushButtonCredits->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    /*
+
     QIcon* icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer2.png"), QSize(125,125), QIcon::Normal, QIcon::On);
@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(customButtonAccelerate, SIGNAL(OpenDialog()), this, SLOT(OpenAccStartDialog()));
 
     customButtonAccelerate->show();
-    */
+
 }
 
 MainWindow::~MainWindow()
@@ -98,10 +98,10 @@ MainWindow::~MainWindow()
 
     if(helpDialog)
         delete helpDialog;
-/*
+
     if(customButtonAccelerate)
         delete customButtonAccelerate;
-*/
+
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -155,19 +155,6 @@ void MainWindow::on_pushButtonRoute_clicked()
 void MainWindow::on_pushButtonSettings_clicked()
 {
     settingsDialog->show();
-}
-
-/**
-  * This slot function opens the acceleration dialog
-  */
-void MainWindow::on_pushButtonAccelerate_clicked()
-{
-    if(!accstart)
-        accstart = new accelerationstart(this);
-
-    connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
-    connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
-    accstart->show();
 }
 
 /**
@@ -349,6 +336,7 @@ void MainWindow::OpenAccStartDialog()
 {
     if(!accstart)
         accstart = new accelerationstart(this);
+
     connect(accstart, SIGNAL(sendresult(QString, double)), this, SLOT(clientSendResult(QString, double)));
     connect(accstart, SIGNAL(rejected()), this, SLOT(killDialog()));
     accstart->show();

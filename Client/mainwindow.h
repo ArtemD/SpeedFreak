@@ -60,7 +60,6 @@ private:
 
 private slots:
     void on_pushButtonResults_clicked();
-    void on_pushButtonAccelerate_clicked();
     void on_pushButtonSettings_clicked();
     void on_pushButtonRoute_clicked();
     void on_pushButtonCredits_clicked();
