@@ -170,7 +170,6 @@ qreal countDistance(Vector *p1, Vector *p2)
 /**
   * Constructor of this class.
   */
-//RouteDialog::RouteDialog(QWidget *parent) :
 RouteDialog::RouteDialog(RouteSaveDialog *parent) :
     QDialog(parent), ui(new Ui::RouteDialog)
 {
@@ -198,6 +197,7 @@ RouteDialog::RouteDialog(RouteSaveDialog *parent) :
 
     // Set average speed
     ui->avgSpeedValueLabel->setText(QString::number(parent->getAverageSpeed()) + " km/h");
+    ui->distanceValueLabel->setText(parent->getDistanceTraveled() + " km");
 }
 
 /**

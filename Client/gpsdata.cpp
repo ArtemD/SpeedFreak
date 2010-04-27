@@ -73,6 +73,7 @@ void GPSData::resetAll()
     routeStopTime = "";
     recordingStatus = false;
     roundCounter = 0;
+    distance = 0;
 }
 
 /**
@@ -134,6 +135,7 @@ void GPSData::agnss()
                     if (!routeTempFile.open(QIODevice::Append | QIODevice::Text))
                         return;
 
+                    distance += location->distance_between_two_points(latitudePrevious, longitudePrevious, latitude, longitude);
                     writeRouteXml(&routeTempFile, 0);
                     roundCounter ++;
                     routeTempFile.close();
@@ -277,4 +279,12 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
         xmlwriter.writeEndElement();//Route
         xmlwriter.writeEndDocument();     
     }
+}
+
+/**
+  *This function returns distance traveled since recording started.
+  */
+double GPSData::getDistanceTraveled()
+{
+    return distance;
 }
