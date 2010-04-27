@@ -26,6 +26,8 @@ public:
     void stopRouteRecording();
     int roundCounter; //testing, move private!!!
 
+    double getDistanceTraveled();
+
 private:
     Maemo5Location *location;
     void resetAll();
@@ -50,6 +52,7 @@ private:
     double epc;          //Climb accuracy in m/s.
     double latitudePrevious;
     double longitudePrevious;
+    double distance;
     QString routeStartTime;
     QString routeStopTime;
     QString sLatitudeNow;

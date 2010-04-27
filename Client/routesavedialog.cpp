@@ -60,6 +60,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->labelRoutePicture->setVisible(0);
     ui->labelGpsSpeed->setVisible(0); //GPS speed label
     ui->labelGpsAvgSpeed->setVisible(0); //GPS average speed label
+    ui->labelDistance->setVisible(0); //GPS distance label
     ui->labelSignalStrength->setText(""); //GPS signal strength label
     timerRoutePicture = new QTimer();
     timerRoutePicture->setInterval(400);
@@ -160,6 +161,9 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         ui->labelGpsSpeed->setVisible(0);
         ui->labelGpsAvgSpeed->setVisible(0);
 
+        //GPS distance label
+        ui->labelDistance->setVisible(0);
+
         //Stop route recording
         gpsData->stopRouteRecording();
 
@@ -248,6 +252,11 @@ void RouteSaveDialog::gpsStatus()
             ui->labelGpsAvgSpeed->setVisible(1);
             speedCount++;
 
+            //Set distance traveled.
+            distanceString.sprintf("%.3f", gpsData->getDistanceTraveled());
+            ui->labelDistance->setText(distanceString + " km");
+            ui->labelDistance->setVisible(1);
+
             //Start route recording
             gpsData->startRouteRecording();
         }
@@ -268,6 +277,9 @@ void RouteSaveDialog::gpsStatus()
             //Set GPS speed labels in visible
             ui->labelGpsSpeed->setVisible(0);
             ui->labelGpsAvgSpeed->setVisible(0);
+
+            //GPS distance label
+            ui->labelDistance->setVisible(0);
         }
     }
     else //If stop button clicked
@@ -287,6 +299,9 @@ void RouteSaveDialog::gpsStatus()
         //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
         ui->labelGpsAvgSpeed->setVisible(0);
+
+        //GPS distance label
+        ui->labelDistance->setVisible(0);
     }
 }
 
@@ -331,4 +346,13 @@ void RouteSaveDialog::killHelpDialog()
 double RouteSaveDialog::getAverageSpeed()
 {
     return averageSpeed;
+}
+
+/**
+  * This function return distance traveled in QString.
+  * @return QString distance traveled
+  */
+QString RouteSaveDialog::getDistanceTraveled()
+{
+    return distanceString;
 }

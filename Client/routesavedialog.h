@@ -31,6 +31,7 @@ public:
     RouteDialog *routeDialog;
     HelpRoutingDialog *helpRoutingDialog;
     double getAverageSpeed();
+    QString getDistanceTraveled();
 
 protected:
     void changeEvent(QEvent *e);
@@ -42,6 +43,7 @@ private:
     GPSData *gpsData;
     Maemo5Location *location;
     QString gpsSpeed;
+    QString distanceString;
     QPixmap *pixmapRouteStop;
     QPixmap *pixmapRouteStart;
     QIcon *iconRouteStop;
