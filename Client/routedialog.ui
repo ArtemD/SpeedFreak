@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="newPushButton">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>710</x>
      <y>150</y>
      <width>90</width>
      <height>90</height>
@@ -39,7 +39,7 @@
   <widget class="QPushButton" name="sendPushButton">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>710</x>
      <y>50</y>
      <width>90</width>
      <height>90</height>
@@ -58,38 +58,6 @@
      <height>85</height>
     </size>
    </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>650</x>
-     <y>250</y>
-     <width>141</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="maxSpeedLabel">
-      <property name="text">
-       <string>Max speed</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="speedValueLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QLabel" name="labelInfoToUser">
    <property name="geometry">
@@ -125,6 +93,70 @@
      <width>45</width>
      <height>45</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxSpeedLabel">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>10</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Max:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="speedValueLabel">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>40</y>
+     <width>110</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>speedValueLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="avgSpeedlabel">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>130</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Average:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="avgSpeedValueLabel">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>160</y>
+     <width>135</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>avgSpeedValueLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
  </widget>

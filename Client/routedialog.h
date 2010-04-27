@@ -12,6 +12,7 @@
 
 #include <QDialog>
 #include <helproutingdialog.h>
+class RouteSaveDialog;
 
 namespace Ui {
     class RouteDialog;
@@ -21,7 +22,8 @@ class RouteDialog : public QDialog {
     Q_OBJECT
 
 public:
-    RouteDialog(QWidget *parent = 0);
+    //RouteDialog(QWidget *parent = 0);
+    RouteDialog(RouteSaveDialog *parent = 0);
     ~RouteDialog();
     bool readRouteFromFile( QString &routeFile);
     int getLeft();

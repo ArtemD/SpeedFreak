@@ -30,6 +30,7 @@ public:
     ~RouteSaveDialog();
     RouteDialog *routeDialog;
     HelpRoutingDialog *helpRoutingDialog;
+    double getAverageSpeed();
 
 protected:
     void changeEvent(QEvent *e);
@@ -46,6 +47,10 @@ private:
     QIcon *iconRouteStop;
     QIcon *iconRouteStart;
     bool buttonStatus;
+    double averageSpeed;
+    double speed;
+    double allSpeeds;
+    int speedCount;
 
 private slots:
     void on_pushButtonInfo_clicked();
