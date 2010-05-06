@@ -36,6 +36,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void paintEvent(QPaintEvent *);
 
 private:
     Ui::RouteSaveDialog *ui;
@@ -55,6 +56,7 @@ private:
     double speed;
     double allSpeeds;
     int speedCount;
+    double direction;
 
 private slots:
     void on_pushButtonInfo_clicked();

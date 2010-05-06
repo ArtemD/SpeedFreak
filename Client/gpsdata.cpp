@@ -105,6 +105,7 @@ void GPSData::agnss()
         longitude   = location->getLongitude(); //Returns longitude.
         altitude    = location->getAltitude();  //Returns fix altitude in meters.
         speed       = location->getSpeed();     //Returns current speed in km/h.
+        track = location->getTrack(); //Returns direction of motion in degrees(0-359).
 
         QFile routeTempFile("routetemp.xml");//Temp xml.
 
@@ -287,4 +288,13 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
 double GPSData::getDistanceTraveled()
 {
     return distance;
+}
+
+/**
+  *This function returns direction of motion in degrees(0-359).
+  *@return double track
+  */
+double GPSData::getDirection()
+{
+    return track;
 }

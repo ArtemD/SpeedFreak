@@ -27,6 +27,7 @@ public:
     int roundCounter; //testing, move private!!!
 
     double getDistanceTraveled();
+    double getDirection();
 
 private:
     Maemo5Location *location;

@@ -9,6 +9,19 @@
 #include "routesavedialog.h"
 #include "ui_routesavedialog.h"
 #include <QDebug>
+#include <QPainter>
+
+const QPoint arrowStartEast(100, 100);
+const QPoint arrowEndEast(140, 100);
+
+const QPoint arrowStartNorth(120, 120);
+const QPoint arrowEndNorth(120, 80);
+
+const QPoint arrowStartNortheast(100, 120);
+const QPoint arrowEndNortheast(140, 80);
+
+const QPoint arrowStartNorthwest(140, 120);
+const QPoint arrowEndNorthwest(100, 80);
 
 /**
   * Constructor of this class.
@@ -32,6 +45,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     speed = 0.0;
     allSpeeds = 0.0;
     speedCount = 0;
+    direction = 0.0;
 
     //Button settings
     buttonStatus = true;
@@ -114,7 +128,100 @@ void RouteSaveDialog::changeEvent(QEvent *e)
 }
 
 /**
-  * This slot function is called when route start/stop button clicked.
+  * Draws compass to the UI
+  * @param QPaintEvent
+ */
+void RouteSaveDialog::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(QPen((Qt::gray),2));
+
+    painter.drawEllipse(arrowStartEast.x() - 30, arrowStartEast.y() - 50, 100, 100);
+
+    QFont font;
+    font.setPixelSize(26);
+    painter.setFont(font);
+    painter.drawText(arrowStartNorth.x() - 10, arrowEndNorth.y() - 45, "N");
+    painter.drawText(arrowStartEast.x() - 65, arrowStartEast.y() + 5, "W");
+    painter.drawText(arrowStartNorth.x()-10, arrowStartNorth.y()+55, "S");
+    painter.drawText(arrowEndEast.x() + 40, arrowEndEast.y() + 5, "E");
+
+    font.setPixelSize(12);
+    painter.setFont(font);
+    painter.drawText(arrowStartNorth.x() + 40, arrowEndNorth.y() - 25, "NE");
+    painter.drawText(arrowStartNorth.x() + 40, arrowStartEast.y() + 45, "SE");
+    painter.drawText(arrowStartEast.x() - 45, arrowStartEast.y() + 45, "SW");
+    painter.drawText(arrowStartEast.x() - 45, arrowEndNorth.y() - 25, "NW");
+
+    if (direction >= 67.5 && direction <= 112.5)
+    {
+        // East arrow
+        painter.drawLine(arrowStartEast, arrowEndEast);
+        painter.drawLine(arrowEndEast.x(), arrowEndEast.y(), arrowEndEast.x()-10, arrowEndEast.y()-5);
+        painter.drawLine(arrowEndEast.x(), arrowEndEast.y(), arrowEndEast.x()-10, arrowEndEast.y()+5);
+    }
+
+    else if (direction <= 292.5 && direction >= 247.5)
+    {
+        // West arrow
+        painter.drawLine(arrowStartEast, arrowEndEast);
+        painter.drawLine(arrowStartEast.x(), arrowStartEast.y(), arrowStartEast.x()+10, arrowEndEast.y()-5);
+        painter.drawLine(arrowStartEast.x(), arrowStartEast.y(), arrowStartEast.x()+10, arrowStartEast.y()+5);
+    }
+
+    else if (direction <= 202.5 && direction >= 157.5)
+    {
+        // South arrow
+        painter.drawLine(arrowStartNorth, arrowEndNorth);
+        painter.drawLine(arrowStartNorth.x(), arrowStartNorth.y(), arrowStartNorth.x()-5, arrowStartNorth.y()-10);
+        painter.drawLine(arrowStartNorth.x(), arrowStartNorth.y(), arrowStartNorth.x()+5, arrowStartNorth.y()-10);
+    }
+
+    else if (direction > 22.5 && direction < 67.5)
+    {
+        // Northeast arrow
+        painter.drawLine(arrowStartNortheast, arrowEndNortheast);
+        painter.drawLine(arrowEndNortheast.x(), arrowEndNortheast.y(), arrowEndNortheast.x()-10, arrowEndNortheast.y());
+        painter.drawLine(arrowEndNortheast.x(), arrowEndNortheast.y(), arrowEndNortheast.x(), arrowEndNortheast.y()+10);
+    }
+
+    else if (direction > 202.5 && direction < 247.5)
+    {
+        // Southwest arrow
+        painter.drawLine(arrowStartNortheast, arrowEndNortheast);
+        painter.drawLine(arrowStartNortheast.x(), arrowStartNortheast.y(), arrowStartNortheast.x(), arrowStartNortheast.y() - 10);
+        painter.drawLine(arrowStartNortheast.x(), arrowStartNortheast.y(), arrowStartNortheast.x() + 10, arrowStartNortheast.y());
+    }
+
+    else if (direction > 292.5 && direction < 336.5)
+    {
+        // Northwest arrow
+        painter.drawLine(arrowStartNorthwest, arrowEndNorthwest);
+        painter.drawLine(arrowEndNorthwest.x(), arrowEndNorthwest.y(), arrowEndNorthwest.x(), arrowEndNorthwest.y()+10);
+        painter.drawLine(arrowEndNorthwest.x(), arrowEndNorthwest.y(), arrowEndNorthwest.x()+10, arrowEndNorthwest.y());
+    }
+
+    else if (direction > 112.5 && direction < 157.5)
+    {
+        // Southeast arrow
+        painter.drawLine(arrowStartNorthwest, arrowEndNorthwest);
+        painter.drawLine(arrowStartNorthwest.x(), arrowStartNorthwest.y(), arrowStartNorthwest.x(), arrowStartNorthwest.y()-10);
+        painter.drawLine(arrowStartNorthwest.x(), arrowStartNorthwest.y(), arrowStartNorthwest.x()-10, arrowStartNorthwest.y());
+    }
+
+    else
+    {
+        // North arrow
+        painter.drawLine(arrowStartNorth, arrowEndNorth);
+        painter.drawLine(arrowEndNorth.x(), arrowEndNorth.y(), arrowEndNorth.x()-5, arrowEndNorth.y()+10);
+        painter.drawLine(arrowEndNorth.x(), arrowEndNorth.y(), arrowEndNorth.x()+5, arrowEndNorth.y()+10);
+    }
+}
+
+/**
+  *This slot function is called when route start/stop button clicked.
   */
 void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 {
@@ -264,6 +371,10 @@ void RouteSaveDialog::gpsStatus()
             //Get GPS speed
             speed = location->getSpeed();
 
+            //Get GPS track means direction
+            direction = gpsData->getDirection();
+            repaint();
+
             //Set GPS speed
             gpsSpeed.sprintf("%.0f", speed);
             ui->labelGpsSpeed->setText(gpsSpeed + " km/h");
@@ -273,7 +384,7 @@ void RouteSaveDialog::gpsStatus()
             allSpeeds += speed;
             averageSpeed = allSpeeds/speedCount;
             gpsSpeed.sprintf("%.0f",averageSpeed);
-            ui->labelGpsAvgSpeed->setText("Average: " + gpsSpeed + " km/h");
+            ui->labelGpsAvgSpeed->setText("Avg: " + gpsSpeed + " km/h");
             ui->labelGpsAvgSpeed->setVisible(1);
             speedCount++;
 
