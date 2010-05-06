@@ -17,10 +17,17 @@
 CustomButton::CustomButton(QWidget *parent, QIcon *icon) : QWidget(parent)
 {
     bPressed = false;
+    //Get size of the icon
+    QList<QSize> list = icon->availableSizes(QIcon::Normal,QIcon::On);
+
+    //If icon is empty, do not create pixmaps and leave
+    if(list.isEmpty())
+        return;
+    QSize size = list.first();
     if( icon )
     {
-        pict1 = new QPixmap(icon->pixmap(125,125,QIcon::Normal,QIcon::On));
-        pict2 = new QPixmap(icon->pixmap(125,125,QIcon::Normal,QIcon::Off));
+        pict1 = new QPixmap(icon->pixmap(size.width(),size.height(),QIcon::Normal,QIcon::On));
+        pict2 = new QPixmap(icon->pixmap(size.width(),size.height(),QIcon::Normal,QIcon::Off));
     }
 }
 /**

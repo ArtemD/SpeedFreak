@@ -49,14 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setUsernameToMainPanel();
 
-    //Button settings
-    ui->pushButtonSettings->setAutoFillBackground(true);
-    ui->pushButtonSettings->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    ui->pushButtonWWW->setAutoFillBackground(true);
-    ui->pushButtonWWW->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    ui->pushButtonCredits->setAutoFillBackground(true);
-    ui->pushButtonCredits->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-
     //Create icon for acceleration start button
     QIcon* icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
@@ -101,6 +93,49 @@ MainWindow::MainWindow(QWidget *parent) :
     customButtonResults->setGeometry(buttons_x,buttons_y,130,130);
     connect(customButtonResults, SIGNAL(OpenDialog()), this, SLOT(OpenResultDialog()));
     customButtonResults->show();
+    //Create icon for settings dialog button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/settings.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/settings_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    //Settings dialog button
+
+    customButtonSettings = new CustomButton(this,icon);
+    delete icon;
+
+    buttons_x += 140;
+    customButtonSettings->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonSettings, SIGNAL(OpenDialog()), this, SLOT(OpenSettingsDialog()));
+    customButtonSettings->show();
+
+    //Create icon for www page button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    //WWW page button
+
+    customButtonWWW = new CustomButton(this,icon);
+    delete icon;
+
+    buttons_x += 140;
+    customButtonWWW->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonWWW, SIGNAL(OpenDialog()), this, SLOT(OpenWWWPage()));
+    customButtonWWW->show();
+
+    //Create icon for help dialog button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/info.png"), QSize(105,105), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/info_selected.png"), QSize(105,105), QIcon::Normal, QIcon::On);
+
+    //Help dialog button
+
+    customButtonHelp = new CustomButton(this,icon);
+    delete icon;
+
+    customButtonHelp->setGeometry(670,10,105,105);
+    connect(customButtonHelp, SIGNAL(OpenDialog()), this, SLOT(OpenHelpDialog()));
+    customButtonHelp->show();
 }
 
 /**
@@ -137,8 +172,14 @@ MainWindow::~MainWindow()
         delete customButtonRoute;
     if(customButtonResults)
         delete customButtonResults;
-
+    if(customButtonSettings)
+        delete customButtonSettings;
+    if(customButtonWWW)
+        delete customButtonWWW;
+    if(customButtonHelp)
+        delete customButtonHelp;
 }
+
 
 /**
   *
@@ -153,34 +194,6 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-
-/**
-  * This slot function opens browser to project www page.
-  */
-void MainWindow::on_pushButtonWWW_clicked()
-{
-    QDesktopServices::openUrl(QUrl("http://garage.maemo.org/projects/speedfreak/"));
-}
-
-/**
-  * This slot function opens the credits dialog
-  */
-void MainWindow::on_pushButtonCredits_clicked()
-{
-    if(!helpDialog)
-        helpDialog = new HelpDialog;
-
-    connect(helpDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
-    helpDialog->show();
-}
-
-/**
-  * This slot function opens the settings dialog
-  */
-void MainWindow::on_pushButtonSettings_clicked()
-{
-    settingsDialog->show();
 }
 
 /**
@@ -379,6 +392,31 @@ void MainWindow::OpenResultDialog()
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
     connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     topResultDialog->show();
+}
+/**
+  * This slot function opens the settings dialog
+  */
+void MainWindow::OpenSettingsDialog()
+{
+    settingsDialog->show();
+}
+/**
+  * This slot function opens browser to project www page.
+  */
+void MainWindow::OpenWWWPage()
+{
+    QDesktopServices::openUrl(QUrl("http://garage.maemo.org/projects/speedfreak/"));
+}
+/**
+  * This slot function opens the main help dialog
+  */
+void MainWindow::OpenHelpDialog()
+{
+    if(!helpDialog)
+        helpDialog = new HelpDialog;
+
+    connect(helpDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    helpDialog->show();
 }
 
 /**

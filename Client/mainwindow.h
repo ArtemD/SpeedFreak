@@ -59,11 +59,11 @@ private:
     CustomButton* customButtonAccelerate;
     CustomButton* customButtonRoute;
     CustomButton* customButtonResults;
+    CustomButton* customButtonSettings;
+    CustomButton* customButtonWWW;
+    CustomButton* customButtonHelp;
 
 private slots:
-    void on_pushButtonSettings_clicked();
-    void on_pushButtonCredits_clicked();
-    void on_pushButtonWWW_clicked();
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
     void clientSendRoute();
@@ -78,7 +78,9 @@ private slots:
     void OpenRouteDialog();
     void OpenResultDialog();
     void saveProfile();
-
+    void OpenWWWPage();
+    void OpenHelpDialog();
+    void OpenSettingsDialog();
 };
 
 #endif // MAINWINDOW_H
