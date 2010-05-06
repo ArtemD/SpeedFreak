@@ -15,17 +15,20 @@
 #include <QNetworkReply>
 #include "categorylist.h"
 
+class ProfileDialog;
+
 class XmlReader : public QObject {
     Q_OBJECT
 public:
     XmlReader();
     ~XmlReader();
     CategoryList *myCategoryList;
+    void xmlReadProfile(QIODevice *device, ProfileDialog *profileDialog);
 
 private:
     QXmlStreamReader xmlreader;
-
     QXmlStreamAttributes attr;
+    ProfileDialog *profile;
     QString category;
     QString unit;
     QString date;
@@ -39,7 +42,7 @@ signals:
     void receivedTop10List();
 
 public slots:
-    void xmlReadTop10Results(QNetworkReply *device);
+    void xmlReadTop10Results(QNetworkReply *device, QString userName);
     void xmlReadCategories(QNetworkReply *device);
     //void xmlReadCategories(QIODevice *device);
     void xmlShow();

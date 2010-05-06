@@ -48,7 +48,10 @@ public slots:
     void ackOfCategories();
     void ackOfToplist();
     void ackOfLogin();
+    bool ackOfProfile();
+    void ackOfSendingPicture();
     void errorFromServer(QNetworkReply::NetworkError);
+    void sendProfileXml();
 
 };
 

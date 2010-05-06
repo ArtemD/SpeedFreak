@@ -1,7 +1,8 @@
 /*
  * Categorylist
  *
- * @author     Olavi Pulkkinen <olavi.pulkkinena@fudeco.com>
+ * @author     Olavi Pulkkinen  <olavi.pulkkinena@fudeco.com>
+ * @author     Toni Jussila     <toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -51,6 +52,7 @@ QStringList CategoryList::getCategoryList()
   */
 void CategoryList::appendCategoryList(QString item)
 {
+    qDebug() << "__appendCategoryList";
     categoryList.append(item);
 }
 
@@ -61,6 +63,7 @@ void CategoryList::appendCategoryList(QString item)
   */
 void CategoryList::fillCategoryList(int index, QString item)
 {
+    qDebug() << "__fillCategoryList";
     categoryList.insert(index, item);
 }
 
@@ -70,6 +73,7 @@ void CategoryList::fillCategoryList(int index, QString item)
   */
 QString CategoryList::itemOfCategoryList(int index)
 {
+    qDebug() << "__itemOfCategoryList";
     return categoryList.at(index);
 }
 
@@ -78,6 +82,7 @@ QString CategoryList::itemOfCategoryList(int index)
   */
 void CategoryList::clearCategoryList()
 {
+    qDebug() << "__clearCategoryList";
     categoryList.clear();
 }
 
@@ -86,6 +91,7 @@ void CategoryList::clearCategoryList()
   */
 int CategoryList::sizeOfCategoryList()
 {
+    qDebug() << "__sizeOfCategoryList";
     return categoryList.size();
 }
 
@@ -98,6 +104,7 @@ int CategoryList::sizeOfCategoryList()
   */
 void CategoryList::appendCats(int ind, QString des, QString uni, QString cat)
 {
+    qDebug() << "__appendCats";
     cats[ind].description = des;
     cats[ind].unit = uni;
     cats[ind].category = cat;
@@ -109,6 +116,7 @@ void CategoryList::appendCats(int ind, QString des, QString uni, QString cat)
   */
 QString CategoryList::getRecentDescription(int ind)
 {
+    qDebug() << "__getRecentDescription";
     return cats[ind].description;
 }
 
@@ -118,6 +126,7 @@ QString CategoryList::getRecentDescription(int ind)
   */
 QString CategoryList::getRecentCategory(int ind)
 {
+    qDebug() << "__getRecentCategory";
     return cats[ind].category;
 }
 
@@ -126,6 +135,7 @@ QString CategoryList::getRecentCategory(int ind)
   */
 void CategoryList::clearCats()
 {
+    qDebug() << "__clearCats";
     for(int i = 0; i < 20; i++)
     {
         cats[i].description.clear();

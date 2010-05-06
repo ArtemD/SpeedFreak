@@ -19,9 +19,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->setupUi(this);
 
     helpSettingsDialog = NULL;
+    profileDialog = NULL;
 
     this->setWindowTitle("Settings");
     this->ui->regEMailLineEdit->setText("@");
+
+    ui->pushButtonProfile->setDisabled(true);
 
     if (loginSaved())
     {
@@ -43,7 +46,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         // Button settings
         ui->pushButtonInfo->setAutoFillBackground(true);
         ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+        ui->pushButtonProfile->setDisabled(false);
     }
+
+    ui->pushButtonInfo->setAutoFillBackground(true);
+    ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
 SettingsDialog::~SettingsDialog()
@@ -135,6 +142,7 @@ void SettingsDialog::on_setUserPushButton_clicked()
         this->password = ui->setUserPasswordLineEdit->text();
         ui->setUserPushButton->setText("Log in");
         saveLogin( this->username, this->password);
+        ui->pushButtonProfile->setDisabled(true);
         emit logout();
     }
     else
@@ -211,6 +219,7 @@ void SettingsDialog::usernameOk(bool isOk)
         ui->setUserPushButton->setText("Log out");
         ui->setUserUsernameLineEdit->setDisabled(true);
         ui->setUserPasswordLineEdit->setDisabled(true);
+        ui->pushButtonProfile->setDisabled(false);
     }
 
     else
@@ -221,6 +230,7 @@ void SettingsDialog::usernameOk(bool isOk)
         this->username = ui->setUserUsernameLineEdit->text();
         this->password = ui->setUserPasswordLineEdit->text();
         saveLogin( this->username, this->password);
+        ui->pushButtonProfile->setDisabled(true);
     }
 }
 
@@ -240,14 +250,14 @@ void SettingsDialog::on_pushButtonInfo_clicked()
     {
         helpSettingsDialog = new HelpSettingsDialog;
     }
-    connect(helpSettingsDialog, SIGNAL(rejected()), this, SLOT(killHelpDialog()));
+    connect(helpSettingsDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     helpSettingsDialog->show();
 }
 
 /**
   * This slot function called when ever dialog rejected.
   */
-void SettingsDialog::killHelpDialog()
+void SettingsDialog::killDialog()
 {
     if(helpSettingsDialog)
     {
@@ -255,4 +265,30 @@ void SettingsDialog::killHelpDialog()
         delete helpSettingsDialog;
         helpSettingsDialog = NULL;
     }
+    if(profileDialog)
+    {
+        qDebug() << "__Settings kill: profileDialog";
+        delete profileDialog;
+        profileDialog = NULL;
+    }
+}
+
+/**
+  * This slot function called when ever profile button clicked.
+  * Open profile dialog.
+  */
+void SettingsDialog::on_pushButtonProfile_clicked()
+{
+    if(!profileDialog)
+    {
+        profileDialog = new ProfileDialog(this);
+    }
+    connect(profileDialog, SIGNAL(saveprofile()), this, SLOT(saveProfile()));
+    connect(profileDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    profileDialog->show();
+}
+
+void SettingsDialog::saveProfile()
+{
+    emit saveprofile();
 }

@@ -2,6 +2,7 @@
  * Xml writer
  *
  * @author     Tiina Kivilinna-Korhola
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -23,12 +24,13 @@
 #include <QByteArray>
 #include <QApplication>
 
-
 class XmlWriter : public QObject {
     Q_OBJECT
 public:
     XmlWriter();
     ~XmlWriter();
+    void writeProfileXmlFile(QIODevice *device, QString userName, QString manufacturer, QString type, QString model, QString description, QString picture);
+    void writeProfileXmlFile(QBuffer *netbuf, QString userName, QString manufacturer, QString type, QString model, QString description, QString picture);
 
 private:
     QXmlStreamWriter xmlwriter;
@@ -41,6 +43,7 @@ public slots:
     //void writeXml(QString usr, QString psswd, QString email);
     void writeXml();
     void writeItems();
+
 };
 
 #endif // XMLWRITER_H

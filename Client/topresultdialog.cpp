@@ -36,6 +36,7 @@ TopResultDialog::TopResultDialog(QWidget *parent) :
 
 TopResultDialog::~TopResultDialog()
 {
+    qDebug() << "__~TopResultDialog";
     delete ui;
 }
 
@@ -66,6 +67,7 @@ void TopResultDialog::setCompoBoxCategories(QStringList list)
 
 void TopResultDialog::showTopList(QString str)
 {
+    qDebug() << "__showTopList";
     ui->labelTopList->setText(str);
 }
 
