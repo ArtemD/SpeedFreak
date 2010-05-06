@@ -57,7 +57,10 @@ list seeking from server.</string>
    </property>
    <property name="text">
     <string>2. Choose the category from drop box
-which results you want to see. </string>
+which results you want to see.</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::AutoText</enum>
    </property>
   </widget>
  </widget>

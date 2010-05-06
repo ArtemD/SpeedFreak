@@ -32,6 +32,11 @@ HttpClient::HttpClient(MainWindow *myCarw)
 HttpClient::~HttpClient()
 {
     qDebug() << "__~HttpClient" ;
+
+    if(myXmlwriter)
+        delete myXmlwriter;
+    if(myXmlreader)
+        delete myXmlreader;
 }
 
 /**
@@ -145,7 +150,8 @@ void HttpClient::sendRouteXml()
   */
 void HttpClient::requestTopList(QString category, QString limit)
 {
-    qDebug() << "_requestTopList" ;
+    qDebug() << "_requestTopList";
+    qDebug() << category;
 
     QString urlBase = "http://api.speedfreak-app.com/api/results/";
     QUrl qurl(urlBase + category + "/" + limit);
@@ -377,7 +383,6 @@ void HttpClient::ackOfLogin()
         	myMainw->settingsDialog->usernameOk(true);
         	myMainw->settingsDialog->close();    
     	}
-
     }
 }
 
@@ -407,20 +412,141 @@ void HttpClient::ackOfToplist()
 {
     qDebug() << "_ackOfToplist";
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    myXmlreader->xmlReadTop10Results(reply);
+    myXmlreader->xmlReadTop10Results(reply,myMainw->settingsDialog->getUserName());
 
     QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list",reply->errorString());
+        //Indicating user
         if(myMainw->topResultDialog)
-            myMainw->topResultDialog->setLabelInfoToUser("Error");
+        {
+            //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list",reply->errorString());
+            myMainw->topResultDialog->setLabelInfoToUser("No results ;(");
+        }
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list", "OK " + reply->readAll());
+        //Indicating user
         if(myMainw->topResultDialog)
+        {
+            //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting top 10 list", "OK " + reply->readAll());
             myMainw->topResultDialog->setLabelInfoToUser("");
+        }
+    }
+}
+
+/**
+  * This function sends profile to the server in xml format.
+  * Send authentication information in the header.
+  */
+void HttpClient::sendProfileXml()
+{
+    qDebug() << "_sendProfileXml";
+
+    QString userName = myMainw->settingsDialog->getUserName();
+    QString filename = userName + "_profile.xml";
+    QFile file(filename);
+    if (!file.open(QFile::ReadWrite | QFile::Text))
+    {
+        qDebug() << "_xmlWrite fail";
+        return;
+    }
+    myXmlwriter->writeProfileXmlFile(&file, userName,
+            myMainw->settingsDialog->profileDialog->getManufacturer(),
+            myMainw->settingsDialog->profileDialog->getType(),
+            myMainw->settingsDialog->profileDialog->getModel(),
+            myMainw->settingsDialog->profileDialog->getDescription(),
+            myMainw->settingsDialog->profileDialog->getPicture());
+
+    //Indicating user
+    if(myMainw->settingsDialog->profileDialog)
+        myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to phone");
+
+    QUrl qurl("http://api.speedfreak-app.com/api/profile");
+    QNetworkRequest request(qurl);
+    qDebug() << qurl.toString();
+    QNetworkReply *currentDownload;
+
+    QString credentials = myMainw->settingsDialog->getUserName() + ":" + myMainw->settingsDialog->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    currentDownload = netManager->post(request, ("xml=" + file.readAll()));
+    bool error = connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfProfile()));
+
+    file.close();
+
+    // Send picture
+    if(myMainw->settingsDialog->profileDialog->getPicture() != "" && error == false)
+    {
+        QFile pictureFile( myMainw->settingsDialog->profileDialog->getPicture() );
+        if (!pictureFile.open(QIODevice::ReadOnly))
+        {
+            qDebug() << "__picture read fail";
+            return;
+        }
+        currentDownload = netManager->post(request, pictureFile.readAll());
+        connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfSendingPicture()));
+        pictureFile.close();
+    }
+}
+
+/**
+  * This slot function react to servers responce after request of profile has been sent.
+  */
+bool HttpClient::ackOfProfile()
+{
+    qDebug() << "__ackOfProfile";
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //Indicating user
+        if(myMainw->settingsDialog->profileDialog)
+        {
+            //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting profile",reply->errorString());
+            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile save to server - fail");
+            return true;
+        }
+    }
+    else {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //Indicating user
+        if(myMainw->settingsDialog->profileDialog)
+        {
+            //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting profile", "OK " + reply->readAll());
+            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to server");
+            return false;
+        }
+    }
+}
+/**
+  * This slot function react to servers responce after request of picture has been sent.
+  */
+void HttpClient::ackOfSendingPicture()
+{
+    qDebug() << "__ackOfSendingPicture";
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //Indicating user
+        if(myMainw->settingsDialog->profileDialog)
+        {
+            //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting picture",reply->errorString());
+            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Picture save to server - fail");
+        }
+    }
+    else {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //Indicating user
+        if(myMainw->settingsDialog->profileDialog)
+        {
+            //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting picture", "OK " + reply->readAll());
+            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Picture saved to server");
+        }
     }
 }

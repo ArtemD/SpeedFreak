@@ -167,3 +167,107 @@ void XmlWriter::writeItems()
     xmlwriter.writeAttribute("date", QDateTime::currentDateTime().toString());
     xmlwriter.writeEndElement();
 }
+
+/**
+  * Write profile xml
+  * @param QIODevice device: target of writing, here filename.
+  * @param QString user name
+  * @param QString manufacturer
+  * @param QString type
+  * @param QString model
+  * @param QString description
+  * @param QString picture: filename.
+  */
+void XmlWriter::writeProfileXmlFile(QIODevice *device, QString userName, QString manufacturer,
+                                    QString type, QString model, QString description, QString picture)
+{
+    QString pictureStatus;
+    if(picture != "")
+        pictureStatus = "yes";
+    else
+        pictureStatus = "no";
+
+    /*example of XML:
+    <?xml version="1.0" encoding="UTF-8"?>
+    <profile login="test827" picture="yes">
+            <manufacturer>toyota</manufacturer>
+            <type>corolla</type>
+            <model>1983</model>
+            <description>Fuel efficient, GPS system, only one owner</description>
+    </profile>*/
+
+    xmlwriter.setDevice(device);
+    xmlwriter.writeStartDocument();
+        xmlwriter.writeStartElement("profile");
+        xmlwriter.writeAttribute("login", userName);
+        xmlwriter.writeAttribute("picture", pictureStatus);
+            xmlwriter.writeStartElement("manufacturer");
+                xmlwriter.writeCharacters(manufacturer);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("type");
+                xmlwriter.writeCharacters(type);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("model");
+                xmlwriter.writeCharacters(model);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("description");
+                xmlwriter.writeCharacters(description);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("picture");
+                xmlwriter.writeCharacters(picture);
+            xmlwriter.writeEndElement();
+        xmlwriter.writeEndElement();
+    xmlwriter.writeEndDocument();
+}
+
+/**
+  * Write profile xml
+  * @param QIODevice device: target of writing, here netbuf.
+  * @param QString user name
+  * @param QString manufacturer
+  * @param QString type
+  * @param QString model
+  * @param QString description
+  * @param QString picture: filename.
+  */
+void XmlWriter::writeProfileXmlFile(QBuffer *netbuf, QString userName, QString manufacturer,
+                                    QString type, QString model, QString description, QString picture)
+{
+    QString pictureStatus;
+    if(picture != "")
+        pictureStatus = "yes";
+    else
+        pictureStatus = "no";
+
+    /*example of XML:
+    <?xml version="1.0" encoding="UTF-8"?>
+    <profile login="test827" picture="yes">
+            <manufacturer>toyota</manufacturer>
+            <type>corolla</type>
+            <model>1983</model>
+            <description>Fuel efficient, GPS system, only one owner</description>
+    </profile>*/
+
+    xmlwriter.setDevice(netbuf);
+    xmlwriter.writeStartDocument();
+        xmlwriter.writeStartElement("profile");
+        xmlwriter.writeAttribute("login", userName);
+        xmlwriter.writeAttribute("picture", pictureStatus);
+            xmlwriter.writeStartElement("manufacturer");
+                xmlwriter.writeCharacters(manufacturer);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("type");
+                xmlwriter.writeCharacters(type);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("model");
+                xmlwriter.writeCharacters(model);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("description");
+                xmlwriter.writeCharacters(description);
+            xmlwriter.writeEndElement();
+            xmlwriter.writeStartElement("picture");
+                xmlwriter.writeCharacters(picture);
+            xmlwriter.writeEndElement();
+        xmlwriter.writeEndElement();
+    xmlwriter.writeEndDocument();
+}

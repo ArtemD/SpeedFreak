@@ -11,8 +11,8 @@
 #include <QDebug>
 
 /**
-  *Constructor of this class.
-  *@param QWidget pointer to parent object. By default the value is NULL.
+  * Constructor of this class.
+  * @param QWidget pointer to parent object. By default the value is NULL.
   */
 RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::RouteSaveDialog){
@@ -25,6 +25,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     location = NULL;
     gpsData = NULL;
     helpRoutingDialog = NULL;
+    calibrateDialog = NULL;
 
     //Clear variables
     averageSpeed = 0.0;
@@ -62,6 +63,8 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->labelGpsAvgSpeed->setVisible(0); //GPS average speed label
     ui->labelDistance->setVisible(0); //GPS distance label
     ui->labelSignalStrength->setText(""); //GPS signal strength label
+
+    // Timer
     timerRoutePicture = new QTimer();
     timerRoutePicture->setInterval(400);
     connect(timerRoutePicture, SIGNAL(timeout()),this, SLOT(timerRoutePictureTimeout()));
@@ -73,7 +76,7 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
 }
 
 /**
-  *Destructor of this class. Deletes all dynamic objects and sets them to NULL.
+  * Destructor of this class. Deletes all dynamic objects and sets them to NULL.
   */
 RouteSaveDialog::~RouteSaveDialog()
 {
@@ -111,7 +114,7 @@ void RouteSaveDialog::changeEvent(QEvent *e)
 }
 
 /**
-  *This slot function is called when route start/stop button clicked.
+  * This slot function is called when route start/stop button clicked.
   */
 void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 {
@@ -148,13 +151,35 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         timerRoutePicture->stop();
         location->stopPollingGPS();
 
+        // Progres bar
+        if(!calibrateDialog)
+            calibrateDialog = new CalibrateDialog();
+
+        calibrateDialog->show();
+        calibrateDialog->resetProgressValue();
+        int points = 100;
+        int iteration = 0;
+        calibrateDialog->setMaxValue( points + 1 );
+
+        /*do {
+            calibrateDialog->setProgressValue(iteration);
+            iteration++;
+
+        } while(iteration != points);*/
+
         QString routeFile = QString("routetemp.xml");
-        if (routeDialog->readRouteFromFile( routeFile ) == true)
+        if (routeDialog->readRouteFromFile( routeFile , calibrateDialog) == true)
         {
             if(!routeDialog)
                 routeDialog = new RouteDialog(this);
             connect(routeDialog, SIGNAL(sendroute()), this, SLOT(sendRoute()));
+
+            calibrateDialog->close();
             routeDialog->show();
+        }
+        else
+        {
+            calibrateDialog->close();
         }
 
         //Set GPS speed labels in visible
@@ -173,7 +198,7 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
 }
 
 /**
-  *This slot function is called when satellite picture timer timeout(400ms).
+  * This slot function is called when satellite picture timer timeout(400ms).
   */
 void RouteSaveDialog::timerSatellitePictureTimeout()
 {
@@ -192,7 +217,7 @@ void RouteSaveDialog::timerSatellitePictureTimeout()
 }
 
 /**
-  *This slot function is called when route picture timer timeout(400ms).
+  * This slot function is called when route picture timer timeout(400ms).
   */
 void RouteSaveDialog::timerRoutePictureTimeout()
 {

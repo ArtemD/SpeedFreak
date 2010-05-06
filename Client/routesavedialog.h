@@ -18,6 +18,7 @@
 #include "gpsdata.h"
 #include "routedialog.h"
 #include <helproutingdialog.h>
+#include "calibratedialog.h"
 
 namespace Ui {
     class RouteSaveDialog;
@@ -42,6 +43,7 @@ private:
     QTimer *timerRoutePicture;
     GPSData *gpsData;
     Maemo5Location *location;
+    CalibrateDialog *calibrateDialog;
     QString gpsSpeed;
     QString distanceString;
     QPixmap *pixmapRouteStop;

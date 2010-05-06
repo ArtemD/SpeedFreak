@@ -176,10 +176,10 @@ RouteDialog::RouteDialog(RouteSaveDialog *parent) :
     qDebug() << "__RouteDialog";
     ui->setupUi(this);
 
-    helpRoutingDialog = NULL;
-
     this->setWindowTitle("Route");
     left = 5; top = 5; right = 495; bottom = 295; // Limits in screen coordinates
+
+    helpRoutingDialog = NULL;
 
     // Button settings
     ui->sendPushButton->setAutoFillBackground(true);
@@ -196,7 +196,8 @@ RouteDialog::RouteDialog(RouteSaveDialog *parent) :
     checkLogin();
 
     // Set average speed
-    ui->avgSpeedValueLabel->setText(QString::number(parent->getAverageSpeed()) + " km/h");
+    QString average;
+    ui->avgSpeedValueLabel->setText(average.sprintf("%.1f", parent->getAverageSpeed()) + " km/h");
     ui->distanceValueLabel->setText(parent->getDistanceTraveled() + " km");
 }
 
@@ -208,6 +209,8 @@ RouteDialog::~RouteDialog()
     qDebug() << "__~RouteDialog";
     if(ui)
         delete ui;
+    if(calibrateDialog)
+        delete calibrateDialog;
 }
 
 /**
@@ -429,12 +432,16 @@ void RouteDialog::paintEvent(QPaintEvent *)
 /**
   *
   */
-bool RouteDialog::readRouteFromFile( QString &routeFile)
- {
+bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calibrateDialog)
+{
     QString rFile = routeFile; //Not used
     Vector temp;
     QString rivi;
     QFile file;
+
+    progresbar = calibrateDialog;
+    int progresbarValue = 0;
+    progresbar->setProgressValue(++progresbarValue);
 
     //QString fileName = QFileDialog::getOpenFileName(this,
     //     tr("Read Route"), "./", tr("Route Files (*.txt)"));
@@ -444,6 +451,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
+        progresbar->setProgressValue(100);
         return false;
     }
 
@@ -559,7 +567,7 @@ bool RouteDialog::readRouteFromFile( QString &routeFile)
      */
 
      return true;
- }
+}
 
 /**
   * Find out data range for x-, y- and z-coordinates

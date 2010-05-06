@@ -16,6 +16,9 @@
 #include <QDebug>
 #include "usersettings.h"
 
+/**
+  *
+  */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -32,9 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     topResultDialog = NULL;
 
     settingsDialog = new SettingsDialog;
-    connect(settingsDialog,SIGNAL(sendregistration()),this,SLOT(clientRegUserToServer()));
-    connect(settingsDialog,SIGNAL(userNameChanged()),this,SLOT(clientUserLogin()));
-    connect(settingsDialog, SIGNAL(logout()), this, SLOT(setUsernameToMainPanel()));
+    connect(settingsDialog, SIGNAL(sendregistration()), this, SLOT(clientRegUserToServer()));
+    connect(settingsDialog, SIGNAL(userNameChanged()),  this, SLOT(clientUserLogin()));
+    connect(settingsDialog, SIGNAL(logout()),           this, SLOT(setUsernameToMainPanel()));
+    connect(settingsDialog, SIGNAL(saveprofile()),      this, SLOT(saveProfile()));
 
     httpClient = new HttpClient(this);
     connect(httpClient->myXmlreader, SIGNAL(receivedCategoryList()), this, SLOT(setCategoryCompoBox()));
@@ -99,6 +103,9 @@ MainWindow::MainWindow(QWidget *parent) :
     customButtonResults->show();
 }
 
+/**
+  *
+  */
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -133,6 +140,9 @@ MainWindow::~MainWindow()
 
 }
 
+/**
+  *
+  */
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -280,6 +290,7 @@ void MainWindow::clientSendResult(QString category, double result)
             httpClient->sendResultXml(category, result);
     }
 }
+
 /**
   * This slot function called when ever dialog rejected.
   */
@@ -316,6 +327,7 @@ void MainWindow::killDialog()
         helpDialog = NULL;
     }
 }
+
 /**
   *
   */
@@ -367,4 +379,13 @@ void MainWindow::OpenResultDialog()
     connect(topResultDialog, SIGNAL(refreshTopList(int)), this, SLOT(clientRequestTopList(int)));
     connect(topResultDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     topResultDialog->show();
+}
+
+/**
+  * This slot function save user profile data to server
+  */
+void MainWindow::saveProfile()
+{
+    if(httpClient)
+        httpClient->sendProfileXml();
 }

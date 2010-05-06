@@ -77,6 +77,7 @@ private slots:
     void OpenAccStartDialog();
     void OpenRouteDialog();
     void OpenResultDialog();
+    void saveProfile();
 
 };
 
