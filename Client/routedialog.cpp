@@ -209,8 +209,6 @@ RouteDialog::~RouteDialog()
     qDebug() << "__~RouteDialog";
     if(ui)
         delete ui;
-    if(calibrateDialog)
-        delete calibrateDialog;
 }
 
 /**
