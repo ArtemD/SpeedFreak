@@ -31,6 +31,7 @@ public:
     ~RouteSaveDialog();
     RouteDialog *routeDialog;
     HelpRoutingDialog *helpRoutingDialog;
+    CalibrateDialog *calibrateDialog;
     double getAverageSpeed();
     QString getDistanceTraveled();
 
@@ -44,7 +45,6 @@ private:
     QTimer *timerRoutePicture;
     GPSData *gpsData;
     Maemo5Location *location;
-    CalibrateDialog *calibrateDialog;
     QString gpsSpeed;
     QString distanceString;
     QPixmap *pixmapRouteStop;
@@ -57,6 +57,8 @@ private:
     double allSpeeds;
     int speedCount;
     double direction;
+    int progressbarIteration;
+    int progressbarPoints;
 
 private slots:
     void on_pushButtonInfo_clicked();
@@ -66,6 +68,8 @@ private slots:
     void gpsStatus();
     void sendRoute();
     void killHelpDialog();
+    void killRouteDialog();
+    void setProgressbar(int i);
 
 signals:
     void sendroute();

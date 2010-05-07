@@ -317,7 +317,7 @@ void MainWindow::killDialog()
     }
     if(routeSaveDialog)
     {
-        qDebug() << "__MW kill: routeSaveDialog";
+        //qDebug() << "__MW kill: routeSaveDialog";
         //delete routeSaveDialog;
         //routeSaveDialog = NULL;
     }

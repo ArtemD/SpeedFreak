@@ -13,34 +13,11 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="newPushButton">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>150</y>
-     <width>90</width>
-     <height>90</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="graphics.qrc">
-     <normaloff>:/new/prefix1/Graphics/route_new.png</normaloff>:/new/prefix1/Graphics/route_new.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>85</width>
-     <height>85</height>
-    </size>
-   </property>
-  </widget>
   <widget class="QPushButton" name="sendPushButton">
    <property name="geometry">
     <rect>
      <x>710</x>
-     <y>50</y>
+     <y>120</y>
      <width>90</width>
      <height>90</height>
     </rect>

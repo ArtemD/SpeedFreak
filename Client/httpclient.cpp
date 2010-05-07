@@ -463,7 +463,8 @@ void HttpClient::sendProfileXml()
     if(myMainw->settingsDialog->profileDialog)
         myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to phone");
 
-    QUrl qurl("http://api.speedfreak-app.com/api/profile");
+    // Send xml to server
+    /*QUrl qurl("http://api.speedfreak-app.com/api/profile");
     QNetworkRequest request(qurl);
     qDebug() << qurl.toString();
     QNetworkReply *currentDownload;
@@ -473,12 +474,12 @@ void HttpClient::sendProfileXml()
     request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
     currentDownload = netManager->post(request, ("xml=" + file.readAll()));
-    bool error = connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfProfile()));
+    bool error = connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfProfile()));*/
 
     file.close();
 
-    // Send picture
-    if(myMainw->settingsDialog->profileDialog->getPicture() != "" && error == false)
+    // Send picture to server
+    /*if(myMainw->settingsDialog->profileDialog->getPicture() != "" && error == false)
     {
         QFile pictureFile( myMainw->settingsDialog->profileDialog->getPicture() );
         if (!pictureFile.open(QIODevice::ReadOnly))
@@ -489,7 +490,7 @@ void HttpClient::sendProfileXml()
         currentDownload = netManager->post(request, pictureFile.readAll());
         connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfSendingPicture()));
         pictureFile.close();
-    }
+    }*/
 }
 
 /**

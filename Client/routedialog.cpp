@@ -184,8 +184,6 @@ RouteDialog::RouteDialog(RouteSaveDialog *parent) :
     // Button settings
     ui->sendPushButton->setAutoFillBackground(true);
     ui->sendPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
-    ui->newPushButton->setAutoFillBackground(true);
-    ui->newPushButton->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
     // Clear labels
     ui->labelInfoToUser->setText("");
@@ -430,39 +428,31 @@ void RouteDialog::paintEvent(QPaintEvent *)
 /**
   *
   */
-bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calibrateDialog)
+bool RouteDialog::readRouteFromFile( QString &routeFile )
 {
     QString rFile = routeFile; //Not used
     Vector temp;
     QString rivi;
     QFile file;
 
-    progresbar = calibrateDialog;
-    int progresbarValue = 0;
-    progresbar->setProgressValue(++progresbarValue);
-
-    //QString fileName = QFileDialog::getOpenFileName(this,
-    //     tr("Read Route"), "./", tr("Route Files (*.txt)"));
-
-    //file.setFileName( fileName);
     file.setFileName( "routetemp.xml");
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
-        progresbar->setProgressValue(100);
         return false;
     }
-
+emit progressbar(5);
     vertexList.clear();
-
+    emit progressbar(50);
     while(!file.atEnd())
     {
+        //qDebug() << "__jee ";
+
         int count;
         bool allRead;
         QString astr1, astr2, astr3, astr4;
         QString str1, str2, str3, str4;
         rivi = file.readLine();
-
         allRead = false;
         count = 0;
         while( !allRead)
@@ -478,9 +468,6 @@ bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calib
                 str2 = astr2.section('"',1,1);
                 str3 = astr3.section('"',1,1);
                 str4 = astr4.section('"',1,1);
-            //QString str = QString("%1 %2 %3 %4").arg(str1).arg(str2).arg(str3).arg(str4);
-            //QMessageBox::about(0, "LUKEE", str);
-                /* */
 
                 if (str1.length() > 0)
                 {
@@ -488,8 +475,6 @@ bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calib
                     y = str1.toDouble();// longitude x-value
                     z = str3.toDouble();// altitude z-value
                     v = str4.toDouble();// speed km/h
-               // QString str = QString("%1 %2 %3 %4").arg(x).arg(y).arg(z).arg(v);
-               // QMessageBox::about(0, "LUKEE", str);
                     temp.setX( x); // Longitude
                     temp.setY( y); // Latitude
                     temp.setZ( z); // altitude
@@ -504,34 +489,6 @@ bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calib
                 }
             }
         }
-        // Older version
-        /*
-        str1 = rivi.section(" ", 0, 0);
-        if (str1.compare("Start:") != 0 && str1.compare("Stop:") != 0)
-        {
-            str1 = rivi.section(" ", 2, 2); // latitude y-value
-            str2 = rivi.section(" ", 4, 4); // longitude x-value
-            str3 = rivi.section(" ", 6, 6); // altitude z-value
-            str4 = rivi.section(" ", 8, 8); // speed km/h
-            //QString str = QString("la: %1 lo: %2 al: %3").arg(str1).arg(str2).arg(str3);
-            //QMessageBox::about(0, "LUKEE", str);
-
-            if (str1.length() > 0)
-            {
-                double x, y, z, v;
-                x = str2.toDouble();
-                y = str1.toDouble();
-                z = str3.toDouble();
-                v = str4.toDouble();
-                temp.setX( x); // Longitude
-                temp.setY( y); // Latitude
-                temp.setZ( z); // altitude
-                temp.setV( v);
-
-                vertexList.append(temp);
-            }
-        }
-        */
     }
 
     file.close();
@@ -563,8 +520,8 @@ bool RouteDialog::readRouteFromFile( QString &routeFile , CalibrateDialog *calib
      QString str = QString("Min & Max datan välimatka %1").arg(dist);
      QMessageBox::about( 0, "Testi", str);
      */
-
-     return true;
+    emit progressbar(100);
+    return true;
 }
 
 /**
@@ -804,14 +761,6 @@ void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscre
     z2 = a3.getX()*v2->getX() + a3.getY()*v2->getY() + a3.getZ()*v2->getZ() + v->getOffsz();
 
     clip3d(x1,y1,z1,x2,y2,z2, xscreen1, yscreen1, xscreen2, yscreen2 );
-}
-
-/**
-  * This slot function is called when ever new push button clicked.
-  */
-void RouteDialog::on_newPushButton_clicked()
-{
-    close();    // go back to previous dialog
 }
 
 /**

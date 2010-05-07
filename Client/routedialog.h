@@ -13,7 +13,6 @@
 #include <QDialog>
 #include <helproutingdialog.h>
 class RouteSaveDialog;
-class CalibrateDialog;
 
 namespace Ui {
     class RouteDialog;
@@ -25,7 +24,7 @@ class RouteDialog : public QDialog {
 public:
     RouteDialog(RouteSaveDialog *parent = 0);
     ~RouteDialog();
-    bool readRouteFromFile( QString &routeFile, CalibrateDialog *calibrateDialog);
+    bool readRouteFromFile( QString &routeFile);
     int getLeft();
     int getTop();
     int getRight();
@@ -36,6 +35,7 @@ public:
 
 signals:
     void sendroute();
+    void progressbar(int);
 
 protected:
     void changeEvent(QEvent *e);
@@ -43,14 +43,12 @@ protected:
 
 private:
     Ui::RouteDialog *ui;
-    CalibrateDialog *progresbar;
     int left, top, right, bottom;       // Limits in screen coordinates in route dialog
     void checkLogin();
 
 private slots:
     void on_pushButtonInfo_clicked();
     void on_sendPushButton_clicked();
-    void on_newPushButton_clicked();
     void killHelpDialog();
 };
 

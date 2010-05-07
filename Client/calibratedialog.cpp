@@ -48,3 +48,8 @@ void CalibrateDialog::setMaxValue(int max)
 {
     ui->progressBar->setMaximum( max );
 }
+
+void CalibrateDialog::setTitle(QString title)
+{
+    this->setWindowTitle(title);
+}

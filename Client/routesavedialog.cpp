@@ -103,6 +103,11 @@ RouteSaveDialog::~RouteSaveDialog()
         delete location;
     if(routeDialog)
         delete routeDialog;
+    if(calibrateDialog)
+    {
+        delete calibrateDialog;
+        calibrateDialog = NULL;
+    }
 
     delete timerSatellitePicture;
     delete timerRoutePicture;
@@ -258,37 +263,41 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         timerRoutePicture->stop();
         location->stopPollingGPS();
 
-        // Progres bar
+        // Progress bar
         if(!calibrateDialog)
+        {
             calibrateDialog = new CalibrateDialog();
+        }
 
-        calibrateDialog->show();
+        progressbarPoints = 100;
+        progressbarIteration = 0;
         calibrateDialog->resetProgressValue();
-        int points = 100;
-        int iteration = 0;
-        calibrateDialog->setMaxValue( points + 1 );
+        calibrateDialog->setMaxValue( progressbarPoints );
+        calibrateDialog->setTitle("Calculating route...");
+        calibrateDialog->show();
 
-        /*do {
-            calibrateDialog->setProgressValue(iteration);
-            iteration++;
 
-        } while(iteration != points);*/
+        if(!routeDialog)
+        {
+            routeDialog = new RouteDialog(this);
+        }
+
+        connect(routeDialog, SIGNAL(sendroute()),      this, SLOT(sendRoute()));
+        connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
+        connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
+        //connect(routeDialog, SIGNAL(killRoute()),      this, SLOT(killRouteDialog()));
 
         QString routeFile = QString("routetemp.xml");
-        if (routeDialog->readRouteFromFile( routeFile , calibrateDialog) == true)
+        if (routeDialog->readRouteFromFile( routeFile ) == true)
         {
-            if(!routeDialog)
-                routeDialog = new RouteDialog(this);
-            connect(routeDialog, SIGNAL(sendroute()), this, SLOT(sendRoute()));
-
-            calibrateDialog->close();
+            //calibrateDialog->close();
             routeDialog->show();
         }
         else
         {
-            calibrateDialog->close();
+            //calibrateDialog->close();
         }
-
+calibrateDialog->close();
         //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
         ui->labelGpsAvgSpeed->setVisible(0);
@@ -476,6 +485,25 @@ void RouteSaveDialog::killHelpDialog()
 }
 
 /**
+  * This slot function called when ever dialog rejected.
+  */
+void RouteSaveDialog::killRouteDialog()
+{
+    if(routeDialog)
+    {
+        qDebug() << "__Route save kill: routeDialog";
+        delete routeDialog;
+        routeDialog = NULL;
+    }
+    if(calibrateDialog)
+    {
+        qDebug() << "__Route save kill: calibrateDialog";
+        delete calibrateDialog;
+        calibrateDialog = NULL;
+    }
+}
+
+/**
   * This function return speed average.
   * @return double average speed
   */
@@ -491,4 +519,15 @@ double RouteSaveDialog::getAverageSpeed()
 QString RouteSaveDialog::getDistanceTraveled()
 {
     return distanceString;
+}
+
+/**
+  * This function
+  */
+void RouteSaveDialog::setProgressbar(int i)
+{
+    qDebug() << "__setProgressbar " ;//+ i;
+    qDebug() << i;
+    calibrateDialog->setProgressValue(i);//progressbarIteration);
+    progressbarIteration++;
 }
