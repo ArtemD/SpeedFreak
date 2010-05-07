@@ -38,7 +38,13 @@ class Pages_Controller extends Template_Controller {
 		$this->template->header = 'Home';
 		
 		$this->template->content = '
-			SpeedFreak is a free application for your mobile that allows you to measure your car\'s performance such as acceleration and top speed. In order to make it even 
+<center>
+<object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/edKtuF__L_8&hl=en_US&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/edKtuF__L_8&hl=en_US&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
+</center>
+<br />
+<br />		
+			
+SpeedFreak is a free application for your mobile that allows you to measure your car\'s performance such as acceleration and top speed. In order to make it even 
 more interesting you can compete against others on our leaderboards to see who\'s car packs the most punch!		
 <br /><br />
 
@@ -49,7 +55,7 @@ community link!
 		$this->template->sidebar_content ='
 <img src="'.url::base().'static/img/speedfreak_n900.png" /><br />
 <p>Download SpeedFreak for Nokia N900.</p>
-<p><a href="#" class="link"><span><span>Download now</span></span></a></p>
+<p><a href="https://garage.maemo.org/projects/speedfreak/" class="link"><span><span>Download now</span></span></a></p>
 ';
 
 
