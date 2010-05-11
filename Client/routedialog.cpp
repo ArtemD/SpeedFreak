@@ -430,12 +430,12 @@ void RouteDialog::paintEvent(QPaintEvent *)
   */
 bool RouteDialog::readRouteFromFile( QString &routeFile )
 {
-    QString rFile = routeFile; //Not used
+    QString rFile = routeFile;
     Vector temp;
     QString rivi;
     QFile file;
 
-    file.setFileName( "routetemp.xml");
+    file.setFileName( rFile);//"routetemp.xml");
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
@@ -446,8 +446,6 @@ emit progressbar(5);
     emit progressbar(50);
     while(!file.atEnd())
     {
-        //qDebug() << "__jee ";
-
         int count;
         bool allRead;
         QString astr1, astr2, astr3, astr4;

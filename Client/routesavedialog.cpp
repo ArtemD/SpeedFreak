@@ -10,6 +10,7 @@
 #include "ui_routesavedialog.h"
 #include <QDebug>
 #include <QPainter>
+#include <QFileDialog>
 
 const QPoint arrowStartEast(100, 100);
 const QPoint arrowEndEast(140, 100);
@@ -263,41 +264,6 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         timerRoutePicture->stop();
         location->stopPollingGPS();
 
-        // Progress bar
-        if(!calibrateDialog)
-        {
-            calibrateDialog = new CalibrateDialog();
-        }
-
-        progressbarPoints = 100;
-        progressbarIteration = 0;
-        calibrateDialog->resetProgressValue();
-        calibrateDialog->setMaxValue( progressbarPoints );
-        calibrateDialog->setTitle("Calculating route...");
-        calibrateDialog->show();
-
-
-        if(!routeDialog)
-        {
-            routeDialog = new RouteDialog(this);
-        }
-
-        connect(routeDialog, SIGNAL(sendroute()),      this, SLOT(sendRoute()));
-        connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
-        connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
-        //connect(routeDialog, SIGNAL(killRoute()),      this, SLOT(killRouteDialog()));
-
-        QString routeFile = QString("routetemp.xml");
-        if (routeDialog->readRouteFromFile( routeFile ) == true)
-        {
-            //calibrateDialog->close();
-            routeDialog->show();
-        }
-        else
-        {
-            //calibrateDialog->close();
-        }
-calibrateDialog->close();
         //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
         ui->labelGpsAvgSpeed->setVisible(0);
@@ -310,6 +276,8 @@ calibrateDialog->close();
 
         //User info label
         ui->labelUserInfo->setText("Push start button");
+
+        openRouteDialog("routetemp.xml");
     }
 }
 
@@ -485,7 +453,7 @@ void RouteSaveDialog::killHelpDialog()
 }
 
 /**
-  * This slot function called when ever dialog rejected.
+  * This slot function called when ever route dialog rejected.
   */
 void RouteSaveDialog::killRouteDialog()
 {
@@ -526,8 +494,57 @@ QString RouteSaveDialog::getDistanceTraveled()
   */
 void RouteSaveDialog::setProgressbar(int i)
 {
-    qDebug() << "__setProgressbar " ;//+ i;
+    qDebug() << "__setProgressbar " ;
     qDebug() << i;
-    calibrateDialog->setProgressValue(i);//progressbarIteration);
+    calibrateDialog->setProgressValue(i);
     progressbarIteration++;
+}
+
+/**
+  * This slot function called when ever load route button clicked.
+  */
+void RouteSaveDialog::on_buttonLoadRoute_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open route"), QDir::currentPath());
+    qDebug() << "__Opening: " + fileName;
+    openRouteDialog(fileName);
+}
+
+/**
+  * This function open route.
+  * @param QString file name
+  */
+void RouteSaveDialog::openRouteDialog(QString fileName)
+{
+    // Progress bar
+    if(!calibrateDialog)
+    {
+        calibrateDialog = new CalibrateDialog();
+    }
+
+    progressbarPoints = 100;
+    progressbarIteration = 0;
+    calibrateDialog->resetProgressValue();
+    calibrateDialog->setMaxValue( progressbarPoints );
+    calibrateDialog->setTitle("Calculating route...");
+    calibrateDialog->show();
+
+    if(!routeDialog)
+    {
+        routeDialog = new RouteDialog(this);
+    }
+
+    connect(routeDialog, SIGNAL(sendroute()),      this, SLOT(sendRoute()));
+    connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
+    connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
+
+    if (routeDialog->readRouteFromFile( fileName ) == true)
+    {
+        calibrateDialog->close();
+        routeDialog->show();
+    }
+    else
+    {
+        calibrateDialog->close();
+    }
 }

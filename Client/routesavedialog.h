@@ -59,8 +59,10 @@ private:
     double direction;
     int progressbarIteration;
     int progressbarPoints;
+    void openRouteDialog(QString fileName);
 
 private slots:
+    void on_buttonLoadRoute_clicked();
     void on_pushButtonInfo_clicked();
     void on_buttonRouteStartStop_clicked();
     void timerSatellitePictureTimeout();
