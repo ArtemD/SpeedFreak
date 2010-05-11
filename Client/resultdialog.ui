@@ -70,7 +70,7 @@
     <rect>
      <x>510</x>
      <y>280</y>
-     <width>131</width>
+     <width>81</width>
      <height>71</height>
     </rect>
    </property>
@@ -165,9 +165,9 @@
   <widget class="QPushButton" name="pushButtonNew">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>710</x>
      <y>280</y>
-     <width>131</width>
+     <width>81</width>
      <height>71</height>
     </rect>
    </property>
@@ -201,7 +201,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="graphics.qrc">
+    <iconset>
      <normaloff>:/new/prefix1/Graphics/info.png</normaloff>:/new/prefix1/Graphics/info.png</iconset>
    </property>
    <property name="iconSize">
@@ -211,9 +211,49 @@
     </size>
    </property>
   </widget>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>501</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>499</width>
+      <height>379</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonEMail">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>280</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send E-mail</string>
+   </property>
+  </widget>
  </widget>
- <resources>
-  <include location="graphics.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
