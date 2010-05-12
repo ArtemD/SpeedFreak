@@ -436,12 +436,13 @@ bool RouteDialog::readRouteFromFile( QString &routeFile )
     QFile file;
 
     file.setFileName( rFile);//"routetemp.xml");
+    //file.setFileName( ".//speedfreak_route/routetemp.xml");
     if (!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::about(0, "Error", "File not found");
         return false;
     }
-emit progressbar(5);
+    emit progressbar(5);
     vertexList.clear();
     emit progressbar(50);
     while(!file.atEnd())
@@ -767,7 +768,32 @@ void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscre
 void RouteDialog::on_sendPushButton_clicked()
 {
     ui->sendPushButton->setEnabled(false);
-    emit sendroute();
+
+
+    QString folder = "speedfreak_route";
+
+    if(!QDir(folder).exists())
+    {
+        QDir().mkdir(folder);
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Route"),
+                                ".//" + folder);//, tr("Route files  (*.xml)"));
+    qDebug() << fileName;
+
+    int server = QMessageBox::question(this, "Save route to server?", "", 4,3);
+    if(server == 3) // Yes button
+    {
+        qDebug() << "__save to server";
+        emit sendroute(fileName,1); // Save route.
+    }
+    else if(server == 4) // No button
+    {
+        qDebug() << "__no save";
+
+        if(fileName != "")
+            emit sendroute(fileName,0); // Save route.
+    }
 }
 
 /**

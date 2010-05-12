@@ -10,6 +10,7 @@
 
 #include <QString>
 #include <QMessageBox>
+#include <QDir>
 #include "httpclient.h"
 #include "mainwindow.h"
 
@@ -107,39 +108,55 @@ void HttpClient::sendResultXml(QString category, double result)
 }
 
 /**
-  *@brief Sends route to the server in xml format.
-  *Send authentication information in the header.
-  *@todo Check destination URL.
+  * @brief Sends route to the server in xml format.
+  * Send authentication information in the header.
+  * @param QString filename
+  * @param int 1(send to server) or 0(no send)
+  * @todo Check destination URL.
   */
-void HttpClient::sendRouteXml()
+void HttpClient::sendRouteXml(QString s, int i)
 {
     qDebug() << "_sendRouteXml";
 
-    QString filename = "route.xml";
-    QFile file(filename);
-    if (!file.open(QFile::ReadOnly)) {
-        qDebug() << "_sendRouteXml file.open() fail";
-        return;
+    QString filename = ".//speedfreak_route/route.xml";
+
+    if(s != "")
+    {
+        qDebug() << "_rename xml";
+        filename = s + ".xml";
+        QDir dir(filename);
+        qDebug() << dir.rename(".//speedfreak_route/route.xml", filename);
     }
 
-    QUrl qurl("http://api.speedfreak-app.com/api/update/route");
-    qDebug() << qurl.toString();
-    QNetworkRequest request(qurl);
-    QNetworkReply *currentDownload;
+    if(i == 1)
+    {
+        qDebug() << "_send route";
+        QFile file(filename);
+        if (!file.open(QFile::ReadOnly))
+        {
+            qDebug() << "_sendRouteXml file.open() fail";
+            return;
+        }
 
-    QString credentials = myMainw->settingsDialog->getUserName() + ":" + myMainw->settingsDialog->getPassword();
-    credentials = "Basic " + credentials.toAscii().toBase64();
-    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+        QUrl qurl("http://api.speedfreak-app.com/api/update/route");
+        qDebug() << qurl.toString();
+        QNetworkRequest request(qurl);
+        QNetworkReply *currentDownload;
 
-    currentDownload = netManager->post(request, ("xml=" + file.readAll()));
-    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
-    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+        QString credentials = myMainw->settingsDialog->getUserName() + ":" + myMainw->settingsDialog->getPassword();
+        credentials = "Basic " + credentials.toAscii().toBase64();
+        request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
 
-    //Indicating user
-    if(myMainw->routeSaveDialog->routeDialog)
-        myMainw->routeSaveDialog->routeDialog->setLabelInfoToUser("Sending route to server");
+        currentDownload = netManager->post(request, ("xml=" + file.readAll()));
+        connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRoute()));
+        //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
-    file.close();
+        //Indicating user
+        if(myMainw->routeSaveDialog->routeDialog)
+            myMainw->routeSaveDialog->routeDialog->setLabelInfoToUser("Sending route to server");
+
+        file.close();
+    }
 }
 
 /**

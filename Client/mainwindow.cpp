@@ -180,7 +180,6 @@ MainWindow::~MainWindow()
         delete customButtonHelp;
 }
 
-
 /**
   *
   */
@@ -220,7 +219,7 @@ void MainWindow::clientRequestTopList(int index)
 }
 
 /**
-  *This function is used to set items to category combobox. Top-tab view.
+  *This function is used to set items to category combobox.
   *@param
   */
 void MainWindow::setCategoryCompoBox()
@@ -285,10 +284,10 @@ void MainWindow::clientUserLogin()
 /**
   * This function send route data to server.
   */
-void MainWindow::clientSendRoute()
+void MainWindow::clientSendRoute(QString s,int i)
 {
     if(httpClient)
-        httpClient->sendRouteXml();
+        httpClient->sendRouteXml(s,i);
 }
 
 /**
@@ -375,7 +374,7 @@ void MainWindow::OpenRouteDialog()
     if(!routeSaveDialog)
         routeSaveDialog = new RouteSaveDialog;
 
-    connect(routeSaveDialog, SIGNAL(sendroute()), this, SLOT(clientSendRoute()));
+    connect(routeSaveDialog, SIGNAL(sendroute(QString,int)), this, SLOT(clientSendRoute(QString,int)));
     connect(routeSaveDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     routeSaveDialog->show();
 }

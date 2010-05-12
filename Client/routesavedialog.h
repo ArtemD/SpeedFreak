@@ -68,13 +68,13 @@ private slots:
     void timerSatellitePictureTimeout();
     void timerRoutePictureTimeout();
     void gpsStatus();
-    void sendRoute();
+    void sendRoute(QString,int);
     void killHelpDialog();
     void killRouteDialog();
     void setProgressbar(int i);
 
 signals:
-    void sendroute();
+    void sendroute(QString,int);
 
 };
 

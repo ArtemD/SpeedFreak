@@ -34,7 +34,7 @@ public:
     HelpRoutingDialog *helpRoutingDialog;
 
 signals:
-    void sendroute();
+    void sendroute(QString,int);
     void progressbar(int);
 
 protected:

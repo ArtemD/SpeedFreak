@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QFileDialog>
+#include <QDir>
 
 const QPoint arrowStartEast(100, 100);
 const QPoint arrowEndEast(140, 100);
@@ -88,6 +89,13 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     location = new Maemo5Location(this);
     gpsData = new GPSData(location);
     connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
+
+    // Route folder
+    QString folder = "speedfreak_route";
+    if(!QDir(folder).exists())
+    {
+        QDir().mkdir(folder);
+    }
 }
 
 /**
@@ -263,6 +271,42 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         ui->labelRoutePicture->setVisible(0);
         timerRoutePicture->stop();
         location->stopPollingGPS();
+/*
+        // Progress bar
+        if(!calibrateDialog)
+        {
+            calibrateDialog = new CalibrateDialog();
+        }
+
+        progressbarPoints = 100;
+        progressbarIteration = 0;
+        calibrateDialog->resetProgressValue();
+        calibrateDialog->setMaxValue( progressbarPoints );
+        calibrateDialog->setTitle("Calculating route...");
+        calibrateDialog->show();
+
+
+        if(!routeDialog)
+        {
+            routeDialog = new RouteDialog(this);
+        }
+
+        connect(routeDialog, SIGNAL(sendroute(QString,int)),      this, SLOT(sendRoute(QString,int)));
+        connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
+        connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
+        //connect(routeDialog, SIGNAL(killRoute()),      this, SLOT(killRouteDialog()));
+
+        QString routeFile = QString(".//speedfreak_route/routetemp.xml");
+        if (routeDialog->readRouteFromFile( routeFile ) == true)
+        {
+            //calibrateDialog->close();
+            routeDialog->show();
+        }
+        else
+        {
+            //calibrateDialog->close();
+        }
+calibrateDialog->close();*/
 
         //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
@@ -421,9 +465,9 @@ void RouteSaveDialog::gpsStatus()
 /**
   * This slot function is called when routeDialog emit sendroute (sendPushButton).
   */
-void RouteSaveDialog::sendRoute()
+void RouteSaveDialog::sendRoute(QString s,int i)
 {
-    emit sendroute(); //Emit mainwindow clientSendRoute
+    emit sendroute(s,i); //Emit mainwindow clientSendRoute
 }
 
 /**
