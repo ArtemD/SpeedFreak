@@ -38,7 +38,7 @@ Here is the list of general errors that client might encounter:
 Registration process
 ====================
 
-URL: /register
+URL: /users/register
 
 Every single client should register before it can send own measurement results or
 fetch other's results. During registration client has to supply following information:
@@ -46,6 +46,7 @@ fetch other's results. During registration client has to supply following inform
 - Login: This is 3-12 charecters long nickname that has to be unique
 - Password: 6-255 charectors long password
 - Email: email address that will be used for password recovery etc. Has to be unique.
+- Description: Additional information that user might want to supply.
 
 Below is example of XML that client might send to server to register an account:
 
@@ -54,17 +55,20 @@ Below is example of XML that client might send to server to register an account:
     <login>test827</login>
     <password>thisisaveryinsecurepassword</password>
     <email>test@example.com</email>
+    <description>My car is cool</description>
 </user>
 
 If registration is successful server will return 200 HTTP status code along with
 text "OK" in the response body. In other cases (invalid email, login exists etc)
 server will return HTTP error code 400 with error message in the body text.
 
+User can also supply avatar image as POST field named "avatar". Please notice that
+avatar image must not exceed 100 kilobytes in size and should be supplied in Jpeg format.
 
 Login
 =====
 
-URL: /login
+URL: /users/login
 
 Because communication with server has no state there is no need to login. Client
 might need to verify that credentials supplied by user are correct. In order to
@@ -76,10 +80,38 @@ If credentials are correct server will return "OK" along with HTTP status code 2
 In any other case it will return 401 HTTP error code along with error description.
 
 
+List all users
+==============
+
+URL: /users/list_all
+
+Using this you can get XML containing all registered users. Last activity attribute shows date and time
+when user has contacted the server. Example output below:
+
+<?xml version="1.0" encoding="utf-8"?>
+<users>
+	<user login="test" description="<![CDATA my car rox! ]]>" last_activity="2010-05-13 21:47:15"  />
+	<user login="test1" description="<![CDATA my car rox too! ]]>" last_activity="2010-05-13 21:28:00"  />
+</users>
+
+
+Viewing user's profile
+======================
+
+URL: /users/info/username
+
+Username is in this case username of user who's information you want to retrieve. In return you will get XML
+containing information about the user. Avatar attribute is only present for profiles that have uploaded their
+avatar image to the server. Example output below:
+
+<?xml version="1.0" encoding="utf-8"?>
+<user login="test" description="<![CDATA my car rox! ]]>" last_activity="2010-05-13 21:47:15" avatar="http://www.speedfreak-api.com/static/uploads/avatars/22.jpg"  />
+
+
 Fetching results
 ================
 
-URL: /results/category_name/limit/show_unit
+URL: /results/list/category_name/limit/show_unit
 
 Category: For example "acceleration-0-100", "top-speed" and so on
 Limit: This will tell server how many results you want to get back. Results are
@@ -91,7 +123,7 @@ attribute where by default it's km/h. Results can have up to two decimals. Dot i
 decimal separator.
 
 Below is example of what client might get back in return when sending following
-request: /results/acceleration-0-100/10
+request: /results/list_results/acceleration-0-100/10
 
 <?xml version="1.0" encoding="utf-8"?>
 <results category="acceleration-0-100" unit="seconds" description="Acceleration from 0 to 100 km/h">
@@ -111,7 +143,7 @@ request: /results/acceleration-0-100/10
 Sending results
 ===============
 
-URL: /update/category_name
+URL: /results/update/category_name
 
 Category: same as when fetching results
 
@@ -143,4 +175,3 @@ Logout
 
 There is no need to logout as server is stateless, but client can mimic logout
 functionality by "forgetting" user credentials on the mobile device.
-
