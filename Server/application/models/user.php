@@ -17,7 +17,7 @@ class User_Model extends Model {
 	 * @param string $email Valid email address
 	 * @return bool Returns True if operation was successfull and exception otherwise
 	 */
-    public function __construct($username='', $password='', $email=''){
+    public function __construct($username='', $password='', $email='', $description=''){
         
     	// load database library into $this->db
         parent::__construct();
@@ -36,7 +36,7 @@ class User_Model extends Model {
             elseif ($this->user_exists($username, $email))
                 throw new Exception('User already exists (login or email matched)');
                 
-            if ($this->register($username, $password, $email)->valid())
+            if ($this->register($username, $password, $email, $description)->valid())
                 return true;
             else
                 return false;
@@ -52,14 +52,14 @@ class User_Model extends Model {
      * @param string $email Valid email address
      * @return bool Returns True if operation was successfull and exception otherwise
      */
-    private function register($username, $password, $email){
+    private function register($username, $password, $email, $description){
     	// hash password
         $password = $this->hash($password);
         
         // @todo I can't seem to get query working when password binding has '' around it like others
         if ($this->user_exists($username, $email)==false)
-    	   return $this->db->query("INSERT into users SET username = '?', password = ?, email = '?'",
-    	           $username, $password, $email);
+    	   return $this->db->query("INSERT into users SET username = '?', password = ?, description='?', last_activity=NOW(), email = '?'",
+    	           $username, $password, $description, $email);
         else
             return false;
     }
@@ -82,12 +82,22 @@ class User_Model extends Model {
      * @return bool Returns True if user exists and false otherwise
      */
     private function user_exists($username, $email){
-    	if ($this->db->query("SELECT id FROM users WHERE username = '?' OR email = '?'",
+    	if ($this->db->query("SELECT id FROM users WHERE username='?' OR email='?'",
 	                   $username, $email)->count()>0)
 	       return true;
 	    else
 	       return false;          
     }
+    
+    
+    public function get_info($username){
+    	$result = $this->db->query("SELECT * FROM users WHERE username = ?", $username);
+		if ($result->count()>0)
+           return $result[0];
+        else
+           return false;
+    }
+    
     
     /*
      * Get user id
@@ -96,9 +106,23 @@ class User_Model extends Model {
      * @return integer|bool User id if successful or false
      */
     public function get_id($username){
-        $result = $this->db->query("SELECT id FROM users WHERE username = ?", $username);
-	if ($result->count()>0)
+        $result = $this->db->query("SELECT id FROM users WHERE username='?'", $username);
+		if ($result->count()>0)
            return $result[0]->id;
+        else
+           return false;
+    }
+    
+    /**
+     * List all users found in database
+     * 
+     * @access public
+     * @return boolean|object Returns object containing all users or false
+     */
+    public function list_all_users(){
+        $result = $this->db->query("SELECT * FROM users");
+		if ($result->count()>0)
+           return $result;
         else
            return false;
     }

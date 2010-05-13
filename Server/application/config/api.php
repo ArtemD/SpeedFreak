@@ -12,3 +12,13 @@
  * Salt for hashing (should always be changed on deployment!)
  */
 $config['salf'] = 'klzdjkhI/&/567Û%#ÛgbnkBJHVTVjdhiuhdbmzcss-__FDHSYUWYUTUDGBZ';
+
+/*
+ * Maximum filesize for avatar images (in bytes)
+ */
+$config['avatar_max_filesize'] = '102400';
+
+/*
+ * Allowed image types for avatars
+ */
+$config['avatar_allowed_filetypes'] = array('image/jpeg');

@@ -1,10 +1,10 @@
-﻿# Sequel Pro dump
-# Version 1630
+# Sequel Pro dump
+# Version 2210
 # http://code.google.com/p/sequel-pro
 #
 # Host: localhost (MySQL 5.1.37)
 # Database: speedfreak
-# Generation Time: 2010-04-21 11:03:11 +0300
+# Generation Time: 2010-05-13 21:56:50 +0300
 # ************************************************************
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -61,10 +61,12 @@ CREATE TABLE `users` (
   `username` char(255) DEFAULT NULL,
   `password` char(255) DEFAULT NULL,
   `email` char(255) DEFAULT NULL,
+  `description` text,
+  `last_activity` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_unique` (`username`),
   UNIQUE KEY `email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
