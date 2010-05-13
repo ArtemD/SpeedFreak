@@ -1,10 +1,10 @@
-﻿# Sequel Pro dump
-# Version 1630
+# Sequel Pro dump
+# Version 2210
 # http://code.google.com/p/sequel-pro
 #
 # Host: localhost (MySQL 5.1.37)
 # Database: speedfreak
-# Generation Time: 2010-04-21 11:03:21 +0300
+# Generation Time: 2010-05-13 21:57:02 +0300
 # ************************************************************
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,9 +23,9 @@ LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
 INSERT INTO `categories` (`id`,`slug`,`description`,`unit`)
 VALUES
-    (1,'acceleration-0-10','Acceleration from 0km/h to 10km/h','km/h'),
-    (2,'acceleration-0-40','Acceleration from 0km/h to 40km/h','km/h'),
-    (3,'acceleration-0-100','Acceleration from 0km/h to 100km/h','km/h');
+	(1,'acceleration-0-10','Acceleration from 0km/h to 10km/h','km/h'),
+	(2,'acceleration-0-40','Acceleration from 0km/h to 40km/h','km/h'),
+	(3,'acceleration-0-100','Acceleration from 0km/h to 100km/h','km/h');
 
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
