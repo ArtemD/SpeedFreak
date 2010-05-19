@@ -107,7 +107,7 @@ void GPSData::agnss()
         speed       = location->getSpeed();     //Returns current speed in km/h.
         track = location->getTrack(); //Returns direction of motion in degrees(0-359).
 
-        QFile routeTempFile(".//speedfreak_route/routetemp.xml");//Temp xml.
+        QFile routeTempFile("/home/user/MyDocs/speedfreak/route/routetemp.xml");//Temp xml.
 
         //If GPS find 4 or more satellite and signal stregth is 30 or more.
         if (location->getSatellitesInUse() >= 4 && location->getSignalStrength() >= 30)
@@ -232,7 +232,7 @@ void GPSData::stopRouteRecording()
         recordingStatus = false;
 
         //Write final xml.
-        QFile file(".//speedfreak_route/route.xml");
+        QFile file("/home/user/MyDocs/speedfreak/route/route.xml");
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         writeRouteXml(&file, 1);
@@ -248,7 +248,7 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
 {
     xmlwriter.setDevice(device);
 
-    //Write temp xml (.//speedfreak_route/routetemp.xml).
+    //Write temp xml (/home/user/MyDocs/speedfreak/route/routetemp.xml).
     if ( round == 0 )
     {
         xmlwriter.writeStartElement("Point");
@@ -259,7 +259,7 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
         xmlwriter.writeEndElement();//Point
     }
 
-    //Write final xml (.//speedfreak_route/route.xml).
+    //Write final xml (/home/user/MyDocs/speedfreak/route/route.xml).
     else if ( round == 1 )
     {
         xmlwriter.writeStartDocument();
@@ -269,7 +269,7 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
         xmlwriter.writeAttribute("Points", QString::number(roundCounter));
 
         //Open temp xml and read points
-        QFile tempFile(".//speedfreak_route/routetemp.xml");
+        QFile tempFile("/home/user/MyDocs/speedfreak/route/routetemp.xml");
         if (!tempFile.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
         QTextStream readRoute(&tempFile);

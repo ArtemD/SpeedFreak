@@ -14,7 +14,7 @@ extern "C"
 {
 #include <location/location-gps-device.h>
 #include <location/location-gpsd-control.h>
-#include <location/location-distance-utils.h>
+#include <location/location-distance-utils.h>    
 }
 
 #include <QObject>

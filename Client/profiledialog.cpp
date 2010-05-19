@@ -51,7 +51,7 @@ ProfileDialog::ProfileDialog(SettingsDialog *parent) : QDialog(parent), ui(new U
     picture="";
 
     // Read user profile xml
-    QString filename = parent->getUserName() + "_profile.xml";
+    QString filename = "/home/user/MyDocs/speedfreak/profile/" + parent->getUserName() + "_profile.xml";
     QFile file(filename);
 
     if (!file.open(QFile::ReadOnly))

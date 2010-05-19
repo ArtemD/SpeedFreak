@@ -59,7 +59,8 @@ private:
     double direction;
     int progressbarIteration;
     int progressbarPoints;
-    void openRouteDialog(QString fileName);
+    void openRouteDialog();
+    QString fileName;
 
 private slots:
     void on_buttonLoadRoute_clicked();
@@ -74,7 +75,7 @@ private slots:
     void setProgressbar(int i);
 
 signals:
-    void sendroute(QString,int);
+    void sendroute(QString,QString,int);
 
 };
 

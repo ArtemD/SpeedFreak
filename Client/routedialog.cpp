@@ -93,7 +93,8 @@ public:
     void setEye()
     {
         double amarkmag, tempmag;
-        Vector temp, dist;
+        Vector temp;
+        Vector dist;
 
         dval = cos(angle/2.0)/sin(angle/2.0);
         dist = atPoint-fromPoint;
@@ -335,13 +336,17 @@ void RouteDialog::paintEvent(QPaintEvent *)
     checkLogin();
 
     int type = 0; //  0 for 2d, 1 for 3d
-    int startx, starty; // Starting point of the route
-    int i, maxi;
+    int startx = 0; // Starting x point of the route
+    int starty = 0; // Starting y point of the route
+    int i = 0;
+    int maxi = 0;
     qreal x1, y1, x2, y2;
-    int x1Screen, y1Screen, x2Screen, y2Screen;
+    int x1Screen = 0;
+    int y1Screen = 0;
+    int x2Screen = 0;
+    int y2Screen = 0;
     Vector v1, v2;
     QPainter painter(this);
-    int startStop = 0;
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen((Qt::white),2));
@@ -395,8 +400,9 @@ void RouteDialog::paintEvent(QPaintEvent *)
     }
 
     {
-        qreal maxvx, maxvy; // max speed point coordinates
-        qreal maxv;         // max speed
+        qreal maxvx = 0; // max speed x point
+        qreal maxvy = 0; // max speed y point
+        qreal maxv = 0;  // max speed
         Vector v;
 
         maxv = 0.0;
@@ -427,27 +433,29 @@ void RouteDialog::paintEvent(QPaintEvent *)
 
 /**
   *
+  * @param QString route file
   */
 bool RouteDialog::readRouteFromFile( QString &routeFile )
 {
     QString rFile = routeFile;
+    fileName = routeFile;
     Vector temp;
     QString rivi;
     QFile file;
+    int progressbarInt = 5;
+    int count;
 
-    file.setFileName( rFile);//"routetemp.xml");
-    //file.setFileName( ".//speedfreak_route/routetemp.xml");
+    file.setFileName( rFile);
     if (!file.open(QIODevice::ReadOnly))
     {
-        QMessageBox::about(0, "Error", "File not found");
+        QMessageBox::about(0, "Error", "Empty file");
         return false;
     }
-    emit progressbar(5);
+    emit progressbar(progressbarInt);
     vertexList.clear();
-    emit progressbar(50);
+
     while(!file.atEnd())
     {
-        int count;
         bool allRead;
         QString astr1, astr2, astr3, astr4;
         QString str1, str2, str3, str4;
@@ -487,40 +495,58 @@ bool RouteDialog::readRouteFromFile( QString &routeFile )
                     allRead = true;
                 }
             }
+            if(progressbarInt < 50)
+                progressbarInt++;
+            emit progressbar(progressbarInt);
         }
     }
-
     file.close();
 
-     /********  in 3d use only */
-     a = 400/2.;
-     b = 1 - a*(-1);
-     c = -300/2.;
-     d = 300 - c*(-1);
-     //angle = toradians(60);
-
-     view3d.setUp( 1.0, 0.0, 0.0);
-     view3d.setAngle(toradians(60));
-     setAtPoint( &view3d);
-     xmin = objxmin; xmax = objxmax; ymin = objymin; ymax = objymax; // 2d viewing needs this !!!!
-     setFromPoint( &view3d);
-     view3d.setEye();
-     /****** end of 3d *****/
-
-     /*
-     //Testing distance counting
-     Vector a1, a2;
-     qreal dist;
-     //a1.setX( xmin); a1.setY( ymin);
-     //a2.setX( xmax); a2.setY( ymax);
-     a1.setX( 25.483); a1.setY( 65.017); // Oulu
-     a2.setX( 27.767); a2.setY( 64.283); // Kajaani
-     dist = countDistance( &a1, &a2);
-     QString str = QString("Min & Max datan välimatka %1").arg(dist);
-     QMessageBox::about( 0, "Testi", str);
-     */
-    emit progressbar(100);
-    return true;
+    if(count == 1) // Check is file empty.
+    {
+        progressbarInt = 50;
+        emit progressbar(progressbarInt);
+        qDebug() << "count: " + QString::number(count);
+         /********  in 3d use only */
+         a = 400/2.;
+         b = 1 - a*(-1);
+         c = -300/2.;
+         d = 300 - c*(-1);
+         emit progressbar(60);
+         //angle = toradians(60);
+         view3d.setUp( 1.0, 0.0, 0.0);
+         emit progressbar(70);
+         view3d.setAngle(toradians(60));
+         emit progressbar(80);
+         setAtPoint( &view3d); // If file is empty software crash here.
+         emit progressbar(90);
+         xmin = objxmin; xmax = objxmax; ymin = objymin; ymax = objymax; // 2d viewing needs this !!!!
+         emit progressbar(95);
+         setFromPoint( &view3d);
+         emit progressbar(98);
+         view3d.setEye();
+         emit progressbar(99);
+         /****** end of 3d *****/
+         /*
+         //Testing distance counting
+         Vector a1, a2;
+         qreal dist;
+         //a1.setX( xmin); a1.setY( ymin);
+         //a2.setX( xmax); a2.setY( ymax);
+         a1.setX( 25.483); a1.setY( 65.017); // Oulu
+         a2.setX( 27.767); a2.setY( 64.283); // Kajaani
+         dist = countDistance( &a1, &a2);
+         QString str = QString("Min & Max datan välimatka %1").arg(dist);
+         QMessageBox::about( 0, "Testi", str);
+         */
+        emit progressbar(100);
+        return true;
+    }
+    else // Probably file is empty.
+    {
+        QMessageBox::about(0, "Error", "Empty file");
+        return false;
+    }
 }
 
 /**
@@ -668,8 +694,13 @@ void WORLDtoSCREEN( qreal xWorld, qreal yWorld, int *xScreen, int *yScreen)
   */
 void clip3d( qreal x1, qreal y1, qreal z1, qreal x2, qreal y2, qreal z2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2)
 {
-    int c,c1,c2;
-    qreal x,y,z,t;
+    int c = 0;
+    int c1 = 0;
+    int c2 = 0;
+    qreal x = 0;
+    qreal y = 0;
+    qreal z = 0;
+    qreal t = 0;
 
     c1 = code(x1,y1,z1);
     c2 = code(x2,y2,z2);
@@ -769,30 +800,34 @@ void RouteDialog::on_sendPushButton_clicked()
 {
     ui->sendPushButton->setEnabled(false);
 
-
-    QString folder = "speedfreak_route";
-
-    if(!QDir(folder).exists())
+    // Check default file dir.
+    if(!QDir("/home/user/MyDocs/speedfreak/route").exists())
     {
-        QDir().mkdir(folder);
+        QDir().mkdir("/home/user/MyDocs/speedfreak/route");
     }
 
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Route"),
-                                ".//" + folder);//, tr("Route files  (*.xml)"));
-    qDebug() << fileName;
+    // If file name is empty set it to default.
+    if(fileName == "")
+        fileName = "/home/user/MyDocs/speedfreak/route/";
 
+    if(fileName == "/home/user/MyDocs/speedfreak/route/routetemp.xml")
+        fileName = "/home/user/MyDocs/speedfreak/route/route.xml";
+
+    qDebug() << "__FileName: " + fileName;
+    QString newFileName = QFileDialog::getSaveFileName(this, tr("Save Route"), fileName);
     int server = QMessageBox::question(this, "Save route to server?", "", 4,3);
+
     if(server == 3) // Yes button
     {
-        qDebug() << "__save to server";
-        emit sendroute(fileName,1); // Save route.
+        qDebug() << "__Save to server: yes";
+        emit sendroute(newFileName,1); // Save route to server and phone.
     }
     else if(server == 4) // No button
     {
-        qDebug() << "__no save";
+        qDebug() << "__Save to server: no";
 
         if(fileName != "")
-            emit sendroute(fileName,0); // Save route.
+            emit sendroute(newFileName,0); // Save route to phone.
     }
 }
 

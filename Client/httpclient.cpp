@@ -114,18 +114,20 @@ void HttpClient::sendResultXml(QString category, double result)
   * @param int 1(send to server) or 0(no send)
   * @todo Check destination URL.
   */
-void HttpClient::sendRouteXml(QString s, int i)
+void HttpClient::sendRouteXml(QString oldName, QString newName, int i)
 {
     qDebug() << "_sendRouteXml";
 
-    QString filename = ".//speedfreak_route/route.xml";
+    //QString filename = "/home/user/MyDocs/speedfreak/route/route.xml";
+    qDebug() << "__old:" + oldName;
+    QString filename = newName; //+ ".xml";
 
-    if(s != "")
+    if(newName != "")
     {
         qDebug() << "_rename xml";
-        filename = s + ".xml";
         QDir dir(filename);
-        qDebug() << dir.rename(".//speedfreak_route/route.xml", filename);
+        qDebug() << "__new:" + filename;
+        qDebug() << dir.rename(oldName, filename);
     }
 
     if(i == 1)
