@@ -91,10 +91,14 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     connect(location,SIGNAL(agnss()),this,SLOT(gpsStatus()));
 
     // Route folder
-    QString folder = "speedfreak_route";
+    QString folder = "/home/user/MyDocs/speedfreak";
     if(!QDir(folder).exists())
     {
         QDir().mkdir(folder);
+    }
+    if(!QDir(folder + "/route").exists())
+    {
+        QDir().mkdir(folder + "/route");
     }
 }
 
@@ -271,42 +275,6 @@ void RouteSaveDialog::on_buttonRouteStartStop_clicked()
         ui->labelRoutePicture->setVisible(0);
         timerRoutePicture->stop();
         location->stopPollingGPS();
-/*
-        // Progress bar
-        if(!calibrateDialog)
-        {
-            calibrateDialog = new CalibrateDialog();
-        }
-
-        progressbarPoints = 100;
-        progressbarIteration = 0;
-        calibrateDialog->resetProgressValue();
-        calibrateDialog->setMaxValue( progressbarPoints );
-        calibrateDialog->setTitle("Calculating route...");
-        calibrateDialog->show();
-
-
-        if(!routeDialog)
-        {
-            routeDialog = new RouteDialog(this);
-        }
-
-        connect(routeDialog, SIGNAL(sendroute(QString,int)),      this, SLOT(sendRoute(QString,int)));
-        connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
-        connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
-        //connect(routeDialog, SIGNAL(killRoute()),      this, SLOT(killRouteDialog()));
-
-        QString routeFile = QString(".//speedfreak_route/routetemp.xml");
-        if (routeDialog->readRouteFromFile( routeFile ) == true)
-        {
-            //calibrateDialog->close();
-            routeDialog->show();
-        }
-        else
-        {
-            //calibrateDialog->close();
-        }
-calibrateDialog->close();*/
 
         //Set GPS speed labels in visible
         ui->labelGpsSpeed->setVisible(0);
@@ -321,7 +289,8 @@ calibrateDialog->close();*/
         //User info label
         ui->labelUserInfo->setText("Push start button");
 
-        openRouteDialog("routetemp.xml");
+        fileName = "/home/user/MyDocs/speedfreak/route/routetemp.xml";
+        openRouteDialog();
     }
 }
 
@@ -465,9 +434,9 @@ void RouteSaveDialog::gpsStatus()
 /**
   * This slot function is called when routeDialog emit sendroute (sendPushButton).
   */
-void RouteSaveDialog::sendRoute(QString s,int i)
+void RouteSaveDialog::sendRoute(QString newName, int i)
 {
-    emit sendroute(s,i); //Emit mainwindow clientSendRoute
+    emit sendroute(fileName, newName, i); //Emit mainwindow clientSendRoute
 }
 
 /**
@@ -538,8 +507,8 @@ QString RouteSaveDialog::getDistanceTraveled()
   */
 void RouteSaveDialog::setProgressbar(int i)
 {
-    qDebug() << "__setProgressbar " ;
-    qDebug() << i;
+    qDebug() << "__setProgressbar: " + QString::number(i);
+    //qDebug() << i;
     calibrateDialog->setProgressValue(i);
     progressbarIteration++;
 }
@@ -549,46 +518,49 @@ void RouteSaveDialog::setProgressbar(int i)
   */
 void RouteSaveDialog::on_buttonLoadRoute_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open route"), QDir::currentPath());
+    fileName = QFileDialog::getOpenFileName(this, tr("Open route"), "/home/user/MyDocs/speedfreak/route", "XML (*.xml)");
     qDebug() << "__Opening: " + fileName;
-    openRouteDialog(fileName);
+    openRouteDialog();//fileName);
 }
 
 /**
-  * This function open route.
+  * This function open and show route.
   * @param QString file name
   */
-void RouteSaveDialog::openRouteDialog(QString fileName)
+void RouteSaveDialog::openRouteDialog()
 {
-    // Progress bar
-    if(!calibrateDialog)
+    if(fileName != "")
     {
-        calibrateDialog = new CalibrateDialog();
-    }
+        // Progress bar
+        if(!calibrateDialog)
+        {
+            calibrateDialog = new CalibrateDialog();
+        }
 
-    progressbarPoints = 100;
-    progressbarIteration = 0;
-    calibrateDialog->resetProgressValue();
-    calibrateDialog->setMaxValue( progressbarPoints );
-    calibrateDialog->setTitle("Calculating route...");
-    calibrateDialog->show();
+        progressbarPoints = 100;
+        progressbarIteration = 0;
+        calibrateDialog->resetProgressValue();
+        calibrateDialog->setMaxValue( progressbarPoints );
+        calibrateDialog->setTitle("Calculating route...");
+        calibrateDialog->show();
 
-    if(!routeDialog)
-    {
-        routeDialog = new RouteDialog(this);
-    }
+        if(!routeDialog)
+        {
+            routeDialog = new RouteDialog(this);
+        }
 
-    connect(routeDialog, SIGNAL(sendroute()),      this, SLOT(sendRoute()));
-    connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
-    connect(routeDialog, SIGNAL(rejected()),       this, SLOT(killRouteDialog()));
+        connect(routeDialog, SIGNAL(sendroute(QString, int)), this, SLOT(sendRoute(QString, int)));
+        connect(routeDialog, SIGNAL(progressbar(int)), this, SLOT(setProgressbar(int)));
+        connect(routeDialog, SIGNAL(rejected()), this, SLOT(killRouteDialog()));
 
-    if (routeDialog->readRouteFromFile( fileName ) == true)
-    {
-        calibrateDialog->close();
-        routeDialog->show();
-    }
-    else
-    {
-        calibrateDialog->close();
+        if (routeDialog->readRouteFromFile( fileName ) == true)
+        {
+            calibrateDialog->close();
+            routeDialog->show();
+        }
+        else
+        {
+            calibrateDialog->close();
+        }
     }
 }

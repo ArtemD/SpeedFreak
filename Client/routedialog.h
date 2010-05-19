@@ -45,6 +45,7 @@ private:
     Ui::RouteDialog *ui;
     int left, top, right, bottom;       // Limits in screen coordinates in route dialog
     void checkLogin();
+    QString fileName;
 
 private slots:
     void on_pushButtonInfo_clicked();

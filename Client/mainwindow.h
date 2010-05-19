@@ -66,7 +66,7 @@ private:
 private slots:
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
-    void clientSendRoute(QString,int);
+    void clientSendRoute(QString,QString,int);
     void clientRegUserToServer();
     void clientUserLogin();
     void clientSendResult(QString category, double result);

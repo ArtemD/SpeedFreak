@@ -283,11 +283,14 @@ void MainWindow::clientUserLogin()
 
 /**
   * This function send route data to server.
+  * @param QString oldName, old file name
+  * @param QString newName, new file name
+  * @param int i
   */
-void MainWindow::clientSendRoute(QString s,int i)
+void MainWindow::clientSendRoute(QString oldName, QString newName, int i)
 {
     if(httpClient)
-        httpClient->sendRouteXml(s,i);
+        httpClient->sendRouteXml(oldName, newName, i);
 }
 
 /**
@@ -374,7 +377,7 @@ void MainWindow::OpenRouteDialog()
     if(!routeSaveDialog)
         routeSaveDialog = new RouteSaveDialog;
 
-    connect(routeSaveDialog, SIGNAL(sendroute(QString,int)), this, SLOT(clientSendRoute(QString,int)));
+    connect(routeSaveDialog, SIGNAL(sendroute(QString,QString,int)), this, SLOT(clientSendRoute(QString,QString,int)));
     connect(routeSaveDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     routeSaveDialog->show();
 }
