@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     helproutingdialog.cpp \
     helpsettingsdialog.cpp \
     custombutton.cpp \
-    profiledialog.cpp
+    profiledialog.cpp \
+    filereader.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -69,7 +70,8 @@ HEADERS += mainwindow.h \
     helproutingdialog.h \
     helpsettingsdialog.h \
     custombutton.h \
-    profiledialog.h
+    profiledialog.h \
+    filereader.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \

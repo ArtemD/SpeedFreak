@@ -19,6 +19,7 @@ AccRealTimeDialog::AccRealTimeDialog(QWidget *parent) :
 
     accelerometer = new Accelerometer();
     movingAverageZ = new MovingAverage(10);
+    movingAverageY = new MovingAverage(10);
     calculate = new Calculate();
     accelerationStartThreshold = 0.1;
 
@@ -38,6 +39,7 @@ AccRealTimeDialog::~AccRealTimeDialog()
     delete accelerometerTimer;
     delete calculate;
     delete movingAverageZ;
+    delete movingAverageY;
     if(resultDialog)
         delete resultDialog;
 }
@@ -69,20 +71,47 @@ void AccRealTimeDialog::readAccelerometerData()
 
     //accelerometer->smoothData(x, y, z);
 
-    //Calculate average
+    //Calculate average for Z
     movingAverageZ->Enqueue(z);
     z = movingAverageZ->Average();
+    //Calculate average for Y
+    movingAverageY->Enqueue(y);
+    y = movingAverageY->Average();
 
     // Apply calibration
     x -= accelerometer->getCalibrationX();
     y -= accelerometer->getCalibrationY();
     z -= accelerometer->getCalibrationZ();
 
+    qreal calY = accelerometer->getCalibrationY();
+    qreal calZ = accelerometer->getCalibrationZ();
+
+    if(calY < 0)
+        calY = -calY;
+    if(calZ < 0)
+        calZ = -calZ;
+
+    //Take acceleration from more affecting axel
+    if(calZ < calY)
+    {
+        z = z*(1+calZ/2);
+        currentAcceleration = z;
+    }
+    else
+    {
+        y = y*(1+calY/2);
+        currentAcceleration = -y;
+    }
+
+    //screen up: y = 0, z = -1
+    //screen front: y = -1, z = 0
+
 //    QString str = QString("acc x: " + QString::number(x) + "\n" +
 //                          "acc y: " + QString::number(y) + "\n" +
 //                          "acc z: " + QString::number(z) + "\n");
 
-    currentAcceleration = z;//sqrt(x*x + y*y + z*z);
+    //currentAcceleration = z;//sqrt(x*x + y*y + z*z);
+    //qDebug("y: %f, calibZ: %f, calibY: %f\n",y,accelerometer->getCalibrationZ(),accelerometer->getCalibrationY());
     changeInAcceleration = currentAcceleration;
 
     if (((fabs(changeInAcceleration) <= accelerationStartThreshold)

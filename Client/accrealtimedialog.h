@@ -42,6 +42,7 @@ private:
     Accelerometer* accelerometer;
     Calculate *calculate;
     MovingAverage* movingAverageZ;
+    MovingAverage* movingAverageY;
 
     int updateScreenCounter;
     double accelerationStartThreshold;

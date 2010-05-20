@@ -3,11 +3,12 @@
  *
  * @author      Rikhard Kuutti <rikhard.kuutti@fudeco.com>
  * @author      Kai Rasilainen <kai.rasilainen@fudeco.com>
- * @author      Jukka Kurttila <jukka.kurttila@fudeco.com>
+ * @author      Jukka Kurttila <jktla@suomi24.fi>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+//#define FROM_FILE //Use this flag to read acceleration data from file, set also filename using fileReader->setFileName
 #include "accelerometer.h"
 
 #include <QDBusConnection>
@@ -25,6 +26,8 @@ Accelerometer::Accelerometer()
 {
     initValues();
     calibrateDialog = NULL;
+    //fileReader = new filereader();
+    //fileReader->setFileName("45.txt");
 }
 
 /**
@@ -35,6 +38,8 @@ Accelerometer::~Accelerometer()
 {
     if(calibrateDialog)
         delete calibrateDialog;
+    if(fileReader)
+        delete fileReader;
 }
 
 /**
@@ -49,6 +54,7 @@ void Accelerometer::initValues()
     calibrationX = 0;
     calibrationY = 0;
     calibrationZ = 0;
+    fileReader = NULL;
 }
 
 /**
@@ -66,6 +72,27 @@ void Accelerometer::calibrate(void)
     calibrateDialog->resetProgressValue();
     calibrateDialog->setMaxValue( kIterations + 1 );
 
+#ifdef FROM_FILE
+    unsigned int numberOfIterations = 50;
+    do {
+        calibrateDialog->setProgressValue(iteration);
+
+        fileReader->ReadLine(sampleX,sampleY,sampleZ);
+        //getAcceleration(sampleX, sampleY, sampleZ);
+
+        calibrationX += sampleX; // Accumulate Samples
+        calibrationY += sampleY; // for all axes.
+        calibrationZ += sampleZ;
+
+        iteration++;
+
+    } while(iteration < numberOfIterations);        // kIterations times
+
+    calibrationX = calibrationX/numberOfIterations;  // division by kIterations
+    calibrationY = calibrationY/numberOfIterations;
+    calibrationZ = calibrationZ/numberOfIterations;
+
+#else
     do {
         calibrateDialog->setProgressValue(iteration);
 
@@ -82,7 +109,7 @@ void Accelerometer::calibrate(void)
     calibrationX = calibrationX/kIterations;  // division by kIterations
     calibrationY = calibrationY/kIterations;
     calibrationZ = calibrationZ/kIterations;
-
+#endif
     calibrateDialog->close();
 }
 
@@ -113,6 +140,9 @@ void Accelerometer::smoothData(qreal &x, qreal &y, qreal &z)
  */
 void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
 {
+#ifdef FROM_FILE
+    fileReader->ReadLine(x,y,z);
+#else
     QDBusConnection connection(QDBusConnection::systemBus());
     if (connection.isConnected()) {
         QDBusInterface interface("com.nokia.mce", "/com/nokia/icd", QString(), connection);
@@ -123,6 +153,7 @@ void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
         y = static_cast<qreal>(reply.argumentAt<4>()) / 1000;
         z = static_cast<qreal>(reply.argumentAt<5>()) / 1000;
     }
+#endif
 }
 
 /**

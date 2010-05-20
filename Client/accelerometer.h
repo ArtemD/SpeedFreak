@@ -13,6 +13,7 @@
 
 #include <QObject>
 
+#include "filereader.h"
 #include "calculate.h"
 #include "calibratedialog.h"
 
@@ -37,6 +38,9 @@ private:
     qreal calibrationX, calibrationY, calibrationZ;
 
     CalibrateDialog *calibrateDialog;
+
+    filereader* fileReader;
+
 };
 
 #endif // ACCELEROMETER_H
