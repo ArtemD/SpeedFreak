@@ -62,6 +62,8 @@ RouteSaveDialog::RouteSaveDialog(QWidget *parent) :
     ui->buttonRouteStartStop->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
     ui->pushButtonInfo->setAutoFillBackground(true);
     ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->buttonLoadRoute->setAutoFillBackground(true);
+    ui->buttonLoadRoute->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 
     //Satellite picture and label
     ui->labelRouteSatelliteStatus->setVisible(0);

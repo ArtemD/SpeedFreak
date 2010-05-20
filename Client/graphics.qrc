@@ -27,5 +27,6 @@
         <file>Graphics/applications_internet_selected.png</file>
         <file>Graphics/route_selected.png</file>
         <file>Graphics/info_selected.png</file>
+        <file>Graphics/route_load.png</file>
     </qresource>
 </RCC>
