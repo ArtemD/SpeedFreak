@@ -78,6 +78,20 @@ class Users_Controller extends Controller{
     	$view->render(true);
     }
     
+    /**
+    * Verify credentials
+    *
+    * @return string Returns string "OK" if login is successful and error otherwise
+    */
+    public function login(){
+    	if (apiler::is_authorized()){
+        	print "OK";
+            die;
+    	}
+        else
+        	apiler::not_authorized();
+    }
+    
     
     /**
      * Check that supplied avatar is valid and store it
