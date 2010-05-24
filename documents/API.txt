@@ -154,6 +154,23 @@ category that result belongs to. Below is example of XML:
 <result value="14" unit="seconds" date="14/2/2010" />
 
 
+Fetching list of categories
+===========================
+
+URL: /results/categories
+
+Sends back XML containing all categories found on the server
+
+Example XML below:
+
+<?xml version="1.0" encoding="utf-8" ?>
+<categories>
+       <category description="Acceleration from 0km/h to 10km/h" unit="km/h">acceleration-0-10</category>
+   <category description="Acceleration from 0km/h to 40km/h" unit="km/h">acceleration-0-40</category>
+   <category description="Acceleration from 0km/h to 100km/h" unit="km/h">acceleration-0-100</category>
+</categories>
+
+
 Sending route
 =============
 
