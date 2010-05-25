@@ -36,7 +36,7 @@ private:
     QXmlStreamWriter xmlwriter;
 
 public slots:
-    void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email);
+    void writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email, QString description);
     void writeResult(QBuffer *netbuf, double result);
     void writeGpsTrack(QBuffer *netbuf, int counter, int start, int stop, int lat, int lon, int alt, int speed, int time);
     bool writeXmlFile(QIODevice *device);
