@@ -50,7 +50,7 @@ void HttpClient::requestRegistration()
     qDebug() <<  myMainw->settingsDialog->getRegUserName() << "+" <<  myMainw->settingsDialog->getRegPassword() << "+" <<  myMainw->settingsDialog->getRegEmail();
 
     QBuffer *regbuffer = new QBuffer();
-    QUrl qurl("http://api.speedfreak-app.com/api/register");
+    QUrl qurl("http://www.speedfreak-app.com/users/register");
     QNetworkRequest request(qurl);
     qDebug() << qurl.toString();
     QNetworkReply *currentDownload;
@@ -59,7 +59,8 @@ void HttpClient::requestRegistration()
     myXmlwriter->writeRegistering(regbuffer,
                        myMainw->settingsDialog->getRegUserName(),
                        myMainw->settingsDialog->getRegPassword(),
-                       myMainw->settingsDialog->getRegEmail());
+                       myMainw->settingsDialog->getRegEmail(),
+                       "My car is cool");
     qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
 
     currentDownload = netManager->post(request, ("xml=" + regbuffer->data()));
@@ -80,10 +81,12 @@ void HttpClient::requestRegistration()
 void HttpClient::sendResultXml(QString category, double result)
 {
     qDebug() << "_sendResultXml";
+    qDebug() << category;
 
     QBuffer *xmlbuffer = new QBuffer();
 
-    QUrl qurl("http://api.speedfreak-app.com/api/update/" + category);
+    QUrl qurl("http://www.speedfreak-app.com/results/update/" + category);
+
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
@@ -140,7 +143,7 @@ void HttpClient::sendRouteXml(QString oldName, QString newName, int i)
             return;
         }
 
-        QUrl qurl("http://api.speedfreak-app.com/api/update/route");
+        QUrl qurl("http://speedfreak-app.com/update/route");
         qDebug() << qurl.toString();
         QNetworkRequest request(qurl);
         QNetworkReply *currentDownload;
@@ -172,7 +175,7 @@ void HttpClient::requestTopList(QString category, QString limit)
     qDebug() << "_requestTopList";
     qDebug() << category;
 
-    QString urlBase = "http://api.speedfreak-app.com/api/results/";
+    QString urlBase = "http://www.speedfreak-app.com/results/list/";
     QUrl qurl(urlBase + category + "/" + limit);
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
@@ -198,8 +201,8 @@ void HttpClient::requestTopList(QString category, QString limit)
 void HttpClient::requestCategories()
 {
     qDebug() << "_requestCategories" ;
+    QUrl qurl("www.speedfreak-app.com/results/categories");
 
-    QUrl qurl("http://api.speedfreak-app.com/api/categories/");
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
@@ -225,8 +228,9 @@ void HttpClient::checkLogin()
 {
     qDebug() << "_checkLogin";
 
-    QUrl qurl("http://api.speedfreak-app.com/api/login/");
+    QUrl qurl("http://www.speedfreak-app.com/users/login");
     qDebug() << qurl.toString();
+
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
 
@@ -483,7 +487,7 @@ void HttpClient::sendProfileXml()
         myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to phone");
 
     // Send xml to server
-    /*QUrl qurl("http://api.speedfreak-app.com/api/profile");
+    /*QUrl qurl("http://speedfreak-app.com/api/profile");
     QNetworkRequest request(qurl);
     qDebug() << qurl.toString();
     QNetworkReply *currentDownload;

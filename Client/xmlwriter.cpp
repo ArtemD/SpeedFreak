@@ -33,7 +33,7 @@ XmlWriter::~XmlWriter()
   *@param psswd for password.
   *@param email.
   */
-void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email)
+void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email, QString description)
 {
     qDebug() << "_writeRegistering";
 
@@ -52,6 +52,10 @@ void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QS
 
     xmlwriter.writeStartElement("email");
     xmlwriter.writeCharacters(email);
+    xmlwriter.writeEndElement();
+
+    xmlwriter.writeStartElement("description");
+    xmlwriter.writeCharacters(description);
     xmlwriter.writeEndElement();
 
     xmlwriter.writeEndElement();
