@@ -201,7 +201,7 @@ void HttpClient::requestTopList(QString category, QString limit)
 void HttpClient::requestCategories()
 {
     qDebug() << "_requestCategories" ;
-    QUrl qurl("www.speedfreak-app.com/results/categories");
+    QUrl qurl("http://www.speedfreak-app.com/results/categories");
 
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
@@ -274,7 +274,7 @@ void HttpClient::ackOfResult()
             myMainw->accstart->accRealTimeDialog->resultDialog->setSendServerButtonEnabled();
     }
     else {
-        qDebug() << "errorcode:" << errorcode << reply->errorString();
+        //qDebug() << "errorcode:" << errorcode << reply->errorString();
 
         //Indicating user
         if(myMainw->accstart->accRealTimeDialog->resultDialog)
@@ -364,7 +364,7 @@ void HttpClient::ackOfCategories()
             myMainw->topResultDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
     }
     else {
-        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
         if(myMainw->topResultDialog)
             myMainw->topResultDialog->setLabelInfoToUser("");
