@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     routeSaveDialog = NULL;
     topResultDialog = NULL;
 
+    usersDialog = NULL;
+
     settingsDialog = new SettingsDialog;
     connect(settingsDialog, SIGNAL(sendregistration()), this, SLOT(clientRegUserToServer()));
     connect(settingsDialog, SIGNAL(userNameChanged()),  this, SLOT(clientUserLogin()));
@@ -428,4 +430,39 @@ void MainWindow::saveProfile()
 {
     if(httpClient)
         httpClient->sendProfileXml();
+}
+
+/**
+  * This slot function calls httpClients requestUserInfo for getting user's information from server.
+  */
+void MainWindow::requestGetUserInfo(QString name)
+{
+    qDebug() << "getUserInfo signal " + name;
+    if(httpClient)
+    {
+        httpClient->requestUserInfo(name);
+    }
+}
+
+/**
+  * This slot function calls httpClients requestUsers for getting usernames from server.
+  */
+void MainWindow::requestGetUsers()
+{
+    qDebug() << "getUsers signal";
+    if(httpClient)
+    {
+        httpClient->requestUsers();
+    }
+}
+
+void MainWindow::on_pushButtonUsers_clicked()
+{
+    if(!usersDialog)
+        usersDialog = new UsersDialog;
+
+    connect(usersDialog, SIGNAL(getUserInfo(QString)), this, SLOT(requestGetUserInfo(QString)));
+    //connect(usersDialog, SIGNAL(getUsers()), this, SLOT(requestGetUsers()));
+    requestGetUsers();
+    usersDialog->show();
 }

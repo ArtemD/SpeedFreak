@@ -27,6 +27,7 @@
 #include "resultdialog.h"
 #include "helpdialog.h"
 #include "custombutton.h"
+#include "usersdialog.h"
 
 
 namespace Ui {
@@ -48,6 +49,7 @@ public:
     TopResultDialog *topResultDialog;
     HttpClient *httpClient;
     HelpDialog *helpDialog;
+    UsersDialog *usersDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -64,6 +66,7 @@ private:
     CustomButton* customButtonHelp;
 
 private slots:
+    void on_pushButtonUsers_clicked();    
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
     void clientSendRoute(QString,QString,int);
@@ -81,6 +84,8 @@ private slots:
     void OpenWWWPage();
     void OpenHelpDialog();
     void OpenSettingsDialog();
+    void requestGetUserInfo(QString);
+    void requestGetUsers();
 };
 
 #endif // MAINWINDOW_H

@@ -52,6 +52,12 @@ public slots:
     void ackOfSendingPicture();
     void errorFromServer(QNetworkReply::NetworkError);
     void sendProfileXml();
+    void requestUserInfo(QString username);
+    void ackOfUserInfo();
+
+    void requestUsers();
+    void ackOfUsers();
+    void sendUsersInfo(QStringList* usersInfo);
 
 };
 

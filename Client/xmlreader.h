@@ -24,6 +24,7 @@ public:
     ~XmlReader();
     CategoryList *myCategoryList;
     void xmlReadProfile(QIODevice *device, ProfileDialog *profileDialog);
+    QStringList *usersList;
 
 private:
     QXmlStreamReader xmlreader;
@@ -36,16 +37,23 @@ private:
     QString user;
     QString value;
     QString description;
+    QStringList *usersInfo;
 
 signals:
     void receivedCategoryList();
     void receivedTop10List();
+    void userInfo(QStringList *userInfo);
 
 public slots:
     void xmlReadTop10Results(QNetworkReply *device, QString userName);
     void xmlReadCategories(QNetworkReply *device);
     //void xmlReadCategories(QIODevice *device);
     void xmlShow();
+
+    //void xmlReadUserInfo(QIODevice *device);
+    void xmlReadUserInfo(QNetworkReply *device);
+    void xmlReadUsers(QNetworkReply *device);
+    //void xmlReadUsers(QIODevice *device);
 };
 
 #endif // XMLREADER_H

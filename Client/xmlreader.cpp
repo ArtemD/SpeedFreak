@@ -19,6 +19,8 @@ XmlReader::XmlReader()
 {
     qDebug() << "__XmlReader";
     myCategoryList = new CategoryList();
+    usersList = NULL;
+    usersInfo = new QStringList();
 }
 
 /**
@@ -262,4 +264,117 @@ void XmlReader::xmlReadProfile(QIODevice *device, ProfileDialog *profileDialog)
         }
     }
     profile = NULL;
+}
+
+/**
+  *This function is used to parse user's info of a certain username.
+  */
+//void XmlReader::xmlReadUserInfo(QIODevice *device)
+void XmlReader::xmlReadUserInfo(QNetworkReply *device)
+{
+   /* <?xml version="1.0" encoding="utf-8"?>
+    <userinfo user="test928" manufacturer="Toyota" type="corolla" model="1983" description="Fuel
+    efficient, GPS system, only one owner"/>
+    */
+
+   /* <?xml version="1.0" encoding="utf-8"?>
+    <user login="test" description="<![CDATA my car rox! ]]>" last_activity="2010-05-13 21:47:15"
+    avatar="http://www.speedfreak-api.com/static/uploads/avatars/22.jpg"  />*/
+
+    usersInfo->clear();
+    xmlreader.clear();
+    QByteArray array = device->readAll();
+    qDebug() << "array: " << array;
+    xmlreader.addData(array);
+
+    while(!xmlreader.atEnd())
+    {
+        //Read next node
+        xmlreader.readNext();
+
+        //Check if this element is starting element
+        if(xmlreader.isStartElement())
+        {
+            if(xmlreader.name() == "user")
+            {
+                qDebug() << xmlreader.name();
+                attr = xmlreader.attributes();
+                QString data;
+                data = attr.value("login").toString();
+                qDebug() << "user: " << data;
+                usersInfo->append(data);
+                data = attr.value("description").toString();
+                qDebug() << "description: " << data;
+                usersInfo->append(data);
+
+                /*data = attr.value("type").toString();
+                qDebug() << "type: " << data;
+                usersInfo.append(data);
+                data = attr.value("model").toString();
+                qDebug() << "model: " << data;
+                usersInfo.append(data);
+                data = attr.value("description").toString();
+                qDebug() << "description: " << data;
+                usersInfo.append(data);*/
+                //usersList->append(username);
+            }
+        }
+    }
+    qDebug() << "__emit";
+    emit userInfo(usersInfo);
+}
+
+/**
+  *This function is used to parse usernames.
+  */
+void XmlReader::xmlReadUsers(QNetworkReply *device)
+//void XmlReader::xmlReadUsers(QIODevice *device)
+{
+    /* <?xml version="1.0" encoding="utf-8"?>
+     <users>
+             <user login="test" description="<![CDATA my car rox! ]]>" last_activity="2010-05-13 21:47:15"  />
+             <user login="test1" description="<![CDATA my car rox too! ]]>" last_activity="2010-05-13 21:28:00"  />
+     </users>*/
+
+    xmlreader.clear();
+    QByteArray array = device->readAll();
+    qDebug() << "array: " << array;
+    xmlreader.addData(array);
+    //Go trough the xml document
+
+    if (!usersList)
+    {
+        usersList = new QStringList();
+        qDebug() << "userlist luodaan";
+    }
+
+    else
+    {
+        usersList->clear();
+        qDebug() << "userlist tyhjennetaan";
+    }
+
+    while(!xmlreader.atEnd())
+    {
+        //Read next node
+        xmlreader.readNext();
+        qDebug() << xmlreader.name();
+
+        //Check if this element is starting element
+        if(xmlreader.isStartElement())
+        {
+            if (xmlreader.name() == "user")
+            {
+                qDebug() << xmlreader.name();
+                attr = xmlreader.attributes();
+                QString username;
+                QString description;
+                username = attr.value("login").toString();
+                description = attr.value("description").toString();
+                qDebug() << "user: " << username;
+                qDebug() << "description: " << description;
+                usersList->append(username);
+            }
+        }
+    }
 }

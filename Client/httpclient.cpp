@@ -25,6 +25,7 @@ HttpClient::HttpClient(MainWindow *myCarw)
     netManager = new QNetworkAccessManager();
     myXmlwriter = new XmlWriter();
     myXmlreader = new XmlReader();
+    connect(myXmlreader, SIGNAL(userInfo(QStringList*)), this, SLOT(sendUsersInfo(QStringList*)));
 }
 
 /**
@@ -573,4 +574,146 @@ void HttpClient::ackOfSendingPicture()
             myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Picture saved to server");
         }
     }
+}
+
+/**
+  *@brief Request the user information of certain user from the server.
+  *Send authentication information in the header.
+  *@param username which information we want.
+  */
+void HttpClient::requestUserInfo(QString username)
+{
+    qDebug() << "_requestUsersInfo" ;
+
+    QUrl qurl("http://speedfreak-app.com/users/info/" + username);
+    qDebug() << qurl.toString();
+    QNetworkRequest request(qurl);
+    QNetworkReply *currentDownload;
+
+    QString credentials = myMainw->settingsDialog->getUserName() + ":" + myMainw->settingsDialog->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    currentDownload = netManager->post(request, ("data=" ));
+    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfUserInfo()));
+
+    //qDebug() << "requestUserInfo";
+    //ackOfUserInfo();
+}
+
+/**
+  *@brief React to servers responce after request the user information of certain user.
+  */
+void HttpClient::ackOfUserInfo()
+{
+    qDebug() << "ackUserInfo";
+    /*QString fileName = "user.xml";
+    QFile file(fileName);
+    //file.setFileName( "routetemp.xml");
+    if (!file.open(QFile::ReadOnly))
+    {
+        qDebug() << "_xmlShow fail";
+        return;
+    }
+
+    myXmlreader->xmlReadUserInfo(&file);
+    file.close();*/
+
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    myXmlreader->xmlReadUserInfo(reply);
+
+    //for(int i = 0; i < myXmlreader->usersList->count(); i++)
+    //{
+    //    myMainw->settingsDialog->sendUsernameToUsersDialog(myXmlreader->usersList->at(i));
+    //}
+}
+
+/**
+  *@brief Request the users list of all users from the server.
+  *Send authentication information in the header.
+  */
+void HttpClient::requestUsers()
+{  
+    qDebug() << "_requestUsers" ;
+
+    QUrl qurl("http://www.speedfreak-app.com/users/list_all");
+    qDebug() << qurl.toString();
+    QNetworkRequest request(qurl);
+    QNetworkReply *currentDownload;
+
+    QString credentials = myMainw->settingsDialog->getUserName() + ":" + myMainw->settingsDialog->getPassword();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader(QByteArray("Authorization"),credentials.toAscii());
+
+    currentDownload = netManager->post(request, ("data=" ));
+    connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfUsers()));
+
+
+    //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
+
+    //Indicating user
+    //if(myMainw->topResultDialog)
+        //myMainw->topResultDialog->setLabelInfoToUser("Reguesting categories from server");
+
+    //ackOfUsers();
+}
+
+/**
+  *@brief React to servers responce after request the users list of all users.
+  */
+void HttpClient::ackOfUsers()
+{
+    qDebug() << "ackUsers";
+   /* QString fileName = "jtn.xml";
+    QFile file(fileName);
+    //file.setFileName( "routetemp.xml");
+    if (!file.open(QFile::ReadOnly))
+    {
+        qDebug() << "_xmlShow fail";
+        return;
+    }
+
+    myXmlreader->xmlReadUsers(&file);
+    file.close();
+
+    for(int i = 0; i < myXmlreader->usersList->count(); i++)
+    {
+        myMainw->settingsDialog->sendUsernameToUsersDialog(myXmlreader->usersList->at(i));
+    }*/
+
+    qDebug() << "ackUsers";
+
+    //if(myMainw->topResultDialog)
+    //    myMainw->topResultDialog->setLabelInfoToUser("");
+
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    myXmlreader->xmlReadUsers(reply);
+
+    for(int i = 0; i < myXmlreader->usersList->count(); i++)
+    {
+        myMainw->usersDialog->appendUserToList(myXmlreader->usersList->at(i));
+    }
+   /* QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories",reply->errorString());
+        if(myMainw->topResultDialog)
+            myMainw->topResultDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
+    }
+    else {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
+        if(myMainw->topResultDialog)
+            myMainw->topResultDialog->setLabelInfoToUser("");
+    }*/
+}
+
+/**
+  * This slot function called when userInfo signal is emitted from xmlreader.
+   *@param usersInfo includes information from certain user.
+  */
+void HttpClient::sendUsersInfo(QStringList* usersInfo)
+{
+    myMainw->usersDialog->setUserInfo(usersInfo);
 }
