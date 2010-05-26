@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     helpsettingsdialog.cpp \
     custombutton.cpp \
     profiledialog.cpp \
-    filereader.cpp
+    filereader.cpp \
+    usersdialog.cpp
 HEADERS += mainwindow.h \
     creditsdialog.h \
     routedialog.h \
@@ -71,7 +72,8 @@ HEADERS += mainwindow.h \
     helpsettingsdialog.h \
     custombutton.h \
     profiledialog.h \
-    filereader.h
+    filereader.h \
+    usersdialog.h
 FORMS += mainwindow.ui \
     creditsdialog.ui \
     routedialog.ui \
@@ -89,7 +91,8 @@ FORMS += mainwindow.ui \
     helpaccelerationdialog.ui \
     helproutingdialog.ui \
     helpsettingsdialog.ui \
-    profiledialog.ui
+    profiledialog.ui \
+    usersdialog.ui
 RESOURCES += graphics.qrc
 contains(QT_CONFIG, hildon):CONFIG += hildon
 CONFIG += link_pkgconfig
