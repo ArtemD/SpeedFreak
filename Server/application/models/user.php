@@ -82,7 +82,7 @@ class User_Model extends Model {
      * @return bool Returns True if user exists and false otherwise
      */
     private function user_exists($username, $email){
-    	if ($this->db->query("SELECT id FROM users WHERE username=? OR email='?'",
+    	if ($this->db->query("SELECT id FROM users WHERE username='?' OR email='?'",
 	                   $username, $email)->count()>0)
 	       return true;
 	    else
