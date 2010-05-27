@@ -106,7 +106,7 @@ class User_Model extends Model {
      * @return integer|bool User id if successful or false
      */
     public function get_id($username){
-        $result = $this->db->query("SELECT id FROM users WHERE username=?", $username);
+        $result = $this->db->query("SELECT id FROM users WHERE username='?'", $username);
 		if ($result->count()>0)
            return $result[0]->id;
         else
@@ -138,7 +138,7 @@ class User_Model extends Model {
         // hash password
         $password = $this->hash($password);
         
-        if ($this->db->query("SELECT id FROM users WHERE username = ? AND password = ?",
+        if ($this->db->query("SELECT id FROM users WHERE username='?' AND password='?'",
                              $username, $password)->count()>0)
             return true;
         else
