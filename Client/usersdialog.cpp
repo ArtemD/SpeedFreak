@@ -86,3 +86,8 @@ void UsersDialog::setUserInfo(QStringList *usersInfo)
    }
    //ui->labelDescriptionHeader->setText("Description: " + usersInfo->at(4));
 }
+
+void UsersDialog::setLabelInfoToUser(QString infoText)
+{
+    this->ui->labelInfoToUser->setText(infoText);
+}

@@ -15,6 +15,7 @@ public:
     ~UsersDialog();
     void appendUserToList(QString usrname);
     void setUserInfo(QStringList *usersInfo);
+    void setLabelInfoToUser(QString infoText);
 
 protected:
     void changeEvent(QEvent *e);

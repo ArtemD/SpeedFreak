@@ -177,6 +177,19 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="labelInfoToUser">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>671</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Info label</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
