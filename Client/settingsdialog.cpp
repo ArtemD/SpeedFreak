@@ -13,18 +13,16 @@
 #include <QMessageBox>
 #include <QDebug>
 
-SettingsDialog::SettingsDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::SettingsDialog)
+/**
+  * Constructor of this class
+  */
+SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
 
     helpSettingsDialog = NULL;
-    profileDialog = NULL;
-
+    registerDialog = NULL;
     this->setWindowTitle("Settings");
-    this->ui->regEMailLineEdit->setText("@");
-
-    ui->pushButtonProfile->setDisabled(true);
 
     if (loginSaved())
     {
@@ -44,20 +42,28 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         ui->setUserPushButton->setText("Log out");
 
         // Button settings
-        ui->pushButtonInfo->setAutoFillBackground(true);
-        ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+        ui->pushButtonProfile->setAutoFillBackground(true);
+        ui->pushButtonProfile->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
         ui->pushButtonProfile->setDisabled(false);
+        ui->pushButtonProfile->setVisible(false);
     }
-
+    // Button settings
     ui->pushButtonInfo->setAutoFillBackground(true);
     ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
+    ui->pushButtonProfile->setVisible(false);
 }
 
+/**
+  * Destructor of this class
+  */
 SettingsDialog::~SettingsDialog()
 {
     delete ui;
 }
 
+/**
+  *
+  */
 void SettingsDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -70,64 +76,23 @@ void SettingsDialog::changeEvent(QEvent *e)
     }
 }
 
-//
-// Registrate
-//
+/**
+  * This slot function called when ever "register new user" -button clicked.
+  */
 void SettingsDialog::on_registratePushButton_clicked()
 {
-    // Send username, password and email to SpeedFreak server
-    this->regUsername = ui->regUserNameLineEdit->text();
-    this->regPassword = ui->regPasswordLineEdit->text();
-    this->regEmail = ui->regEMailLineEdit->text();
-
-    if (this->regUsername.compare("") && this->regPassword.compare("") && this->regEmail.compare("") && this->regEmail.compare("@"))
+    if(!registerDialog)
     {
-        emit sendregistration();
-
+        registerDialog = new RegisterDialog(this);
     }
-    else
-    {
-        QMessageBox::about(this, "One or more of the fields is empty", "Set username (3-12 characters), password (at least 6 characters) and valid email address");
-    }
-
-    //close();      //using close() hides popup-window which reports error from server
+    connect(registerDialog, SIGNAL(registrate()), this, SLOT(registrate()));
+    connect(registerDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
+    registerDialog->show();
 }
 
-// Next 6 functions can be removed if Settingsdialog is implemented without
-// own copy of username, password & email
-void SettingsDialog::setRegUserName(QString username)
-{
-    this->regUsername = username;
-}
-
-void SettingsDialog::setRegPassword(QString password)
-{
-    this->regPassword = password;
-}
-
-void SettingsDialog::setRegEmail(QString email)
-{
-    this->regEmail = email;
-}
-
-QString SettingsDialog::getRegUserName()
-{
-    return this->regUsername;
-}
-
-QString SettingsDialog::getRegPassword()
-{
-    return this->regPassword;
-}
-
-QString SettingsDialog::getRegEmail()
-{
-    return this->regEmail;
-}
-
-//
-// Set / Change user
-//
+/**
+  *  Set / Change user
+  */
 void SettingsDialog::on_setUserPushButton_clicked()
 {
     if (!ui->setUserPushButton->text().compare("Log out"))
@@ -167,8 +132,6 @@ void SettingsDialog::on_setUserPushButton_clicked()
     // Save these also to usersettings
     //saveLogin( this->username, this->password);
 
-
-
     /*
     // Set "Set/Change User" button text
     if (this->username.length() > 0)
@@ -187,31 +150,49 @@ void SettingsDialog::on_setUserPushButton_clicked()
 
 // Next 4 functions can be removed if Settingsdialog is implemented without
 // own copy of username & password
+/**
+  *
+  */
 void SettingsDialog::setUserName(QString username)
 {
     this->username = username;
 }
 
+/**
+  *
+  */
 void SettingsDialog::setPassword(QString password)
 {
     this->password = password;
 }
 
+/**
+  *
+  */
 QString SettingsDialog::getUserName()
 {
     return this->username;
 }
 
+/**
+  *
+  */
 QString SettingsDialog::getPassword()
 {
     return this->password;
 }
 
+/**
+  *
+  */
 void SettingsDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
 }
 
+/**
+  *
+  */
 void SettingsDialog::usernameOk(bool isOk)
 {
     if (isOk)
@@ -232,13 +213,6 @@ void SettingsDialog::usernameOk(bool isOk)
         saveLogin( this->username, this->password);
         ui->pushButtonProfile->setDisabled(true);
     }
-}
-
-void SettingsDialog::clearRegisterLineEdits()
-{
-    ui->regEMailLineEdit->setText("@");
-    ui->regPasswordLineEdit->setText("");
-    ui->regUserNameLineEdit->setText("");
 }
 
 /**
@@ -265,30 +239,18 @@ void SettingsDialog::killDialog()
         delete helpSettingsDialog;
         helpSettingsDialog = NULL;
     }
-    if(profileDialog)
+    if(registerDialog)
     {
-        qDebug() << "__Settings kill: profileDialog";
-        delete profileDialog;
-        profileDialog = NULL;
+        qDebug() << "__Settings kill: registerDialog";
+        delete registerDialog;
+        registerDialog = NULL;
     }
 }
 
 /**
-  * This slot function called when ever profile button clicked.
-  * Open profile dialog.
+  * This slot function called when
   */
-void SettingsDialog::on_pushButtonProfile_clicked()
+void SettingsDialog::registrate()
 {
-    if(!profileDialog)
-    {
-        profileDialog = new ProfileDialog(this);
-    }
-    connect(profileDialog, SIGNAL(saveprofile()), this, SLOT(saveProfile()));
-    connect(profileDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
-    profileDialog->show();
-}
-
-void SettingsDialog::saveProfile()
-{
-    emit saveprofile();
+    emit sendregistration();
 }

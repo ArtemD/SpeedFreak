@@ -12,7 +12,7 @@
 #include <QDialog>
 #include "instructionsdialog.h"
 #include <helpsettingsdialog.h>
-#include <profiledialog.h>
+#include <registerdialog.h>
 
 namespace Ui {
     class SettingsDialog;
@@ -24,45 +24,33 @@ public:
     SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
     HelpSettingsDialog *helpSettingsDialog;
-    ProfileDialog *profileDialog;
-    void setRegUserName(QString username);
-    void setRegPassword(QString password);
-    void setRegEmail(QString email);
-    QString getRegUserName();
-    QString getRegPassword();
-    QString getRegEmail();
+    RegisterDialog *registerDialog;
     void setUserName(QString username);
     void setPassword(QString password);
     QString getUserName();
     QString getPassword();
     void setLabelInfoToUser(QString infoText);
     void usernameOk(bool isOk);
-    void clearRegisterLineEdits();
 
 signals:
     void sendregistration();
     void userNameChanged();
     void logout();
-    void saveprofile();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::SettingsDialog *ui;
-    QString regUsername;
-    QString regPassword;
-    QString regEmail;
     QString username;
     QString password;
 
 private slots:
-    void on_pushButtonProfile_clicked();
     void on_pushButtonInfo_clicked();
     void on_setUserPushButton_clicked();
     void on_registratePushButton_clicked();
     void killDialog();
-    void saveProfile();
+    void registrate();
 };
 
 #endif // SETTINGSDIALOG_H

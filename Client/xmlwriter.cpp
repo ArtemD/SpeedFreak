@@ -27,12 +27,19 @@ XmlWriter::~XmlWriter()
 }
 
 /**
-  *@brief Writes registration items into tags.
-  *@param netbuf a buffer where xmlstreamwriter writes to.
-  *@param usr for user name.
-  *@param psswd for password.
-  *@param email.
+  * @brief Writes registration items into tags.
+  * @param netbuf a buffer where xmlstreamwriter writes to.
+  * @param usr for user name.
+  * @param psswd for password.
+  * @param email.
+  * @param .
+  * @param .
+  * @param .
+  * @param .
+  * @param .
   */
+//void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email)
+//void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email, QString manufacturer, QString type, QString model, QString description, QString picture)
 void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QString email, QString description)
 {
     qDebug() << "_writeRegistering";
@@ -42,18 +49,22 @@ void XmlWriter::writeRegistering(QBuffer *netbuf, QString usr, QString psswd, QS
     xmlwriter.writeStartDocument();
     xmlwriter.writeStartElement("user");
 
+    //<login>test827</login>
     xmlwriter.writeStartElement("login");
     xmlwriter.writeCharacters(usr);
     xmlwriter.writeEndElement();
 
+    //<password>thisisaveryinsecurepassword</password>
     xmlwriter.writeStartElement("password");
     xmlwriter.writeCharacters(psswd);
     xmlwriter.writeEndElement();
 
+    //<email>test@example.com</email>
     xmlwriter.writeStartElement("email");
     xmlwriter.writeCharacters(email);
     xmlwriter.writeEndElement();
 
+    //<description>manufacturer;type;model;description</description>
     xmlwriter.writeStartElement("description");
     xmlwriter.writeCharacters(description);
     xmlwriter.writeEndElement();
@@ -90,14 +101,15 @@ void XmlWriter::writeGpsTrack(QBuffer *netbuf, int counter, int start, int stop,
 {
     qDebug() << "_writeGpsTrack";
 
-    double *ptrValue;
+    // Unused variables
+    //double *ptrValue;
     //ptrValue = ptrTable;
-    double tmp = 0;
+    //double tmp = 0;
+    int sTart = start;
+    int sTop = stop;
 
     xmlwriter.setDevice(netbuf);
-
     xmlwriter.writeStartDocument();
-
     xmlwriter.writeStartElement("Route");
     xmlwriter.writeAttribute("starttime", QDateTime::currentDateTime().toString());
     xmlwriter.writeAttribute("endtime", QDateTime::currentDateTime().toString());

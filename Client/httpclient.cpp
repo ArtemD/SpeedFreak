@@ -48,7 +48,7 @@ HttpClient::~HttpClient()
 void HttpClient::requestRegistration()
 {
     qDebug() << "_requestRegistration" ;
-    qDebug() <<  myMainw->settingsDialog->getRegUserName() << "+" <<  myMainw->settingsDialog->getRegPassword() << "+" <<  myMainw->settingsDialog->getRegEmail();
+    qDebug() <<  myMainw->settingsDialog->registerDialog->getRegUserName() << "+" <<  myMainw->settingsDialog->registerDialog->getRegPassword() << "+" <<  myMainw->settingsDialog->registerDialog->getRegEmail();
 
     QBuffer *regbuffer = new QBuffer();
     QUrl qurl("http://www.speedfreak-app.com/users/register");
@@ -57,11 +57,30 @@ void HttpClient::requestRegistration()
     QNetworkReply *currentDownload;
 
     regbuffer->open(QBuffer::ReadWrite);
-    myXmlwriter->writeRegistering(regbuffer,
+
+    // Without profile dialog
+    /*myXmlwriter->writeRegistering(regbuffer,
                        myMainw->settingsDialog->getRegUserName(),
                        myMainw->settingsDialog->getRegPassword(),
-                       myMainw->settingsDialog->getRegEmail(),
-                       "My car is cool");
+                       myMainw->settingsDialog->getRegEmail());*/
+    // With profile dialog
+    /*myXmlwriter->writeRegistering(regbuffer,
+                                myMainw->settingsDialog->getRegUserName(),
+                                myMainw->settingsDialog->getRegPassword(),
+                                myMainw->settingsDialog->getRegEmail(),
+                                myMainw->settingsDialog->profileDialog->getDescription());
+                                myMainw->settingsDialog->profileDialog->getManufacturer(),
+                                myMainw->settingsDialog->profileDialog->getType(),
+                                myMainw->settingsDialog->profileDialog->getModel(),
+                                myMainw->settingsDialog->profileDialog->getDescription(),
+                                myMainw->settingsDialog->profileDialog->getPicture());*/
+    // New way: Registerdialog = register + Profiledialog
+    myXmlwriter->writeRegistering(regbuffer,
+                                myMainw->settingsDialog->registerDialog->getRegUserName(),
+                                myMainw->settingsDialog->registerDialog->getRegPassword(),
+                                myMainw->settingsDialog->registerDialog->getRegEmail(),
+                                myMainw->settingsDialog->registerDialog->getDescription());
+
     qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
 
     currentDownload = netManager->post(request, ("xml=" + regbuffer->data()));
@@ -69,8 +88,8 @@ void HttpClient::requestRegistration()
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
     //Indicating user
-    if(myMainw->settingsDialog)
-        myMainw->settingsDialog->setLabelInfoToUser("Reguesting registration from server");
+    if(myMainw->settingsDialog->registerDialog)
+        myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Reguesting registration from server");
 
     regbuffer->close();
 }
@@ -176,7 +195,7 @@ void HttpClient::requestTopList(QString category, QString limit)
     qDebug() << "_requestTopList";
     qDebug() << category;
 
-    QString urlBase = "http://www.speedfreak-app.com/results/list/";
+    QString urlBase = "http://www.speedfreak-app.com/results/list_results/";
     QUrl qurl(urlBase + category + "/" + limit);
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
@@ -202,8 +221,8 @@ void HttpClient::requestTopList(QString category, QString limit)
 void HttpClient::requestCategories()
 {
     qDebug() << "_requestCategories" ;
-    QUrl qurl("http://www.speedfreak-app.com/results/categories");
 
+    QUrl qurl("http://www.speedfreak-app.com/results/categories");
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
     QNetworkReply *currentDownload;
@@ -275,8 +294,6 @@ void HttpClient::ackOfResult()
             myMainw->accstart->accRealTimeDialog->resultDialog->setSendServerButtonEnabled();
     }
     else {
-        //qDebug() << "errorcode:" << errorcode << reply->errorString();
-
         //Indicating user
         if(myMainw->accstart->accRealTimeDialog->resultDialog)
             QMessageBox::about(myMainw->accstart->accRealTimeDialog->resultDialog, "Server reply to result sending", "Result received " + reply->readAll());
@@ -322,7 +339,7 @@ void HttpClient::ackOfRegistration()
     qDebug() << "_ackOfRegistration";
 
     if(myMainw->settingsDialog)
-        myMainw->settingsDialog->setLabelInfoToUser("");
+        myMainw->settingsDialog->registerDialog->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -330,15 +347,15 @@ void HttpClient::ackOfRegistration()
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
-        if(myMainw->settingsDialog)
-            QMessageBox::about(myMainw->settingsDialog, "Server reply to registration",reply->readAll());
+        if(myMainw->settingsDialog->registerDialog)
+            QMessageBox::about(myMainw->settingsDialog->registerDialog, "Server reply to registration",reply->readAll());
     }
     else {
         qDebug() << "errorcode=0" << errorcode << reply->errorString();
-        if(myMainw->settingsDialog)
+        if(myMainw->settingsDialog->registerDialog)
         {
-            QMessageBox::about(myMainw->settingsDialog, "Server reply to registration", "User registration " + reply->readAll());
-            myMainw->settingsDialog->clearRegisterLineEdits();
+            QMessageBox::about(myMainw->settingsDialog->registerDialog, "Server reply to registration", "User registration " + reply->readAll());
+            myMainw->settingsDialog->registerDialog->clearRegisterLineEdits();
         }
     }
 }
@@ -365,7 +382,6 @@ void HttpClient::ackOfCategories()
             myMainw->topResultDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
     }
     else {
-        //qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
         if(myMainw->topResultDialog)
             myMainw->topResultDialog->setLabelInfoToUser("");
@@ -477,15 +493,15 @@ void HttpClient::sendProfileXml()
         return;
     }
     myXmlwriter->writeProfileXmlFile(&file, userName,
-            myMainw->settingsDialog->profileDialog->getManufacturer(),
-            myMainw->settingsDialog->profileDialog->getType(),
-            myMainw->settingsDialog->profileDialog->getModel(),
-            myMainw->settingsDialog->profileDialog->getDescription(),
-            myMainw->settingsDialog->profileDialog->getPicture());
+            myMainw->settingsDialog->registerDialog->getManufacturer(),
+            myMainw->settingsDialog->registerDialog->getType(),
+            myMainw->settingsDialog->registerDialog->getModel(),
+            myMainw->settingsDialog->registerDialog->getDescription(),
+            myMainw->settingsDialog->registerDialog->getPicture());
 
     //Indicating user
-    if(myMainw->settingsDialog->profileDialog)
-        myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to phone");
+    if(myMainw->settingsDialog->registerDialog)
+        myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Profile saved to phone");
 
     // Send xml to server
     /*QUrl qurl("http://speedfreak-app.com/api/profile");
@@ -529,20 +545,20 @@ bool HttpClient::ackOfProfile()
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //Indicating user
-        if(myMainw->settingsDialog->profileDialog)
+        if(myMainw->settingsDialog->registerDialog)
         {
             //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting profile",reply->errorString());
-            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile save to server - fail");
+            myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Profile save to server - fail");
             return true;
         }
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //Indicating user
-        if(myMainw->settingsDialog->profileDialog)
+        if(myMainw->settingsDialog->registerDialog)
         {
             //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting profile", "OK " + reply->readAll());
-            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Profile saved to server");
+            myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Profile saved to server");
             return false;
         }
     }
@@ -559,19 +575,19 @@ void HttpClient::ackOfSendingPicture()
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //Indicating user
-        if(myMainw->settingsDialog->profileDialog)
+        if(myMainw->settingsDialog->registerDialog)
         {
             //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting picture",reply->errorString());
-            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Picture save to server - fail");
+            myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Picture save to server - fail");
         }
     }
     else {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //Indicating user
-        if(myMainw->settingsDialog->profileDialog)
+        if(myMainw->settingsDialog->registerDialog)
         {
             //QMessageBox::about(myMainw->settingsDialog->profileDialog, "Server reply to requesting picture", "OK " + reply->readAll());
-            myMainw->settingsDialog->profileDialog->setLabelInfoToUser("Picture saved to server");
+            myMainw->settingsDialog->registerDialog->setLabelInfoToUser("Picture saved to server");
         }
     }
 }
