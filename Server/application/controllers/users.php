@@ -71,11 +71,15 @@ class Users_Controller extends Controller{
      * @return string Returns XML containing list of all users or error message
      */
     public function list_all(){
-    	$users = new User_Model();
-    	$list = $users->list_all_users();
-    	$view = new View('api/user_list');
-    	$view->list = $list;
-    	$view->render(true);
+    	if (apiler::is_authorized()){
+	    	$users = new User_Model();
+	    	$list = $users->list_all_users();
+	    	$view = new View('api/user_list');
+	    	$view->list = $list;
+	    	$view->render(true);
+	    }
+	    else
+	    	apiler::not_authorized();
     }
     
     /**
