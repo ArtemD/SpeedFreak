@@ -176,7 +176,7 @@ void HttpClient::requestTopList(QString category, QString limit)
     qDebug() << "_requestTopList";
     qDebug() << category;
 
-    QString urlBase = "http://www.speedfreak-app.com/results/list/";
+    QString urlBase = "http://www.speedfreak-app.com/results/list_results/";
     QUrl qurl(urlBase + category + "/" + limit);
     qDebug() << qurl.toString();
     QNetworkRequest request(qurl);
