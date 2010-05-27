@@ -146,8 +146,9 @@ void ProfileDialog::on_buttonSave_clicked()
     setModel(ui->lineEditModel->text());
     setDescription(ui->textEditDescription->toPlainText());
 
+    this->close();
     // emit settingsdialog --> mainwindow --> httpclient
-    emit saveprofile();
+    //emit saveprofile();
 }
 
 /**
