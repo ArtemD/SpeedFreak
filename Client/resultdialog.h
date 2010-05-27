@@ -57,7 +57,6 @@ private:
     QString resultString;
 
 private slots:
-    void on_pushButtonEMail_clicked();
     void on_pushButtonInfo_clicked();
     void on_pushButtonNew_clicked();
     void on_pushButtonSend_clicked();

@@ -14,8 +14,6 @@
 #include <QPainter>
 #include <QPicture>
 #include <QDebug>
-#include <QDesktopServices>
-#include <QUrl>
 
 const int DIAGRAM_WIDTH = 400;
 const int DIAGRAM_HEIGHT = 300;
@@ -116,15 +114,7 @@ void ResultDialog::changeEvent(QEvent *e)
 void ResultDialog::paintEvent(QPaintEvent *)
 {
     setHeaders();
-    //Create Pixmap, where image will be draw
-    QPixmap image(ui->scrollArea->width(), ui->scrollArea->height()/*DIAGRAM_WIDTH+100, DIAGRAM_HEIGHT+70*/);
-	
-    //Create painter and give paramemeter where image will be draw
-    QPainter painter(&image);
-    painter.setPen(Qt::white);
-    painter.setBrush(Qt::white);
-    painter.drawRect(QRect(0, 0, ui->scrollArea->width(), ui->scrollArea->height()/*DIAGRAM_WIDTH+100, DIAGRAM_HEIGHT+70*/));
-    
+    QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen((Qt::gray),2));
@@ -136,7 +126,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
 
     fontForResult.setPixelSize(50);
     painter.setFont(fontForResult);
-    painter.drawText(diagramStemStart.x() + 30, diagramStemStart.y() - 150, resultString);
+    painter.drawText(diagramStemStart.x() + 50, diagramStemStart.y() - 150, resultString);
     painter.setFont(font);
 
     painter.setPen(QPen((Qt::darkCyan),2));
@@ -208,18 +198,6 @@ void ResultDialog::paintEvent(QPaintEvent *)
     {
         painter.drawPolyline(points, pointsToShow);
     }
-    //Save image in file acceleration.png
-    image.save("acceleration.png", 0, -1);
-
-    //Create label
-    QLabel *imageLabel = new QLabel(this);
-    
-    //Set image pixmap to label
-    imageLabel->setPixmap(image);
-    
-    //Set image label to scrollArea
-    ui->scrollArea->setWidget(imageLabel);
-
 }
 
 /**
@@ -820,12 +798,4 @@ void ResultDialog::killHelpDialog()
         helpAccelerationDialog = NULL;
     }
 }
-/**
-  * This slot function opens E-mail application with attachment file
-  * (acceleration.png). Image of resultdialog
-  */
 
-void ResultDialog::on_pushButtonEMail_clicked()
-{
-    QDesktopServices::openUrl(QUrl("mailto:name@domain.com?Subject=Acceleration Result&Body=Hi, Here are my acceleration result!&Attachment=acceleration.png"));
-}
