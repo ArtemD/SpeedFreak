@@ -636,12 +636,27 @@ void HttpClient::ackOfUserInfo()
     file.close();*/
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    myXmlreader->xmlReadUserInfo(reply);
+    //myXmlreader->xmlReadUserInfo(reply);
 
     //for(int i = 0; i < myXmlreader->usersList->count(); i++)
     //{
     //    myMainw->settingsDialog->sendUsernameToUsersDialog(myXmlreader->usersList->at(i));
     //}
+    QNetworkReply::NetworkError errorcode;
+    errorcode = reply->error();
+    if(errorcode != 0) {
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories",reply->errorString());
+        if(myMainw->usersDialog)
+            myMainw->usersDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
+    }
+    else {
+        myXmlreader->xmlReadUserInfo(reply);
+        qDebug() <<  "errorcode:" << errorcode << reply->errorString();
+        //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
+        if(myMainw->usersDialog)
+            myMainw->usersDialog->setLabelInfoToUser("");
+    }
 }
 
 /**
@@ -668,8 +683,8 @@ void HttpClient::requestUsers()
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
     //Indicating user
-    //if(myMainw->topResultDialog)
-        //myMainw->topResultDialog->setLabelInfoToUser("Reguesting categories from server");
+    if(myMainw->usersDialog)
+        myMainw->usersDialog->setLabelInfoToUser("Reguesting users from server");
 
     //ackOfUsers();
 }
@@ -703,26 +718,27 @@ void HttpClient::ackOfUsers()
     //    myMainw->topResultDialog->setLabelInfoToUser("");
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    myXmlreader->xmlReadUsers(reply);
+    //myXmlreader->xmlReadUsers(reply);
 
-    for(int i = 0; i < myXmlreader->usersList->count(); i++)
-    {
-        myMainw->usersDialog->appendUserToList(myXmlreader->usersList->at(i));
-    }
-   /* QNetworkReply::NetworkError errorcode;
+    QNetworkReply::NetworkError errorcode;
     errorcode = reply->error();
     if(errorcode != 0) {
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories",reply->errorString());
-        if(myMainw->topResultDialog)
-            myMainw->topResultDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
+        if(myMainw->usersDialog)
+            myMainw->usersDialog->setLabelInfoToUser("You're not logged! Please register or log in.");
     }
     else {
+        myXmlreader->xmlReadUsers(reply);
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
         //QMessageBox::about(myMainw->topResultDialog, "Server reply to requesting categories ", "OK");
-        if(myMainw->topResultDialog)
-            myMainw->topResultDialog->setLabelInfoToUser("");
-    }*/
+        if(myMainw->usersDialog)
+            myMainw->usersDialog->setLabelInfoToUser("");
+        for(int i = 0; i < myXmlreader->usersList->count(); i++)
+        {
+            myMainw->usersDialog->appendUserToList(myXmlreader->usersList->at(i));
+        }
+    }
 }
 
 /**

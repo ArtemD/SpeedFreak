@@ -168,6 +168,9 @@ MainWindow::~MainWindow()
     if(helpDialog)
         delete helpDialog;
 
+    if(usersDialog)
+        delete usersDialog;
+
     if(customButtonAccelerate)
         delete customButtonAccelerate;
     if(customButtonRoute)
@@ -343,6 +346,12 @@ void MainWindow::killDialog()
         delete helpDialog;
         helpDialog = NULL;
     }
+    if(usersDialog)
+    {
+        qDebug() << "__MW kill: usersDialog";
+        delete usersDialog;
+        usersDialog = NULL;
+    }
 }
 
 /**
@@ -464,5 +473,6 @@ void MainWindow::on_pushButtonUsers_clicked()
     connect(usersDialog, SIGNAL(getUserInfo(QString)), this, SLOT(requestGetUserInfo(QString)));
     //connect(usersDialog, SIGNAL(getUsers()), this, SLOT(requestGetUsers()));
     requestGetUsers();
+    connect(usersDialog, SIGNAL(rejected()), this, SLOT(killDialog()));
     usersDialog->show();
 }
