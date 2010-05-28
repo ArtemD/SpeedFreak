@@ -66,6 +66,11 @@ class apiler_Core {
         die;
     }
     
+    // escape string for db
+    public static function e($string){
+    	return mysql_escape_string($string);
+    }
+    
     /**
      * Verify user's credentials
      *  

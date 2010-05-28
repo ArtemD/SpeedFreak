@@ -58,8 +58,7 @@ class User_Model extends Model {
         
         // @todo I can't seem to get query working when password binding has '' around it like others
         if ($this->user_exists($username, $email)==false)
-    	   return $this->db->query("INSERT into users SET username = '?', password = ?, description='?', last_activity=NOW(), email = '?'",
-    	           $username, $password, $description, $email);
+    	   return $this->db->query("INSERT into users SET username='".apiler::e($username)."', password='".apiler::e($password)."', description='".apiler::e($description)."', last_activity=NOW(), email='".apiler::e($email)."'");
         else
             return false;
     }
@@ -82,8 +81,7 @@ class User_Model extends Model {
      * @return bool Returns True if user exists and false otherwise
      */
     private function user_exists($username, $email){
-    	if ($this->db->query("SELECT id FROM users WHERE username='?' OR email='?'",
-	                   $username, $email)->count()>0)
+    	if ($this->db->query("SELECT id FROM users WHERE username='".apiler::e($username)."' OR email='".apiler::e($email)."'")->count()>0)
 	       return true;
 	    else
 	       return false;          
@@ -91,7 +89,7 @@ class User_Model extends Model {
     
     
     public function get_info($username){
-    	$result = $this->db->query("SELECT * FROM users WHERE username = ?", $username);
+    	$result = $this->db->query("SELECT * FROM users WHERE username ='".apiler::e($username)."'");
 		if ($result->count()>0)
            return $result[0];
         else
@@ -106,7 +104,7 @@ class User_Model extends Model {
      * @return integer|bool User id if successful or false
      */
     public function get_id($username){
-        $result = $this->db->query("SELECT id FROM users WHERE username='?'", $username);
+        $result = $this->db->query("SELECT id FROM users WHERE username='".apiler::e($username)."'");
 		if ($result->count()>0)
            return $result[0]->id;
         else
@@ -138,8 +136,7 @@ class User_Model extends Model {
         // hash password
         $password = $this->hash($password);
         
-        if ($this->db->query("SELECT id FROM users WHERE username='?' AND password='?'",
-                             $username, $password)->count()>0)
+        if ($this->db->query("SELECT id FROM users WHERE username='".apiler::e($username)."' AND password='".apiler::e($password)."'")->count()>0)
             return true;
         else
             return false;
