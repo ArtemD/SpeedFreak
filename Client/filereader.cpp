@@ -1,29 +1,44 @@
 /*
  * File reader class for reading acceleration data from file.
  *
- * @author      Jukka Kurttila <jktla@suomi24.fi>
+ * @author      Jukka Kurttila  <jktla@suomi24.fi>
+ * @author      Toni Jussila    <toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 #include "filereader.h"
 #include <QFileDialog>
 
+/**
+  * Constructor of this class.
+  */
 filereader::filereader()
 {
 }
+
+/**
+  * Destructor of this class. Should be used to release all allocated resources.
+  */
 filereader::~filereader()
 {
     if(!fileName.isEmpty())
         file.close();
 }
 
+/**
+  * Read line.
+  *
+  * @param qreal &x
+  * @param qreal &y
+  * @param qreal &z
+  */
 void filereader::ReadLine( qreal &x, qreal &y, qreal &z )
 {
     if(fileName.isEmpty())
         return;
     QString line = file.readLine();
 
-    //Get x
+    // Get x
 
     std::string line2(line.toUtf8());
 
@@ -35,7 +50,7 @@ void filereader::ReadLine( qreal &x, qreal &y, qreal &z )
     QString temp2( temp.c_str() );
     x = temp2.toFloat();
 
-    //Get y
+    // Get y
 
     line2.erase(0,line2.find_first_of("y"));
     line2.erase(0,3);
@@ -45,12 +60,12 @@ void filereader::ReadLine( qreal &x, qreal &y, qreal &z )
     temp2 = temp.c_str();
     y = temp2.toFloat();
 
-    //Get z
+    // Get z
 
     line2.erase(0,line2.find_first_of("z"));
     line2.erase(0,3);
 
-    //Is there space character?
+    // Is there space character?
     if(line2.find_first_of(" ") != std::string::npos)
     {
         temp = line2.substr(0,line2.find_first_of(" "));
@@ -65,6 +80,12 @@ void filereader::ReadLine( qreal &x, qreal &y, qreal &z )
     temp2 = temp.c_str();
     z = temp2.toFloat();
 }
+
+/**
+  * Set file name.
+  *
+  * QString input file name
+  */
 void filereader::setFileName(QString inputFileName)
 {
     fileName = inputFileName;

@@ -1,7 +1,7 @@
 /*
  * Help dialog
  *
- * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
  * @author     Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -12,7 +12,7 @@
 #include <QDebug>
 
 /**
-  * Constructor
+  * Default constructor of this class.
   */
 HelpDialog::HelpDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,7 +27,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
 }
 
 /**
-  * Destructor
+  * Default destructor of this class.
   */
 HelpDialog::~HelpDialog()
 {
@@ -50,7 +50,7 @@ void HelpDialog::changeEvent(QEvent *e)
 }
 
 /**
-  *
+  * This slot function called when ever help results button clicked.
   */
 void HelpDialog::on_pushButtonHelpResults_clicked()
 {
@@ -63,7 +63,7 @@ void HelpDialog::on_pushButtonHelpResults_clicked()
 }
 
 /**
-  *
+  * This slot function called when ever help accelerate button clicked.
   */
 void HelpDialog::on_pushButtonHelpAccelerate_clicked()
 {
@@ -76,7 +76,7 @@ void HelpDialog::on_pushButtonHelpAccelerate_clicked()
 }
 
 /**
-  *
+  * This slot function called when ever help route button clicked.
   */
 void HelpDialog::on_pushButtonHelpRoute_clicked()
 {
@@ -89,7 +89,7 @@ void HelpDialog::on_pushButtonHelpRoute_clicked()
 }
 
 /**
-  *
+  * This slot function called when ever credits button clicked.
   */
 void HelpDialog::on_pushButtonCredits_clicked()
 {
@@ -102,7 +102,7 @@ void HelpDialog::on_pushButtonCredits_clicked()
 }
 
 /**
-  *
+  * This slot function called when ever help settings button clicked.
   */
 void HelpDialog::on_pushButtonHelpSettings_clicked()
 {

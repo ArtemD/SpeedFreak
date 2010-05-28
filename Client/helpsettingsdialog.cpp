@@ -1,6 +1,18 @@
+/*
+ * Help settings dialog
+ *
+ * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
+ * @author     Toni Jussila 	<toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "helpsettingsdialog.h"
 #include "ui_helpsettingsdialog.h"
 
+/**
+  * Default constructor of this class.
+  */
 HelpSettingsDialog::HelpSettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HelpSettingsDialog)
@@ -13,11 +25,17 @@ HelpSettingsDialog::HelpSettingsDialog(QWidget *parent) :
     ui->pushButtonLast->hide();
 }
 
+/**
+  * Default destructor of this class.
+  */
 HelpSettingsDialog::~HelpSettingsDialog()
 {
     delete ui;
 }
 
+/**
+  *
+  */
 void HelpSettingsDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -30,6 +48,9 @@ void HelpSettingsDialog::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * This slot function called when ever next button clicked.
+  */
 void HelpSettingsDialog::on_pushButtonNext_clicked()
 {
     pageCounter ++;
@@ -46,6 +67,9 @@ void HelpSettingsDialog::on_pushButtonNext_clicked()
     }
 }
 
+/**
+  * This slot function called when ever last button clicked.
+  */
 void HelpSettingsDialog::on_pushButtonLast_clicked()
 {
     pageCounter --;

@@ -1,7 +1,7 @@
 /*
  * Help dialog
  *
- * @author     Janne Änäkkälä <janne.anakkala@fudeco.com>
+ * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
  * @author     Toni Jussila 	<toni.jussila@fudeco.com>
  * @copyright  (c) 2010 Speed Freak team
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -14,8 +14,8 @@
 #include <helpresultsdialog.h>
 #include <helpaccelerationdialog.h>
 #include <helproutingdialog.h>
-#include "creditsdialog.h"
 #include <helpsettingsdialog.h>
+#include "creditsdialog.h"
 
 namespace Ui {
     class HelpDialog;

@@ -2,8 +2,8 @@
  * Http client Connects application to server.
  *
  * @author      Tiina Kivilinna-Korhola <tiina.kivilinna-korhola@fudeco.com>
- * @author      Olavi Pulkkinen <olavi.pulkkinen@fudeco.com>
- * @author      Toni Jussila 	<toni.jussila@fudeco.com>
+ * @author      Olavi Pulkkinen         <olavi.pulkkinen@fudeco.com>
+ * @author      Toni Jussila            <toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -15,8 +15,9 @@
 #include "mainwindow.h"
 
 /**
-  *@brief Constructor, connects object to GUI
-  *@param Pointer to carmainwindow, which is temporarily used during development
+  * Constructor, connects object to GUI
+  *
+  * @param Pointer to carmainwindow, which is temporarily used during development
   */
 HttpClient::HttpClient(MainWindow *myCarw)
 {
@@ -29,7 +30,7 @@ HttpClient::HttpClient(MainWindow *myCarw)
 }
 
 /**
-  *@brief Destructor
+  * Destructor
   */
 HttpClient::~HttpClient()
 {
@@ -42,8 +43,8 @@ HttpClient::~HttpClient()
 }
 
 /**
-  *@brief Sends registration information to the server in xml format.
-  *Reads user name, password and emaol address from resuldialogs internal variables.
+  * Sends registration information to the server in xml format.
+  * Reads user name, password and emaol address from resuldialogs internal variables.
   */
 void HttpClient::requestRegistration()
 {
@@ -83,7 +84,28 @@ void HttpClient::requestRegistration()
 
     qDebug() << "carmainwindow: regbuffer->data(): " << regbuffer->data();
 
-    currentDownload = netManager->post(request, ("xml=" + regbuffer->data()));
+    // Registration with picture. Send picture to server
+    if(myMainw->settingsDialog->registerDialog->getPicture() != "" )//&& error == false)
+    {
+        qDebug() << "__Registration with picture";
+        QFile pictureFile( myMainw->settingsDialog->registerDialog->getPicture() );
+        if (!pictureFile.open(QIODevice::ReadOnly))
+        {
+            qDebug() << "__picture read fail";
+            return;
+        }
+        //currentDownload = netManager->post(request, pictureFile.readAll());
+        currentDownload = netManager->post(request, ("xml=" + regbuffer->data(), "avatar=" + pictureFile.readAll()));
+        //connect(currentDownload, SIGNAL(finished()), this, SLOT(ackOfSendingPicture()));
+        pictureFile.close();
+    }
+    // Registration Without picture
+    else
+    {
+        qDebug() << "____Registration without picture";
+        currentDownload = netManager->post(request, ("xml=" + regbuffer->data()));
+    }
+
     connect(currentDownload,SIGNAL(finished()),this,SLOT(ackOfRegistration()));
     //connect(currentDownload,SIGNAL(error(QNetworkReply::NetworkError)),myMainw,SLOT(errorFromServer(QNetworkReply::NetworkError)));
 
@@ -95,8 +117,8 @@ void HttpClient::requestRegistration()
 }
 
 /**
-  *@brief Sends result(s) to the server in xml format.
-  *Send authentication information in the header.
+  * Sends result(s) to the server in xml format.
+  * Send authentication information in the header.
   */
 void HttpClient::sendResultXml(QString category, double result)
 {
@@ -131,11 +153,11 @@ void HttpClient::sendResultXml(QString category, double result)
 }
 
 /**
-  * @brief Sends route to the server in xml format.
+  * Sends route to the server in xml format.
   * Send authentication information in the header.
+  *
   * @param QString filename
   * @param int 1(send to server) or 0(no send)
-  * @todo Check destination URL.
   */
 void HttpClient::sendRouteXml(QString oldName, QString newName, int i)
 {
@@ -185,10 +207,11 @@ void HttpClient::sendRouteXml(QString oldName, QString newName, int i)
 }
 
 /**
-  *@brief Request the Top10List of certain category from the server.
-  *Send authentication information in the header.
-  *@param Category of results.
-  *@param Limit, the number of results.
+  * Request the Top10List of certain category from the server.
+  * Send authentication information in the header.
+  *
+  * @param Category of results.
+  * @param Limit, the number of results.
   */
 void HttpClient::requestTopList(QString category, QString limit)
 {
@@ -215,8 +238,8 @@ void HttpClient::requestTopList(QString category, QString limit)
 }
 
 /**
-  *@brief Request categories list from the server.
-  *Send authentication information in the header.
+  * Request categories list from the server.
+  * Send authentication information in the header.
   */
 void HttpClient::requestCategories()
 {
@@ -241,8 +264,8 @@ void HttpClient::requestCategories()
 }
 
 /**
-  *@brief Check that username and password exist on the server.
-  *Send authentication information in the header.
+  * Check that username and password exist on the server.
+  * Send authentication information in the header.
   */
 void HttpClient::checkLogin()
 {
@@ -268,7 +291,7 @@ void HttpClient::checkLogin()
 }
 
 /**
-  *@brief React to servers responce after result has been sent.
+  * React to servers responce after result has been sent.
   */
 void HttpClient::ackOfResult()
 {
@@ -303,7 +326,7 @@ void HttpClient::ackOfResult()
 }
 
 /**
-  *@brief React to servers responce after route has been sent.
+  * React to servers responce after route has been sent.
   */
 void HttpClient::ackOfRoute()
 {
@@ -331,8 +354,7 @@ void HttpClient::ackOfRoute()
 }
 
 /**
-  *@brief React to servers responce after registration has been sent.
-  *@todo Implement consequencies of reply.
+  * React to servers responce after registration has been sent.
   */
 void HttpClient::ackOfRegistration()
 {
@@ -361,7 +383,7 @@ void HttpClient::ackOfRegistration()
 }
 
 /**
-  *@brief React to servers responce after request for categories has been sent.
+  * React to servers responce after request for categories has been sent.
   */
 void HttpClient::ackOfCategories()
 {
@@ -389,7 +411,7 @@ void HttpClient::ackOfCategories()
 }
 
 /**
-  *@brief React to servers responce after request of TopList in certain category has been sent.
+  * React to servers responce after request of TopList in certain category has been sent.
   */
 void HttpClient::ackOfLogin()
 {
@@ -427,7 +449,7 @@ void HttpClient::ackOfLogin()
 }
 
 /**
-  *@brief Reports errors, when server has sent error signal.
+  * Reports errors, when server has sent error signal.
   */
 void HttpClient::errorFromServer(QNetworkReply::NetworkError errorcode)
 {
@@ -446,7 +468,7 @@ void HttpClient::errorFromServer(QNetworkReply::NetworkError errorcode)
 }
 
 /**
-  *@brief React to servers responce after request of TopList in certain category has been sent.
+  * React to servers responce after request of TopList in certain category has been sent.
   */
 void HttpClient::ackOfToplist()
 {
@@ -593,9 +615,10 @@ void HttpClient::ackOfSendingPicture()
 }
 
 /**
-  *@brief Request the user information of certain user from the server.
-  *Send authentication information in the header.
-  *@param username which information we want.
+  * Request the user information of certain user from the server.
+  * Send authentication information in the header.
+  *
+  * @param QString username which information we want.
   */
 void HttpClient::requestUserInfo(QString username)
 {
@@ -618,7 +641,7 @@ void HttpClient::requestUserInfo(QString username)
 }
 
 /**
-  *@brief React to servers responce after request the user information of certain user.
+  * React to servers responce after request the user information of certain user.
   */
 void HttpClient::ackOfUserInfo()
 {
@@ -660,8 +683,8 @@ void HttpClient::ackOfUserInfo()
 }
 
 /**
-  *@brief Request the users list of all users from the server.
-  *Send authentication information in the header.
+  * Request the users list of all users from the server.
+  * Send authentication information in the header.
   */
 void HttpClient::requestUsers()
 {  
@@ -690,28 +713,10 @@ void HttpClient::requestUsers()
 }
 
 /**
-  *@brief React to servers responce after request the users list of all users.
+  * React to servers responce after request the users list of all users.
   */
 void HttpClient::ackOfUsers()
 {
-    qDebug() << "ackUsers";
-   /* QString fileName = "jtn.xml";
-    QFile file(fileName);
-    //file.setFileName( "routetemp.xml");
-    if (!file.open(QFile::ReadOnly))
-    {
-        qDebug() << "_xmlShow fail";
-        return;
-    }
-
-    myXmlreader->xmlReadUsers(&file);
-    file.close();
-
-    for(int i = 0; i < myXmlreader->usersList->count(); i++)
-    {
-        myMainw->settingsDialog->sendUsernameToUsersDialog(myXmlreader->usersList->at(i));
-    }*/
-
     qDebug() << "ackUsers";
 
     //if(myMainw->topResultDialog)
@@ -743,7 +748,8 @@ void HttpClient::ackOfUsers()
 
 /**
   * This slot function called when userInfo signal is emitted from xmlreader.
-   *@param usersInfo includes information from certain user.
+  *
+  * @param QStringList usersInfo includes information from certain user.
   */
 void HttpClient::sendUsersInfo(QStringList* usersInfo)
 {

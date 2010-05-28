@@ -1,3 +1,10 @@
+/*
+ * Main
+ *
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 

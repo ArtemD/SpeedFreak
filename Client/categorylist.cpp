@@ -11,7 +11,7 @@
 #include "categorylist.h"
 
 /**
-  *Constructor of this class.
+  * Constructor of this class.
   */
 CategoryList::CategoryList()
 {
@@ -19,7 +19,7 @@ CategoryList::CategoryList()
 }
 
 /**
-  *Destructor of this class. Should be used to release all allocated resources.
+  * Destructor of this class. Should be used to release all allocated resources.
   */
 CategoryList::~CategoryList()
 {
@@ -27,8 +27,9 @@ CategoryList::~CategoryList()
 }
 
 /**
-  *This is return function.
-  *@return QStringList categoryList
+  * This is return function.
+  *
+  * @return QStringList categoryList
   */
 QStringList CategoryList::getCategoryList()
 {
@@ -47,8 +48,9 @@ QStringList CategoryList::getCategoryList()
 }
 
 /**
-  *Append an item in the end of the categorylist.
-  *@param Item.
+  * Append an item in the end of the categorylist.
+  *
+  * @param Item.
   */
 void CategoryList::appendCategoryList(QString item)
 {
@@ -57,9 +59,10 @@ void CategoryList::appendCategoryList(QString item)
 }
 
 /**
-  *Input an item into the categorylist.
-  *@param Index.
-  *@param Item to be appended.
+  * Input an item into the categorylist.
+  *
+  * @param Index.
+  * @param Item to be appended.
   */
 void CategoryList::fillCategoryList(int index, QString item)
 {
@@ -68,8 +71,9 @@ void CategoryList::fillCategoryList(int index, QString item)
 }
 
 /**
-  *Show an item of the categorylist.
-  *@param Index.
+  * Show an item of the categorylist.
+  *
+  * @param int Index.
   */
 QString CategoryList::itemOfCategoryList(int index)
 {
@@ -78,7 +82,7 @@ QString CategoryList::itemOfCategoryList(int index)
 }
 
 /**
-  *Clear categorylist.
+  * Clear categorylist.
   */
 void CategoryList::clearCategoryList()
 {
@@ -87,7 +91,7 @@ void CategoryList::clearCategoryList()
 }
 
 /**
-  *Read size of categorylist.
+  * Read size of categorylist.
   */
 int CategoryList::sizeOfCategoryList()
 {
@@ -96,11 +100,12 @@ int CategoryList::sizeOfCategoryList()
 }
 
 /**
-  *Append an item in the end of the categoryelementable.
-  *@param Index.
-  *@param Description of category.
-  *@param Unit.
-  *@param Category.
+  * Append an item in the end of the categoryelementable.
+  *
+  * @param int Index.
+  * @param QString Description of category.
+  * @param QString Unit.
+  * @param QString Category.
   */
 void CategoryList::appendCats(int ind, QString des, QString uni, QString cat)
 {
@@ -111,8 +116,9 @@ void CategoryList::appendCats(int ind, QString des, QString uni, QString cat)
 }
 
 /**
-  *Search description for an index af cats table.
-  *@param Index.
+  * Search description for an index af cats table.
+  *
+  * @param int Index.
   */
 QString CategoryList::getRecentDescription(int ind)
 {
@@ -121,8 +127,9 @@ QString CategoryList::getRecentDescription(int ind)
 }
 
 /**
-  *Search category for an index af cats table.
-  *@param Index.
+  * Search category for an index af cats table.
+  *
+  * @param int Index.
   */
 QString CategoryList::getRecentCategory(int ind)
 {
@@ -131,7 +138,7 @@ QString CategoryList::getRecentCategory(int ind)
 }
 
 /**
-  *Clear cats.
+  * Clear cats.
   */
 void CategoryList::clearCats()
 {
@@ -145,10 +152,10 @@ void CategoryList::clearCats()
 }
 
 /**
-  *This function is used to get items to top list of the category that is chosen from combobox.
-  *@param QString category
-  *@param int size
-  *@todo Now there is only one (the latest top10List). Later picking up the requested category.
+  * This function is used to get items to top list of the category that is chosen from combobox.
+  *
+  * @param QString category
+  * @param int size
   */
 QString CategoryList::getTopList( QString category, int size)
 {
@@ -165,4 +172,3 @@ QString CategoryList::getTopList( QString category, int size)
         return emptyStr;
     }
 }
-

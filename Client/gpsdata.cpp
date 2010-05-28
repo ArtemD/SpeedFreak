@@ -10,7 +10,7 @@
 #include <QDebug>
 
 /**
-  *Default constructor of this class.
+  * Default constructor of this class.
   */
 GPSData::GPSData(Maemo5Location *maemo5location)
 {
@@ -31,7 +31,7 @@ GPSData::GPSData(Maemo5Location *maemo5location)
 }
 
 /**
-  *Destructor of this class. Deletes all dynamic objects and sets them to NULL.
+  * Destructor of this class. Deletes all dynamic objects and sets them to NULL.
   */
 GPSData::~GPSData()
 {
@@ -43,7 +43,7 @@ GPSData::~GPSData()
 }
 
 /**
-  * This function reset all variables
+  * This function reset all variables.
   */
 void GPSData::resetAll()
 {
@@ -147,64 +147,58 @@ void GPSData::agnss()
 }
 
 /**
-  *This slot function is called when gprs update location.
+  * This slot function is called when gprs update location.
   */
 void GPSData::awcp()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::locationUpdated()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::gpsConnected()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::gpsDisconnected()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::gpsError()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::gpsdRunning()
 {
-
 }
 
 /**
-  *This slot function is called when .
+  * This slot function is called when .
   */
 void GPSData::gpsdStopped()
 {
-
 }
 
 /**
-  *This function start route recording.
-  *@param QString time recording start time.
+  * This function start route recording.
+  *
+  * @param QString time recording start time.
   */
 void GPSData::startRouteRecording()
 {
@@ -219,8 +213,9 @@ void GPSData::startRouteRecording()
 }
 
 /**
-  *This function stop route recording.
-  *@param QString time recording stop time.
+  * This function stop route recording.
+  *
+  * @param QString time recording stop time.
   */
 void GPSData::stopRouteRecording()
 {
@@ -242,7 +237,10 @@ void GPSData::stopRouteRecording()
 }
 
 /**
-  *This function write route to .xml file.
+  * This function write route to .xml file.
+  *
+  * @param QIODevice *device
+  * @param int round
   */
 void GPSData::writeRouteXml(QIODevice *device, int round)
 {
@@ -283,7 +281,9 @@ void GPSData::writeRouteXml(QIODevice *device, int round)
 }
 
 /**
-  *This function returns distance traveled since recording started.
+  * This function returns distance traveled since recording started.
+  *
+  * @return double distance
   */
 double GPSData::getDistanceTraveled()
 {
@@ -291,8 +291,9 @@ double GPSData::getDistanceTraveled()
 }
 
 /**
-  *This function returns direction of motion in degrees(0-359).
-  *@return double track
+  * This function returns direction of motion in degrees(0-359).
+  *
+  * @return double track
   */
 double GPSData::getDirection()
 {

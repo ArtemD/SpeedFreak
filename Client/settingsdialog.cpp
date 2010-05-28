@@ -151,7 +151,9 @@ void SettingsDialog::on_setUserPushButton_clicked()
 // Next 4 functions can be removed if Settingsdialog is implemented without
 // own copy of username & password
 /**
+  * Set username.
   *
+  * @param QString username
   */
 void SettingsDialog::setUserName(QString username)
 {
@@ -159,7 +161,9 @@ void SettingsDialog::setUserName(QString username)
 }
 
 /**
+  * Set password.
   *
+  * @param QString password
   */
 void SettingsDialog::setPassword(QString password)
 {
@@ -167,7 +171,9 @@ void SettingsDialog::setPassword(QString password)
 }
 
 /**
+  * Get username.
   *
+  * @return QString username
   */
 QString SettingsDialog::getUserName()
 {
@@ -175,7 +181,9 @@ QString SettingsDialog::getUserName()
 }
 
 /**
+  * Get password.
   *
+  * @return QString password
   */
 QString SettingsDialog::getPassword()
 {
@@ -183,7 +191,9 @@ QString SettingsDialog::getPassword()
 }
 
 /**
+  * Set label info to user.
   *
+  * @param QString info text
   */
 void SettingsDialog::setLabelInfoToUser(QString infoText)
 {
@@ -191,7 +201,9 @@ void SettingsDialog::setLabelInfoToUser(QString infoText)
 }
 
 /**
+  * is username ok.
   *
+  * @param bool is OK
   */
 void SettingsDialog::usernameOk(bool isOk)
 {
@@ -248,6 +260,7 @@ void SettingsDialog::killDialog()
 
 /**
   * This slot function called when
+  * emit sendregistration singnal
   */
 void SettingsDialog::registrate()
 {

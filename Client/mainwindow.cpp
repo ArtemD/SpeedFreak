@@ -3,21 +3,21 @@
  *
  * @author      Rikhard Kuutti 	<rikhard.kuutti@fudeco.com>
  * @author      Toni Jussila 	<toni.jussila@fudeco.com>
+ * @author      Janne Änäkkälä  <janne.anakkala@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
-
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSettings>
 #include <QDebug>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "usersettings.h"
 
 /**
-  *
+  * Constructor of this class.
   */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -51,12 +51,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setUsernameToMainPanel();
 
-    //Create icon for acceleration start button
+    // Create icon for acceleration start button
     QIcon* icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/Speedometer2.png"), QSize(125,125), QIcon::Normal, QIcon::On);
 
-    //Acceleration start button
+    // Acceleration start button
 
     customButtonAccelerate = new CustomButton(this,icon);
     delete icon;
@@ -66,13 +66,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(customButtonAccelerate, SIGNAL(OpenDialog()), this, SLOT(OpenAccStartDialog()));
     customButtonAccelerate->show();
 
-    //Create icon for route dialog button
+    // Create icon for route dialog button
     icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/route.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/route_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
 
-    //Route dialog button
-
+    // Route dialog button
     customButtonRoute = new CustomButton(this,icon);
     delete icon;
 
@@ -81,13 +80,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(customButtonRoute, SIGNAL(OpenDialog()), this, SLOT(OpenRouteDialog()));
     customButtonRoute->show();
 
-    //Create icon for results dialog button
+    // Create icon for results dialog button
     icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/trophy_gold.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/trophy_gold_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
 
-    //Results dialog button
-
+    // Results dialog button
     customButtonResults = new CustomButton(this,icon);
     delete icon;
 
@@ -100,8 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     icon->addFile(QString(":/new/prefix1/Graphics/settings.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/settings_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
 
-    //Settings dialog button
-
+    // Settings dialog button
     customButtonSettings = new CustomButton(this,icon);
     delete icon;
 
@@ -117,6 +114,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Users dialog button
     customButtonUsers = new CustomButton(this,icon);
+
+    // Create icon for www page button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+
+    // WWW page button
+    customButtonWWW = new CustomButton(this,icon);
+
     delete icon;
 
     buttons_x += 140;
@@ -124,13 +130,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(customButtonUsers, SIGNAL(OpenDialog()), this, SLOT(openUsersDialog()));
     customButtonUsers->show();
 
-    //Create icon for help dialog button
+    // Create icon for help dialog button
     icon = new QIcon();
     icon->addFile(QString(":/new/prefix1/Graphics/info.png"), QSize(85,85), QIcon::Normal, QIcon::Off);
     icon->addFile(QString(":/new/prefix1/Graphics/info_selected.png"), QSize(85,85), QIcon::Normal, QIcon::On);
 
-    //Help dialog button
-
+    // Help dialog button
     customButtonHelp = new CustomButton(this,icon);
     delete icon;
 
@@ -155,7 +160,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 /**
-  *
+  * Destructor of this class
   */
 MainWindow::~MainWindow()
 {
@@ -215,7 +220,7 @@ void MainWindow::changeEvent(QEvent *e)
 }
 
 /**
-  *This slot function is called when ever mytTopResultDialog emits signal refreshCategoryList button clicked.
+  * This slot function is called when ever mytTopResultDialog emits signal refreshCategoryList button clicked.
   */
 void MainWindow::clientRequestCategoryList()
 {
@@ -224,7 +229,9 @@ void MainWindow::clientRequestCategoryList()
 }
 
 /**
-  *This slot function is called when ever mytTopResultDialog emits signal refreshTopList button clicked.
+  * This slot function is called when ever mytTopResultDialog emits signal refreshTopList button clicked.
+  *
+  * @param int index
   */
 void MainWindow::clientRequestTopList(int index)
 {
@@ -238,8 +245,7 @@ void MainWindow::clientRequestTopList(int index)
 }
 
 /**
-  *This function is used to set items to category combobox.
-  *@param
+  * This function is used to set items to category combobox.
   */
 void MainWindow::setCategoryCompoBox()
 {
@@ -248,8 +254,9 @@ void MainWindow::setCategoryCompoBox()
 }
 
 /**
-  *This function prcesses UI updating after a new top10List has been received.
-  *@todo Check where limitNr is taken, fixed or user input, see on_comboBoxTopCategory_currentIndexChanged.
+  * This function prcesses UI updating after a new top10List has been received.
+  *
+  * @todo Check where limitNr is taken, fixed or user input, see on_comboBoxTopCategory_currentIndexChanged.
   */
 void MainWindow::showTop10()
 {
@@ -263,9 +270,10 @@ void MainWindow::showTop10()
 }
 
 /**
-  *This function is used to set items to labelTopList. Top-tab view.
-  *@param Category
-  *@param Size, number of results.
+  * This function is used to set items to labelTopList.
+  *
+  * @param QString Category
+  * @param int Size, number of results.
   */
 void MainWindow::setListViewTopList(QString category, int size)
 {
@@ -292,7 +300,6 @@ void MainWindow::clientRegUserToServer()
   */
 void MainWindow::clientUserLogin()
 {
-    
     if(httpClient)
     {
 	connect(httpClient, SIGNAL(loginOK()), this, SLOT(setUsernameToMainPanel()));
@@ -302,6 +309,7 @@ void MainWindow::clientUserLogin()
 
 /**
   * This function send route data to server.
+  *
   * @param QString oldName, old file name
   * @param QString newName, new file name
   * @param int i
@@ -314,6 +322,9 @@ void MainWindow::clientSendRoute(QString oldName, QString newName, int i)
 
 /**
   * This function send acceleration data to server.
+  *
+  * @param QString category
+  * @param double result
   */
 void MainWindow::clientSendResult(QString category, double result)
 {
@@ -369,7 +380,7 @@ void MainWindow::killDialog()
 }
 
 /**
-  *
+  * Set user name to main panel.
   */
 void MainWindow::setUsernameToMainPanel()
 {
@@ -447,7 +458,7 @@ void MainWindow::OpenHelpDialog()
 }
 
 /**
-  * This slot function save user profile data to server
+  * This slot function save user profile data to server.
   */
 void MainWindow::saveProfile()
 {
@@ -457,6 +468,8 @@ void MainWindow::saveProfile()
 
 /**
   * This slot function calls httpClients requestUserInfo for getting user's information from server.
+  *
+  * @param QString name
   */
 void MainWindow::requestGetUserInfo(QString name)
 {
@@ -479,6 +492,9 @@ void MainWindow::requestGetUsers()
     }
 }
 
+/**
+  * This slot function open users dialog.
+  */
 void MainWindow::openUsersDialog()
 {
     if(!usersDialog)

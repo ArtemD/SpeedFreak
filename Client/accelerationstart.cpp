@@ -6,11 +6,15 @@
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
+
 #include "accelerationstart.h"
 #include "ui_accelerationstartdialog.h"
 #include <QMessageBox>
 #include <QDebug>
 
+/**
+  * Constructor of this class.
+  */
 accelerationstart::accelerationstart(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::accelerationstart)
@@ -24,7 +28,6 @@ accelerationstart::accelerationstart(QWidget *parent) :
     stopMeasureSpeed = 0;
 
     ui->categorComboBox->addItem("Select category");
-    //ui->categorComboBox->addItem("-");
     ui->categorComboBox->addItem("0 - 20 km/h",20);
     ui->categorComboBox->addItem("0 - 40 km/h");
     ui->categorComboBox->addItem("0 - 100 km/h");
@@ -38,6 +41,10 @@ accelerationstart::accelerationstart(QWidget *parent) :
     ui->pushButtonInfo->setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)");
 }
 
+/**
+  * Destructor of this class.
+  * Deletes all dynamic objects and sets them to NULL.
+  */
 accelerationstart::~accelerationstart()
 {
     delete ui;
@@ -45,6 +52,9 @@ accelerationstart::~accelerationstart()
         delete accRealTimeDialog;
 }
 
+/**
+  *
+  */
 void accelerationstart::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -57,6 +67,9 @@ void accelerationstart::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * This slot function called when ever calibration button clicked
+  */
 void accelerationstart::on_buttonCalib_clicked()
 {
     if(accRealTimeDialog == NULL)
@@ -69,6 +82,9 @@ void accelerationstart::on_buttonCalib_clicked()
     ui->buttonStart->setEnabled(true);
 }
 
+/**
+  * This slot function called when ever start button clicked
+  */
 void accelerationstart::on_buttonStart_clicked()
 {
     if( stopMeasureSpeed == 0 )
@@ -85,6 +101,11 @@ void accelerationstart::on_buttonStart_clicked()
     accRealTimeDialog->show();
 }
 
+/**
+  * This slot function called when ever category combobox index changed.
+  *
+  * @param int index
+  */
 void accelerationstart::on_categorComboBox_currentIndexChanged( int index )
 {
     stopMeasureSpeed = 0;
@@ -102,7 +123,11 @@ void accelerationstart::on_categorComboBox_currentIndexChanged( int index )
     }
 }
 
-
+/**
+  * Get measure categoty function.
+  *
+  * @return QString measure category
+  */
 QString accelerationstart::getMeasureCategory()
 {
     return measureCategory;
@@ -111,7 +136,8 @@ QString accelerationstart::getMeasureCategory()
 /**
   *This slot function emit mainwindow sendresult.
   *
-  **/
+  * @param double result
+  */
 void accelerationstart::sendResult(double result)
 {
     emit sendresult(measureCategory, result);

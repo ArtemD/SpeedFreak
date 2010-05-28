@@ -1,5 +1,11 @@
-#include "registerdialog.h"
-#include "ui_registerdialog.h"
+/*
+ * Register dialog class.
+ *
+ * @author      Toni Jussila    <toni.jussila@fudeco.com>
+ * @copyright   (c) 2010 Speed Freak team
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include <QMessageBox>
 #include <QDebug>
 #include <QString>
@@ -7,6 +13,8 @@
 #include <QImage>
 #include <QPixmap>
 #include <QSize>
+#include "registerdialog.h"
+#include "ui_registerdialog.h"
 #include "usersettings.h"
 #include "settingsdialog.h"
 #include "xmlreader.h"
@@ -31,9 +39,10 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     description="";
     picture="";
 
-    ui->buttonImage->setVisible(false);
-    ui->labelImage->setVisible(false);
-    // Read user profile xml
+    //ui->buttonImage->setVisible(false);
+    //ui->labelImage->setVisible(false);
+
+    // Read user profile xml from file.
     /*QString filename = "/home/user/MyDocs/speedfreak/profile/" + parent->getUserName() + "_profile.xml";
     QFile file(filename);
 
@@ -89,10 +98,10 @@ void RegisterDialog::clearRegisterLineEdits()
     this->close();
 }
 
-// Next 6 functions can be removed if Settingsdialog is implemented without
-// own copy of username, password & email
 /**
+  * Set username.
   *
+  * @param QString username
   */
 void RegisterDialog::setRegUserName(QString username)
 {
@@ -100,23 +109,9 @@ void RegisterDialog::setRegUserName(QString username)
 }
 
 /**
+  * Get username.
   *
-  */
-void RegisterDialog::setRegPassword(QString password)
-{
-    this->regPassword = password;
-}
-
-/**
-  *
-  */
-void RegisterDialog::setRegEmail(QString email)
-{
-    this->regEmail = email;
-}
-
-/**
-  *
+  * @return QString username
   */
 QString RegisterDialog::getRegUserName()
 {
@@ -124,7 +119,19 @@ QString RegisterDialog::getRegUserName()
 }
 
 /**
+  * Set password.
   *
+  * @param QString password
+  */
+void RegisterDialog::setRegPassword(QString password)
+{
+    this->regPassword = password;
+}
+
+/**
+  * Get password.
+  *
+  * @return QString password
   */
 QString RegisterDialog::getRegPassword()
 {
@@ -132,13 +139,28 @@ QString RegisterDialog::getRegPassword()
 }
 
 /**
+  * Set email.
   *
+  * @param QString email
+  */
+void RegisterDialog::setRegEmail(QString email)
+{
+    this->regEmail = email;
+}
+
+/**
+  * Get email.
+  *
+  * @return QString email
   */
 QString RegisterDialog::getRegEmail()
 {
     return this->regEmail;
 }
 
+/**
+  * This slot function called when ever register button clicked.
+  */
 void RegisterDialog::on_registratePushButton_clicked()
 {
     // Save labels data
@@ -146,11 +168,6 @@ void RegisterDialog::on_registratePushButton_clicked()
     setType(ui->lineEditType->text());
     setModel(ui->lineEditModel->text());
     setDescription(ui->textEditDescription->toPlainText());
-
-    // emit settingsdialog --> mainwindow --> httpclient
-    //emit saveprofile();
-
-
 
     // Send username, password and email to SpeedFreak server
     this->regUsername = ui->regUserNameLineEdit->text();
@@ -165,13 +182,12 @@ void RegisterDialog::on_registratePushButton_clicked()
     {
         QMessageBox::about(this, "One or more of the fields is empty", "Set username (3-12 characters), password (at least 6 characters) and valid email address");
     }
-
-    //close();      //using close() hides popup-window which reports error from server
 }
 
 /**
-  * This get function return manufacturer
-  * @return QString
+  * This get function return manufacturer.
+  *
+  * @return QString manufacturer
   */
 QString RegisterDialog::getManufacturer()
 {
@@ -179,45 +195,9 @@ QString RegisterDialog::getManufacturer()
 }
 
 /**
-  * This get function return type
-  * @return QString
-  */
-QString RegisterDialog::getType()
-{
-    return type;
-}
-
-/**
-  * This get function return model
-  * @return QString
-  */
-QString RegisterDialog::getModel()
-{
-    return model;
-}
-
-/**
-  * This get function return description
-  * @return QString
-  */
-QString RegisterDialog::getDescription()
-{
-    QString all = manufacturer + ";" + type + ";" + model + ";" + description;
-    return all;
-}
-
-/**
-  * This get function return description
-  * @return QString
-  */
-QString RegisterDialog::getPicture()
-{
-    return picture;
-}
-
-/**
-  * This set function set manufacturer
-  * @param QString
+  * This function set manufacturer.
+  *
+  * @param QString manufacturer
   */
 void RegisterDialog::setManufacturer(QString m)
 {
@@ -226,8 +206,19 @@ void RegisterDialog::setManufacturer(QString m)
 }
 
 /**
-  * This set function set type
-  * @param QString
+  * This get function return type.
+  *
+  * @return QString type
+  */
+QString RegisterDialog::getType()
+{
+    return type;
+}
+
+/**
+  * This function set type.
+  *
+  * @param QString type
   */
 void RegisterDialog::setType(QString t)
 {
@@ -236,8 +227,19 @@ void RegisterDialog::setType(QString t)
 }
 
 /**
-  * This set function set model
-  * @param QString
+  * This get function return model.
+  *
+  * @return QString model
+  */
+QString RegisterDialog::getModel()
+{
+    return model;
+}
+
+/**
+  * This function set model.
+  *
+  * @param QString model
   */
 void RegisterDialog::setModel(QString m)
 {
@@ -246,7 +248,19 @@ void RegisterDialog::setModel(QString m)
 }
 
 /**
-  * This set function set description
+  * This get function return description.
+  *
+  * @return QString description
+  */
+QString RegisterDialog::getDescription()
+{
+    QString all = manufacturer + ";" + type + ";" + model + ";" + description;
+    return all;
+}
+
+/**
+  * This function set description.
+  *
   * @param QString
   */
 void RegisterDialog::setDescription(QString d)
@@ -256,8 +270,19 @@ void RegisterDialog::setDescription(QString d)
 }
 
 /**
-  * This set function set description
-  * @param QString
+  * This get function return picture.
+  *
+  * @return QString picture
+  */
+QString RegisterDialog::getPicture()
+{
+    return picture;
+}
+
+/**
+  * This function set picture.
+  *
+  * @param QString picture
   */
 void RegisterDialog::setPicture(QString p)
 {
@@ -266,7 +291,8 @@ void RegisterDialog::setPicture(QString p)
 }
 
 /**
-  * This function set label info text to user
+  * This function set label info text to user.
+  *
   * @param QString
   */
 void RegisterDialog::setLabelInfoToUser(QString infoText)
@@ -276,7 +302,7 @@ void RegisterDialog::setLabelInfoToUser(QString infoText)
 }
 
 /**
-  * This slot function called when image button clicked.
+  * This slot function called when ever image button clicked.
   */
 void RegisterDialog::on_buttonImage_clicked()
 {
@@ -295,7 +321,8 @@ void RegisterDialog::on_buttonImage_clicked()
 
 /**
   * This function load picture.
-  * @param QString
+  *
+  * @param QString file name
   */
 void RegisterDialog::loadPicture(QString fileName)
 {

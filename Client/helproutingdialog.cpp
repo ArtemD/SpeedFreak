@@ -1,6 +1,18 @@
+/*
+ * Help routing dialog
+ *
+ * @author     Janne Änäkkälä   <janne.anakkala@fudeco.com>
+ * @author     Toni Jussila 	<toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "helproutingdialog.h"
 #include "ui_helproutingdialog.h"
 
+/**
+  * Default constructor of this class.
+  */
 HelpRoutingDialog::HelpRoutingDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HelpRoutingDialog)
@@ -18,11 +30,17 @@ HelpRoutingDialog::HelpRoutingDialog(QWidget *parent) :
     ui->labelSavePic->hide();
 }
 
+/**
+  * Default destructor of this class.
+  */
 HelpRoutingDialog::~HelpRoutingDialog()
 {
     delete ui;
 }
 
+/**
+  *
+  */
 void HelpRoutingDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -35,6 +53,9 @@ void HelpRoutingDialog::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * This slot function called when ever next button clicked.
+  */
 void HelpRoutingDialog::on_pushButtonNext_clicked()
 {
     pageCounter ++;
@@ -71,6 +92,9 @@ void HelpRoutingDialog::on_pushButtonNext_clicked()
     }
 }
 
+/**
+  * This slot function called when ever last button clicked.
+  */
 void HelpRoutingDialog::on_pushButtonLast_clicked()
 {
     pageCounter --;

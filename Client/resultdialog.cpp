@@ -51,6 +51,7 @@ QPoint points[11];
 
 /**
   * Constructor of this class.
+  *
   * @param QWidget pointer to parent object. By default the value is NULL.
   */
 ResultDialog::ResultDialog(QWidget *parent) :
@@ -95,6 +96,9 @@ ResultDialog::~ResultDialog()
     delete ui;
 }
 
+/**
+  *
+  */
 void ResultDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -109,6 +113,7 @@ void ResultDialog::changeEvent(QEvent *e)
 
 /**
   * Draws speed diagram to the UI
+  *
   * @param QPaintEvent
  */
 void ResultDialog::paintEvent(QPaintEvent *)
@@ -202,6 +207,7 @@ void ResultDialog::paintEvent(QPaintEvent *)
 
 /**
   * Change the given speed and time to the point for the diagram.
+  *
   * @param aSpeed is speed which need to change, aTime is time in seconds which need to change.
   * @return point is calculated from aSpeed and aTime.
   */
@@ -284,6 +290,8 @@ void ResultDialog::setTimesIntoLabels()
 /**
   * Sets right timeAxelLength value depending the time which
   * has spent to reach target speed.
+  *
+  * @param int choice
   */
 void ResultDialog::setTimeAxelLength(int pChoice)
 {
@@ -333,6 +341,11 @@ void ResultDialog::on_pushButtonSend_clicked()
     emit sendresult(timeArray[this->getTargetChoice()]);
 }
 
+/**
+  * Get result.
+  *
+  * @return double result.
+  */
 double ResultDialog::getResult()
 {
     return timeArray[this->getTargetChoice()];
@@ -340,6 +353,7 @@ double ResultDialog::getResult()
 
 /**
   * This public function sets diagram's stem gap
+  *
   * @param pValue is the speed value which determines diagram gap's value
   */
 void ResultDialog::setEnd(int pValue)
@@ -400,6 +414,7 @@ void ResultDialog::setEnd(int pValue)
 
 /**
   * This public function stores time in timeArray
+  *
   * @param pSpeed is the speed value at the time so we know where store time
   * @param pTime is the result which needs to be store in timeArray
   */
@@ -700,8 +715,9 @@ void ResultDialog::showOrHideLabels()
 
 /**
   * Checks which target speed has been choosed
+  *
   * @return targetChoice which tells to caller integer value about the target speed
-  * e.g. 20 km/h is value 2 and 60 km/h is value 6
+  *         e.g. 20 km/h is value 2 and 60 km/h is value 6
   */
 int ResultDialog::getTargetChoice()
 {
@@ -759,7 +775,11 @@ int ResultDialog::getTargetChoice()
     }
     return targetChoice;
 }
-
+/**
+  * Set label info to user.
+  *
+  * @param QString info text
+  */
 void ResultDialog::setLabelInfoToUser(QString infoText)
 {
     this->ui->labelInfoToUser->setText(infoText);
@@ -798,4 +818,3 @@ void ResultDialog::killHelpDialog()
         helpAccelerationDialog = NULL;
     }
 }
-

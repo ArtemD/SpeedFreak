@@ -11,6 +11,10 @@
 #include "ui_accrealtimedialog.h"
 #include <math.h>
 
+/**
+  * Default constructor for AccRealTimeDialog class.
+  *
+  */
 AccRealTimeDialog::AccRealTimeDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AccRealTimeDialog)
@@ -32,6 +36,10 @@ AccRealTimeDialog::AccRealTimeDialog(QWidget *parent) :
     resultDialog = NULL;
 }
 
+/**
+  * Default destructor for AccRealTimeDialog class.
+  * Deletes all dynamic objects and sets them to NULL.
+  */
 AccRealTimeDialog::~AccRealTimeDialog()
 {
     delete ui;
@@ -44,6 +52,9 @@ AccRealTimeDialog::~AccRealTimeDialog()
         delete resultDialog;
 }
 
+/**
+  *
+  */
 void AccRealTimeDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -55,8 +66,9 @@ void AccRealTimeDialog::changeEvent(QEvent *e)
         break;
     }
 }
+
 /**
-  *This function is called to read (and process) data from the accelerometer
+  * This function is called to read (and process) data from the accelerometer
   */
 void AccRealTimeDialog::readAccelerometerData()
 {
@@ -66,15 +78,13 @@ void AccRealTimeDialog::readAccelerometerData()
 
     accelerometer->getAcceleration(x, y, z);
 
-    //  keep the following line as close to the SetKinematicsProperties method as possible
+    // keep the following line as close to the SetKinematicsProperties method as possible
     currentTime = elapsedTime.elapsed();
 
-    //accelerometer->smoothData(x, y, z);
-
-    //Calculate average for Z
+    // Calculate average for Z
     movingAverageZ->Enqueue(z);
     z = movingAverageZ->Average();
-    //Calculate average for Y
+    // Calculate average for Y
     movingAverageY->Enqueue(y);
     y = movingAverageY->Average();
 
@@ -91,7 +101,7 @@ void AccRealTimeDialog::readAccelerometerData()
     if(calZ < 0)
         calZ = -calZ;
 
-    //Take acceleration from more affecting axel
+    // Take acceleration from more affecting axel
     if(calZ < calY)
     {
         z = z*(1+calZ/2);
@@ -106,9 +116,9 @@ void AccRealTimeDialog::readAccelerometerData()
     //screen up: y = 0, z = -1
     //screen front: y = -1, z = 0
 
-//    QString str = QString("acc x: " + QString::number(x) + "\n" +
-//                          "acc y: " + QString::number(y) + "\n" +
-//                          "acc z: " + QString::number(z) + "\n");
+    //QString str = QString("acc x: " + QString::number(x) + "\n" +
+    //                      "acc y: " + QString::number(y) + "\n" +
+    //                      "acc z: " + QString::number(z) + "\n");
 
     //currentAcceleration = z;//sqrt(x*x + y*y + z*z);
     //qDebug("y: %f, calibZ: %f, calibY: %f\n",y,accelerometer->getCalibrationZ(),accelerometer->getCalibrationY());
@@ -210,11 +220,17 @@ void AccRealTimeDialog::resetAccelerometerMeasurements()
     stopMeasureSpeed = 0;
 }
 
+/**
+  *
+  */
 void AccRealTimeDialog::Calibrate()
 {
     accelerometer->calibrate();
 }
 
+/**
+  * This slot function called when ever abort button clicked.
+  */
 void AccRealTimeDialog::on_buttonAbort_clicked()
 {
     accelerometerTimer->stop();
@@ -222,6 +238,9 @@ void AccRealTimeDialog::on_buttonAbort_clicked()
     this->close();
 }
 
+/**
+  *
+  */
 void AccRealTimeDialog::startAccelerationMeasure()
 {
     double temp = stopMeasureSpeed;
@@ -230,6 +249,10 @@ void AccRealTimeDialog::startAccelerationMeasure()
     accelerometerTimer->start(40);
 }
 
+/**
+  *
+  * @param double speed
+  */
 void AccRealTimeDialog::SetStopMeasureSpeed(double speed)
 {
     stopMeasureSpeed = speed;
@@ -238,7 +261,8 @@ void AccRealTimeDialog::SetStopMeasureSpeed(double speed)
 /**
   *This slot function emit accelerationstart sendresult.
   *
-  **/
+  * @param double result
+  */
 void AccRealTimeDialog::sendResult(double result)
 {
     emit sendresult(result);

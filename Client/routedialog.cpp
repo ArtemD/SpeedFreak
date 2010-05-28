@@ -65,7 +65,9 @@ public:
     };
 };
 
-
+/**
+  * Viewing class.
+  */
 class Viewing
 {
     Vector atPoint, fromPoint, up, a1, a2, a3;
@@ -226,7 +228,9 @@ void RouteDialog::changeEvent(QEvent *e)
 }
 
 /**
+  * Get left.
   *
+  * @return int left
   */
 int RouteDialog::getLeft()
 {
@@ -234,7 +238,9 @@ int RouteDialog::getLeft()
 }
 
 /**
+  * Get right.
   *
+  * @return int right
   */
 int RouteDialog::getRight()
 {
@@ -242,7 +248,9 @@ int RouteDialog::getRight()
 }
 
 /**
+  * Get top.
   *
+  * @return int top
   */
 int RouteDialog::getTop()
 {
@@ -250,7 +258,9 @@ int RouteDialog::getTop()
 }
 
 /**
+  * Get bottom.
   *
+  * @return int bottom
   */
 int RouteDialog::getBottom()
 {
@@ -258,16 +268,16 @@ int RouteDialog::getBottom()
 }
 
 /**
+  * draw flag
   *
+  * @param RouteDialog*
+  * @param QPainter*
+  * @param int x
+  * @param int y
+  * @param QString startFinish
   */
 void drawFlag( RouteDialog *rD, QPainter *p, int x, int y, QString startFinish)
 {
-    /*QPolygon pg;
-
-    pg.setPoint(0,x, y-25);
-    pg.setPoint(1,x+10,y-20);
-    pg.setPoint(2,x, y-15);
-    pg.setPoint(3,x,y-20);*/
     if (y> (rD->getTop() + 25))
     {
         // Upside
@@ -318,16 +328,13 @@ void drawFlag( RouteDialog *rD, QPainter *p, int x, int y, QString startFinish)
             p->drawText(x+10, y+15, startFinish);
         }
     }
-    //p->drawPolygon();
-   // p->drawPolygon( pg,Qt::OddEvenFill);
-    //p->drawPolyline( &pg);
-    //p->drawPoints( pg);
 }
 
 /**
   * Draws route to the route dialog.
   * Type 0 is 2d viewing and type 1 is for 3d viewing
-  * @param QPaintEvent
+  *
+  * @param QPaintEvent*
  */
 /* */
 void RouteDialog::paintEvent(QPaintEvent *)
@@ -351,12 +358,6 @@ void RouteDialog::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(QPen((Qt::white),2));
     painter.setBrush(QBrush((Qt::yellow), Qt::SolidPattern));
-
-    // Draw route window frame
-    /*painter.drawLine(left,top,right,top);
-    painter.drawLine(right,top,right,bottom);
-    painter.drawLine(left,top,left,bottom);
-    painter.drawLine(left,bottom,right,bottom);*/
 
     maxi = vertexList.size();
 
@@ -432,6 +433,7 @@ void RouteDialog::paintEvent(QPaintEvent *)
 }
 
 /**
+  * read route from file
   *
   * @param QString route file
   */
@@ -655,7 +657,6 @@ void setFromPoint( Viewing *v)
     * */
 }
 
-
 #define NOEDGE     0x00
 #define LEFTEDGE   0x01
 #define RIGHTEDGE  0x02
@@ -665,22 +666,30 @@ void setFromPoint( Viewing *v)
 /**
   * Returns a code specifying which edge in the viewing pyramid was crossed.
   * There may be more than one.
+  *
+  * @param qreal x
+  * @param qreal y
+  * @param qreal z
+  * @return int
   */
 int code( qreal x, qreal y, qreal z)
 {
     int c;
-
     c = NOEDGE;
     if (x<-z) c |= LEFTEDGE;
     if (x>z) c |= RIGHTEDGE;
     if (y<-z) c |= BOTTOMEDGE;
     if (y>z) c |= TOPEDGE;
-
     return c;
 }
 
 /**
   * Converts clipped world coordinates to screen coordinates.
+  *
+  * @param qreal xWorld
+  * @param qreal yWorld
+  * @param int *xScreen
+  * @param int *yScreen
   */
 void WORLDtoSCREEN( qreal xWorld, qreal yWorld, int *xScreen, int *yScreen)
 {
@@ -691,6 +700,17 @@ void WORLDtoSCREEN( qreal xWorld, qreal yWorld, int *xScreen, int *yScreen)
 /**
   * Clips the line segment in three-dimensional coordinates to the
   * viewing pyramid.
+  *
+  * @param qreal x1
+  * @param qreal y1
+  * @param qreal z1
+  * @param qreal x2
+  * @param qreal y2
+  * @param qreal z2
+  * @param int *xscreen1
+  * @param int *yscreen1
+  * @param int *xscreen2
+  * @param int *yscreen2
   */
 void clip3d( qreal x1, qreal y1, qreal z1, qreal x2, qreal y2, qreal z2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2)
 {
@@ -771,6 +791,14 @@ void clip3d( qreal x1, qreal y1, qreal z1, qreal x2, qreal y2, qreal z2, int *xs
 /**
   * Transform the segment connecting the two vectors into the viewing plane.
   * clip3d() clips the line if needed.
+  *
+  * @param Viewing *v
+  * @param Vector *v1
+  * @param Vector *v2
+  * @param int *xscreen1
+  * @param int *yscreen1
+  * @param int *xscreen2
+  * @param int *yscreen2
   */
 void transformseg( Viewing *v, Vector *v1, Vector *v2, int *xscreen1, int *yscreen1, int *xscreen2, int *yscreen2)
 
@@ -833,6 +861,8 @@ void RouteDialog::on_sendPushButton_clicked()
 
 /**
   * This function is set info text to user.
+  *
+  * @param QString info text
   */
 void RouteDialog::setLabelInfoToUser(QString infoText)
 {

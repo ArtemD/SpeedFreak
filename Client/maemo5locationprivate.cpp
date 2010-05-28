@@ -10,8 +10,9 @@
 #include <QDebug>
 
 /**
-  *Default constructor of this class.
-  *@param Maemo5Location pointer to public interface.
+  * Default constructor of this class.
+  *
+  * @param Maemo5Location pointer to public interface.
   */
 Maemo5LocationPrivate::Maemo5LocationPrivate(Maemo5Location* location):QObject(location)
 {
@@ -37,7 +38,7 @@ Maemo5LocationPrivate::Maemo5LocationPrivate(Maemo5Location* location):QObject(l
 
 }
 /**
-  *Destructor of this class. Should be used to release all allocated resources.
+  * Destructor of this class. Should be used to release all allocated resources.
   */
 Maemo5LocationPrivate::~Maemo5LocationPrivate()
 {
@@ -47,7 +48,7 @@ Maemo5LocationPrivate::~Maemo5LocationPrivate()
 }
 
 /**
-  *This function is used to start to poll with gprs
+  * This function is used to start to poll with gprs
   */
 void Maemo5LocationPrivate::get_acwp()
 {
@@ -57,7 +58,7 @@ void Maemo5LocationPrivate::get_acwp()
 }
 
 /**
-  *This function starts to poll via gps interface
+  * This function starts to poll via gps interface
   */
 void Maemo5LocationPrivate::get_agnss()
 {
@@ -67,7 +68,7 @@ void Maemo5LocationPrivate::get_agnss()
 }
 
 /**
-  *Stop polling gps
+  * Stop polling gps
   */
 void Maemo5LocationPrivate::stop()
 {
@@ -75,7 +76,7 @@ void Maemo5LocationPrivate::stop()
 }
 
 /**
-  *Stop and restart polling
+  * Stop and restart polling
   */
 void Maemo5LocationPrivate::restart()
 {
@@ -84,10 +85,11 @@ void Maemo5LocationPrivate::restart()
 }
 
 /**
-  *This function is called when device managed to connect to the lcoation server.
-  *Function emits gps_connected signal.
-  *@param Pointer to LocationGPSDevice class
-  *@param Pointer to Maemo5LocationPrivate class
+  * This function is called when device managed to connect to the lcoation server.
+  * Function emits gps_connected signal.
+  *
+  * @param Pointer to LocationGPSDevice class
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gps_connected_func(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
 {
@@ -95,11 +97,12 @@ void gps_connected_func(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
 }
 
 /**
-  *This function is called when device is disconnected from the location server.
-  *Function emits gps_disconnected signal.
-  *Also this function resets all arguments of Maemo5LcoationPrivate class.
-  *@param Pointer to LocationGPSDevice class
-  *@param Pointer to Maemo5LocationPrivate class
+  * This function is called when device is disconnected from the location server.
+  * Function emits gps_disconnected signal.
+  * Also this function resets all arguments of Maemo5LcoationPrivate class.
+  *
+  * @param Pointer to LocationGPSDevice class
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gps_disconnected_func(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
 {
@@ -108,9 +111,10 @@ void gps_disconnected_func(LocationGPSDevice *device, Maemo5LocationPrivate *gps
 }
 
 /**
-  *This function is called after the location_gpsd_control_stop has been called.
-  *@param Pointer to LocationGPSDControl class
-  *@param Pointer to Maemo5LocationPrivate class
+  * This function is called after the location_gpsd_control_stop has been called.
+  *
+  * @param Pointer to LocationGPSDControl class
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gpsd_stopped_func(LocationGPSDControl *control, Maemo5LocationPrivate *gps)
 {
@@ -118,10 +122,11 @@ void gpsd_stopped_func(LocationGPSDControl *control, Maemo5LocationPrivate *gps)
 }
 
 /**
-  *This function is called when an error has occurred.
-  *@param Pointer to LocationGPSDControl class
-  *@param error code
-  *@param Pointer to Maemo5LocationPrivate class
+  * This function is called when an error has occurred.
+  *
+  * @param Pointer to LocationGPSDControl class
+  * @param error code
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gps_error_func(LocationGPSDControl *control, gint error, Maemo5LocationPrivate *gps)
 {
@@ -151,9 +156,10 @@ void gps_error_func(LocationGPSDControl *control, gint error, Maemo5LocationPriv
 }
 
 /**
-  *This function is called after the location_gpsd_control_start has been called.
-  *@param Pointer to LocationGPSDControl class
-  *@param Pointer to Maemo5LocationPrivate class
+  * This function is called after the location_gpsd_control_start has been called.
+  *
+  * @param Pointer to LocationGPSDControl class
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gpsd_running_func(LocationGPSDControl *control, Maemo5LocationPrivate *gps)
 {
@@ -161,9 +167,10 @@ void gpsd_running_func(LocationGPSDControl *control, Maemo5LocationPrivate *gps)
 }
 
 /**
-  *Callback function to catch gps signals.
-  *@param Pointer to LocationGPSDControl class
-  *@param Pointer to Maemo5LocationPrivate class
+  * Callback function to catch gps signals.
+  *
+  * @param Pointer to LocationGPSDControl class
+  * @param Pointer to Maemo5LocationPrivate class
   */
 void gps_data_changed(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
 {
@@ -247,7 +254,7 @@ void gps_data_changed(LocationGPSDevice *device, Maemo5LocationPrivate *gps)
 }
 
 /**
-  *Resets all arguments of Maemo5LocationPrivate class.
+  * Resets all arguments of Maemo5LocationPrivate class.
   */
 void Maemo5LocationPrivate::resetAll()
 {
@@ -269,11 +276,13 @@ void Maemo5LocationPrivate::resetAll()
 }
 
 /**
-  *Returns distance between two points in kilometers.
-  *@param latitude of first point
-  *@param longitude of first point
-  *@param latitude of second point
-  *@param longitude of second point
+  * Get distance between two points in kilometers.
+  *
+  * @param double latitude of first point
+  * @param double longitude of first point
+  * @param double latitude of second point
+  * @param double longitude of second point
+  * @return double distance
   */
 double Maemo5LocationPrivate::distance_between_two_points(double latitude_s, double longitude_s, double latitude_f, double longitude_f)
 {

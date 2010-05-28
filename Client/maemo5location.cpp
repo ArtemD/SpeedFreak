@@ -12,8 +12,9 @@
 #include <QDebug>
 
 /**
-  *Default constructor of this class.
-  *@param QObject pointer to parent object. By default the value is NULL.
+  * Default constructor of this class.
+  *
+  * @param QObject pointer to parent object. By default the value is NULL.
   */
 Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
 {
@@ -31,7 +32,7 @@ Maemo5Location::Maemo5Location(QObject* parent):QObject(parent)
 }
 
 /**
-  *Destructor of this class. Should be used to release all allocated resources.
+  * Destructor of this class. Should be used to release all allocated resources.
   */
 Maemo5Location::~Maemo5Location()
 {
@@ -41,7 +42,7 @@ Maemo5Location::~Maemo5Location()
 }
 
 /**
-  *Start polling gps.
+  * Start polling gps.
   */
 void Maemo5Location::startPollingGPS()
 {
@@ -50,7 +51,7 @@ void Maemo5Location::startPollingGPS()
 }
 
 /**
-  *Stop polling gps.
+  * Stop polling gps.
   */
 void Maemo5Location::stopPollingGPS()
 {
@@ -59,7 +60,9 @@ void Maemo5Location::stopPollingGPS()
 }
 
 /**
-  *Returns number of satellites in use.
+  * Get number of satellites in use.
+  *
+  * @return int satellites in use
   */
 int Maemo5Location::getSatellitesInUse()
 {
@@ -67,7 +70,9 @@ int Maemo5Location::getSatellitesInUse()
 }
 
 /**
-  *Returns number of satellites in view.
+  * Get number of satellites in view.
+  *
+  * @return int satellites in view
   */
 int Maemo5Location::getSatellitesInView()
 {
@@ -75,7 +80,9 @@ int Maemo5Location::getSatellitesInView()
 }
 
 /**
-  *Returns average signal strength of satellites which are in use.
+  * Get average signal strength of satellites which are in use.
+  *
+  * @return int signal strength
   */
 int Maemo5Location::getSignalStrength()
 {
@@ -83,7 +90,9 @@ int Maemo5Location::getSignalStrength()
 }
 
 /**
-  *Returns gps online.
+  * Get gps online.
+  *
+  * @return bool gps online
   */
 bool Maemo5Location::getGpsOnline()
 {
@@ -91,7 +100,9 @@ bool Maemo5Location::getGpsOnline()
 }
 
 /**
-  *Returns latitude.
+  * Get latitude.
+  *
+  * @return double latitude
   */
 double Maemo5Location::getLatitude()
 {
@@ -99,7 +110,9 @@ double Maemo5Location::getLatitude()
 }
 
 /**
-  *Returns longitude.
+  * Get longitude.
+  *
+  * @return double longitude
   */
 double Maemo5Location::getLongitude()
 {
@@ -107,7 +120,9 @@ double Maemo5Location::getLongitude()
 }
 
 /**
-  *Returns timestamp of the update in seconds.
+  * Get timestamp of the update in seconds.
+  *
+  * @return double time
   */
 double Maemo5Location::getTime()
 {
@@ -115,7 +130,9 @@ double Maemo5Location::getTime()
 }
 
 /**
-  *Returns time accuracy in seconds.
+  * Get time accuracy in seconds.
+  *
+  * @return double ept
   */
 double Maemo5Location::getEpt()
 {
@@ -123,7 +140,9 @@ double Maemo5Location::getEpt()
 }
 
 /**
-  *Returns horizontal position accuracy in cm.
+  * Get horizontal position accuracy in cm.
+  *
+  * @return double eph
   */
 double Maemo5Location::getEph()
 {
@@ -131,7 +150,9 @@ double Maemo5Location::getEph()
 }
 
 /**
-  *Returns fix altitude in meters.
+  * Get fix altitude in meters.
+  *
+  * @return double altitude
   */
 double Maemo5Location::getAltitude()
 {
@@ -139,7 +160,9 @@ double Maemo5Location::getAltitude()
 }
 
 /**
-  *Returns altitude accuracy in meters.
+  * Get altitude accuracy in meters.
+  *
+  * @return double epv
   */
 double Maemo5Location::getEpv()
 {
@@ -147,7 +170,9 @@ double Maemo5Location::getEpv()
 }
 
 /**
-  *Returns direction of motion in degrees(0-359).
+  * Get direction of motion in degrees(0-359).
+  *
+  * @return double track
   */
 double Maemo5Location::getTrack()
 {
@@ -155,7 +180,9 @@ double Maemo5Location::getTrack()
 }
 
 /**
-  *Returns track accuracy in degrees.
+  * Get track accuracy in degrees.
+  *
+  * @return double epd
   */
 double Maemo5Location::getEpd()
 {
@@ -163,7 +190,9 @@ double Maemo5Location::getEpd()
 }
 
 /**
-  *Returns current speed in km/h.
+  * Get current speed in km/h.
+  *
+  * @return double speed
   */
 double Maemo5Location::getSpeed()
 {
@@ -171,7 +200,9 @@ double Maemo5Location::getSpeed()
 }
 
 /**
-  *Returns speed accuracy in km/h.
+  * Get speed accuracy in km/h.
+  *
+  * @return double eps
   */
 double Maemo5Location::getEps()
 {
@@ -179,7 +210,9 @@ double Maemo5Location::getEps()
 }
 
 /**
-  *Returns current rate of climb in m/s.
+  * Get current rate of climb in m/s.
+  *
+  * @return double climb
   */
 double Maemo5Location::getClimb()
 {
@@ -187,7 +220,9 @@ double Maemo5Location::getClimb()
 }
 
 /**
-  *Returns climb accuracy in m/s.
+  * Get climb accuracy in m/s.
+  *
+  * @return double epc
   */
 double Maemo5Location::getEpc()
 {
@@ -195,11 +230,13 @@ double Maemo5Location::getEpc()
 }
 
 /**
-  *Returns distance between two points in kilometers.
-  *@param latitude of first point
-  *@param longitude of first point
-  *@param latitude of second point
-  *@param longitude of second point
+  * Get distance between two points in kilometers.
+  *
+  * @param double latitude of first point
+  * @param double longitude of first point
+  * @param double latitude of second point
+  * @param double longitude of second point
+  * @return double distance
   */
 double Maemo5Location::distance_between_two_points(double latitude_s, double longitude_s, double latitude_f, double longitude_f)
 {

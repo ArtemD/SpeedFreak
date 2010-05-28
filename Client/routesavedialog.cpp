@@ -149,6 +149,7 @@ void RouteSaveDialog::changeEvent(QEvent *e)
 
 /**
   * Draws compass to the UI
+  *
   * @param QPaintEvent
  */
 void RouteSaveDialog::paintEvent(QPaintEvent *)
@@ -435,6 +436,9 @@ void RouteSaveDialog::gpsStatus()
 
 /**
   * This slot function is called when routeDialog emit sendroute (sendPushButton).
+  *
+  * @param QString new name
+  * @param int i
   */
 void RouteSaveDialog::sendRoute(QString newName, int i)
 {
@@ -488,6 +492,7 @@ void RouteSaveDialog::killRouteDialog()
 
 /**
   * This function return speed average.
+  *
   * @return double average speed
   */
 double RouteSaveDialog::getAverageSpeed()
@@ -497,6 +502,7 @@ double RouteSaveDialog::getAverageSpeed()
 
 /**
   * This function return distance traveled in QString.
+  *
   * @return QString distance traveled
   */
 QString RouteSaveDialog::getDistanceTraveled()
@@ -505,7 +511,9 @@ QString RouteSaveDialog::getDistanceTraveled()
 }
 
 /**
-  * This function
+  * This function set progressbar
+  *
+  * @param int i
   */
 void RouteSaveDialog::setProgressbar(int i)
 {
@@ -527,7 +535,6 @@ void RouteSaveDialog::on_buttonLoadRoute_clicked()
 
 /**
   * This function open and show route.
-  * @param QString file name
   */
 void RouteSaveDialog::openRouteDialog()
 {

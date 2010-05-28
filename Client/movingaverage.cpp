@@ -1,7 +1,8 @@
 /*
  *  Class for moving average of acceleration data.
  *
- * @author      Kai Rasilainen
+ * @author      Kai Rasilainen <kai.rasilainen@fudeco.com>
+ * @author      Toni Jussila   <toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -9,11 +10,21 @@
 #include "movingaverage.h"
 #include <QList>
 
+/**
+  * Constructor of this class.
+  *
+  * @param int size limit
+  */
 MovingAverage::MovingAverage(int sizeLimit)
 {
     SizeLimit = sizeLimit;
 }
 
+/**
+  * Average.
+  *
+  * @return double average
+  */
 double MovingAverage::Average()
 {
     double sum = 0;
@@ -30,6 +41,11 @@ double MovingAverage::Average()
     return sum / queue.count();
 }
 
+/**
+  * Resize.
+  *
+  * @param int size limit
+  */
 void MovingAverage::Resize(int sizeLimit)
 {
     SizeLimit = sizeLimit;
@@ -39,11 +55,14 @@ void MovingAverage::Resize(int sizeLimit)
     }
 }
 
+/**
+  * Enqueue.
+  *
+  * @param double item
+  */
 void MovingAverage::Enqueue(double item)
 {
     queue.enqueue(item);
     if (queue.count() > SizeLimit)
         queue.dequeue();
 }
-
-

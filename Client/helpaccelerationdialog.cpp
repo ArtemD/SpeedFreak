@@ -1,6 +1,17 @@
+/*
+ * Help acceleration dialog.
+ *
+ * @author     Toni Jussila <toni.jussila@fudeco.com>
+ * @copyright  (c) 2010 Speed Freak team
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 #include "helpaccelerationdialog.h"
 #include "ui_helpaccelerationdialog.h"
 
+/**
+  * Default constructor of this class.
+  */
 HelpAccelerationDialog::HelpAccelerationDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HelpAccelerationDialog)
@@ -19,11 +30,17 @@ HelpAccelerationDialog::HelpAccelerationDialog(QWidget *parent) :
     ui->labelInfo4->hide();
 }
 
+/**
+  * Default destructor of this class.
+  */
 HelpAccelerationDialog::~HelpAccelerationDialog()
 {
     delete ui;
 }
 
+/**
+  *
+  */
 void HelpAccelerationDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -36,6 +53,9 @@ void HelpAccelerationDialog::changeEvent(QEvent *e)
     }
 }
 
+/**
+  * This slot function called when ever next button clicked.
+  */
 void HelpAccelerationDialog::on_pushButtonNext_clicked()
 {
     pageCounter ++;
@@ -83,6 +103,9 @@ void HelpAccelerationDialog::on_pushButtonNext_clicked()
     }
 }
 
+/**
+  * This slot function called when ever last button clicked.
+  */
 void HelpAccelerationDialog::on_pushButtonLast_clicked()
 {
     pageCounter --;

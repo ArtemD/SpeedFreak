@@ -4,6 +4,7 @@
  * @author      Rikhard Kuutti <rikhard.kuutti@fudeco.com>
  * @author      Kai Rasilainen <kai.rasilainen@fudeco.com>
  * @author      Jukka Kurttila <jktla@suomi24.fi>
+ * @author      Toni Jussila   <toni.jussila@fudeco.com>
  * @copyright   (c) 2010 Speed Freak team
  * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -19,9 +20,9 @@
 #define kIterations      100
 
 /**
- * Default constructor for Accelerometer class
- *
- */
+  * Default constructor for Accelerometer class.
+  *
+  */
 Accelerometer::Accelerometer()
 {
     initValues();
@@ -31,9 +32,9 @@ Accelerometer::Accelerometer()
 }
 
 /**
- * Default destructor for Accelerometer class
- *
- */
+  * Default destructor for Accelerometer class.
+  * Deletes all dynamic objects and sets them to NULL.
+  */
 Accelerometer::~Accelerometer()
 {
     if(calibrateDialog)
@@ -43,9 +44,9 @@ Accelerometer::~Accelerometer()
 }
 
 /**
- * Init class members
- *
- */
+  * Init class members.
+  *
+  */
 void Accelerometer::initValues()
 {
     previousAccelerationX = 0;
@@ -114,12 +115,12 @@ void Accelerometer::calibrate(void)
 }
 
 /**
- * Smooths Accelerometer data by applying a low pass filter to data
- *
- * @param x accelerometer's x-axis input
- * @param y accelerometer's y-axis input
- * @param z accelerometer's z-axis input
- */
+  * Smooths Accelerometer data by applying a low pass filter to data.
+  *
+  * @param x accelerometer's x-axis input
+  * @param y accelerometer's y-axis input
+  * @param z accelerometer's z-axis input
+  */
 void Accelerometer::smoothData(qreal &x, qreal &y, qreal &z)
 {
     x = (previousAccelerationX * (1 - kFilteringFactor)) + (x * kFilteringFactor);
@@ -132,12 +133,12 @@ void Accelerometer::smoothData(qreal &x, qreal &y, qreal &z)
 }
 
 /**
- * Gets the raw acceleration data from accelerometer
- *
- * @param x accelerometer's x-axis input
- * @param y accelerometer's y-axis input
- * @param z accelerometer's z-axis input
- */
+  * Gets the raw acceleration data from accelerometer.
+  *
+  * @param x accelerometer's x-axis input
+  * @param y accelerometer's y-axis input
+  * @param z accelerometer's z-axis input
+  */
 void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
 {
 #ifdef FROM_FILE
@@ -157,30 +158,30 @@ void Accelerometer::getAcceleration(qreal &x, qreal &y, qreal &z)
 }
 
 /**
- * Get the x calibration component
- *
- * @return calibrationX x calibration component
- */
+  * Get the x calibration component.
+  *
+  * @return calibrationX x calibration component
+  */
 qreal Accelerometer::getCalibrationX()
 {
     return calibrationX;
 }
 
 /**
- * Get the y calibration component
- *
- * @return calibrationY y calibration component
- */
+  * Get the y calibration component.
+  *
+  * @return calibrationY y calibration component
+  */
 qreal Accelerometer::getCalibrationY()
 {
     return calibrationY;
 }
 
 /**
- * Get the z calibration component
- *
- * @return calibrationZ z calibration component
- */
+  * Get the z calibration component.
+  *
+  * @return calibrationZ z calibration component
+  */
 qreal Accelerometer::getCalibrationZ()
 {
     return calibrationZ;

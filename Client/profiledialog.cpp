@@ -21,6 +21,7 @@
 
 /**
   * Constructor of this class.
+  *
   * @param QWidget pointer to parent object. By default the value is NULL.
   */
 ProfileDialog::ProfileDialog(SettingsDialog *parent) : QDialog(parent), ui(new Ui::ProfileDialog)
@@ -117,7 +118,8 @@ void ProfileDialog::on_buttonImage_clicked()
 
 /**
   * This function load picture.
-  * @param QString
+  *
+  * @param QString file name
   */
 void ProfileDialog::loadPicture(QString fileName)
 {
@@ -136,6 +138,7 @@ void ProfileDialog::loadPicture(QString fileName)
 
 /**
   * This slot function called when save button clicked.
+  *
   * @todo server connection
   */
 void ProfileDialog::on_buttonSave_clicked()
@@ -152,8 +155,9 @@ void ProfileDialog::on_buttonSave_clicked()
 }
 
 /**
-  * This get function return manufacturer
-  * @return QString
+  * Get function return manufacturer.
+  *
+  * @return QString manufacturer
   */
 QString ProfileDialog::getManufacturer()
 {
@@ -161,8 +165,9 @@ QString ProfileDialog::getManufacturer()
 }
 
 /**
-  * This get function return type
-  * @return QString
+  * Get function return type.
+  *
+  * @return QString type
   */
 QString ProfileDialog::getType()
 {
@@ -170,8 +175,9 @@ QString ProfileDialog::getType()
 }
 
 /**
-  * This get function return model
-  * @return QString
+  * Get function return model.
+  *
+  * @return QString model
   */
 QString ProfileDialog::getModel()
 {
@@ -179,8 +185,9 @@ QString ProfileDialog::getModel()
 }
 
 /**
-  * This get function return description
-  * @return QString
+  * Get function return description.
+  *
+  * @return QString description
   */
 QString ProfileDialog::getDescription()
 {
@@ -188,8 +195,9 @@ QString ProfileDialog::getDescription()
 }
 
 /**
-  * This get function return description
-  * @return QString
+  * Get function return picture.
+  *
+  * @return QString picture
   */
 QString ProfileDialog::getPicture()
 {
@@ -197,8 +205,9 @@ QString ProfileDialog::getPicture()
 }
 
 /**
-  * This set function set manufacturer
-  * @param QString
+  * This function set manufacturer.
+  *
+  * @param QString manufacturer
   */
 void ProfileDialog::setManufacturer(QString m)
 {
@@ -207,8 +216,9 @@ void ProfileDialog::setManufacturer(QString m)
 }
 
 /**
-  * This set function set type
-  * @param QString
+  * This function set type.
+  *
+  * @param QString type
   */
 void ProfileDialog::setType(QString t)
 {
@@ -217,8 +227,9 @@ void ProfileDialog::setType(QString t)
 }
 
 /**
-  * This set function set model
-  * @param QString
+  * This function set model.
+  *
+  * @param QString model
   */
 void ProfileDialog::setModel(QString m)
 {
@@ -227,8 +238,9 @@ void ProfileDialog::setModel(QString m)
 }
 
 /**
-  * This set function set description
-  * @param QString
+  * This function set description.
+  *
+  * @param QString description
   */
 void ProfileDialog::setDescription(QString d)
 {
@@ -237,8 +249,9 @@ void ProfileDialog::setDescription(QString d)
 }
 
 /**
-  * This set function set description
-  * @param QString
+  * This function set description.
+  *
+  * @param QString picture
   */
 void ProfileDialog::setPicture(QString p)
 {
@@ -247,8 +260,9 @@ void ProfileDialog::setPicture(QString p)
 }
 
 /**
-  * This function set label info text to user
-  * @param QString
+  * This function set label info text to user.
+  *
+  * @param QString info text
   */
 void ProfileDialog::setLabelInfoToUser(QString infoText)
 {
