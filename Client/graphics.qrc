@@ -28,5 +28,7 @@
         <file>Graphics/route_selected.png</file>
         <file>Graphics/info_selected.png</file>
         <file>Graphics/route_load.png</file>
+        <file>Graphics/users.png</file>
+        <file>Graphics/users_selected.png</file>
     </qresource>
 </RCC>

@@ -40,6 +40,10 @@ void UsersDialog::on_listWidgetUsers_itemClicked(QListWidgetItem* item)
     QString name;
     name = item->text();
 
+    ui->labelManufacter->clear();
+    ui->labelType->clear();
+    ui->labelModel->clear();
+    ui->plainTextEditDescription->clear();
     emit getUserInfo(item->text());
 }
 

@@ -110,25 +110,24 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(customButtonSettings, SIGNAL(OpenDialog()), this, SLOT(OpenSettingsDialog()));
     customButtonSettings->show();
 
-    //Create icon for www page button
+    //Create icon for users dialog button
     icon = new QIcon();
-    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
-    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
+    icon->addFile(QString(":/new/prefix1/Graphics/users.png"), QSize(125,125), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/users_selected.png"), QSize(125,125), QIcon::Normal, QIcon::On);
 
-    //WWW page button
-
-    customButtonWWW = new CustomButton(this,icon);
+    //Users dialog button
+    customButtonUsers = new CustomButton(this,icon);
     delete icon;
 
     buttons_x += 140;
-    customButtonWWW->setGeometry(buttons_x,buttons_y,130,130);
-    connect(customButtonWWW, SIGNAL(OpenDialog()), this, SLOT(OpenWWWPage()));
-    customButtonWWW->show();
+    customButtonUsers->setGeometry(buttons_x,buttons_y,130,130);
+    connect(customButtonUsers, SIGNAL(OpenDialog()), this, SLOT(openUsersDialog()));
+    customButtonUsers->show();
 
     //Create icon for help dialog button
     icon = new QIcon();
-    icon->addFile(QString(":/new/prefix1/Graphics/info.png"), QSize(105,105), QIcon::Normal, QIcon::Off);
-    icon->addFile(QString(":/new/prefix1/Graphics/info_selected.png"), QSize(105,105), QIcon::Normal, QIcon::On);
+    icon->addFile(QString(":/new/prefix1/Graphics/info.png"), QSize(85,85), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/info_selected.png"), QSize(85,85), QIcon::Normal, QIcon::On);
 
     //Help dialog button
 
@@ -138,6 +137,21 @@ MainWindow::MainWindow(QWidget *parent) :
     customButtonHelp->setGeometry(670,10,105,105);
     connect(customButtonHelp, SIGNAL(OpenDialog()), this, SLOT(OpenHelpDialog()));
     customButtonHelp->show();
+
+
+    //Create icon for www page button
+    icon = new QIcon();
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet.png"), QSize(85,85), QIcon::Normal, QIcon::Off);
+    icon->addFile(QString(":/new/prefix1/Graphics/applications_internet_selected.png"), QSize(85,85), QIcon::Normal, QIcon::On);
+
+    //WWW page button
+    customButtonWWW = new CustomButton(this,icon);
+    delete icon;
+
+    customButtonWWW->setGeometry(670,320,105,105);
+    connect(customButtonWWW, SIGNAL(OpenDialog()), this, SLOT(OpenWWWPage()));
+    customButtonWWW->show();
+
 }
 
 /**
@@ -418,7 +432,7 @@ void MainWindow::OpenSettingsDialog()
   */
 void MainWindow::OpenWWWPage()
 {
-    QDesktopServices::openUrl(QUrl("http://garage.maemo.org/projects/speedfreak/"));
+    QDesktopServices::openUrl(QUrl("http://www.speedfreak-app.com/"));
 }
 /**
   * This slot function opens the main help dialog
@@ -465,7 +479,7 @@ void MainWindow::requestGetUsers()
     }
 }
 
-void MainWindow::on_pushButtonUsers_clicked()
+void MainWindow::openUsersDialog()
 {
     if(!usersDialog)
         usersDialog = new UsersDialog;

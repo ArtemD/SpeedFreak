@@ -64,9 +64,9 @@ private:
     CustomButton* customButtonSettings;
     CustomButton* customButtonWWW;
     CustomButton* customButtonHelp;
+    CustomButton* customButtonUsers;
 
-private slots:
-    void on_pushButtonUsers_clicked();    
+private slots:    
     void clientRequestCategoryList();
     void clientRequestTopList(int index);
     void clientSendRoute(QString,QString,int);
@@ -86,6 +86,7 @@ private slots:
     void OpenSettingsDialog();
     void requestGetUserInfo(QString);
     void requestGetUsers();
+    void openUsersDialog();
 };
 
 #endif // MAINWINDOW_H
