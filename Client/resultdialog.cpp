@@ -228,52 +228,52 @@ QPoint ResultDialog::changeMeasuresToDiagramPoint(int aSpeed, qreal aTime)
 void ResultDialog::setTimesIntoLabels()
 {
     QString time, timeInteger;
-    timeInteger.setNum(timeArray[4]);
+    timeInteger.sprintf("%.2f", timeArray[4]);
     time = "0 - 40 km/h: ";
     time.append(timeInteger);
     ui->labelResult40kmh->setText(time);
 
-    timeInteger.setNum(timeArray[3]);
+    timeInteger.sprintf("%.2f", timeArray[3]);
     time = "0 - 30 km/h: ";
     time.append(timeInteger);
     ui->labelResult30kmh->setText(time);
 
-    timeInteger.setNum(timeArray[2]);
+    timeInteger.sprintf("%.2f", timeArray[2]);
     time = "0 - 20 km/h: ";
     time.append(timeInteger);
     ui->labelResult20kmh->setText(time);
 
-    timeInteger.setNum(timeArray[1]);
+    timeInteger.sprintf("%.2f", timeArray[1]);
     time = "0 - 10 km/h: ";
     time.append(timeInteger);
     ui->labelResult10kmh->setText(time);
 
-    timeInteger.setNum(timeArray[6]);
+    timeInteger.sprintf("%.2f", timeArray[6]);
     time = "0 - 60 km/h: ";
     time.append(timeInteger);
     ui->labelResult60kmh->setText(time);
 
-    timeInteger.setNum(timeArray[5]);
+    timeInteger.sprintf("%.2f", timeArray[5]);
     time = "0 - 50 km/h: ";
     time.append(timeInteger);
     ui->labelResult50kmh->setText(time);
 
-    timeInteger.setNum(timeArray[7]);
+    timeInteger.sprintf("%.2f", timeArray[7]);
     time = "0 - 70 km/h: ";
     time.append(timeInteger);
     ui->labelResult70kmh->setText(time);
 
-    timeInteger.setNum(timeArray[8]);
+    timeInteger.sprintf("%.2f", timeArray[8]);
     time = "0 - 80 km/h: ";
     time.append(timeInteger);
     ui->labelResult80kmh->setText(time);
 
-    timeInteger.setNum(timeArray[9]);
+    timeInteger.sprintf("%.2f", timeArray[9]);
     time = "0 - 90 km/h: ";
     time.append(timeInteger);
     ui->labelResult90kmh->setText(time);
 
-    timeInteger.setNum(timeArray[10]);
+    timeInteger.sprintf("%.2f", timeArray[10]);
     time = "0 - 100 km/h: ";
     time.append(timeInteger);
     ui->labelResult100kmh->setText(time);
