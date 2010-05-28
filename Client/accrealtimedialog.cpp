@@ -185,6 +185,7 @@ void AccRealTimeDialog::readAccelerometerData()
             {
                 resultDialog->setValue(i*10,tempMap[i*10]);
             }
+            calculate->reset();
             resultDialog->show();
             this->hide();
         }

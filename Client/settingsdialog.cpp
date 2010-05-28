@@ -206,10 +206,9 @@ void SettingsDialog::usernameOk(bool isOk)
     else
     {
         ui->setUserPushButton->setText("Log in");
-        ui->setUserUsernameLineEdit->clear();
         ui->setUserPasswordLineEdit->clear();
-        this->username = ui->setUserUsernameLineEdit->text();
-        this->password = ui->setUserPasswordLineEdit->text();
+        this->username = "";
+        this->password = "";
         saveLogin( this->username, this->password);
         ui->pushButtonProfile->setDisabled(true);
     }

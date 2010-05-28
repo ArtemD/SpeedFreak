@@ -407,7 +407,7 @@ void HttpClient::ackOfLogin()
         qDebug() <<  "errorcode:" << errorcode << reply->errorString();
 	if(myMainw->settingsDialog)
 	{
-        	QMessageBox::about(myMainw->settingsDialog, "Server does not recognize your username. Please registrate.",reply->errorString());
+                QMessageBox::about(myMainw->settingsDialog, "Wrong username or password!","Please try again.");
         	myMainw->settingsDialog->usernameOk(false);
 	}
     }

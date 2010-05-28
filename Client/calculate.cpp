@@ -66,6 +66,7 @@ void Calculate::reset()
 
     checkPointCounter = 0;
     checkPoint = speedCheckPoints[checkPointCounter];
+    valuesMap.clear();
 
 }
 
