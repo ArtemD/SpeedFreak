@@ -24,6 +24,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     helpRoutingDialog = NULL;
     creditsDialog = NULL;
     helpSettingsDialog = NULL;
+    helpUsersDialog = NULL;
 }
 
 /**
@@ -150,4 +151,24 @@ void HelpDialog::killHelpDialogs()
         delete helpSettingsDialog;
         helpSettingsDialog = NULL;
     }
+
+    if(helpUsersDialog)
+    {
+        qDebug() << "__Help kill: helpUsersDialog";
+        delete helpUsersDialog;
+        helpUsersDialog = NULL;
+    }
+}
+
+/**
+  * This slot function called when ever help users button clicked.
+  */
+void HelpDialog::on_pushButtonHelpUsers_clicked()
+{
+    if(!helpUsersDialog)
+    {
+        helpUsersDialog = new HelpUsersDialog;
+    }
+    connect(helpUsersDialog, SIGNAL(rejected()), this, SLOT(killHelpDialogs()));
+    helpUsersDialog->show();
 }

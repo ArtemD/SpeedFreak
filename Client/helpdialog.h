@@ -16,6 +16,7 @@
 #include <helproutingdialog.h>
 #include <helpsettingsdialog.h>
 #include "creditsdialog.h"
+#include <helpusersdialog.h>
 
 namespace Ui {
     class HelpDialog;
@@ -32,6 +33,7 @@ public:
    HelpRoutingDialog *helpRoutingDialog;
    CreditsDialog *creditsDialog;
    HelpSettingsDialog *helpSettingsDialog;
+   HelpUsersDialog *helpUsersDialog;
 
 protected:
     void changeEvent(QEvent *e);
@@ -41,6 +43,7 @@ private:
 
 
 private slots:
+    void on_pushButtonHelpUsers_clicked();
     void on_pushButtonHelpSettings_clicked();
     void on_pushButtonCredits_clicked();
     void on_pushButtonHelpRoute_clicked();

@@ -30,5 +30,6 @@
         <file>Graphics/route_load.png</file>
         <file>Graphics/users.png</file>
         <file>Graphics/users_selected.png</file>
+        <file>Graphics/userspic.png</file>
     </qresource>
 </RCC>
