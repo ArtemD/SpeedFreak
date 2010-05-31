@@ -1,0 +1,19 @@
+#1 Start document:
+http://wiki.maemo.org/Packaging_a_Qt_application
+http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Packaging%2C_Deploying_and_Distributing#Creating_Debian_Packages
+
+
+#2 Modify file:
+compat and control file  7 -> 5
+
+
+#3 Make and upload package:
+dpkg-buildpackage -rfakeroot -sa -S
+https://garage.maemo.org/extras-assistant/index.php
+
+
+#4 Check result:
+https://garage.maemo.org/pipermail/extras-cauldron-builds/
+http://maemo.org/packages/view/speedfreak/
+http://maemo.org/packages/repository/qa/fremantle_extras-testing/?org_openpsa_qbpager_packages_in_repo_page=1
+Email
