@@ -39,8 +39,8 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     description="";
     picture="";
 
-    //ui->buttonImage->setVisible(false);
-    //ui->labelImage->setVisible(false);
+    ui->buttonImage->setVisible(false);
+    ui->labelImage->setVisible(false);
 
     // Read user profile xml from file.
     /*QString filename = "/home/user/MyDocs/speedfreak/profile/" + parent->getUserName() + "_profile.xml";
